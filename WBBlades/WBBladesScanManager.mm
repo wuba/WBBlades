@@ -16,6 +16,7 @@
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
+#import "WBBladesLinkManager.h"
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -25,7 +26,7 @@
 
 + (void)scanStaticLibrary:(NSData *)fileData{
     
-    if (![self isSupport:fileData]) {
+    if (!fileData || ![self isSupport:fileData]) {
         return;
     }
     NSRange range = NSMakeRange(8, 0);
@@ -38,12 +39,19 @@
     WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
     
     range = NSMakeRange(NSMaxRange(stringTab.range), 0);
+    
+    NSMutableArray *objects = [NSMutableArray array];
     //循环扫描静态库中所有的目标文件
     while (range.location < fileData.length) {
         WBBladesObject *object = [self scanObject:fileData range:range];
         NSLog(@"%@",object);
         range = NSMakeRange(NSMaxRange(object.range), 0);
+        [objects addObject:object];
     }
+    
+    unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects] + symTab.size + stringTab.size;
+    
+    NSLog(@"链接后预计 %llu KB",linkSize/1024);
 }
 
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range{

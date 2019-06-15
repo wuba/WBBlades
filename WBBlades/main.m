@@ -11,9 +11,9 @@
 #import "WBBladesScanManager.h"
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        
+//        /Users/a58/Desktop/tool/framework_strip.sh
         //读取mach-o文件
-        NSString *filePath = @"/Users/a58/Desktop/aaa/libWBTribe.a";
+        NSString *filePath =  @"/Users/a58/Desktop/aaa/Bugly/Bugly.framework/Bugly_copy";
         NSData *fileData = [WBBladesFileManager  readFromFile:filePath];
         
         [WBBladesScanManager scanStaticLibrary:fileData];

@@ -15,6 +15,9 @@
     NSData * fileData = [NSMutableData dataWithContentsOfURL:tmpURL
                                  options:NSDataReadingMappedIfSafe
                                                        error:NULL];
+    if (!fileData) {
+        NSLog(@"文件读取失败");
+    }
     return fileData;
 }
 
