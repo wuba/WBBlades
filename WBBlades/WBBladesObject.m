@@ -12,6 +12,7 @@
 @implementation WBBladesObjectMachO
 
 @end
+
 @implementation WBBladesObject
 
 @end

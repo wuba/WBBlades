@@ -42,20 +42,21 @@
     
 }
 
-+ (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange&)range{
++ (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range{
     range = [self rangeAlign:range];
     
     //扫描头
     WBBladesObject *object = [WBBladesObject  new];
     object.objectHeader = [self scanObjectHeader:fileData range:range];
     
+    range = NSMakeRange(NSMaxRange(object.objectHeader.range), 0);
     //扫描Mach-O
-    
+    WBBladesObjectMachO *machO = [self scanObjectMachO:fileData range:range];
     
     return object;
 }
 
-+ (WBBladesObjectHeader *)scanObjectHeader:(NSData *)fileData range:(NSRange&)range{
++ (WBBladesObjectHeader *)scanObjectHeader:(NSData *)fileData range:(NSRange)range{
     
     NSRange tmpRange = range;
     NSUInteger len = fileData.length - tmpRange.location;
@@ -67,11 +68,16 @@
     return objcHeader;
 }
 
-//return ((mach_header->cputype & CPU_ARCH_ABI64) == CPU_ARCH_ABI64);
-
-+ (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange&)range{
-    WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
++ (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange)range{
     
+    //字节对齐
+    range = [self rangeAlign:range];
+    
+    //记录__TEXT 和 __DATA的大小
+    unsigned long long size = 0;
+    
+    WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
+    objcMachO.sections = [NSMutableArray array];
     //64位 mach-o 文件的magic number == 0XFEEDFACF
     unsigned int magicNum = 0;
     NSRange tmpRange = NSMakeRange(range.location, 4);
@@ -87,8 +93,50 @@
     [fileData getBytes:&mhHeader range:tmpRange];
     
     //获取load command
-    
-    
+    unsigned long long lcLocation = range.location + sizeof(mach_header_64);
+    unsigned long long currentLcLocation = lcLocation;
+
+    //遍历load command
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            
+            unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+
+            //遍历所有的section header
+            for (int j = 0; j < segmentCommand.nsects; j++) {
+                
+                section_64 sectionHeader;
+                [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
+                
+                //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
+                if ([segName isEqualToString:@"__TEXT"] ||
+                    [segName isEqualToString:@"__DATA"]) {
+                    
+                    size += sectionHeader.size;
+                }
+                
+                //__TEXT的section 做存储，用于虚拟链接
+                if ([segName isEqualToString:@"__TEXT"]) {
+                    
+                }
+                
+            }
+        }else if (cmd->cmd == LC_SYMTAB){//查找字符串表
+            
+        }
+        
+        currentLcLocation += cmd->cmdsize;
+        
+        free(cmd);
+    }
     
     return objcMachO;
 }
@@ -150,6 +198,7 @@
 + (WBBladesObjectHeader *)scanSymtabHeader:(NSData *)fileData range:(NSRange )range{
     
     range = [self rangeAlign:range];
+    unsigned long long location = range.location;
     
     WBBladesObjectHeader *header = [[WBBladesObjectHeader alloc] init];
     
@@ -173,7 +222,7 @@
         uint32_t len = [[header.name substringFromIndex:3] intValue];
         header.longName = [self read_string:range fixlen:len fromFile:fileData];
     }
-    header.range = range;
+    header.range = NSMakeRange(location, NSMaxRange(range) - location);
     return header;
 }
 
