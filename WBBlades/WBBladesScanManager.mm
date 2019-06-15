@@ -39,7 +39,7 @@
     
     range = NSMakeRange(NSMaxRange(stringTab.range), 0);
     WBBladesObject *object = [self scanObject:fileData range:range];
-    
+    NSLog(@"%@",object);
 }
 
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range{
@@ -52,7 +52,8 @@
     range = NSMakeRange(NSMaxRange(object.objectHeader.range), 0);
     //扫描Mach-O
     WBBladesObjectMachO *machO = [self scanObjectMachO:fileData range:range];
-    
+    object.objectMachO = machO;
+    object.range = NSMakeRange(object.objectHeader.range.location, NSMaxRange(machO.range) - object.objectHeader.range.location);
     return object;
 }
 
@@ -77,7 +78,7 @@
     unsigned long long size = 0;
     
     WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
-    objcMachO.sections = [NSMutableArray array];
+    objcMachO.sections = [NSMutableDictionary dictionary];
     //64位 mach-o 文件的magic number == 0XFEEDFACF
     unsigned int magicNum = 0;
     NSRange tmpRange = NSMakeRange(range.location, 4);
@@ -91,7 +92,9 @@
     mach_header_64 mhHeader;
     tmpRange = NSMakeRange(range.location, sizeof(mach_header_64));
     [fileData getBytes:&mhHeader range:tmpRange];
-    
+    unsigned long long mhHeaderLocation = range.location;
+    unsigned long long stringTabEnd = mhHeaderLocation;
+
     //获取load command
     unsigned long long lcLocation = range.location + sizeof(mach_header_64);
     unsigned long long currentLcLocation = lcLocation;
@@ -126,17 +129,75 @@
                 //__TEXT的section 做存储，用于虚拟链接
                 if ([segName isEqualToString:@"__TEXT"]) {
                     
+                    //跳转到相应的section
+                    unsigned int secOffset = sectionHeader.offset;
+                    unsigned long long  secLocation = mhHeaderLocation + secOffset;
+                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
+                    NSRange secRange = NSMakeRange(secLocation, 0);
+
+                    //获取section 内容
+                    switch (sectionHeader.flags & SECTION_TYPE) {
+                        case S_CSTRING_LITERALS:{
+                            [objcMachO.sections setObject:[self read_strings:secRange fixlen:sectionHeader.size fromFile:fileData] forKey:sectionName];
+                        }
+                            break;
+                        case S_4BYTE_LITERALS:{
+                            NSMutableArray *array = [NSMutableArray array];
+                            for (int k = 0; k < sectionHeader.size / 4; k++) {
+                                NSData *literals = [self read_bytes:secRange length:4 fromFile:fileData];
+                                if (literals) {
+                                    [array addObject:literals];
+                                    NSLog(@"4字节常量：%@",literals);
+                                }
+                            }
+                            [objcMachO.sections setObject:[array copy] forKey:sectionName];
+                            
+                        }
+                            break;
+                        case S_8BYTE_LITERALS:{
+                            NSMutableArray *array = [NSMutableArray array];
+                            for (int k = 0; k < sectionHeader.size / 8; k++) {
+                                NSData *literals = [self read_bytes:secRange length:8 fromFile:fileData];
+                                if (literals) {
+                                    [array addObject:literals];
+                                    NSLog(@"8字节常量：%@",literals);
+                                }
+                            }
+                            [objcMachO.sections setObject:[array copy] forKey:sectionName];
+                        }
+                            break;
+                        case S_16BYTE_LITERALS:{
+                            NSMutableArray *array = [NSMutableArray array];
+                            for (int k = 0; k < sectionHeader.size / 16; k++) {
+                                NSData *literals = [self read_bytes:secRange length:16 fromFile:fileData];
+                                if (literals) {
+                                    [array addObject:literals];
+                                    NSLog(@"16字节常量：%@",literals);
+                                }
+                            }
+                            [objcMachO.sections setObject:[array copy] forKey:sectionName];
+                        }
+                            break;
+                        default:
+                            break;
+                    }
                 }
                 
+                currentSecLocation += sizeof(section_64);
             }
         }else if (cmd->cmd == LC_SYMTAB){//查找字符串表
-            
+            //根据字符串的尾部 确定当前mach-o的尾部
+            symtab_command symtabCommand;
+            [fileData getBytes:&symtabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
+            stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
         }
         
         currentLcLocation += cmd->cmdsize;
         
         free(cmd);
     }
+    
+    objcMachO.range = NSMakeRange(mhHeaderLocation, stringTabEnd - mhHeaderLocation);
     
     return objcMachO;
 }
@@ -177,7 +238,6 @@
 + (WBBladesStringTab *)scanStringTab:(NSData *)fileData range:(NSRange) range{
     
     //字符串表不存在字节对齐
-//    range = [self rangeAlign:range];
     unsigned long long location = range.location;
     
     WBBladesStringTab *stringTab = [WBBladesStringTab new];
@@ -278,7 +338,7 @@
         str = [self replaceEscapeCharsInString:str];
         if (str) {
             [strings addObject:str];
-            NSLog(@"字符串%@",str);
+            NSLog(@"%@",str);
             //+1 是为了留出'\0'的位置
             size = [str length] + size + 1;
             p = p + [str length] + 1;

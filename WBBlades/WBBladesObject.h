@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)unsigned long long size;
 
-@property(nonatomic,strong)NSMutableArray<NSMutableArray *> *sections; //存放__TEXT且为常量的文本段
+@property(nonatomic,strong)NSMutableDictionary< NSString*,NSArray *> *sections; //存放__TEXT且为常量的文本段
 
 @end
 

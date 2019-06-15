@@ -10,28 +10,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WBBlades/WBBladesScanManager.mm"
-            timestampString = "582275920.320523"
+            timestampString = "582280840.536854"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "224"
-            endingLineNumber = "224"
-            landmarkName = "+scanSymtabHeader:range:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager.mm"
-            timestampString = "582275991.9168921"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
-            landmarkName = "+scanObjectMachO:range:"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "+scanObject:range:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
