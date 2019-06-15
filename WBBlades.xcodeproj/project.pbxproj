@@ -10,6 +10,7 @@
 		3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82322B48849002062FE /* WBBladesObjectHeader.m */; };
 		3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82622B48EC4002062FE /* WBBladesSymTab.m */; };
 		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
+		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
 		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
@@ -34,6 +35,8 @@
 		3733D82622B48EC4002062FE /* WBBladesSymTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesSymTab.m; sourceTree = "<group>"; };
 		3733D82822B4A6D3002062FE /* WBBladesStringTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesStringTab.h; sourceTree = "<group>"; };
 		3733D82922B4A6D3002062FE /* WBBladesStringTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesStringTab.m; sourceTree = "<group>"; };
+		3733D82B22B4BB15002062FE /* WBBladesObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObject.h; sourceTree = "<group>"; };
+		3733D82C22B4BB15002062FE /* WBBladesObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObject.m; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
@@ -83,6 +86,8 @@
 				3733D82922B4A6D3002062FE /* WBBladesStringTab.m */,
 				3733D82522B48EC4002062FE /* WBBladesSymTab.h */,
 				3733D82622B48EC4002062FE /* WBBladesSymTab.m */,
+				3733D82B22B4BB15002062FE /* WBBladesObject.h */,
+				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
 			);
 			path = WBBlades;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
 				3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */,
 				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */,
+				3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */,
 				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
 				3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */,
 				3794EE7C22B3C71300D5DFA4 /* main.m in Sources */,

@@ -15,6 +15,7 @@
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
+#import "WBBladesObject.h"
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -29,10 +30,67 @@
     }
     NSRange range = NSMakeRange(8, 0);
     WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
+    
     range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
     WBBladesSymTab * symTab = [self scanSymbolTab:fileData range:range];
+    
     range = NSMakeRange(NSMaxRange(symTab.range), 0);
     WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
+    
+    range = NSMakeRange(NSMaxRange(stringTab.range), 0);
+    WBBladesObject *object = [self scanObject:fileData range:range];
+    
+}
+
++ (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange&)range{
+    range = [self rangeAlign:range];
+    
+    //扫描头
+    WBBladesObject *object = [WBBladesObject  new];
+    object.objectHeader = [self scanObjectHeader:fileData range:range];
+    
+    //扫描Mach-O
+    
+    
+    return object;
+}
+
++ (WBBladesObjectHeader *)scanObjectHeader:(NSData *)fileData range:(NSRange&)range{
+    
+    NSRange tmpRange = range;
+    NSUInteger len = fileData.length - tmpRange.location;
+    //为了复用符号表的获取代码,截取二进制
+    NSData *tmpData = [self read_bytes:tmpRange length:len fromFile:fileData];
+    NSRange headerRange = NSMakeRange(0, 0);
+    WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
+    objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
+    return objcHeader;
+}
+
+//return ((mach_header->cputype & CPU_ARCH_ABI64) == CPU_ARCH_ABI64);
+
++ (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange&)range{
+    WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
+    
+    //64位 mach-o 文件的magic number == 0XFEEDFACF
+    unsigned int magicNum = 0;
+    NSRange tmpRange = NSMakeRange(range.location, 4);
+    [fileData getBytes:&magicNum range:tmpRange];
+    if (magicNum != MH_MAGIC_64 && magicNum != MH_CIGAM_64) {
+        NSLog(@"暂时不处理非64位文件");
+        exit(0);
+    }
+    
+    //获取mach-o header
+    mach_header_64 mhHeader;
+    tmpRange = NSMakeRange(range.location, sizeof(mach_header_64));
+    [fileData getBytes:&mhHeader range:tmpRange];
+    
+    //获取load command
+    
+    
+    
+    return objcMachO;
 }
 
 //扫描符号表
@@ -103,11 +161,9 @@
     header.size = [self read_string:range fixlen:8 fromFile:fileData];
     NSMutableString * padding = [[NSMutableString alloc] initWithCapacity:2];
 
-    for(;;)
-    {
+    for(;;){
         [padding appendString:[self read_string:range fixlen:1 fromFile:fileData]];
-        if (*(CSTRING(padding) + [padding length] - 1) != ' ')
-        {
+        if (*(CSTRING(padding) + [padding length] - 1) != ' '){
             [padding appendString:[self read_string:range fixlen:1 fromFile:fileData]];
             break;
         }
@@ -128,7 +184,6 @@
     return NSMakeRange(location, range.length);
 }
 
-/*------------------------------*/
 + (BOOL)isSupport:(NSData *)fileData{
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic)
@@ -161,31 +216,7 @@
     return NO;
 }
 
-//-----------------------------------------------------------------------------
-+ (NSString *) replaceEscapeCharsInString: (NSString *)orig
-{
-    NSUInteger len = [orig length];
-    NSMutableString * str = [[NSMutableString alloc] init];
-    SEL sel = @selector(characterAtIndex:);
-    unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
-    for (NSUInteger i = 0; i < len; i++)
-    {
-        unichar c = charAtIdx(orig, sel, i);
-        switch (c)
-        {
-            default:    [str appendFormat:@"%C",c]; break;
-            case L'\f': [str appendString:@"\\f"]; break; // form feed - new page (byte 0x0c)
-            case L'\n': [str appendString:@"\\n"]; break; // line feed - new line (byte 0x0a)
-            case L'\r': [str appendString:@"\\r"]; break; // carriage return (byte 0x0d)
-            case L'\t': [str appendString:@"\\t"]; break; // horizontal tab (byte 0x09)
-            case L'\v': [str appendString:@"\\v"]; break; // vertical tab (byte 0x0b)
-        }
-    }
-    return str;
-}
-
-+ (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData
-{
++ (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),len);
     NSMutableArray *strings = [NSMutableArray array];
 
@@ -228,6 +259,29 @@
     NSData * ret = [NSData dataWithBytes:buffer length:length];
     free (buffer);
     return ret;
+}
+
+//-----------------------------------------------------------------------------
++ (NSString *) replaceEscapeCharsInString: (NSString *)orig
+{
+    NSUInteger len = [orig length];
+    NSMutableString * str = [[NSMutableString alloc] init];
+    SEL sel = @selector(characterAtIndex:);
+    unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
+    for (NSUInteger i = 0; i < len; i++)
+    {
+        unichar c = charAtIdx(orig, sel, i);
+        switch (c)
+        {
+            default:    [str appendFormat:@"%C",c]; break;
+            case L'\f': [str appendString:@"\\f"]; break; // form feed - new page (byte 0x0c)
+            case L'\n': [str appendString:@"\\n"]; break; // line feed - new line (byte 0x0a)
+            case L'\r': [str appendString:@"\\r"]; break; // carriage return (byte 0x0d)
+            case L'\t': [str appendString:@"\\t"]; break; // horizontal tab (byte 0x09)
+            case L'\v': [str appendString:@"\\v"]; break; // vertical tab (byte 0x0b)
+        }
+    }
+    return str;
 }
 
 @end
