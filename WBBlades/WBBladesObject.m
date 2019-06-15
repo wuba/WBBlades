@@ -15,4 +15,16 @@
 
 @implementation WBBladesObject
 
+- (NSString *)description{
+    
+    NSString *string = [NSString stringWithFormat:@"\nNAME :  %@\n",self.objectHeader.longName];
+    string = [string stringByAppendingString:[NSString stringWithFormat:@"SIZE :  %llu\n",self.objectMachO.size]];
+    string = [string stringByAppendingString:[NSString stringWithFormat:@"RANGE:  (0x%lX,%lu)\n",(unsigned long)self.range.location,(unsigned long)self.range.length]];
+    string = [string stringByAppendingString:[NSString stringWithFormat:@"SECTIONS:\n%@\n",self.objectMachO.sections]];
+    string = [string stringByAppendingString:@"----------------------------------"];
+
+    return string;
+}
+
+
 @end

@@ -38,8 +38,12 @@
     WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
     
     range = NSMakeRange(NSMaxRange(stringTab.range), 0);
-    WBBladesObject *object = [self scanObject:fileData range:range];
-    NSLog(@"%@",object);
+    //循环扫描静态库中所有的目标文件
+    while (range.location < fileData.length) {
+        WBBladesObject *object = [self scanObject:fileData range:range];
+        NSLog(@"%@",object);
+        range = NSMakeRange(NSMaxRange(object.range), 0);
+    }
 }
 
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range{
@@ -75,8 +79,6 @@
     range = [self rangeAlign:range];
     
     //记录__TEXT 和 __DATA的大小
-    unsigned long long size = 0;
-    
     WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
     objcMachO.sections = [NSMutableDictionary dictionary];
     //64位 mach-o 文件的magic number == 0XFEEDFACF
@@ -123,7 +125,7 @@
                 if ([segName isEqualToString:@"__TEXT"] ||
                     [segName isEqualToString:@"__DATA"]) {
                     
-                    size += sectionHeader.size;
+                    objcMachO.size += sectionHeader.size;
                 }
                 
                 //__TEXT的section 做存储，用于虚拟链接
@@ -147,7 +149,7 @@
                                 NSData *literals = [self read_bytes:secRange length:4 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    NSLog(@"4字节常量：%@",literals);
+//                                    NSLog(@"4字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -160,7 +162,7 @@
                                 NSData *literals = [self read_bytes:secRange length:8 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    NSLog(@"8字节常量：%@",literals);
+//                                    NSLog(@"8字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -172,7 +174,7 @@
                                 NSData *literals = [self read_bytes:secRange length:16 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    NSLog(@"16字节常量：%@",literals);
+//                                    NSLog(@"16字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -338,7 +340,7 @@
         str = [self replaceEscapeCharsInString:str];
         if (str) {
             [strings addObject:str];
-            NSLog(@"%@",str);
+//            NSLog(@"%@",str);
             //+1 是为了留出'\0'的位置
             size = [str length] + size + 1;
             p = p + [str length] + 1;
