@@ -7,11 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "WBBladesFileManager.h"
+#import "WBBladesScanManager.h"
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        // insert code here...
-        NSLog(@"Hello, World!");
+        
+        //读取mach-o文件
+        NSString *filePath = @"/Users/a58/Desktop/aaa/libWBTribe.a";
+        NSData *fileData = [WBBladesFileManager  readFromFile:filePath];
+        
+        [WBBladesScanManager scanStaticLibrary:fileData];
+        
     }
     return 0;
 }

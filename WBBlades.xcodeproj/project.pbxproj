@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82322B48849002062FE /* WBBladesObjectHeader.m */; };
+		3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82622B48EC4002062FE /* WBBladesSymTab.m */; };
+		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
+		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
+		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +28,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3733D82222B48849002062FE /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObjectHeader.h; sourceTree = "<group>"; };
+		3733D82322B48849002062FE /* WBBladesObjectHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObjectHeader.m; sourceTree = "<group>"; };
+		3733D82522B48EC4002062FE /* WBBladesSymTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesSymTab.h; sourceTree = "<group>"; };
+		3733D82622B48EC4002062FE /* WBBladesSymTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesSymTab.m; sourceTree = "<group>"; };
+		3733D82822B4A6D3002062FE /* WBBladesStringTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesStringTab.h; sourceTree = "<group>"; };
+		3733D82922B4A6D3002062FE /* WBBladesStringTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesStringTab.m; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
+		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
+		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
+		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesFileManager.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +73,16 @@
 			isa = PBXGroup;
 			children = (
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
+				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
+				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
+				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
+				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
+				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
+				3733D82322B48849002062FE /* WBBladesObjectHeader.m */,
+				3733D82822B4A6D3002062FE /* WBBladesStringTab.h */,
+				3733D82922B4A6D3002062FE /* WBBladesStringTab.m */,
+				3733D82522B48EC4002062FE /* WBBladesSymTab.h */,
+				3733D82622B48EC4002062FE /* WBBladesSymTab.m */,
 			);
 			path = WBBlades;
 			sourceTree = "<group>";
@@ -118,6 +143,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
+				3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */,
+				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */,
+				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
+				3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */,
 				3794EE7C22B3C71300D5DFA4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
