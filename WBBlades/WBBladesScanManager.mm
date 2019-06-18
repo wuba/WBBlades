@@ -24,10 +24,10 @@
 
 @implementation WBBladesScanManager
 
-+ (void)scanStaticLibrary:(NSData *)fileData{
++ (unsigned long long)scanStaticLibrary:(NSData *)fileData{
     
     if (!fileData || ![self isSupport:fileData]) {
-        return;
+        return 0;
     }
     NSRange range = NSMakeRange(8, 0);
     WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
@@ -44,14 +44,12 @@
     //循环扫描静态库中所有的目标文件
     while (range.location < fileData.length) {
         WBBladesObject *object = [self scanObject:fileData range:range];
-        NSLog(@"%@",object);
         range = NSMakeRange(NSMaxRange(object.range), 0);
         [objects addObject:object];
     }
     
     unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects] + symTab.size + stringTab.size;
-    
-    NSLog(@"链接后预计 %llu KB",linkSize/1024);
+    return linkSize;
 }
 
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range{
@@ -78,6 +76,7 @@
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
+    NSLog(@"正在分析%@....",objcHeader.longName);
     return objcHeader;
 }
 
@@ -329,6 +328,8 @@
             if (*(uint64_t*)((uint8_t *)[fileData bytes]) == *(uint64_t*)"!<arch>\n"){
                 NSLog(@"符合单架构静态库特征");
                 return YES;
+            }else{
+                NSLog(@"非Mach-O文件");
             }
         }
     }

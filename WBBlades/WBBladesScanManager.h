@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesScanManager : NSObject
 
-+ (void)scanStaticLibrary:(NSData *)fileData;
++ (unsigned long long)scanStaticLibrary:(NSData *)fileData;
 
 @end
 
