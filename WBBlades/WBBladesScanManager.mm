@@ -46,6 +46,7 @@
         WBBladesObject *object = [self scanObject:fileData range:range];
         range = NSMakeRange(NSMaxRange(object.range), 0);
         [objects addObject:object];
+        range = [self rangeAlign:range];
     }
     
     unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects] + symTab.size + stringTab.size;
@@ -76,7 +77,7 @@
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
-    NSLog(@"正在分析%@....",objcHeader.longName);
+    NSLog(@"正在分析%@",objcHeader.longName);
     return objcHeader;
 }
 

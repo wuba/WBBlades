@@ -21,7 +21,9 @@ unsigned long long codeSize = 0;
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
     
-        enumAllFiles(@"/Users/a58/wb_frameworks/HouseLib");
+        NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
+        NSLog(@"Pod 路径：%@",podPath);
+        enumAllFiles(podPath);
         NSLog(@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024);
     }
     return 0;
@@ -61,7 +63,7 @@ void handleStaticLibrary(NSString *filePath){
     [[WBBladesLinkManager shareInstance] clearLinker];
     //删除临时文件
     cmd(rmCmd);
-    NSLog(@"代码 %@ 链接后大小 %llu 字节",name,codeSize);
+    NSLog(@"%@ 链接后大小 %llu 字节",name,codeSize);
 }
 
 void enumAllFiles(NSString *path){
@@ -103,13 +105,11 @@ void enumAllFiles(NSString *path){
                 NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
                 resourceSize += [fileData length];
                 
-            }else if([array count] == 0 || [fileType isEqualToString:@"a"]){//静态库文件
+            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
                 handleStaticLibrary(path);
             }else{//大概率是编译产生的中间文件
             }
         }
-    }else{
-        NSLog(@"%@ 路径不存在！！",path);
     }
 }
 
