@@ -11,21 +11,34 @@
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
 
+void colorPrint(NSString *info);
 const char *cmd(NSString *cmd);
 bool isResource(NSString *type);
 void enumAllFiles(NSString *path);
 
 unsigned long long resourceSize = 0;
 unsigned long long codeSize = 0;
+static NSDictionary *podResult;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-    
+        
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
         NSLog(@"Pod 路径：%@",podPath);
-        podPath = @"/Users/a58/wb_frameworks/WBIMLib";
+        NSString * podName = [podPath lastPathComponent];
+        NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+        outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
+        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
+        NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
+        podResult = [NSMutableDictionary dictionary];
+        
         enumAllFiles(podPath);
-        NSLog(@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024);
+        colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
+        
+        [podResult setValue:[NSString stringWithFormat:@"%llu",resourceSize] forKey:@"resource"];
+        [podResult setValue:[NSString stringWithFormat:@"%llu KB",(codeSize+resourceSize)/1024] forKey:@"total"];
+        [resultData setValue:podResult forKey:podName];
+        [resultData writeToFile:outPutPath atomically:YES];
     }
     return 0;
 }
@@ -59,12 +72,16 @@ void handleStaticLibrary(NSString *filePath){
     //读取mach-o文件
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
-    codeSize += [WBBladesScanManager scanStaticLibrary:fileData];
+    unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
+    codeSize += size;
     //暂时不考虑多静态库链接问题
     [[WBBladesLinkManager shareInstance] clearLinker];
     //删除临时文件
     cmd(rmCmd);
-    NSLog(@"%@ 链接后大小 %llu 字节",name,codeSize);
+    colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
+    if (size>0) {
+        [podResult setValue:[NSString stringWithFormat:@"%llu",size] forKey:name];
+    }
 }
 
 void enumAllFiles(NSString *path){
@@ -85,7 +102,9 @@ void enumAllFiles(NSString *path){
                 resourceSize += [fileData length];
                 cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
             }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"]){
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]){
+                //忽略文档、demo、git 目录
                 return;
             }else{
                 NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
@@ -162,6 +181,14 @@ const char *cmd(NSString *cmd){
     return [data bytes];
 }
 
-
-
+void colorPrint(NSString *info){
+    
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath: @"/bin/bash"];
+    NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
+    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
+    [task setArguments: arguments];
+   
+    [task launch];
+}
 
