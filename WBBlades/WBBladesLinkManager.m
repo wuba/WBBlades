@@ -59,6 +59,7 @@
 - (void)clearLinker{
     self.unixData = nil;
     self.unixData = [NSMutableDictionary dictionary];
+    self.linkSize = 0;
 }
 
 

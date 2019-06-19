@@ -23,6 +23,7 @@ int main(int argc, const char * argv[]) {
     
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
         NSLog(@"Pod 路径：%@",podPath);
+        podPath = @"/Users/a58/wb_frameworks/WBIMLib";
         enumAllFiles(podPath);
         NSLog(@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024);
     }
@@ -83,6 +84,9 @@ void enumAllFiles(NSString *path){
                 NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
                 resourceSize += [fileData length];
                 cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
+            }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"]){
+                return;
             }else{
                 NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
                 NSString * subPath = nil;
