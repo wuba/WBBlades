@@ -17,6 +17,11 @@
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
 #import "WBBladesLinkManager.h"
+#import <mach-o/nlist.h>
+
+unsigned long symSize;
+unsigned long stringSize;
+
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -49,7 +54,7 @@
         range = [self rangeAlign:range];
     }
     
-    unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects] + symTab.size + stringTab.size;
+    unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects];
     return linkSize;
 }
 
@@ -133,6 +138,8 @@
                 if ([segName isEqualToString:@"__TEXT"] ||
                     [segName isEqualToString:@"__DATA"]) {
                     
+                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
+                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
                     objcMachO.size += sectionHeader.size;
                 }
                 
@@ -188,6 +195,32 @@
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
                         }
                             break;
+                            
+                        case S_REGULAR:{
+                            if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
+                                //获取中文字符串
+                                NSData *data = [self read_bytes:secRange length:sectionHeader.size fromFile:fileData];
+                                
+                                unsigned short *head = (unsigned short *)[data bytes];
+                                unsigned short *start = head;
+                                unsigned short *end = head;
+                                NSMutableArray *array = [NSMutableArray array];
+
+                                while (start <= head + (data.length)/sizeof(short)) {
+                                    if (* end == 0x0000) {
+                                        unsigned long size = (end - start)*sizeof(short)+sizeof(short);
+                                        NSData *tmp = [NSData dataWithBytes:start length:size];
+                                        NSString *uString = [[NSString alloc] initWithData:tmp encoding:NSUTF16LittleEndianStringEncoding];
+                                        start = end + 1;
+                                        if (uString.length>0) {
+                                            [array addObject:uString];
+                                        }
+                                    }
+                                    end ++;
+                                }
+                                [objcMachO.sections setObject:[array copy] forKey:sectionName];
+                            }
+                        }
                         default:
                             break;
                     }
@@ -200,6 +233,34 @@
             symtab_command symtabCommand;
             [fileData getBytes:&symtabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
             stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
+            
+            //加上字符串表和符号表的大小
+            objcMachO.size += symtabCommand.strsize;
+            objcMachO.size += symtabCommand.nsyms * (sizeof(nlist_64));
+            NSLog(@"------string %u",symtabCommand.strsize);
+            NSLog(@"------sym %lu",symtabCommand.nsyms * (sizeof(nlist_64)));
+            
+            symSize = symSize + symtabCommand.nsyms * (sizeof(nlist_64));
+            stringSize = stringSize + symtabCommand.strsize;
+            
+            //保存符号表和字符串表的关键数据，用于虚拟链接
+            NSRange tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.stroff, 0);
+            objcMachO.stringTab = (char *)((char*)[fileData bytes] + mhHeaderLocation + symtabCommand.stroff);
+            objcMachO.stringSize = symtabCommand.strsize;
+            tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.symoff, symtabCommand.nsyms * sizeof(nlist_64));
+            nlist_64 *symbolList = (nlist_64 *)malloc(symtabCommand.nsyms * sizeof(nlist_64));
+            [fileData getBytes:symbolList range:tmpRange];
+            NSMutableArray *indexList = [NSMutableArray array];
+            for (int j = 0; j<symtabCommand.nsyms; j++) {
+                nlist_64 symbol = symbolList[j];
+                NSDictionary *symbolIndex = @{
+                                              @"index":@(symbol.n_un.n_strx),
+                                              @"type":@(symbol.n_type)
+                                              };
+                [indexList addObject:symbolIndex];
+            }
+            objcMachO.symbolTab = [indexList copy];
+            free(symbolList);
         }
         
         currentLcLocation += cmd->cmdsize;

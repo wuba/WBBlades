@@ -16,6 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)unsigned long long size;
 
+@property(nonatomic,assign)char *stringTab;
+
+@property(nonatomic,assign)unsigned long long stringSize;
+
+@property(nonatomic,strong)NSArray<NSNumber*> *symbolTab;//只保存在字符表的索引，地址不记录
+
+
 @property(nonatomic,strong)NSMutableDictionary< NSString*,NSArray *> *sections; //存放__TEXT且为常量的文本段
 
 @end

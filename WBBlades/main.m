@@ -24,6 +24,7 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
+        podPath = @"/Users/a58/Library/Developer/Xcode/DerivedData/Hello-cwsymvoclcydrjaxgxvtgslsbczq/Build/Products/Debug-iphoneos/libHello.a";
         NSLog(@"Pod 路径：%@",podPath);
         NSString * podName = [podPath lastPathComponent];
         NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
