@@ -16,8 +16,22 @@
 #define SYMBOL_TABLE @"symbol_tab"
 #define STRING_TABLE @"string_tab"
 
-extern unsigned long symSize;
-extern unsigned long stringSize;
+//extern unsigned long symSize;
+//extern unsigned long stringSize;
+
+typedef struct wb_objc_classdata {
+    long long flags;
+    long long instanceStart;
+    long long instanceSize;
+    long long reserved;
+    unsigned long long ivarlayout;
+    unsigned long long name;
+    unsigned long long baseMethod;
+    unsigned long long baseProtocol;
+    unsigned long long ivars;
+    unsigned long long weakIvarLayout;
+    unsigned long long baseProperties;
+} wb_objc_classdata;
 
 @interface WBBladesLinkManager ()
 
@@ -26,7 +40,6 @@ extern unsigned long stringSize;
 @property(nonatomic,assign)unsigned long long linkSize;
 
 @property(nonatomic,strong) NSMutableSet *abandonStringSet;
-
 
 @end
 
@@ -44,7 +57,6 @@ extern unsigned long stringSize;
 }
 
 - (unsigned long long )linkWithObjects:(NSArray<WBBladesObject *>*)objects{
-
     for (WBBladesObject *object in objects) {
         
         self.linkSize += object.objectMachO.size;
@@ -84,15 +96,12 @@ extern unsigned long stringSize;
                 self.linkSize -= (symbolName.length + 1);
                 [self.abandonStringSet addObject:symbolName];
                 
-                symSize -= sizeof(nlist_64);
-                NSLog(@"-symSize--%u",symSize);
-                stringSize -= (symbolName.length + 1);
-                NSLog(@"-stringSize--%u",stringSize);
+//                symSize -= sizeof(nlist_64);
+//                stringSize -= (symbolName.length + 1);
             }else{
                 if ([symbolSet containsObject:symbolName]) {
                     self.linkSize -= sizeof(nlist_64);
-                    symSize -= sizeof(nlist_64);
-                    NSLog(@"-symSize--%u",symSize);
+//                    symSize -= sizeof(nlist_64);
                 }
                 [symbolSet addObject:symbolName];
             }
@@ -108,13 +117,13 @@ extern unsigned long stringSize;
             NSString *string = [NSString stringWithUTF8String:strP];
             if ([stringSet containsObject:string] && ![stringSet containsObject:string]) {
                 self.linkSize -= ([string length] + 1);
-                stringSize -= ([string length] + 1);
-                NSLog(@"-stringSize--%u",stringSize);
+//                stringSize -= ([string length] + 1);
             }
             [stringSet addObject:string];
             strP += [string length] + 1;
         }
     }
+    
     return self.linkSize;
 }
 

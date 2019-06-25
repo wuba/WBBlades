@@ -19,9 +19,6 @@
 #import "WBBladesLinkManager.h"
 #import <mach-o/nlist.h>
 
-unsigned long symSize;
-unsigned long stringSize;
-
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -30,7 +27,7 @@ unsigned long stringSize;
 @implementation WBBladesScanManager
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData{
-    
+        
     if (!fileData || ![self isSupport:fileData]) {
         return 0;
     }
@@ -138,8 +135,8 @@ unsigned long stringSize;
                 if ([segName isEqualToString:@"__TEXT"] ||
                     [segName isEqualToString:@"__DATA"]) {
                     
-                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
-                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
+//                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
+//                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
                     objcMachO.size += sectionHeader.size;
                 }
                 
@@ -237,11 +234,9 @@ unsigned long stringSize;
             //加上字符串表和符号表的大小
             objcMachO.size += symtabCommand.strsize;
             objcMachO.size += symtabCommand.nsyms * (sizeof(nlist_64));
-            NSLog(@"------string %u",symtabCommand.strsize);
-            NSLog(@"------sym %lu",symtabCommand.nsyms * (sizeof(nlist_64)));
             
-            symSize = symSize + symtabCommand.nsyms * (sizeof(nlist_64));
-            stringSize = stringSize + symtabCommand.strsize;
+//            symSize = symSize + symtabCommand.nsyms * (sizeof(nlist_64));
+//            stringSize = stringSize + symtabCommand.strsize;
             
             //保存符号表和字符串表的关键数据，用于虚拟链接
             NSRange tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.stroff, 0);
