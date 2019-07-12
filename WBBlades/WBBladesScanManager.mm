@@ -79,7 +79,7 @@
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
-    NSLog(@"正在分析%@",objcHeader.longName);
+//    NSLog(@"正在分析%@",objcHeader.longName);
     return objcHeader;
 }
 
@@ -192,7 +192,7 @@
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
                         }
                             break;
-                            
+                    
                         case S_REGULAR:{
                             if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
                                 //获取中文字符串
