@@ -30,6 +30,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3726270122DC47EE009B6117 /* WBBladesClassDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesClassDefine.h; sourceTree = "<group>"; };
 		3733D82222B48849002062FE /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObjectHeader.h; sourceTree = "<group>"; };
 		3733D82322B48849002062FE /* WBBladesObjectHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObjectHeader.m; sourceTree = "<group>"; };
 		3733D82522B48EC4002062FE /* WBBladesSymTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesSymTab.h; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
 				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
 				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
+				3726270122DC47EE009B6117 /* WBBladesClassDefine.h */,
 			);
 			path = WBBlades;
 			sourceTree = "<group>";
