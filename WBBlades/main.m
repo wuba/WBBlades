@@ -23,13 +23,13 @@ static NSDictionary *podResult;
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
-        
+//
 //        NSString *s = @"/Users/a58/WBBladesResult.plist";
 //        NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:s];
 //        __block float rs = 0;
 //        __block float ts = 0;
 //        [p enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//            
+//
 //            NSDictionary *d = (NSDictionary *)obj;
 //            NSString *r = d[@"resource"] ;
 //            NSString *t = d[@"total"];
@@ -37,51 +37,17 @@ int main(int argc, const char * argv[]) {
 //            t = [t stringByReplacingOccurrencesOfString:@" MB" withString:@""];
 //            rs += [r floatValue];
 //            ts += [t floatValue];
-//            
+//
 ////            NSLog(@"%@ %.2f MB",key,[r floatValue]);
 //            NSLog(@"%@ %.2f MB",key,[t floatValue]);
-//            
+//
 //        }];
-//        
+//
 //        NSLog(@"%.2f MB",rs);
 //        NSLog(@"%.2f MB",ts);
 //
 //        return 0;
 
-        NSString *s = @"/Users/a58/WBBladesResult.plist";
-        NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:s];
-        __block float rs = 0;
-        __block float ts = 0;
-        [p enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-
-            NSDictionary *d = (NSDictionary *)obj;
-            NSString *r = d[@"resource"] ;
-            NSString *t = d[@"total"];
-            r = [r stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-            t = [t stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-            rs += [r floatValue];
-            ts += [t floatValue];
-        }];
-
-        [p enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            
-            NSDictionary *d = (NSDictionary *)obj;
-            NSString *r = d[@"resource"] ;
-            NSString *t = d[@"total"];
-            r = [r stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-            t = [t stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-            //            NSLog(@"%@ %.2f MB",key,[r floatValue]);
-//            NSLog(@"\n%@:\n 资源：%.2f %\n 代码：%.2f %",key,100 * ([t floatValue] - [r floatValue])/(ts-rs),100 * [r floatValue]/rs);
-            
-            NSLog(@"%@:%.2f ",key,100 * [t floatValue]/ts);
-
-
-        }];
-        NSLog(@"%.2f MB",rs);
-        NSLog(@"%.2f MB",ts-rs);
-
-        return 0;
-        
         
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
         NSLog(@"Pod 路径：%@",podPath);
@@ -149,7 +115,9 @@ void enumAllFiles(NSString *path){
     NSFileManager * fileManger = [NSFileManager defaultManager];
     BOOL isDir = NO;
     BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
-    if (isExist) {
+    NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
+   
+    if (isExist && !symbolicLink) {
         if (isDir) {
             
             if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
@@ -163,7 +131,8 @@ void enumAllFiles(NSString *path){
                 cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
             }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
                       [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]){
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
+                      ){
                 //忽略文档、demo、git 目录
                 return;
             }else{
