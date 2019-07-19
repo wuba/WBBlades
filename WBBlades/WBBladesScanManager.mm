@@ -19,7 +19,7 @@
 #import "WBBladesLinkManager.h"
 #import <mach-o/nlist.h>
 #import "WBBladesClassDefine.h"
-
+#import "capstone.h"
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -393,6 +393,85 @@
     }
     return NO;
 }
+
++ (BOOL)sacnSELCallerWithClass:(unsigned long long)classAddress SELRef:(unsigned long long )SELRef fileData:(NSData *)fileData{
+    
+    //获取汇编
+    char * ot_sect = NULL;
+    uint32_t ot_left = 0;
+    uint64_t ot_addr = 0;
+    
+    mach_header_64 mhHeader;
+    NSRange range = NSMakeRange(0, sizeof(mach_header_64));
+    [fileData getBytes:&mhHeader range:range];
+    unsigned long long currentLcLocation = NSMaxRange(range);
+    unsigned long long currentSecLocation = 0;
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            
+            currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+            
+            //遍历所有的section header
+            for (int j = 0; j < segmentCommand.nsects; j++) {
+                section_64 sectionHeader;
+                [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
+                NSString *sectname = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                if ([segName isEqualToString:@"__TEXT"] && [sectname isEqualToString:@"__text"] ) {
+            
+                    ot_left = (unsigned int)sectionHeader.size;
+                    ot_addr = sectionHeader.addr;
+                    ot_sect = (char *)[fileData bytes] + sectionHeader.offset;
+                    break;
+                }
+            }
+        }
+        if (ot_left > 0) {
+            break;
+        }
+        currentLcLocation += cmd->cmdsize;
+    }
+    
+    csh cs_handle = 0;
+    cs_insn *cs_insn = NULL;
+    size_t disasm_count = 0;
+    cs_err cserr;
+    /* open capstone */
+    cs_arch target_arch = CS_ARCH_ARM64;
+    cs_mode target_mode = CS_MODE_ARM;
+    if ( (cserr = cs_open(target_arch, target_mode, &cs_handle)) != CS_ERR_OK ){
+        NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
+        return NO;
+    }
+    cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
+
+    /* enable detail - we need fields available in detail field */
+    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
+    cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
+    
+    /* disassemble the whole section */
+    /* this will fail if we have data in code or jump tables because Capstone stops when it can't disassemble */
+    /* a bit of a problem with most binaries :( */
+    /* XXX: parse data in code section to partially solve this */
+    disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, ot_left, ot_addr, 0, &cs_insn);
+    NSRange tmpRange = NSMakeRange(currentSecLocation, 0);
+    for (size_t i = 0; i < disasm_count; i++){
+        [self read_bytes:tmpRange length:cs_insn[i].size fromFile:fileData];
+        /* format the disassembly output using Capstone strings */
+        NSString *asm_string = [NSString stringWithFormat:@"%-10s\t%s", cs_insn[i].mnemonic, cs_insn[i].op_str];
+        NSLog(@"asm  --->  %@",asm_string);
+    }
+
+    return NO;
+}
+
 
 + (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),len);
