@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData;
 
-+ (BOOL)sacnSELCallerWithClass:(unsigned long long)classAddress SELRef:(unsigned long long )SELRef fileData:(NSData *)fileData;
++ (BOOL)sacnSELCallerWithAddress:(unsigned long long )targetAddress  fileData:(NSData *)fileData  begin:(unsigned long long)begin;
 
 @end
 

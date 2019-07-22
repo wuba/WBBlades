@@ -22,11 +22,11 @@ static NSDictionary *podResult;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-//        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
+        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
         
-        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Desktop/58tongcheng"];
-        [WBBladesScanManager sacnSELCallerWithClass:0 SELRef:0 fileData:fileData];
+        BOOL b = [WBBladesScanManager sacnSELCallerWithAddress:0x100008d78  fileData:fileData begin:0x100006794];
         
+
         return 0;
         
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];

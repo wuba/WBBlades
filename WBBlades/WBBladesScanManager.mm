@@ -28,7 +28,7 @@
 @implementation WBBladesScanManager
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData{
-        
+    
     if (!fileData || ![self isSupport:fileData]) {
         return 0;
     }
@@ -80,7 +80,7 @@
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
-//    NSLog(@"正在分析%@",objcHeader.longName);
+    //    NSLog(@"正在分析%@",objcHeader.longName);
     return objcHeader;
 }
 
@@ -107,11 +107,11 @@
     [fileData getBytes:&mhHeader range:tmpRange];
     unsigned long long mhHeaderLocation = range.location;
     unsigned long long stringTabEnd = mhHeaderLocation;
-
+    
     //获取load command
     unsigned long long lcLocation = range.location + sizeof(mach_header_64);
     unsigned long long currentLcLocation = lcLocation;
-
+    
     //遍历load command
     for (int i = 0; i < mhHeader.ncmds; i++) {
         
@@ -124,7 +124,7 @@
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             
             unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-
+            
             //遍历所有的section header
             for (int j = 0; j < segmentCommand.nsects; j++) {
                 
@@ -136,8 +136,8 @@
                 if ([segName isEqualToString:@"__TEXT"] ||
                     [segName isEqualToString:@"__DATA"]) {
                     
-//                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
-//                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
+                    //                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
+                    //                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
                     objcMachO.size += sectionHeader.size;
                 }
                 
@@ -150,7 +150,7 @@
                     unsigned long long  secLocation = mhHeaderLocation + secOffset;
                     NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
                     NSRange secRange = NSMakeRange(secLocation, 0);
-
+                    
                     //获取section 内容
                     switch (sectionHeader.flags & SECTION_TYPE) {
                         case S_CSTRING_LITERALS:{
@@ -163,7 +163,7 @@
                                 NSData *literals = [self read_bytes:secRange length:4 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-//                                    NSLog(@"4字节常量：%@",literals);
+                                    //                                    NSLog(@"4字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -176,7 +176,7 @@
                                 NSData *literals = [self read_bytes:secRange length:8 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-//                                    NSLog(@"8字节常量：%@",literals);
+                                    //                                    NSLog(@"8字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -188,13 +188,13 @@
                                 NSData *literals = [self read_bytes:secRange length:16 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-//                                    NSLog(@"16字节常量：%@",literals);
+                                    //                                    NSLog(@"16字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
                         }
                             break;
-                    
+                            
                         case S_REGULAR:{
                             if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
                                 //获取中文字符串
@@ -204,7 +204,7 @@
                                 unsigned short *start = head;
                                 unsigned short *end = head;
                                 NSMutableArray *array = [NSMutableArray array];
-
+                                
                                 while (start <= head + (data.length)/sizeof(short)) {
                                     if (* end == 0x0000) {
                                         unsigned long size = (end - start)*sizeof(short)+sizeof(short);
@@ -235,28 +235,28 @@
             stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
             
             //加上字符串表和符号表的大小
-//            objcMachO.size += symtabCommand.strsize;
-//            objcMachO.size += symtabCommand.nsyms * (sizeof(nlist_64));
+            //            objcMachO.size += symtabCommand.strsize;
+            //            objcMachO.size += symtabCommand.nsyms * (sizeof(nlist_64));
             
             
             //保存符号表和字符串表的关键数据，用于虚拟链接
-//            NSRange tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.stroff, 0);
-//            objcMachO.stringTab = (char *)((char*)[fileData bytes] + mhHeaderLocation + symtabCommand.stroff);
-//            objcMachO.stringSize = symtabCommand.strsize;
-//            tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.symoff, symtabCommand.nsyms * sizeof(nlist_64));
-//            nlist_64 *symbolList = (nlist_64 *)malloc(symtabCommand.nsyms * sizeof(nlist_64));
-//            [fileData getBytes:symbolList range:tmpRange];
-//            NSMutableArray *indexList = [NSMutableArray array];
-//            for (int j = 0; j<symtabCommand.nsyms; j++) {
-//                nlist_64 symbol = symbolList[j];
-//                NSDictionary *symbolIndex = @{
-//                                              @"index":@(symbol.n_un.n_strx),
-//                                              @"type":@(symbol.n_type)
-//                                              };
-//                [indexList addObject:symbolIndex];
-//            }
-//            objcMachO.symbolTab = [indexList copy];
-//            free(symbolList);
+            //            NSRange tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.stroff, 0);
+            //            objcMachO.stringTab = (char *)((char*)[fileData bytes] + mhHeaderLocation + symtabCommand.stroff);
+            //            objcMachO.stringSize = symtabCommand.strsize;
+            //            tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.symoff, symtabCommand.nsyms * sizeof(nlist_64));
+            //            nlist_64 *symbolList = (nlist_64 *)malloc(symtabCommand.nsyms * sizeof(nlist_64));
+            //            [fileData getBytes:symbolList range:tmpRange];
+            //            NSMutableArray *indexList = [NSMutableArray array];
+            //            for (int j = 0; j<symtabCommand.nsyms; j++) {
+            //                nlist_64 symbol = symbolList[j];
+            //                NSDictionary *symbolIndex = @{
+            //                                              @"index":@(symbol.n_un.n_strx),
+            //                                              @"type":@(symbol.n_type)
+            //                                              };
+            //                [indexList addObject:symbolIndex];
+            //            }
+            //            objcMachO.symbolTab = [indexList copy];
+            //            free(symbolList);
         }
         
         currentLcLocation += cmd->cmdsize;
@@ -293,7 +293,7 @@
         unsigned int offset = 0;
         NSData *offsetData = [self read_bytes:range length:4 fromFile:fileData];
         [offsetData getBytes:&offset range:NSMakeRange(0, 4)];
-
+        
         [symbols addObject:symbol];
     }
     symTab.symbols = [symbols copy];
@@ -336,7 +336,7 @@
     header.mode = [self read_string:range fixlen:8 fromFile:fileData];
     header.size = [self read_string:range fixlen:8 fromFile:fileData];
     NSMutableString * padding = [[NSMutableString alloc] initWithCapacity:2];
-
+    
     for(;;){
         [padding appendString:[self read_string:range fixlen:1 fromFile:fileData]];
         if (*(CSTRING(padding) + [padding length] - 1) != ' '){
@@ -394,89 +394,72 @@
     return NO;
 }
 
-+ (BOOL)sacnSELCallerWithClass:(unsigned long long)classAddress SELRef:(unsigned long long )SELRef fileData:(NSData *)fileData{
++ (BOOL)sacnSELCallerWithAddress:(unsigned long long )targetAddress  fileData:(NSData *)fileData  begin:(unsigned long long)begin{
     
-    //获取汇编
-    char * ot_sect = NULL;
-    uint32_t ot_left = 0;
-    uint64_t ot_addr = 0;
+    NSString *targetStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString];
+    NSString *targetHighStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString];
+    NSString *targetLowStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString];
     
-    mach_header_64 mhHeader;
-    NSRange range = NSMakeRange(0, sizeof(mach_header_64));
-    [fileData getBytes:&mhHeader range:range];
-    unsigned long long currentLcLocation = NSMaxRange(range);
-    unsigned long long currentSecLocation = 0;
-    for (int i = 0; i < mhHeader.ncmds; i++) {
-        
-        load_command* cmd = (load_command *)malloc(sizeof(load_command));
-        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
-        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
-            
-            segment_command_64 segmentCommand;
-            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
-            
-            currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-            
-            //遍历所有的section header
-            for (int j = 0; j < segmentCommand.nsects; j++) {
-                section_64 sectionHeader;
-                [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-                NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
-                NSString *sectname = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                if ([segName isEqualToString:@"__TEXT"] && [sectname isEqualToString:@"__text"] ) {
-            
-                    ot_left = (unsigned int)sectionHeader.size;
-                    ot_addr = sectionHeader.addr;
-                    ot_sect = (char *)[fileData bytes] + sectionHeader.offset;
-                    break;
-                }
+    NSString* asmStr;
+    BOOL high = NO;
+    do {
+        NSString* str = [self sacnASMWithfileData:fileData begin:begin linkEdit:0x100000000];
+        NSArray *strings = [str componentsSeparatedByString:@"/"];
+        asmStr = [strings firstObject];
+        NSString *dataStr = [strings lastObject];
+        NSLog(@"%@",dataStr);
+        //是否直接命中地址
+        if ([dataStr containsString:targetStr]) {
+            return YES;
+        }
+        //是否先命中高位
+        if ([dataStr containsString:targetHighStr]) {
+            high = YES;
+        }
+        //是否在命中了高位后，命中了低12位
+        if ([dataStr containsString:targetLowStr]) {
+            if (high) {
+                return  YES;
             }
         }
-        if (ot_left > 0) {
-            break;
-        }
-        currentLcLocation += cmd->cmdsize;
-    }
-    
-    csh cs_handle = 0;
-    cs_insn *cs_insn = NULL;
-    size_t disasm_count = 0;
-    cs_err cserr;
-    /* open capstone */
-    cs_arch target_arch = CS_ARCH_ARM64;
-    cs_mode target_mode = CS_MODE_ARM;
-    if ( (cserr = cs_open(target_arch, target_mode, &cs_handle)) != CS_ERR_OK ){
-        NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
-        return NO;
-    }
-    cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
-
-    /* enable detail - we need fields available in detail field */
-    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
-    cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-    
-    /* disassemble the whole section */
-    /* this will fail if we have data in code or jump tables because Capstone stops when it can't disassemble */
-    /* a bit of a problem with most binaries :( */
-    /* XXX: parse data in code section to partially solve this */
-    disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, ot_left, ot_addr, 0, &cs_insn);
-    NSRange tmpRange = NSMakeRange(currentSecLocation, 0);
-    for (size_t i = 0; i < disasm_count; i++){
-        [self read_bytes:tmpRange length:cs_insn[i].size fromFile:fileData];
-        /* format the disassembly output using Capstone strings */
-        NSString *asm_string = [NSString stringWithFormat:@"%-10s\t%s", cs_insn[i].mnemonic, cs_insn[i].op_str];
-        NSLog(@"asm  --->  %@",asm_string);
-    }
-
+        begin += 4;
+    } while (![asmStr isEqualToString:@"ret"]);
     return NO;
+    
 }
 
++ (NSString*)sacnASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin linkEdit:(unsigned long long )vmAddress{
+
+    //获取汇编
+    char * ot_sect = (char *)[fileData bytes] + begin - vmAddress;
+    uint64_t ot_addr = begin ;
+    csh cs_handle = 0;
+    cs_insn *cs_insn = NULL;
+    cs_err cserr;
+    if ( (cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ){
+        NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
+        return nil;
+    }
+    cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
+    
+    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
+    cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
+    size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, 4, ot_addr, 0, &cs_insn);
+    if (disasm_count != 1 ) {
+        NSLog(@"汇编指令解析不符合预期！");
+        return nil;
+    }
+    NSRange tmpRange = NSMakeRange(begin - vmAddress, 0);
+    [self read_bytes:tmpRange length:cs_insn[0].size fromFile:fileData];
+    NSString *asm_string = [NSString stringWithFormat:@"%s/%s", cs_insn[0].mnemonic, cs_insn[0].op_str];
+    free(cs_insn);
+    return asm_string;
+}
 
 + (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),len);
     NSMutableArray *strings = [NSMutableArray array];
-
+    
     unsigned long size = 0;
     uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
@@ -486,7 +469,7 @@
         str = [self replaceEscapeCharsInString:str];
         if (str) {
             [strings addObject:str];
-//            NSLog(@"%@",str);
+            //            NSLog(@"%@",str);
             //+1 是为了留出'\0'的位置
             size = [str length] + size + 1;
             p = p + [str length] + 1;
