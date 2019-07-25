@@ -15,3 +15,8 @@
 @implementation WBBladesSymTab
 
 @end
+
+@implementation WBBladesSymTabCommand
+
+@end
+

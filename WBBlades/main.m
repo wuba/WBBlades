@@ -22,10 +22,14 @@ static NSDictionary *podResult;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
+    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
         
-        BOOL b = [WBBladesScanManager sacnSELCallerWithAddress:0x100008d78  fileData:fileData begin:0x100006794];
+//    NSData *fileData = [WBBladesFileManager readFromFile:@"/Volumes/pliaf/iphone_Appstore_2019.06.20_15.15.38/Payload/58tongcheng.app/58tongcheng_arm64"];
+        [WBBladesScanManager scanSymbolTabWithFileData:fileData];
+
+//        [WBBladesScanManager scanAllClassWithFileData:fileData];
         
+//        BOOL b = [WBBladesScanManager scanSELCallerWithAddress:0x1052d1290  fileData:fileData begin:0x100006dc0];
 
         return 0;
         

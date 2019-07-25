@@ -29,4 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+@interface WBBladesSymTabCommand : NSObject
+
+@property(nonatomic,assign)unsigned int cmd;
+
+@property(nonatomic,assign)unsigned int cmdsize;
+
+@property(nonatomic,assign)unsigned int symbolOff;
+
+@property(nonatomic,assign)unsigned int symbolNum;
+
+@property(nonatomic,assign)unsigned int strOff;
+
+@property(nonatomic,assign)unsigned int strSize;
+
+
+@end
+
 NS_ASSUME_NONNULL_END
