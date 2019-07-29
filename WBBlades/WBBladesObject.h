@@ -37,4 +37,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+
+@interface WBBladesHelper : NSObject
+
+@property(nonatomic,copy)NSString *className;
+
+@property(nonatomic,copy)NSString *selName;
+
+@property(nonatomic,assign)unsigned long long offset;
+
+@end
+
+
 NS_ASSUME_NONNULL_END
