@@ -427,6 +427,8 @@ struct class64Info {
     return NO;
 }
 
+static cs_insn *s_cs_insn;
+static section_64 textList = {0};
 
 + (void)scanAllClassWithFileData:(NSData*)fileData{
     
@@ -477,6 +479,22 @@ struct class64Info {
                     currentSecLocation += sizeof(section_64);
                 }
             }
+//            else if ([segName isEqualToString:@"__TEXT"]){
+//                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+//                for (int j = 0; j < segmentCommand.nsects; j++) {
+//
+//                    section_64 sectionHeader;
+//                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+//                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+//
+//                    if ([secName isEqualToString:@"__text"]) {
+//                        textList = sectionHeader;
+//                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+//                    }
+//
+//                    currentSecLocation += sizeof(section_64);
+//                }
+//            }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -496,10 +514,10 @@ struct class64Info {
         //方法名最大150字节
         uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
         if (selAddress < max) {
-            
+
             [fileData getBytes:buffer range:NSMakeRange(selAddress,150)];
             NSString * selName = NSSTRING(buffer);
-            
+
             if (selName) {
                 WBBladesHelper *helper = [WBBladesHelper new];
                 helper.selName = selName;
@@ -508,7 +526,6 @@ struct class64Info {
             }
         }
         free(buffer);
-
     }
     
     //获取nlclslist
@@ -542,37 +559,37 @@ struct class64Info {
         }
     }
     
-    //获取classref
-    range = NSMakeRange(classrefList.offset, 0);
-    for (int i = 0; i < classrefList.size / 8; i++) {
-        unsigned long long classAddress;
-        NSData *data = [self read_bytes:range length:8 fromFile:fileData];
-        [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-        classAddress = classAddress - vm;
-        //方法名最大150字节
-        if (classAddress < max) {
-            
-            class64 targetClass;
-            [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
-            
-            class64Info targetClassInfo = {0};
-            unsigned long long targetClassInfoOffset = targetClass.data - vm;
-            NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-            data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-            [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-            unsigned long long classNameOffset = targetClassInfo.name - vm;
-            
-            //类名最大50字节
-            uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-            [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-            NSString * className = NSSTRING(buffer);
-            free(buffer);
-            if (className) {
-                [classrefSet addObject:className];
-            }
-        }
-    }
-    
+//    //获取classref
+//    range = NSMakeRange(classrefList.offset, 0);
+//    for (int i = 0; i < classrefList.size / 8; i++) {
+//        unsigned long long classAddress;
+//        NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+//        [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+//        classAddress = classAddress - vm;
+//        //方法名最大150字节
+//        if (classAddress < max) {
+//
+//            class64 targetClass;
+//            [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
+//
+//            class64Info targetClassInfo = {0};
+//            unsigned long long targetClassInfoOffset = targetClass.data - vm;
+//            NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+//            data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+//            [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+//            unsigned long long classNameOffset = targetClassInfo.name - vm;
+//
+//            //类名最大50字节
+//            uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+//            [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+//            NSString * className = NSSTRING(buffer);
+//            free(buffer);
+//            if (className) {
+//                [classrefSet addObject:className];
+//            }
+//        }
+//    }
+//
     //获取cfstring
     range = NSMakeRange(cfstringList.offset, 0);
     for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
@@ -594,7 +611,6 @@ struct class64Info {
     }
     
     //获取所有类classlist
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
     NSMutableSet *classSet = [NSMutableSet set];
     range = NSMakeRange(classList.offset, 0);
     for (int i = 0; i < classList.size / 8 ; i++) {
@@ -615,23 +631,45 @@ struct class64Info {
         [data getBytes:&targetClassInfo length:sizeof(class64Info)];
         unsigned long long classNameOffset = targetClassInfo.name - vm;
         
+        class64 metaClass = {0};
+        NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
+        data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+        [data getBytes:&metaClass length:sizeof(class64)];
+        
+        class64Info metaClassInfo = {0};
+        unsigned long long metaClassInfoOffset = metaClass.data - vm;
+        NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
+        data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+        [data getBytes:&metaClassInfo length:sizeof(class64Info)];
+        
+        unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
+        unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
+
         //类名最大50字节
         uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
         [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
         NSString * className = NSSTRING(buffer);
         free(buffer);
+        
         if (
-            [className hasPrefix:@"AHS"] ||
-            [className hasPrefix:@"AIF"] ||
-            [className hasPrefix:@"ZX"] ||
-            [className hasPrefix:@"AJK"]) {
-            
-            [classSet addObject:className];
-        }else{
+            ![className hasPrefix:@"WB"] &&
+            ![className hasPrefix:@"AJK"] &&
+            ![className hasPrefix:@"AHS"] &&
+            ![className hasPrefix:@"AIF"] &&
+            ![className hasPrefix:@"AF"] &&
+            ![className hasPrefix:@"UsedCar"] &&
+            ![className hasPrefix:@"UC"] &&
+            ![className hasPrefix:@"SCH"] &&
+            ![className hasPrefix:@"HS"] &&
+            ![className hasPrefix:@"HL"] &&
+            ![className hasPrefix:@"ZX"] ) {
+            NSLog(@"排除%@",className);
             continue;
         }
-        //遍历每个class的method
-        unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
+        NSLog(@"正在排查 %@",className);
+        [classSet addObject:className];
+        
+        //遍历每个class的method (实例方法)
         if (methodListOffset < max) {
             
             unsigned int methodCount;
@@ -656,34 +694,112 @@ struct class64Info {
                         NSString * methodName = NSSTRING(buffer);
                         
                         //查看method 是否在selref中
-                        if (methodName && selrefDic[methodName]) {
-                            
+                        if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
                             WBBladesHelper *helper = selrefDic[methodName];
-                            
-                            unsigned long long  targetAddress = helper.offset + 0x100000000;
-                    
-                            NSString *targetLowStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString];
-                            NSString *offset = targetLowStr;
-                            
-                            NSMutableArray *array = result[offset];
-                            if (!array) {
-                                array = [NSMutableArray array];
+                            helper.className = className;
+                            if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                                [classSet removeObject:className];
+                                break;
                             }
-                            [array addObject:className];
-                            [result setObject:array forKey:offset];
                         }
-                    free(buffer);
                 }
+                free(buffer);
+            }
+        }
+        
+        if (classMethodListOffset < max) {
+            
+            unsigned int methodCount;
+            NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
+            data = [self read_bytes:methodRange length:4 fromFile:fileData];
+            [data getBytes:&methodCount length:4];
+            for (int j = 0; j<methodCount; j++) {
+                
+                //获取方法名
+                methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
+                data = [self read_bytes:methodRange length:8 fromFile:fileData];
+                
+                unsigned long long methodNameOffset;
+                [data getBytes:&methodNameOffset length:8];
+                methodNameOffset = methodNameOffset - vm;
+                
+                //方法名最大150字节
+                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                if (methodNameOffset < max) {
+                    
+                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                    NSString * methodName = NSSTRING(buffer);
+                    
+                    //查看method 是否在selref中
+                    if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
+                        WBBladesHelper *helper = selrefDic[methodName];
+                        helper.className = className;
+                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                            [classSet removeObject:className];
+                            break;
+                        }
+                    }
+                }
+                free(buffer);
             }
         }
     }
+    [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [classSet removeObject:obj];
+    }];
     
-    [classrefSet removeAllObjects];
-    [selrefDic removeAllObjects];
+    __block unsigned long long size = 0;
+    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+       
+        NSString *className = (NSString *)obj;
+        size += [className length]*3+249;
+        
+    }];
+    
+    NSLog(@"预计能减少%llu",size);
+}
 
-    //reslut
-    [self scanSymbolTabWithFileData:fileData result:result allClass:classSet];
-    
++ (NSArray *)methodWhitelist{
+    return @[@"init",
+             @"dealloc",
+             @"copy",
+             @"mutableCopy",
+             @"initialize",
+             @"willActivate",
+             @"didDeactivate",
+             @"initWithCoder:",
+             @"loadView",
+             @"viewDidLoad",
+             @"viewWillAppear:",
+             @"viewDidAppear:",
+             @"viewWillDisappear:",
+             @"viewDidDisappear:",
+             @"viewWillLayoutSubviews",
+             @"viewDidLayoutSubviews",
+             @"didReceiveMemoryWarning",
+             @"willMoveToParentViewController:",
+             @"didMoveToParentViewController:",
+             @"updateViewConstraints",
+             
+             @"initWithStyle:reuseIdentifier:",
+             @"initWithCoder:",
+             @"imageView",
+             @"textLabel",
+             @"detailTextLabel",
+             @"contentView",
+             @"reuseIdentifier",
+             @"initWithFrame:",
+             @"tableView:numberOfRowsInSection:",
+             @"tableView:cellForRowAtIndexPath:",
+             @"tableView:titleForHeaderInSection:",
+             @"tableView:titleForFooterInSection:",
+             @"tableView:canEditRowAtIndexPath:",
+             @"tableView:canMoveRowAtIndexPath:",
+             @"sectionIndexTitlesForTableView:",
+             @"tableView:sectionForSectionIndexTitle:atIndex:",
+             @"tableView:commitEditingStyle:forRowAtIndexPath:",
+             @"tableView:moveRowAtIndexPath:toIndexPath:",
+             ];
 }
 
 //
@@ -729,11 +845,12 @@ struct class64Info {
     return nil;
 }
 
++ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper{
 
-+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData result:(NSMutableDictionary *)result allClass:(NSMutableSet *)classSet{
-    
+    return YES;
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     unsigned long long symbolOffset = symCmd.symbolOff;
+    unsigned long long targetAddress = helper.offset + 0x100000000;
     NSRange symRange = NSMakeRange(symCmd.symbolOff,sizeof(nlist_64));
     for (int i=0; i<symCmd.symbolNum - 1; i++) {
             nlist_64 nlist;
@@ -741,83 +858,44 @@ struct class64Info {
             [fileData getBytes:&nlist range:symRange];
             if (nlist.n_sect == 1 &&
                 nlist.n_type == 0x0e) {
-                
+
                 uint8_t * buffer = (uint8_t *)malloc(200 + 1); buffer[200] = '\0';
                 [fileData getBytes:buffer range:NSMakeRange(symCmd.strOff+nlist.n_un.n_strx, 200)];
                 NSString * symbol = NSSTRING(buffer);
                 free(buffer);
-                if ([symbol hasPrefix:@"+["]) {
-                    symbol = [symbol stringByReplacingOccurrencesOfString:@"+[" withString:@""];
-                }else if ([symbol hasPrefix:@"-["] ){
-                    symbol = [symbol stringByReplacingOccurrencesOfString:@"-[" withString:@""];
-                }
-                NSString *className = [[symbol componentsSeparatedByString:@" "] firstObject];
-                
-                if (
-                    ![className hasPrefix:@"AJK"] &&
-                    ![className hasPrefix:@"AHS"] &&
-                    ![className hasPrefix:@"AIF"] &&
-                    ![className hasPrefix:@"ZX"]) {
-                    
+                NSString *tmp = [[symbol componentsSeparatedByString:@"["] lastObject];
+                NSString *className = [[tmp componentsSeparatedByString:@" "] firstObject];
+                if ([className isEqualToString:helper.className]) {
                     continue;
                 }
-                
+
                 unsigned long long begin = nlist.n_value;
-                
-                [self scanSELCallerFileData:fileData begin:begin result:result allClass:classSet];
+                BOOL use = [self scanSELCallerWithAddress:targetAddress fileData:fileData begin:begin];
+                if (use) {
+                    NSLog(@"%@ 的 %@ 在 %@ 中被使用",helper.className,helper.selName,symbol);
+                    return YES;
+                }
             }
     }
-    NSLog(@"---%ld",[classSet count]);
     return NO;
 }
 
-
-
-+ (void)scanSELCallerFileData:(NSData *)fileData  begin:(unsigned long long)begin  result:(NSMutableDictionary *)result allClass:(NSMutableSet *)classSet{
-
-    NSString* asmStr;
-    do {
-            NSString* str = [self sacnASMWithfileData:fileData begin:begin vmBase:0x100000000];
-            NSArray *strings = [str componentsSeparatedByString:@"/"];
-            asmStr = [strings firstObject];
-            if ([asmStr isEqualToString:@".byte"]) {
-                return ;
-            }
-            NSString *dataStr = [strings lastObject];
-            dataStr = [dataStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            dataStr = [dataStr stringByReplacingOccurrencesOfString:@"[" withString:@""];
-            dataStr = [dataStr stringByReplacingOccurrencesOfString:@"]" withString:@""];
-            strings = [dataStr componentsSeparatedByString:@","];
-            for (NSString * key in strings) {
-                NSArray *array = result[key];
-                for (NSString * className in array) {
-                    [classSet removeObject:className];
-                }
-
-            begin += 4;
-        }
-    } while (![asmStr isEqualToString:@"ret"]);
-}
-
-
-
 + (BOOL)scanSELCallerWithAddress:(unsigned long long )targetAddress fileData:(NSData *)fileData  begin:(unsigned long long)begin {
-    targetAddress = targetAddress + 0x100000000;
+    unsigned long long vb = 0x100000000;
+    targetAddress = targetAddress - vb;
     NSString *targetStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString];
     NSString *targetHighStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString];
     NSString *targetLowStr = [[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString];
-    
     NSString* asmStr;
     BOOL high = NO;
     do {
         @autoreleasepool {
-            NSString* str = [self sacnASMWithfileData:fileData begin:begin vmBase:0x100000000];
-            NSArray *strings = [str componentsSeparatedByString:@"/"];
-            asmStr = [strings firstObject];
+            unsigned long long index = (begin - textList.offset - vb)/4;
+            NSString* dataStr = [NSString stringWithFormat:@"%s",s_cs_insn[index].op_str];
+            asmStr = [NSString stringWithFormat:@"%s",s_cs_insn[index].mnemonic];
             if ([asmStr isEqualToString:@".byte"]) {
                 return NO;
             }
-            NSString *dataStr = [strings lastObject];
             //是否直接命中地址
             if ([dataStr containsString:targetStr]) {
                 return YES;
@@ -839,7 +917,7 @@ struct class64Info {
     
 }
 
-+ (void )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size vmBase:(unsigned long long)vmAddress{
++ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size vmBase:(unsigned long long)vmAddress{
     
     //获取汇编
     char * ot_sect = (char *)[fileData bytes] + begin - vmAddress;
@@ -849,49 +927,19 @@ struct class64Info {
     cs_err cserr;
     if ((cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ){
         NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
-        return ;
+        return NULL;
     }
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
-    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
+//    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
     
     size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, size, ot_addr, 0, &cs_insn);
     if (disasm_count < 1 ) {
         NSLog(@"汇编指令解析不符合预期！");
-        return ;
+        return NULL;
     }
-   
-    free(cs_insn);
-    return ;
-}
 
-
-+ (NSString*)sacnASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin vmBase:(unsigned long long )vmAddress{
-    
-    //获取汇编
-    char * ot_sect = (char *)[fileData bytes] + begin - vmAddress;
-    uint64_t ot_addr = begin ;
-    csh cs_handle = 0;
-    cs_insn *cs_insn = NULL;
-    cs_err cserr;
-    if ((cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ){
-        NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
-            return nil;
-    }
-    cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
-    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
-    cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-  
-    size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, 4, ot_addr, 0, &cs_insn);
-    if (disasm_count != 1 ) {
-        NSLog(@"汇编指令解析不符合预期！");
-        return nil;
-    }
-    NSRange tmpRange = NSMakeRange(begin - vmAddress, 0);
-    [self read_bytes:tmpRange length:cs_insn[0].size fromFile:fileData];
-    NSString *asm_string = [NSString stringWithFormat:@"%s/%s", cs_insn[0].mnemonic, cs_insn[0].op_str];
-    free(cs_insn);
-    return asm_string;
+    return cs_insn;
 }
 
 + (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
