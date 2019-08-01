@@ -732,21 +732,21 @@ static void printLogicalImm64(MCInst *MI, unsigned OpNum, SStream *O)
 	int64_t Val = MCOperand_getImm(MCInst_getOperand(MI, OpNum));
 	Val = AArch64_AM_decodeLogicalImmediate(Val, 64);
 
-	switch(MI->flat_insn->id) {
-		default:
-			printInt64Bang(O, Val);
-			break;
-		case ARM64_INS_ORR:
-		case ARM64_INS_AND:
-		case ARM64_INS_EOR:
-		case ARM64_INS_TST:
-			// do not print number in negative form
-			if (Val >= 0 && Val <= HEX_THRESHOLD)
-				SStream_concat(O, "#%u", (int)Val);
-			else
-				SStream_concat(O, "#0x%"PRIx64, Val);
-			break;
-	}
+//    switch(MI->flat_insn->id) {
+//        default:
+//            printInt64Bang(O, Val);
+//            break;
+//        case ARM64_INS_ORR:
+//        case ARM64_INS_AND:
+//        case ARM64_INS_EOR:
+//        case ARM64_INS_TST:
+//            // do not print number in negative form
+//            if (Val >= 0 && Val <= HEX_THRESHOLD)
+//                SStream_concat(O, "#%u", (int)Val);
+//            else
+//                SStream_concat(O, "#0x%"PRIx64, Val);
+//            break;
+//    }
 
 	if (MI->csh->detail) {
 		MI->flat_insn->detail->arm64.operands[MI->flat_insn->detail->arm64.op_count].type = ARM64_OP_IMM;

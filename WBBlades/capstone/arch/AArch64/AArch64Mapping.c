@@ -14276,7 +14276,7 @@ void AArch64_get_insn_id(cs_struct *h, cs_insn *insn, unsigned int id)
 {
 	int i = insn_find(insns, ARR_SIZE(insns), id, &h->insn_cache);
 	if (i != 0) {
-		insn->id = insns[i].mapid;
+//        insn->id = insns[i].mapid;
 
 		if (h->detail) {
 #ifndef CAPSTONE_DIET

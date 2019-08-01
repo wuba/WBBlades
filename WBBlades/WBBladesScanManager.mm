@@ -479,22 +479,22 @@ static section_64 textList = {0};
                     currentSecLocation += sizeof(section_64);
                 }
             }
-            else if ([segName isEqualToString:@"__TEXT"]){
-                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-                for (int j = 0; j < segmentCommand.nsects; j++) {
-                    
-                    section_64 sectionHeader;
-                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                    
-                    if ([secName isEqualToString:@"__text"]) {
-                        textList = sectionHeader;
-                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
-                    }
-                    
-                    currentSecLocation += sizeof(section_64);
-                }
-            }
+//            else if ([segName isEqualToString:@"__TEXT"]){
+//                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+//                for (int j = 0; j < segmentCommand.nsects; j++) {
+//                    
+//                    section_64 sectionHeader;
+//                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+//                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+//                    
+//                    if ([secName isEqualToString:@"__text"]) {
+//                        textList = sectionHeader;
+//                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+//                    }
+//                    
+//                    currentSecLocation += sizeof(section_64);
+//                }
+//            }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -579,7 +579,10 @@ static section_64 textList = {0};
             if (classAddress < max) {
                 
                 class64 targetClass;
-                [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
+                ptrdiff_t off = classAddress;
+                char * p = (char *)fileData.bytes;
+                p = p+off;
+                memcpy(&targetClass, p, sizeof(class64));
                 
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
@@ -599,25 +602,25 @@ static section_64 textList = {0};
                     helper.selName = @"";
                     helper.offset = range.location;
                     
-                    if (
-                        [className hasPrefix:@"WB"] ||
-                        [className hasPrefix:@"AJK"] ||
-                        [className hasPrefix:@"AHS"] ||
-                        [className hasPrefix:@"AIF"] ||
-                        [className hasPrefix:@"AF"] ||
-                        [className hasPrefix:@"UsedCar"] ||
-                        [className hasPrefix:@"UC"] ||
-                        [className hasPrefix:@"SCH"] ||
-                        [className hasPrefix:@"HS"] ||
-                        [className hasPrefix:@"HL"] ||
-                        [className hasPrefix:@"ZX"] ) {
-                        NSLog(@" %i 校验%@",i,className);
-                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
-                            [classrefSet addObject:className];
-                        }
-                    }else{
-                        [classrefSet addObject:className];
-                    }
+//                    if (
+//                        [className hasPrefix:@"WB"] ||
+//                        [className hasPrefix:@"AJK"] ||
+//                        [className hasPrefix:@"AHS"] ||
+//                        [className hasPrefix:@"AIF"] ||
+//                        [className hasPrefix:@"AF"] ||
+//                        [className hasPrefix:@"UsedCar"] ||
+//                        [className hasPrefix:@"UC"] ||
+//                        [className hasPrefix:@"SCH"] ||
+//                        [className hasPrefix:@"HS"] ||
+//                        [className hasPrefix:@"HL"] ||
+//                        [className hasPrefix:@"ZX"] ) {
+//                        NSLog(@" %i 校验%@",i,className);
+//                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+//                            [classrefSet addObject:className];
+//                        }
+//                    }else{
+//                        [classrefSet addObject:className];
+//                    }
                 }
             }
         }
@@ -690,21 +693,21 @@ static section_64 textList = {0};
             NSString * className = NSSTRING(buffer);
             free(buffer);
             
-            if (
-                ![className hasPrefix:@"WB"] &&
-                ![className hasPrefix:@"AJK"] &&
-                ![className hasPrefix:@"AHS"] &&
-                ![className hasPrefix:@"AIF"] &&
-                ![className hasPrefix:@"AF"] &&
-                ![className hasPrefix:@"UsedCar"] &&
-                ![className hasPrefix:@"UC"] &&
-                ![className hasPrefix:@"SCH"] &&
-                ![className hasPrefix:@"HS"] &&
-                ![className hasPrefix:@"HL"] &&
-                ![className hasPrefix:@"ZX"] ) {
-                NSLog(@"排除%@",className);
-                continue;
-            }
+//            if (
+//                ![className hasPrefix:@"WB"] &&
+//                ![className hasPrefix:@"AJK"] &&
+//                ![className hasPrefix:@"AHS"] &&
+//                ![className hasPrefix:@"AIF"] &&
+//                ![className hasPrefix:@"AF"] &&
+//                ![className hasPrefix:@"UsedCar"] &&
+//                ![className hasPrefix:@"UC"] &&
+//                ![className hasPrefix:@"SCH"] &&
+//                ![className hasPrefix:@"HS"] &&
+//                ![className hasPrefix:@"HL"] &&
+//                ![className hasPrefix:@"ZX"] ) {
+//                NSLog(@"排除%@",className);
+//                continue;
+//            }
             NSLog(@"正在排查 %@",className);
             [classSet addObject:className];
             
@@ -737,6 +740,7 @@ static section_64 textList = {0};
                             WBBladesHelper *helper = selrefDic[methodName];
                             helper.className = className;
 //                            [classSet removeObject:className];
+                            NSLog(@"%@ ---实例方法 %@",className,methodName);
                             break;
                         }
                     }
@@ -772,6 +776,7 @@ static section_64 textList = {0};
                             WBBladesHelper *helper = selrefDic[methodName];
                             helper.className = className;
                             if (YES) {
+                                NSLog(@"%@ ---类方法 %@",className,methodName);
 //                                [classSet removeObject:className];
                                 break;
                             }
@@ -927,21 +932,25 @@ static section_64 textList = {0};
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     unsigned long long symbolOffset = symCmd.symbolOff;
     unsigned long long targetAddress = helper.offset;
-    NSRange symRange = NSMakeRange(symCmd.symbolOff,sizeof(nlist_64));
     
     char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     for (int i=0; i<symCmd.symbolNum - 1; i++) {
-        @autoreleasepool {
-            
             nlist_64 nlist;
-            symRange = NSMakeRange(symbolOffset + i * sizeof(nlist_64) ,sizeof(nlist_64));
-            [fileData getBytes:&nlist range:symRange];
+            ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+            char * p = (char *)fileData.bytes;
+            p = p+off;
+            memcpy(&nlist, p, sizeof(nlist_64));
             if (nlist.n_sect == 1 &&
                 nlist.n_type == 0x0e) {
+                
                 char buffer[201];
-                [fileData getBytes:buffer range:NSMakeRange(symCmd.strOff+nlist.n_un.n_strx, 200)];
+                ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+                char * p = (char *)fileData.bytes;
+                p = p+off;
+                memcpy(&buffer, p, 200);
+                
                 char * className = strtok(buffer," ");
                 className = strstr(className,"[");
                 if (className) {
@@ -965,7 +974,6 @@ static section_64 textList = {0};
 //                    NSLog(@"%@  在 %s 中被使用",helper.className,className);
                     return YES;
                 }
-            }
         }
     }
     return NO;
@@ -975,8 +983,6 @@ static section_64 textList = {0};
     char * asmStr;
     BOOL high = NO;
     do {
-        @autoreleasepool {
-            
             unsigned long long index = (begin - textList.offset - vb)/4;
             char *dataStr = s_cs_insn[index].op_str;
             asmStr = s_cs_insn[index].mnemonic;
@@ -987,15 +993,12 @@ static section_64 textList = {0};
             //是否先命中高位
             if (strstr(dataStr, targetHighStr)) {
                 high = YES;
-            }
-            //是否在命中了高位后，命中了低12位
-            if (strstr(dataStr, targetLowStr)) {
+            }else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
                 if (high) {
                     return  YES;
                 }
             }
             begin += 4;
-        }
     } while (strcmp("ret",asmStr) != 0);
     return NO;
     

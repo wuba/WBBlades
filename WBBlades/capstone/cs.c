@@ -250,16 +250,16 @@ static void fill_insn(struct cs_struct *handle, cs_insn *insn, char *buffer, MCI
 #ifndef CAPSTONE_DIET
 	char *sp, *mnem;
 #endif
-	unsigned int copy_size = MIN(sizeof(insn->bytes), insn->size);
+//    unsigned int copy_size = MIN(sizeof(insn->bytes), insn->size);
 
 	// fill the instruction bytes.
 	// we might skip some redundant bytes in front in the case of X86
-	memcpy(insn->bytes, code + insn->size - copy_size, copy_size);
-	insn->size = copy_size;
+//    memcpy(insn->bytes, code + insn->size - copy_size, copy_size);
+//    insn->size = copy_size;
 
 	// alias instruction might have ID saved in OpcodePub
 	if (MCInst_getOpcodePub(mci))
-		insn->id = MCInst_getOpcodePub(mci);
+//        insn->id = MCInst_getOpcodePub(mci);
 
 	// post printer handles some corner cases (hacky)
 	if (postprinter)
@@ -462,7 +462,7 @@ size_t cs_disasm(csh ud, const uint8_t *buffer, size_t size, uint64_t offset, si
 
 		// save all the information for non-detailed mode
 		mci.flat_insn = insn_cache;
-		mci.flat_insn->address = offset;
+//        mci.flat_insn->address = offset;
 #ifdef CAPSTONE_DIET
 		// zero out mnemonic & op_str
 		mci.flat_insn->mnemonic[0] = '\0';
@@ -474,7 +474,7 @@ size_t cs_disasm(csh ud, const uint8_t *buffer, size_t size, uint64_t offset, si
 			SStream ss;
 			SStream_Init(&ss);
 
-			mci.flat_insn->size = insn_size;
+//            mci.flat_insn->size = insn_size;
 
 			// map internal instruction opcode to public insn ID
 			handle->insn_id(handle, insn_cache, mci.Opcode);
@@ -511,10 +511,10 @@ size_t cs_disasm(csh ud, const uint8_t *buffer, size_t size, uint64_t offset, si
 				skipdata_bytes = handle->skipdata_size;
 
 			// we have to skip some amount of data, depending on arch & mode
-			insn_cache->id = 0;	// invalid ID for this "data" instruction
-			insn_cache->address = offset;
-			insn_cache->size = (uint16_t)skipdata_bytes;
-			memcpy(insn_cache->bytes, buffer, skipdata_bytes);
+//            insn_cache->id = 0;    // invalid ID for this "data" instruction
+//            insn_cache->address = offset;
+//            insn_cache->size = (uint16_t)skipdata_bytes;
+//            memcpy(insn_cache->bytes, buffer, skipdata_bytes);
 			strncpy(insn_cache->mnemonic, handle->skipdata_setup.mnemonic,
 					sizeof(insn_cache->mnemonic) - 1);
 			skipdata_opstr(insn_cache->op_str, buffer, skipdata_bytes);
@@ -666,7 +666,7 @@ bool cs_disasm_iter(csh ud, const uint8_t **code, size_t *size,
 
 	// save all the information for non-detailed mode
 	mci.flat_insn = insn;
-	mci.flat_insn->address = *address;
+//    mci.flat_insn->address = *address;
 #ifdef CAPSTONE_DIET
 	// zero out mnemonic & op_str
 	mci.flat_insn->mnemonic[0] = '\0';
@@ -678,7 +678,7 @@ bool cs_disasm_iter(csh ud, const uint8_t **code, size_t *size,
 		SStream ss;
 		SStream_Init(&ss);
 
-		mci.flat_insn->size = insn_size;
+//        mci.flat_insn->size = insn_size;
 
 		// map internal instruction opcode to public insn ID
 		handle->insn_id(handle, insn, mci.Opcode);
@@ -712,10 +712,10 @@ bool cs_disasm_iter(csh ud, const uint8_t **code, size_t *size,
 			skipdata_bytes = handle->skipdata_size;
 
 		// we have to skip some amount of data, depending on arch & mode
-		insn->id = 0;	// invalid ID for this "data" instruction
-		insn->address = *address;
-		insn->size = (uint16_t)skipdata_bytes;
-		memcpy(insn->bytes, *code, skipdata_bytes);
+//        insn->id = 0;    // invalid ID for this "data" instruction
+//        insn->address = *address;
+//        insn->size = (uint16_t)skipdata_bytes;
+//        memcpy(insn->bytes, *code, skipdata_bytes);
 		strncpy(insn->mnemonic, handle->skipdata_setup.mnemonic,
 				sizeof(insn->mnemonic) - 1);
 		skipdata_opstr(insn->op_str, *code, skipdata_bytes);
@@ -791,10 +791,10 @@ bool cs_insn_group(csh ud, const cs_insn *insn, unsigned int group_id)
 		return false;
 	}
 
-	if(!insn->id) {
-		handle->errnum = CS_ERR_SKIPDATA;
-		return false;
-	}
+//    if(!insn->id) {
+//        handle->errnum = CS_ERR_SKIPDATA;
+//        return false;
+//    }
 
 	if(!insn->detail) {
 		handle->errnum = CS_ERR_DETAIL;
@@ -818,10 +818,10 @@ bool cs_reg_read(csh ud, const cs_insn *insn, unsigned int reg_id)
 		return false;
 	}
 
-	if(!insn->id) {
-		handle->errnum = CS_ERR_SKIPDATA;
-		return false;
-	}
+//    if(!insn->id) {
+//        handle->errnum = CS_ERR_SKIPDATA;
+//        return false;
+//    }
 
 	if(!insn->detail) {
 		handle->errnum = CS_ERR_DETAIL;
@@ -845,10 +845,10 @@ bool cs_reg_write(csh ud, const cs_insn *insn, unsigned int reg_id)
 		return false;
 	}
 
-	if(!insn->id) {
-		handle->errnum = CS_ERR_SKIPDATA;
-		return false;
-	}
+//    if(!insn->id) {
+//        handle->errnum = CS_ERR_SKIPDATA;
+//        return false;
+//    }
 
 	if(!insn->detail) {
 		handle->errnum = CS_ERR_DETAIL;
@@ -873,10 +873,10 @@ int cs_op_count(csh ud, const cs_insn *insn, unsigned int op_type)
 		return -1;
 	}
 
-	if(!insn->id) {
-		handle->errnum = CS_ERR_SKIPDATA;
-		return -1;
-	}
+//    if(!insn->id) {
+//        handle->errnum = CS_ERR_SKIPDATA;
+//        return -1;
+//    }
 
 	if(!insn->detail) {
 		handle->errnum = CS_ERR_DETAIL;
@@ -950,10 +950,10 @@ int cs_op_index(csh ud, const cs_insn *insn, unsigned int op_type,
 		return -1;
 	}
 
-	if(!insn->id) {
-		handle->errnum = CS_ERR_SKIPDATA;
-		return -1;
-	}
+//    if(!insn->id) {
+//        handle->errnum = CS_ERR_SKIPDATA;
+//        return -1;
+//    }
 
 	if(!insn->detail) {
 		handle->errnum = CS_ERR_DETAIL;

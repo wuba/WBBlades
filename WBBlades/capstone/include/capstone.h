@@ -240,26 +240,26 @@ typedef struct cs_insn {
 	// such as arm.h for ARM, x86.h for X86, etc...
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
 	// NOTE: in Skipdata mode, "data" instruction has 0 for this id field.
-	unsigned int id;
+//    unsigned int id;
 
 	// Address (EIP) of this instruction
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
-	uint64_t address;
+//    uint64_t address;
 
 	// Size of this instruction
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
-	uint16_t size;
+//    uint16_t size;
 	// Machine bytes of this instruction, with number of bytes indicated by @size above
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
-	uint8_t bytes[16];
+//    uint8_t bytes[16];
 
 	// Ascii text of instruction mnemonic
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
-	char mnemonic[32];
+	char mnemonic[16];
 
 	// Ascii text of instruction operands
 	// This information is available even when CS_OPT_DETAIL = CS_OPT_OFF
-	char op_str[160];
+	char op_str[120];
 
 	// Pointer to cs_detail.
 	// NOTE: detail pointer is only valid when both requirements below are met:
