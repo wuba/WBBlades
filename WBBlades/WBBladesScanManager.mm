@@ -479,22 +479,22 @@ static section_64 textList = {0};
                     currentSecLocation += sizeof(section_64);
                 }
             }
-//            else if ([segName isEqualToString:@"__TEXT"]){
-//                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-//                for (int j = 0; j < segmentCommand.nsects; j++) {
-//                    
-//                    section_64 sectionHeader;
-//                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-//                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-//                    
-//                    if ([secName isEqualToString:@"__text"]) {
-//                        textList = sectionHeader;
-//                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
-//                    }
-//                    
-//                    currentSecLocation += sizeof(section_64);
-//                }
-//            }
+            else if ([segName isEqualToString:@"__TEXT"]){
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:@"__text"]) {
+                        textList = sectionHeader;
+                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                    }
+                    
+                    currentSecLocation += sizeof(section_64);
+                }
+            }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -602,25 +602,25 @@ static section_64 textList = {0};
                     helper.selName = @"";
                     helper.offset = range.location;
                     
-//                    if (
-//                        [className hasPrefix:@"WB"] ||
-//                        [className hasPrefix:@"AJK"] ||
-//                        [className hasPrefix:@"AHS"] ||
-//                        [className hasPrefix:@"AIF"] ||
-//                        [className hasPrefix:@"AF"] ||
-//                        [className hasPrefix:@"UsedCar"] ||
-//                        [className hasPrefix:@"UC"] ||
-//                        [className hasPrefix:@"SCH"] ||
-//                        [className hasPrefix:@"HS"] ||
-//                        [className hasPrefix:@"HL"] ||
-//                        [className hasPrefix:@"ZX"] ) {
-//                        NSLog(@" %i 校验%@",i,className);
-//                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
-//                            [classrefSet addObject:className];
-//                        }
-//                    }else{
-//                        [classrefSet addObject:className];
-//                    }
+                    if (
+                        [className hasPrefix:@"WB"] ||
+                        [className hasPrefix:@"AJK"] ||
+                        [className hasPrefix:@"AHS"] ||
+                        [className hasPrefix:@"AIF"] ||
+                        [className hasPrefix:@"AF"] ||
+                        [className hasPrefix:@"UsedCar"] ||
+                        [className hasPrefix:@"UC"] ||
+                        [className hasPrefix:@"SCH"] ||
+                        [className hasPrefix:@"HS"] ||
+                        [className hasPrefix:@"HL"] ||
+                        [className hasPrefix:@"ZX"] ) {
+                        NSLog(@" %i 校验%@",i,className);
+                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                            [classrefSet addObject:className];
+                        }
+                    }else{
+                        [classrefSet addObject:className];
+                    }
                 }
             }
         }
@@ -684,8 +684,8 @@ static section_64 textList = {0};
             data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
             [data getBytes:&metaClassInfo length:sizeof(class64Info)];
             
-            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
-            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
+//            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
+//            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
             
             //类名最大50字节
             uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
@@ -693,112 +693,130 @@ static section_64 textList = {0};
             NSString * className = NSSTRING(buffer);
             free(buffer);
             
-//            if (
-//                ![className hasPrefix:@"WB"] &&
-//                ![className hasPrefix:@"AJK"] &&
-//                ![className hasPrefix:@"AHS"] &&
-//                ![className hasPrefix:@"AIF"] &&
-//                ![className hasPrefix:@"AF"] &&
-//                ![className hasPrefix:@"UsedCar"] &&
-//                ![className hasPrefix:@"UC"] &&
-//                ![className hasPrefix:@"SCH"] &&
-//                ![className hasPrefix:@"HS"] &&
-//                ![className hasPrefix:@"HL"] &&
-//                ![className hasPrefix:@"ZX"] ) {
-//                NSLog(@"排除%@",className);
-//                continue;
-//            }
+            if (
+                ![className hasPrefix:@"WB"] &&
+                ![className hasPrefix:@"AJK"] &&
+                ![className hasPrefix:@"AHS"] &&
+                ![className hasPrefix:@"AIF"] &&
+                ![className hasPrefix:@"AF"] &&
+                ![className hasPrefix:@"UsedCar"] &&
+                ![className hasPrefix:@"UC"] &&
+                ![className hasPrefix:@"SCH"] &&
+                ![className hasPrefix:@"HS"] &&
+                ![className hasPrefix:@"HL"] &&
+                ![className hasPrefix:@"ZX"] ) {
+                NSLog(@"排除%@",className);
+                continue;
+            }
             NSLog(@"正在排查 %@",className);
             [classSet addObject:className];
             
-            //遍历每个class的method (实例方法)
-            if (methodListOffset < max) {
-                
-                unsigned int methodCount;
-                NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
-                data = [self read_bytes:methodRange length:4 fromFile:fileData];
-                [data getBytes:&methodCount length:4];
-                for (int j = 0; j<methodCount; j++) {
-                    
-                    //获取方法名
-                    methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
-                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                    
+            //遍历成员变量
+            unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
+            if (varListOffset < max) {
+                unsigned int varCount;
+                NSRange varRange = NSMakeRange(varListOffset+4, 0);
+                data = [self read_bytes:varRange length:4 fromFile:fileData];
+                [data getBytes:&varCount length:4];
+                for (int j = 0; j<varCount; j++) {
+                    varRange = NSMakeRange(varListOffset+8 + 32 * j + 16, 0);
+                    data = [self read_bytes:varRange length:8 fromFile:fileData];
                     unsigned long long methodNameOffset;
                     [data getBytes:&methodNameOffset length:8];
                     methodNameOffset = methodNameOffset - vm;
-                    
-                    //方法名最大150字节
                     uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
                     if (methodNameOffset < max) {
-                        
-                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                        NSString * methodName = NSSTRING(buffer);
-                        
-                        //查看method 是否在selref中
-                        if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
-                            WBBladesHelper *helper = selrefDic[methodName];
-                            helper.className = className;
-//                            [classSet removeObject:className];
-                            NSLog(@"%@ ---实例方法 %@",className,methodName);
-                            break;
+                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                    NSString * typeName = NSSTRING(buffer);
+                        if (typeName) {
+                            NSLog(@"%@",typeName);
+                            typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
+                            typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                            [classrefSet addObject:typeName];
                         }
                     }
-                    free(buffer);
+                
                 }
             }
             
-            if (classMethodListOffset < max) {
-                
-                unsigned int methodCount;
-                NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
-                data = [self read_bytes:methodRange length:4 fromFile:fileData];
-                [data getBytes:&methodCount length:4];
-                for (int j = 0; j<methodCount; j++) {
-                    
-                    //获取方法名
-                    methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
-                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                    
-                    unsigned long long methodNameOffset;
-                    [data getBytes:&methodNameOffset length:8];
-                    methodNameOffset = methodNameOffset - vm;
-                    
-                    //方法名最大150字节
-                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                    if (methodNameOffset < max) {
-                        
-                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                        NSString * methodName = NSSTRING(buffer);
-                        
-                        //查看method 是否在selref中
-                        if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
-                            WBBladesHelper *helper = selrefDic[methodName];
-                            helper.className = className;
-                            if (YES) {
-                                NSLog(@"%@ ---类方法 %@",className,methodName);
-//                                [classSet removeObject:className];
-                                break;
-                            }
-                        }
-                    }
-                    free(buffer);
-                }
-            }
+            //遍历每个class的method (实例方法)
+//            if (methodListOffset < max) {
+//
+//                unsigned int methodCount;
+//                NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
+//                data = [self read_bytes:methodRange length:4 fromFile:fileData];
+//                [data getBytes:&methodCount length:4];
+//                for (int j = 0; j<methodCount; j++) {
+//
+//                    //获取方法名
+//                    methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
+//                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
+//
+//                    unsigned long long methodNameOffset;
+//                    [data getBytes:&methodNameOffset length:8];
+//                    methodNameOffset = methodNameOffset - vm;
+//
+//                    //方法名最大150字节
+//                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+//                    if (methodNameOffset < max) {
+//
+//                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+//                        NSString * methodName = NSSTRING(buffer);
+//
+//                        //查看method 是否在selref中
+//                        if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
+//                            WBBladesHelper *helper = selrefDic[methodName];
+//                            helper.className = className;
+////                            [classSet removeObject:className];
+//                            break;
+//                        }
+//                    }
+//                    free(buffer);
+//                }
+//            }
+            
+//            if (classMethodListOffset < max) {
+//
+//                unsigned int methodCount;
+//                NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
+//                data = [self read_bytes:methodRange length:4 fromFile:fileData];
+//                [data getBytes:&methodCount length:4];
+//                for (int j = 0; j<methodCount; j++) {
+//
+//                    //获取方法名
+//                    methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
+//                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
+//
+//                    unsigned long long methodNameOffset;
+//                    [data getBytes:&methodNameOffset length:8];
+//                    methodNameOffset = methodNameOffset - vm;
+//
+//                    //方法名最大150字节
+//                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+//                    if (methodNameOffset < max) {
+//
+//                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+//                        NSString * methodName = NSSTRING(buffer);
+//
+//                        //查看method 是否在selref中
+//                        if (methodName && selrefDic[methodName] && ![[self methodWhitelist] containsObject:methodName]) {
+//                            WBBladesHelper *helper = selrefDic[methodName];
+//                            helper.className = className;
+//                            if (YES) {
+////                                [classSet removeObject:className];
+//                                break;
+//                            }
+//                        }
+//                    }
+//                    free(buffer);
+//                }
+//            }
         }
     }
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
     }];
     NSLog(@"全部%@",classSet);
-    //    __block unsigned long long size = 0;
-    //    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-    //
-    //        NSString *className = (NSString *)obj;
-    //        size += [className length]*3+249;
-    //    }];
-    //
-    //    NSLog(@"预计能减少%llu",size);
 }
 
 + (BOOL)inClassBlacklistCheck:(char *)className{

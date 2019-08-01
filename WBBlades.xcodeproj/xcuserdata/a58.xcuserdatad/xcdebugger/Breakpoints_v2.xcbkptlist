@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WBBlades/WBBladesScanManager.mm"
-            timestampString = "586330506.496197"
+            timestampString = "586334526.824572"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "793"
-            endingLineNumber = "793"
+            startingLineNumber = "819"
+            endingLineNumber = "819"
             landmarkName = "+scanAllClassWithFileData:"
             landmarkType = "7">
          </BreakpointContent>
