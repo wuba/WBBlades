@@ -673,16 +673,39 @@ static section_64 textList = {0};
             [data getBytes:&targetClassInfo length:sizeof(class64Info)];
             unsigned long long classNameOffset = targetClassInfo.name - vm;
             
-            class64 metaClass = {0};
-            NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-            data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
-            [data getBytes:&metaClass length:sizeof(class64)];
-            
-            class64Info metaClassInfo = {0};
-            unsigned long long metaClassInfoOffset = metaClass.data - vm;
-            NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-            data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
+//            class64 metaClass = {0};
+//            NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
+//            data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+//            [data getBytes:&metaClass length:sizeof(class64)];
+//
+//            class64Info metaClassInfo = {0};
+//            unsigned long long metaClassInfoOffset = metaClass.data - vm;
+//            NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
+//            data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+//            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
+//
+            if (targetClass.superClass != 0) {
+                class64 superClass = {0};
+                NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
+                data = [self read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                [data getBytes:&superClass length:sizeof(class64)];
+                
+                class64Info superClassInfo = {0};
+                unsigned long long superClassInfoOffset = superClass.data - vm;
+                NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
+                data = [self read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                [data getBytes:&superClassInfo length:sizeof(class64Info)];
+                unsigned long long superClassNameOffset = superClassInfo.name - vm;
+                
+                //类名最大50字节
+                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, 50)];
+                NSString * superClassName = NSSTRING(buffer);
+                free(buffer);
+                if (superClassName) {
+                    [classrefSet addObject:superClassName];
+                }
+            }
             
 //            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
 //            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
@@ -729,13 +752,11 @@ static section_64 textList = {0};
                     [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                     NSString * typeName = NSSTRING(buffer);
                         if (typeName) {
-                            NSLog(@"%@",typeName);
                             typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
                             typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
                             [classrefSet addObject:typeName];
                         }
                     }
-                
                 }
             }
             
@@ -816,7 +837,10 @@ static section_64 textList = {0};
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
     }];
-    NSLog(@"全部%@",classSet);
+    NSLog(@"-----------校验完成--------------");
+    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSLog(@"%@",obj);
+    }];
 }
 
 + (BOOL)inClassBlacklistCheck:(char *)className{
@@ -828,31 +852,6 @@ static section_64 textList = {0};
             return YES;
         }
     }
-    return NO;
-//    NSArray *array = @[@"SD",
-//             @"ISD",
-//             @"WIM",
-//             @"Bugly",
-//             @"DI",
-//             @"GI",
-//             @"IF",
-//             @"BM",
-//             @"LOTA",
-//             @"QQ",
-//             @"RSA",
-//             @"RCT",
-//             @"RTC",
-//             @"Weibo",
-//             @"Alipay",
-//             @"FMD",
-//             @"MJ"
-//             ];
-//
-//    for (NSString * pre in array) {
-//        if ([className hasPrefix:pre]) {
-//            return YES;
-//        }
-//    }
     return NO;
 }
 
@@ -982,14 +981,13 @@ static section_64 textList = {0};
                 
                 //三方黑名单
                 if ([self inClassBlacklistCheck:className]) {
-//                    NSLog(@"跳过%@代码",className);
                     continue;
                 }
                 
                 unsigned long long begin = nlist.n_value;
                 BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vb:vb];
                 if (use) {
-//                    NSLog(@"%@  在 %s 中被使用",helper.className,className);
+                    NSLog(@"%ld",i);
                     return YES;
                 }
         }
@@ -1005,11 +1003,11 @@ static section_64 textList = {0};
             char *dataStr = s_cs_insn[index].op_str;
             asmStr = s_cs_insn[index].mnemonic;
             if (strcmp(".byte",asmStr) == 0) {
-//                NSLog(@"%s , %s  汇编指令异常",asmStr,dataStr);
                 return NO;
             }
-            //是否先命中高位
-            if (strstr(dataStr, targetHighStr)) {
+            if (strstr(dataStr, targetStr)) {//直接命中
+                return YES;
+            }else if (strstr(dataStr, targetHighStr)) {//是否先命中高位
                 high = YES;
             }else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
                 if (high) {
@@ -1035,7 +1033,7 @@ static section_64 textList = {0};
         return NULL;
     }
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
-    //    cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
+//        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
     
     size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, size, ot_addr, 0, &cs_insn);
@@ -1043,7 +1041,6 @@ static section_64 textList = {0};
         NSLog(@"汇编指令解析不符合预期！");
         return NULL;
     }
-    
     return cs_insn;
 }
 

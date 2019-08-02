@@ -22,9 +22,9 @@ static NSDictionary *podResult;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
+//    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
     
-//        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
+        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
 //        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Desktop/WinSFA"];
 
         [WBBladesScanManager scanAllClassWithFileData:fileData];
