@@ -21,6 +21,7 @@
 #import "WBBladesClassDefine.h"
 #import "capstone.h"
 #import <objc/runtime.h>
+#import "WBBladesFileManager.h"
 
 #define NSSTRING(C_STR) [NSString stringWithCString: (char *)(C_STR) encoding: [NSString defaultCStringEncoding]]
 #define CSTRING(NS_STR) [(NS_STR) cStringUsingEncoding: [NSString defaultCStringEncoding]]
@@ -430,6 +431,17 @@ struct class64Info {
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
 
+//+ (NSSet *)getClassFromStaticLib:(NSString *)path{
+//    NSMutableSet *classSet = [NSMutableSet set];
+//    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
+//
+//
+//
+//    return [classSet copy];
+//}
+
+
+
 + (void)scanAllClassWithFileData:(NSData*)fileData{
     
     unsigned long long max = [fileData length];
@@ -441,7 +453,6 @@ static section_64 textList = {0};
     section_64 classrefList= {0};
     section_64 nlclsList= {0};
     section_64 cfstringList= {0};
-    
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
@@ -601,7 +612,6 @@ static section_64 textList = {0};
                     helper.className = className;
                     helper.selName = @"";
                     helper.offset = range.location;
-                    
                     if (
                         [className hasPrefix:@"WB"] ||
                         [className hasPrefix:@"AJK"] ||
@@ -614,8 +624,7 @@ static section_64 textList = {0};
                         [className hasPrefix:@"HS"] ||
                         [className hasPrefix:@"HL"] ||
                         [className hasPrefix:@"ZX"] ) {
-                        NSLog(@" %i 校验%@",i,className);
-                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                    if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
                             [classrefSet addObject:className];
                         }
                     }else{
@@ -728,10 +737,8 @@ static section_64 textList = {0};
                 ![className hasPrefix:@"HS"] &&
                 ![className hasPrefix:@"HL"] &&
                 ![className hasPrefix:@"ZX"] ) {
-                NSLog(@"排除%@",className);
                 continue;
             }
-            NSLog(@"正在排查 %@",className);
             [classSet addObject:className];
             
             //遍历成员变量
@@ -876,7 +883,6 @@ static section_64 textList = {0};
              @"willMoveToParentViewController:",
              @"didMoveToParentViewController:",
              @"updateViewConstraints",
-             
              @"initWithStyle:reuseIdentifier:",
              @"initWithCoder:",
              @"imageView",
@@ -967,7 +973,6 @@ static section_64 textList = {0};
                 char * p = (char *)fileData.bytes;
                 p = p+off;
                 memcpy(&buffer, p, 200);
-                
                 char * className = strtok(buffer," ");
                 className = strstr(className,"[");
                 if (className) {
@@ -983,11 +988,9 @@ static section_64 textList = {0};
                 if ([self inClassBlacklistCheck:className]) {
                     continue;
                 }
-                
                 unsigned long long begin = nlist.n_value;
                 BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vb:vb];
                 if (use) {
-                    NSLog(@"%ld",i);
                     return YES;
                 }
         }
