@@ -1,0 +1,821 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: Sheet class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">  
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">
+        <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+      </a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<b>Sheet</b>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+        <h3>Sheet class reference</h3>
+        <ul class="doc"> 
+          <li style="margin-top: 0px;">
+            <a name="cellType"></a>CellType <span class="fname">cellType</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>
+            <div>Returns cell's type.   <table class="helptable"> 
+              <thead>
+                <tr><td>CellType value</td><td>Description</td></tr>
+              </thead>
+              <tr><td>CELLTYPE_EMPTY</td><td>empty</td></tr> 
+              <tr><td>CELLTYPE_NUMBER</td><td>number value</td></tr> 
+              <tr><td>CELLTYPE_STRING</td><td>string value</td></tr> 
+              <tr><td>CELLTYPE_BOOLEAN</td><td>boolean value</td></tr> 
+              <tr><td>CELLTYPE_BLANK</td><td>blank</td></tr> 
+              <tr><td>CELLTYPE_ERROR</td><td>error</td></tr> 
+             </table> 
+            </div>
+          </li> 
+          <li>
+            <a name="isFormula"></a><span class="keyword">bool</span> <span class="fname">isFormula</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Checks that cell contains a formula. </div>
+          </li> 
+          <li>
+            <a name="cellFormat"></a><a href="format.html">Format</a>* <span class="fname">cellFormat</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Returns cell's format. It can be changed by user.</div>
+          </li> 
+          <li>
+            <a name="setCellFormat"></a>void <span class="fname">setCellFormat</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>* format)  <div>Sets cell's format.</div>
+          </li> 
+          <li>
+            <a name="readStr"></a><span class="keyword">const wchar_t*</span> <span class="fname">readStr</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>** format = 0)  <div>Reads a string and its format from cell. Memory is allocated internally and valid until a new workbook is loaded or <a href="workbook.html#release">Book::release()</a> is called for binary implementation (xls). But it's needed to copy a result string every time in xml implementation (xlsx).
+          Returns NULL if specified cell doesn't contain string or error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="writeStr"></a><span class="keyword">bool</span> <span class="fname">writeStr</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* value, <a href="format.html">Format</a>* format = 0)
+            <div>
+              Writes a string into cell with specified format. If <i>format</i>
+              equals 0 then format is ignored. String is copied internally and can be
+              destroyed after call this method. Returns false if error occurs. Get
+              error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>  
+            <a name="readNum"></a><span class="keyword">double</span> <span class="fname">readNum</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>** format = 0) <span class="keyword">const</span>  <div>Reads a number or date/time and its format from cell. Use <a href="workbook.html#dateUnpack">Book::dateUnpack()</a> for extract date/time parts from double. If <i>*format</i> == 0 then error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="writeNum"></a><span class="keyword">bool</span> <span class="fname">writeNum</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">double</span> value, <a href="format.html">Format</a>* format = 0)  <div>Writes a number or date/time into cell with specified format. If <i>format</i> equals 0 then format is ignored. Use <a href="workbook.html#datePack">Book::datePack()</a> for packing date/time parts to double. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="readBool"></a><span class="keyword">bool</span> <span class="fname">readBool</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>** format = 0) <span class="keyword">const</span>  <div>Reads a bool value and its format from cell. If <i>*format</i> == 0 then error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="writeBool"></a><span class="keyword">bool</span> <span class="fname">writeBool</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">bool</span> value, <a href="format.html">Format</a>* format = 0) <span class="keyword">const</span>  <div>Writes
+            a bool value into cell with specified format. If format equals 0 then
+            format is ignored. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="readBlank"></a><span class="keyword">bool</span> <span class="fname">readBlank</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>** format = 0) <span class="keyword">const</span>  <div>Reads format from blank cell. Returns false if specified cell isn't blank or error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="writeBlank"></a><span class="keyword">bool</span> <span class="fname">writeBlank</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>* format)  <div>Writes blank cell with specified format. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+           <a name="readFormula"></a><span class="keyword">const wchar_t</span>* <span class="fname">readFormula</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <a href="format.html">Format</a>** format = 0)  <div>Reads a formula string and its format from cell. Returns NULL if specified cell doesn't contain formula or error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+           <li>
+           <a name="writeFormula"></a><span class="keyword">bool</span> <span class="fname">writeFormula</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* value, <a href="format.html">Format</a>* format = 0)  <div>Writes a formula into cell with specified format. If <i>format</i> equals 0 then format is ignored. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+ <li>
+  <a name="writeFormulaNum"></a><span class="keyword">bool</span> <span class="fname">writeFormulaNum</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* expr, <span class="keyword">double</span> value, <a href="format.html">Format</a>* format = 0)  <div>Writes a formula expression with precalculated double <i>value</i> into cell with specified format. If <i>format</i> equals 0 then format is ignored. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="writeFormulaStr"></a><span class="keyword">bool</span> <span class="fname">writeFormulaStr</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* expr, <span class="keyword">const wchar_t</span>* value, <a href="format.html">Format</a>* format = 0)  <div>Writes a formula expression with precalculated string <i>value</i> into cell with specified format. If <i>format</i> equals 0 then format is ignored. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="writeFormulaBool"></a><span class="keyword">bool</span> <span class="fname">writeFormulaBool</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* expr, <span class="keyword">bool</span> value, <a href="format.html">Format</a>* format = 0)  <div>Writes a formula expression with precalculated bool <i>value</i> into cell with specified format. If <i>format</i> equals 0 then format is ignored. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+          <li>
+            <a name="readComment"></a><span class="keyword">const wchar_t</span>* <span class="fname">readComment</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Reads a comment from specified cell (only for xls format).</div>
+          </li> 
+          <li>
+            <a name="writeComment"></a><span class="keyword">void</span> <span class="fname">writeComment</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">const wchar_t</span>* value, <span class="keyword">const wchar_t</span>* author = 0, <span class="keyword">int</span> width = 129, <span class="keyword">int</span> height = 75)
+            <div>
+              Writes a comment to the cell (only for xls format). Parameters:<br/>
+              <i>(row, col)</i> - cell's position;<br/>
+              <i>value</i> - comment string;<br/>
+              <i>author</i> - author string;<br/>
+              <i>width</i> - width of text box in pixels;<br/>
+              <i>height</i> - height of text box in pixels.
+            </div>
+          </li>
+<li>
+  <a name="removeComment"></a><span class="keyword">void</span> <span class="fname">removeComment</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col)  <div>Removes a comment from the cell (only for xls format).
+</div>
+ </li>
+          <li>
+            <a name="isDate"></a><span class="keyword">bool</span> <span class="fname">isDate</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Checks that cell contains a date or time value.</div>
+          </li>
+          <li>
+            <a name="readError"></a>ErrorType <span class="fname">readError</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col) <span class="keyword">const</span>
+            <div>
+              Reads error from cell.
+              <table class="helptable"> 
+                <thead>
+                   <tr><td>ErrorType value</td><td>Description</td></tr>
+                 </thead>
+                 <tbody>
+                   <tr><td>ERRORTYPE_NULL</td><td align="center">#NULL!</td></tr> 
+                   <tr><td>ERRORTYPE_DIV_0</td><td align="center">#DIV/0!</td></tr> 
+                   <tr><td>ERRORTYPE_VALUE</td><td align="center">#VALUE!</td></tr> 
+                   <tr><td>ERRORTYPE_REF</td><td align="center">#REF!</td></tr> 
+                   <tr><td>ERRORTYPE_NAME</td><td align="center">#NAME?</td></tr> 
+                   <tr><td>ERRORTYPE_NUM</td><td align="center">#NUM!</td></tr> 
+                   <tr><td>ERRORTYPE_NA</td><td align="center">#N/A</td></tr> 
+                   <tr><td>ERRORTYPE_NOERROR</td><td align="center">no error</td></tr> 
+                 </tbody>
+              </table> 
+            </div>
+          </li> 
+<li>
+  <a name="writeError"></a><span class="keyword">void</span> <span class="fname">writeError</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, ErrorType error, Format* format = 0)  <div>Writes error into the cell with specified format. If <i>format</i> equals 0 then format is ignored.</div>
+ </li>
+          <li>
+            <a name="colWidth"></a><span class="keyword">double</span> <span class="fname">colWidth</span>(<span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Returns column width.</div>
+          </li> 
+          <li>
+            <a name="rowHeight"></a><span class="keyword">double</span> <span class="fname">rowHeight</span>(<span class="keyword">int</span> row) <span class="keyword">const</span>  <div>Returns row height.</div>
+          </li> 
+          <li>
+            <a name="setCol"></a><span class="keyword">bool</span> <span class="fname">setCol</span>(<span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">double</span> width, <a href="format.html">Format</a>* format = 0, <span class="keyword">bool</span> hidden = <span class="keyword">false</span>)  <div>Sets column width and format for all columns from <i>colFirst</i> to <i>colLast</i>. Column width measured as the number of characters of the maximum digit width of the numbers 0, 1, 2, ..., 9 as rendered in the normal style's font. Value -1 is used for autofit column widths. If <i>format</i> equals 0 then format is ignored. Columns may be hidden. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="setRow"></a><span class="keyword">bool</span> <span class="fname">setRow</span>(<span class="keyword">int</span> row, <span class="keyword">double</span> height, <a href="format.html">Format</a>* format = 0, <span class="keyword">bool</span> hidden = <span class="keyword">false</span>)  <div>Sets row height and format. Row height measured in point size. If <i>format</i> equals 0 then format is ignored. Row may be hidden. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="rowHidden"></a><span class="keyword">bool</span> <span class="fname">rowHidden</span>(<span class="keyword">int</span> row) <span class="keyword">const</span>  <div>Returns whether <i>row</i> is hidden.</div>
+           </li> 
+           <li>
+            <a name="setRowHidden"></a><span class="keyword">bool</span> <span class="fname">setRowHidden</span>(<span class="keyword">int</span> row, <span class="keyword">bool</span> hidden)  <div>Hides <i>row</i>.</div>
+           </li> 
+           <li>
+            <a name="colHidden"></a><span class="keyword">bool</span> <span class="fname">colHidden</span>(<span class="keyword">int</span> col) <span class="keyword">const</span>  <div>Returns whether column is hidden.</div>
+           </li> 
+           <li>
+            <a name="setColHidden"></a><span class="keyword">bool</span> <span class="fname">setColHidden</span>(<span class="keyword">int</span> col, <span class="keyword">bool</span> hidden)  <div>Hides column.</div>
+           </li> 
+          <li>
+            <a name="getMerge"></a><span class="keyword">bool</span> <span class="fname">getMerge</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast)  <div>Gets merged cells for cell at <i>row</i>, <i>col</i>. Result is written in <i>rowFirst</i>, <i>rowLast</i>, <i>colFirst</i>, <i>colLast</i>. Returns true if specified cell is in a merged area else returns false. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="setMerge"></a><span class="keyword">bool</span> <span class="fname">setMerge</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast)  <div>Sets merged cells for range: <i>rowFirst</i> - <i>rowLast</i>, <i>colFirst</i> - <i>colLast</i>. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="delMerge"></a><span class="keyword">bool</span> <span class="fname">delMerge</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col)  <div>Removes merged cells. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="mergeSize"></a><span class="keyword">int</span> <span class="fname">mergeSize</span>() <span class="keyword">const</span>  <div>Returns a number of merged cells in this worksheet.</div>
+          </li> 
+          <li>
+            <a name="merge"></a><span class="keyword">bool</span> <span class="fname">merge</span>(<span class="keyword">int</span> index, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast)  <div>Gets the merged cells by <i>index</i>.</div>
+          </li> 
+          <li>
+            <a name="delMergeByIndex"></a><span class="keyword">bool</span> <span class="fname">delMergeByIndex</span>(<span class="keyword">int</span> index)  <div>Removes merged cells by <i>index</i>.</div>
+          </li> 
+          <li>
+            <a name="pictureSize"></a><span class="keyword">int</span> <span class="fname">pictureSize</span>() <span class="keyword">const</span>  <div>Returns a number of pictures in this worksheet.</div>
+           </li> 
+           <li>
+            <a name="getPicture"></a><span class="keyword">int</span> <span class="fname">getPicture</span>(<span class="keyword">int</span> index, <span class="keyword">int</span>* rowTop, <span class="keyword">int</span>* colLeft, <span class="keyword">int</span>* rowBottom, <span class="keyword">int</span>* colRight, <span class="keyword">int</span>* width, <span class="keyword">int</span>* height, <span class="keyword">int</span>* offset_x, <span class="keyword">int</span>* offset_y)
+            <div>Returns a workbook picture index at position <i>index</i> in worksheet. Output parameters:<br/>
+          (<i>rowTop</i>, <i>colLeft</i>) - top left position of picture;<br/>
+          (<i>rowBottom</i>, <i>colRight</i>) - bottom right position of picture;<br/>
+          <i>width</i> - width of picture in pixels;<br/>
+          <i>height</i> - height of picture in pixels;<br/>
+          <i>offset_x</i> - horizontal offset of picture in pixels;<br/>
+          <i>offset_y</i> - vertical offset of picture in pixels.<br/>
+          Use <a href="workbook.html#getPicture">Book::getPicture()</a> for extracting binary data of picture by workbook picture index.<br/>
+          Returns -1 if error occurs.  Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+          </div>
+          </li> 
+          <li>
+            <a name="setPicture"></a><span class="keyword">void</span> <span class="fname">setPicture</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> pictureId, <span class="keyword">double</span> scale = 1.0, <span class="keyword">int</span> offset_x = 0, <span class="keyword">int</span> offset_y = 0)  <div>Sets a picture with <i>pictureId</i> identifier at position <i>row</i> and <i>col</i> with scale factor and offsets in pixels. Use <a href="workbook.html#addPicture">Book::addPicture()</a> for getting picture identifier.</div>
+          </li> 
+          <li>
+            <a name="setPicture2"></a><span class="keyword">void</span> <span class="fname">setPicture2</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">int</span> pictureId, <span class="keyword">int</span> width = -1, <span class="keyword">int</span> height = -1, <span class="keyword">int</span> offset_x = 0, <span class="keyword">int</span> offset_y = 0)  <div>Sets a picture with <i>pictureId</i> identifier at position <i>row</i> and <i>col</i> with custom size and offsets in pixels. Use <a href="workbook.html#addPicture">Book::addPicture()</a> for getting a picture identifier.</div>
+          </li> 
+          <li>
+            <a name="getHorPageBreak"></a><span class="keyword">int</span> <span class="fname">getHorPageBreak</span>(<span class="keyword">int</span> index) <span class="keyword">const</span>  <div>Returns row with horizontal page break at position <i>index</i>.</div>
+           </li> 
+           <li>
+            <a name="getHorPageBreakSize"></a><span class="keyword">int</span> <span class="fname">getHorPageBreakSize</span>() <span class="keyword">const</span>  <div>Returns a number of horizontal page breaks in the sheet.</div>
+           </li> 
+           <li>
+            <a name="getVerPageBreak"></a><span class="keyword">int</span> <span class="fname">getVerPageBreak</span>(<span class="keyword">int</span> index) <span class="keyword">const</span>  <div>Returns column with vertical page break at position <i>index</i>.</div>
+           </li> 
+           <li>
+            <a name="getVerPageBreakSize"></a><span class="keyword">int</span> <span class="fname">getVerPageBreakSize</span>() <span class="keyword">const</span>  <div>Returns a number of vertical page breaks in the sheet.</div>
+           </li>
+          <li>
+            <a name="setHorPageBreak"></a><span class="keyword">bool</span> <span class="fname">setHorPageBreak</span>(<span class="keyword">int</span> row, <span class="keyword">bool</span> pageBreak = <span class="keyword">true</span>)  <div>Sets/removes a horizontal page break. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="setVerPageBreak"></a><span class="keyword">bool</span> <span class="fname">setVerPageBreak</span>(<span class="keyword">int</span> col, <span class="keyword">bool</span> pageBreak = <span class="keyword">true</span>)  <div>Sets/removes a vertical page break. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>      
+          <li>
+            <a name="split"></a><span class="keyword">void</span> <span class="fname">split</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col)  <div>Splits a sheet at position (row, col) or specifies the position of frozen pane. This function allows to freeze a header at top position or freeze some columns on the right.</div>
+          </li>
+          <li>
+            <a name="splitInfo"></a><span class="keyword">bool</span> <span class="fname">splitInfo</span>(<span class="keyword">int</span>* row, <span class="keyword">int</span>* col) <span class="keyword">const</span> 
+            <div>Gets the split information (position of frozen pane) in the sheet:<br/>
+            <i>row</i> - vertical position of the split;<br/>
+            <i>col</i> - horizontal position of the split.</div>
+          </li>
+          <li>
+            <a name="groupRows"></a><span class="keyword">bool</span> <span class="fname">groupRows</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">bool</span> collapsed = <span class="keyword">true</span>)  <div>Groups rows from <i>rowFirst</i> to <i>rowLast</i>. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="groupCols"></a><span class="keyword">bool</span> <span class="fname">groupCols</span>(<span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">bool</span> collapsed = <span class="keyword">true</span>)  <div>Groups columns from <i>colFirst</i> to <i>colLast</i>. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="groupSummaryBelow"></a><span class="keyword">bool</span> <span class="fname">groupSummaryBelow</span>() <span class="keyword">const</span>  <div>Returns whether grouping rows summary is below. Returns true if summary is below and false if isn't.</div>
+          </li>    
+          <li>
+            <a name="setGroupSummaryBelow"></a><span class="keyword">void</span> <span class="fname">setGroupSummaryBelow</span>(<span class="keyword">bool</span> below)     <div>Sets a flag of grouping rows summary: true - below, false - above.</div>
+          </li>   
+          <li>
+            <a name="groupSummaryRight"></a><span class="keyword">bool</span> <span class="fname">groupSummaryRight</span>() <span class="keyword">const</span>  <div>Returns whether grouping columns summary is right. Returns true if summary is right and false if isn't.</div>
+          </li>    
+          <li>
+            <a name="setGroupSummaryRight"></a><span class="keyword">void</span> <span class="fname">setGroupSummaryRight</span>(<span class="keyword">bool</span> right)     <div>Sets a flag of grouping rows summary: true - right, false - left.</div>
+          </li>
+          <li>
+            <a name="clear"></a><span class="keyword">void</span> <span class="fname">clear</span>(<span class="keyword">int</span> rowFirst = 0, <span class="keyword">int</span> rowLast = 1048575, <span class="keyword">int</span> colFirst = 0, <span class="keyword">int</span> colLast = 16383)  <div>Clears cells in specified area.</div>
+          </li>
+          <li>
+            <a name="insertRow"></a><span class="keyword">bool</span> <span class="fname">insertRow</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">bool</span> updateNamedRanges = <span class="keyword">true</span>)  <div>Inserts rows from <i>rowFirst</i> to <i>rowLast</i>. Returns false if error occurs. If <i>updateNamedRanges</i> is false it doesn't update existing named ranges. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="insertCol"></a><span class="keyword">bool</span> <span class="fname">insertCol</span>(<span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">bool</span> updateNamedRanges = <span class="keyword">true</span>)  <div>Inserts columns from <i>colFirst</i> to <i>colLast</i>. If <i>updateNamedRanges</i> is false it doesn't update existing named ranges. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="removeRow"></a><span class="keyword">bool</span> <span class="fname">removeRow</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">bool</span> updateNamedRanges = <span class="keyword">true</span>)  <div>Removes rows from <i>rowFirst</i> to <i>rowLast</i>. If <i>updateNamedRanges</i> is false it doesn't update existing named ranges. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="removeCol"></a><span class="keyword">bool</span> <span class="fname">removeCol</span>(<span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">bool</span> updateNamedRanges = <span class="keyword">true</span>)  <div>Removes columns from <i>colFirst</i> to <i>colLast</i>. If <i>updateNamedRanges</i> is false it doesn't update existing named ranges. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="copyCell"></a><span class="keyword">bool</span> <span class="fname">copyCell</span>(<span class="keyword">int</span> rowSrc, <span class="keyword">int</span> colSrc, <span class="keyword">int</span> rowDst, <span class="keyword">int</span> colDst)  <div>Copies cell with format from (<i>rowSrc</i>, <i>colSrc</i>) to (<i>rowDst</i>, <i>colDst</i>). Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="firstRow"></a><span class="keyword">int</span> <span class="fname">firstRow</span>() <span class="keyword">const</span>  <div>Returns the first row in the sheet that contains a used cell.</div>
+          </li>
+          <li>
+            <a name="lastRow"></a><span class="keyword">int</span> <span class="fname">lastRow</span>() <span class="keyword">const</span>  <div>Returns the zero-based index of the row after the last row in the sheet that contains a used cell.</div>
+          </li>
+          <li>
+            <a name="firstCol"></a><span class="keyword">int</span> <span class="fname">firstCol</span>() <span class="keyword">const</span>  <div>Returns the first column in the sheet that contains a used cell.</div>
+          </li>
+          <li>
+             <a name="lastCol"></a><span class="keyword">int</span> <span class="fname">lastCol</span>() <span class="keyword">const</span>  <div>Returns the zero-based index of the column after the last column in the sheet that contains a used cell.</div>
+          </li>
+          <li>
+             <a name="displayGridlines"></a><span class="keyword">bool</span> <span class="fname">displayGridlines</span>() <span class="keyword">const</span>  <div>Returns whether the gridlines are displayed. Returns true if gridlines are displayed and false if aren't.</div>
+          </li>        
+          <li>
+             <a name="setDisplayGridlines"></a><span class="keyword">void</span> <span class="fname">setDisplayGridlines</span>(<span class="keyword">bool</span> show = <span class="keyword">true</span>)    <div>Sets gridlines for displaying, true - gridlines are displayed, false - gridlines aren't displayed.</div>
+          </li> 
+          <li>
+             <a name="printGridlines"></a><span class="keyword">bool</span> <span class="fname">printGridlines</span>() <span class="keyword">const</span>  <div>Returns whether the gridlines are printed. Return true if gridlines are printed and false if aren't.</div>
+          </li>         
+          <li>
+            <a name="setPrintGridlines"></a><span class="keyword">void</span> <span class="fname">setPrintGridlines</span>(<span class="keyword">bool</span> print = <span class="keyword">true</span>)    <div>Sets gridlines for printing, true - gridlines are printed, false - gridlines aren't printed.</div>
+          </li> 
+          <li>
+            <a name="zoom"></a><span class="keyword">int</span> <span class="fname">zoom</span>() <span class="keyword">const</span>  <div>Returns the zoom level of the current view as a percentage.</div>
+          </li> 
+          <li>
+            <a name="setZoom"></a><span class="keyword">void</span> <span class="fname">setZoom</span>(<span class="keyword">int</span> zoom)    <div>Sets the zoom level of the current view. 100 is a usual view.</div>
+          </li> 
+          <li>
+            <a name="printZoom"></a><span class="keyword">int</span> <span class="fname">printZoom</span>() <span class="keyword">const</span>  <div>Returns the scaling factor for printing as a percentage.</div>
+          </li>       
+          <li>
+            <a name="setPrintZoom"></a><span class="keyword">void</span> <span class="fname">setPrintZoom</span>(<span class="keyword">int</span> zoom)    <div>Sets the scaling factor for printing as a percentage.</div>
+          </li>      
+          <li>
+            <a name="getPrintFit"></a><span class="keyword">bool</span> <span class="fname">getPrintFit</span>(<span class="keyword">int</span>* wPages, <span class="keyword">int</span>* hPages) <span class="keyword">const</span>  <div>Returns whether fit to page option is enabled. Output parameters:<br/>
+          <i>wPages</i> - number of pages the sheet width is fit to;<br/>
+          <i>hPages</i> - number of pages the sheet height is fit to.</div>
+           </li> 
+           <li>
+            <a name="setPrintFit"></a><span class="keyword">void</span> <span class="fname">setPrintFit</span>(<span class="keyword">int</span> wPages = 1, <span class="keyword">int</span> hPages = 1)  <div>Fits sheet width and sheet height to <i>wPages</i> and <i>hPages</i> respectively. </div>
+           </li>  
+          <li>
+            <a name="landscape"></a><span class="keyword">bool</span> <span class="fname">landscape</span>() <span class="keyword">const</span>  <div>Returns a page orientation mode, true - landscape mode, false - portrait mode.</div>
+          </li>       
+          <li>
+            <a name="setLandscape"></a><span class="keyword">void</span> <span class="fname">setLandscape</span>(<span class="keyword">bool</span> landscape = <span class="keyword">true</span>)
+            <div>
+              Sets landscape or portrait mode for printing, true - pages are printed using
+              landscape mode, false - pages are printed using portrait mode.
+            </div>
+          </li>        
+          <li>
+            <a name="paper"></a>Paper <span class="fname">paper</span>() <span class="keyword">const</span>
+            <div>Retrurns the paper size.</div>
+          </li>
+          <li>
+            <a name="setPaper"></a><span class="keyword">void</span> <span class="fname">setPaper</span>(Paper paper = PAPER_DEFAULT)
+            <div>
+              Sets the paper size.       
+              <table class="helptable"> 
+                <thead>                
+                  <tr><td>Paper value</td><td>Description</td></tr>  
+                </thead>
+                <tbody>
+                  <tr><td>PAPER_DEFAULT</td><td>Default paper size</td></tr> 
+                  <tr><td>PAPER_LETTER</td><td>US Letter 8 1/2 x 11 in</td></tr> 
+                  <tr><td>PAPER_LETTERSMALL</td><td>US Letter Small 8 1/2 x 11 in</td></tr> 
+                  <tr><td>PAPER_TABLOID</td><td>US Tabloid 11 x 17 in</td></tr> 
+                  <tr><td>PAPER_LEDGER</td><td>US Ledger 17 x 11 in</td></tr> 
+                  <tr><td>PAPER_LEGAL</td><td>US Legal 8 1/2 x 14 in </td></tr> 
+                  <tr><td>PAPER_STATEMENT</td><td>US Statement 5 1/2 x 8 1/2 in</td></tr> 
+                  <tr><td>PAPER_EXECUTIVE</td><td>US Executive 7 1/4 x 10 1/2 in</td></tr> 
+                  <tr><td>PAPER_A3</td><td>A3 297 x 420 mm</td></tr> 
+                  <tr><td>PAPER_A4</td><td>A4 210 x 297 mm</td></tr> 
+                  <tr><td>PAPER_A4SMALL</td><td>A4 Small 210 x 297 mm</td></tr> 
+                  <tr><td>PAPER_A5</td><td>A5 148 x 210 mm</td></tr> 
+                  <tr><td>PAPER_B4</td><td>B4 (JIS) 250 x 354</td></tr> 
+                  <tr><td>PAPER_B5</td><td>B5 (JIS) 182 x 257 mm</td></tr> 
+                  <tr><td>PAPER_FOLIO</td><td>Folio 8 1/2 x 13 in</td></tr> 
+                  <tr><td>PAPER_QUATRO</td><td>Quarto 215 x 275 mm</td></tr> 
+                  <tr><td>PAPER_10x14</td><td>10 x 14 in</td></tr> 
+                  <tr><td>PAPER_10x17</td><td>11 x 17 in</td></tr> 
+                  <tr><td>PAPER_NOTE</td><td>US Note 8 1/2 x 11 in</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_9</td><td>US Envelope #9 3 7/8 x 8 7/8</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_10</td><td>US Envelope #10 4 1/8 x 9 1/2</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_11</td><td>US Envelope #11 4 1/2 x 10 3/8</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_12</td><td>US Envelope #12 4 3/4 x 11</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_14</td><td>US Envelope #14 5 x 11 1/2</td></tr> 
+                  <tr><td>PAPER_C_SIZE</td><td>C size sheet</td></tr> 
+                  <tr><td>PAPER_D_SIZE</td><td>D size sheet</td></tr> 
+                  <tr><td>PAPER_E_SIZE</td><td>E size sheet</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_DL</td><td>Envelope DL 110 x 220mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_C5</td><td>Envelope C5 162 x 229 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_C3</td><td>Envelope C3 324 x 458 mm </td></tr> 
+                  <tr><td>PAPER_ENVELOPE_C4</td><td>Envelope C4 229 x 324 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_C6</td><td>Envelope C6 114 x 162 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_C65</td><td>Envelope C65 114 x 229 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_B4</td><td>Envelope B4 250 x 353 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_B5</td><td>Envelope B5 176 x 250 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_B6</td><td>Envelope B6 176 x 125 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE</td><td>Envelope 110 x 230 mm</td></tr> 
+                  <tr><td>PAPER_ENVELOPE_MONARCH</td><td>US Envelope Monarch 3.875 x 7.5 in</td></tr> 
+                  <tr><td>PAPER_US_ENVELOPE</td><td>US Envelope 3 5/8 x 6 1/2 in</td></tr> 
+                  <tr><td>PAPER_FANFOLD</td><td>US Std Fanfold 14 7/8 x 11 in </td></tr> 
+                  <tr><td>PAPER_GERMAN_STD_FANFOLD</td><td>German Std Fanfold 8 1/2 x 12 in</td></tr> 
+                  <tr><td>PAPER_GERMAN_LEGAL_FANFOLD</td><td>German Legal Fanfold 8 1/2 x 13 in</td></tr> 
+                </tbody>
+              </table> 
+            </div>
+          </li> 
+          <li>
+            <a name="header1"></a><span class="keyword">const wchar_t</span>* <span class="fname">header</span>() <span class="keyword">const</span>
+            <div>Returns the header text of the sheet when printed. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>
+            <a name="setHeader"></a><span class="keyword">bool</span> <span class="fname">setHeader</span>(<span class="keyword">const wchar_t</span>* header, <span class="keyword">double</span> margin = 0.5)
+            <div>
+              Sets the header text of the sheet when printed. The text appears at the
+              top of every page when printed. The length of the text must be less
+              than or equal to 255. The header text can contain special commands, for
+              example a placeholder for the page number, current date or text
+              formatting attributes. Special commands are represented by single
+              letter with a leading ampersand ("&amp;"). Margin is specified in
+              inches.
+              <table class="helptable">
+              <thead>
+               <tr>
+                <td>Code</td><td>Description</td>
+               </tr>
+              </thead>
+              <tbody><tr>
+               <td>&amp;L</td><td>specifies the beginning of the left section</td>
+              </tr>
+              <tr>
+               <td>&amp;P</td><td>specifies the current page number</td>
+              </tr>
+              <tr>
+               <td>&amp;N</td><td>specifies the total number of pages</td>
+              </tr>
+              <tr>
+               <td>&amp;<span style="color: brown;">\d{1,3}</span></td><td>specifies the text font size, where font size is measured in points, for example: &amp;9 or &amp;36</td>
+              </tr>
+              <tr>
+               <td>&amp;S</td><td>specifies whether the strikethrough text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;X</td><td>specifies whether the superscript text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;Y</td><td>specifies whether the subscript text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;C</td><td>specifies the beginning of the center section</td>
+              </tr>
+              <tr>
+               <td>&amp;D</td><td>specifies a date</td>
+              </tr>
+              <tr>
+               <td>&amp;T</td><td>specifies a time</td>
+              </tr>
+              <tr>
+               <td>&amp;G</td><td>specifies a picture</td>
+              </tr>
+              <tr>
+               <td>&amp;U</td><td>specifies whether the single underline text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;E</td><td>specifies whether the double underline text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;R</td><td>specifies the beginning of the right section</td>
+              </tr>
+              <tr>
+               <td>&amp;Z</td><td>specifies a workbook file path</td>
+              </tr>
+              <tr>
+               <td>&amp;F</td><td>specifies a workbook file name</td>
+              </tr>
+              <tr>
+               <td>&amp;A</td><td>specifies a sheet name</td>
+              </tr>
+              <tr>
+               <td>&amp;"fontname"</td><td>specifies the text font, for example: &amp;"Comic Sans MS"</td>
+              </tr>
+              <tr>
+               <td>&amp;B</td><td>specifies whether the bold text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;I</td><td>specifies whether the italic text style is on or off</td>
+              </tr>
+              <tr>
+               <td>&amp;&amp;</td><td>specifies an ampersand character (&amp;)</td>
+              </tr>
+              </tbody></table>          
+            </div>
+          </li> 
+          <li>
+            <a name="headerMargin"></a><span class="keyword">double</span> <span class="fname">headerMargin</span>() <span class="keyword">const</span>  <div>Returns the header margin in inches.</div>
+          </li> 
+          <li>
+            <a name="footer"></a><span class="keyword">const wchar_t</span>* <span class="fname">footer</span>() <span class="keyword">const</span>  <div>Returns the footer text of the sheet when printed. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>        
+          <li>
+            <a name="setFooter"></a><span class="keyword">bool</span> <span class="fname">setFooter</span>(<span class="keyword">const wchar_t</span>* footer, <span class="keyword">double</span> margin = 0.5)
+            <div>
+              Sets the footer text for the sheet when printed. The footer text
+              appears at the bottom of every page when printed. The length of the
+              text must be less than or equal to 255. The footer text can contain
+              special commands, for example a placeholder for the page number,
+              current date or text formatting attributes. See <a href="#setHeader">setHeader</a> for details.
+              Margin is specified in inches.
+            </div>
+          </li> 
+          <li>
+            <a name="footerMargin"></a><span class="keyword">double</span> <span class="fname">footerMargin</span>() <span class="keyword">const</span>  <div>Returns the footer margin in inches.</div>
+          </li> 
+          <li>
+            <a name="hCenter"></a><span class="keyword">bool</span> <span class="fname">hCenter</span>() <span class="keyword">const</span>  <div>Returns whether the sheet is centered horizontally when printed.</div>
+          </li>        
+          <li>
+            <a name="setHCenter"></a><span class="keyword">void</span> <span class="fname">setHCenter</span>(<span class="keyword">bool</span> hCenter = <span class="keyword">true</span>)  <div>Sets a flag that the sheet is centered horizontally when printed.</div>
+          </li> 
+          <li>
+            <a name="vCenter"></a><span class="keyword">bool</span> <span class="fname">vCenter</span>() <span class="keyword">const</span>  <div>Returns whether the sheet is centered vertically when printed.</div>
+          </li>        
+          <li>
+            <a name="setVCenter"></a><span class="keyword">void</span> <span class="fname">setVCenter</span>(<span class="keyword">bool</span> vCenter = <span class="keyword">true</span>)    <div>Sets a flag that the sheet is centered vertically when printed.</div>
+          </li> 
+          <li>
+            <a name="marginLeft"></a><span class="keyword">double</span> <span class="fname">marginLeft</span>() <span class="keyword">const</span>  <div>Returns the left margin of the sheet in inches.</div>
+          </li>        
+          <li>
+            <a name="setMarginLeft"></a><span class="keyword">void</span> <span class="fname">setMarginLeft</span>(<span class="keyword">double</span> margin)  <div>Sets the left margin of the sheet in inches.</div>
+          </li> 
+          <li>
+            <a name="marginRight"></a><span class="keyword">double</span> <span class="fname">marginRight</span>() <span class="keyword">const</span>  <div>Returns the right margin of the sheet in inches.</div>
+          </li>        
+          <li>
+            <a name="setMarginRight"></a><span class="keyword">void</span> <span class="fname">setMarginRight</span>(<span class="keyword">double</span> margin)  <div>Sets the right margin of the sheet in inches.</div>
+          </li> 
+          <li>
+            <a name="marginTop"></a><span class="keyword">double</span> <span class="fname">marginTop</span>() <span class="keyword">const</span>  <div>Returns the top margin of the sheet in inches.</div>
+          </li>        
+          <li>
+            <a name="setMarginTop"></a><span class="keyword">void</span> <span class="fname">setMarginTop</span>(<span class="keyword">double</span> margin)
+            <div>Sets the top margin of the sheet in inches.</div>
+          </li> 
+          <li>
+            <a name="marginBottom"></a><span class="keyword">double</span> <span class="fname">marginBottom</span>() <span class="keyword">const</span>  <div>Returns the bottom margin of the sheet in inches.</div>
+          </li>        
+          <li>
+            <a name="setMarginBottom"></a><span class="keyword">void</span> <span class="fname">setMarginBottom</span>(<span class="keyword">double</span> margin)  <div>Sets the bottom margin of the sheet in inches.</div>
+          </li> 
+          <li>
+            <a name="printRowCol"></a><span class="keyword">bool</span> <span class="fname">printRowCol</span>() <span class="keyword">const</span>  <div>Returns whether the row and column headers are printed.</div>
+          </li>        
+          <li>
+            <a name="setPrintRowCol"></a><span class="keyword">void</span> <span class="fname">setPrintRowCol</span>(<span class="keyword">bool</span> print = <span class="keyword">true</span>)  <div>Sets a flag that the row and column headers are printed.</div>
+          </li> 
+          <li>
+            <a name="setPrintRepeatRows"></a><span class="keyword">void</span> <span class="fname">setPrintRepeatRows</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast)  <div>Sets repeated rows on each page from rowFirst to rowLast.</div>
+          </li> 
+          <li>
+            <a name="setPrintRepeatCols"></a><span class="keyword">void</span> <span class="fname">setPrintRepeatCols</span>(<span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast)  <div>Sets repeated columns on each page from colFirst to colLast.</div>
+          </li> 
+          <li>
+            <a name="setPrintArea"></a><span class="keyword">void</span> <span class="fname">setPrintArea</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast)  <div>Sets the print area.</div>
+          </li> 
+          <li>
+            <a name="clearPrintRepeats"></a><span class="keyword">void</span> <span class="fname">clearPrintRepeats</span>()  <div>Clears repeated rows and columns on each page.</div>
+          </li> 
+          <li>
+            <a name="clearPrintArea"></a><span class="keyword">void</span> <span class="fname">clearPrintArea</span>()  <div>Clears the print area.</div>
+          </li> 
+          <li>
+            <a name="getNamedRange"></a><span class="keyword">bool</span> <span class="fname">getNamedRange</span>(<span class="keyword">const wchar_t*</span> name, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast, <span class="keyword">int</span> scopeId = SCOPE_UNDEFINED, <span class="keyword">bool</span>* hidden = 0)
+            <div>Gets the named range coordianates by <i>name</i>.<br/>
+            <i>scopeId</i> - index of sheet for local named range or SCOPE_WORKBOOK for global named range.<br/>
+            <i>hidden</i> - true if named range is hidden and false if isn't.<br/>
+            Returns false if specified named range isn't found or error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>
+            <a name="setNamedRange"></a><span class="keyword">bool</span> <span class="fname">setNamedRange</span>(<span class="keyword">const wchar_t*</span> name, <span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">int</span> scopeId = SCOPE_UNDEFINED)
+            <div>Sets the named range.<br/>
+            <i>scopeId</i> - index of sheet for local named range or SCOPE_WORKBOOK for global named range.<br/>
+            Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>
+            <a name="delNamedRange"></a><span class="keyword">bool</span> <span class="fname">delNamedRange</span>(<span class="keyword">const wchar_t*</span> name, <span class="keyword">int</span> scopeId = SCOPE_UNDEFINED)
+            <div>Deletes the named range by name.<br/>
+            <i>scopeId</i> - index of sheet for local named range or SCOPE_WORKBOOK for global named range.<br/>
+            Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>
+            <a name="namedRangeSize"></a><span class="keyword">int</span> <span class="fname">namedRangeSize</span>() <span class="keyword">const</span>  <div>Returns the number of named ranges in the sheet.</div>
+          </li> 
+          <li>
+            <a name="namedRange"></a><span class="keyword">const wchar_t</span>* <span class="fname">namedRange</span>(<span class="keyword">int</span> index, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast, <span class="keyword">int</span>* scopeId = 0, <span class="keyword">bool</span>* hidden = 0)
+            <div>Gets the named range coordianates by <i>index</i>.<br/>
+            <i>scopeId</i> - index of sheet for local named range or SCOPE_WORKBOOK for global named range.<br/>
+            <i>hidden</i> - true if named range is hidden and false if isn't.<br/>
+            </div>
+          </li> 
+ <li>
+  <a name="tableSize"></a><span class="keyword">int</span> <span class="fname">tableSize</span>() <span class="keyword">const</span>  <div>Returns the number of tables in the sheet.</div>
+ </li> 
+ <li>
+  <a name="table"></a><span class="keyword">const wchar_t</span>* <span class="fname">table</span>(<span class="keyword">int</span> index, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast, <span class="keyword">int</span>* headerRowCount, <span class="keyword">int</span>* totalsRowCount)  <div>Gets the table parameters by <i>index</i>.<br/>
+<i>headerRowCount</i> -  the number of header rows showing at the top of the table. 0 means that the header row is not shown. <br/>
+<i>totalsRowCount</i> - the number of totals rows that shall be shown at the bottom of the table. 0 means that the totals row is not shown.<br/>
+Returns a string representing the name of the table.
+</div>
+ </li> 
+          <li>
+            <a name="hyperlinkSize"></a><span class="keyword">int</span> <span class="fname">hyperlinkSize</span>() <span class="keyword">const</span>  <div>Returns the number of hyperlinks in the sheet.</div>
+          </li>
+          <li>
+            <a name="hyperlink"></a><span class="keyword">const wchar_t</span>* <span class="fname">hyperlink</span>(<span class="keyword">int</span> index, <span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast)  <div>Gets the hyperlink and its coordianates by <i>index</i>.</div>
+          </li>
+          <li>
+            <a name="delHyperlink"></a><span class="keyword">bool</span> <span class="fname">delHyperlink</span>(<span class="keyword">int</span> index)  <div>Removes hyperlink by <i>index</i>.</div>
+          </li>
+          <li>
+            <a name="addHyperlink"></a><span class="keyword">void</span> <span class="fname">addHyperlink</span>(<span class="keyword">const wchar_t*</span> hyperlink, <span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast)  <div>Adds the new hyperlink.</div>
+          </li>
+<li>
+  <a name="autoFilter"></a><a href="autoFilter.html">AutoFilter</a> <span class="fname">autoFilter</span>()  <div>Returns the AutoFilter. Creates it if it doesn't exist.
+</div>
+ </li>
+ <li>
+  <a name="applyFilter"></a><span class="keyword">void</span> <span class="fname">applyFilter</span>()  <div>Applies the AutoFilter to the sheet.
+</div>
+ </li>
+ <li>
+  <a name="removeFilter"></a><span class="keyword">void</span> <span class="fname">removeFilter</span>()  <div>Removes the AutoFilter from the sheet.
+</div>
+ </li>
+          <li>
+            <a name="name"></a><span class="keyword">const wchar_t</span>* <span class="fname">name</span>() <span class="keyword">const</span>  <div>Returns the name of the sheet.</div>
+          </li>
+          <li>
+            <a name="setName"></a><span class="keyword">void</span> <span class="fname">setName</span>(<span class="keyword">const wchar_t</span>* name)  <div>Sets the name of the sheet. You can't use the following characters in sheet names:<br/>
+            - colon (:)<br/>
+            - backslash (\)<br/>
+            - asterisk (*)<br/>
+            - question mark (?)<br/>
+            - forward slash (/)<br/>
+            - opening square bracket ([)<br/>
+            - closing square bracket (])<br/>
+            The sheet name must not begin or end with the single quote (') character.</div>
+          </li> 
+          <li>
+            <a name="protect"></a><span class="keyword">bool</span> <span class="fname">protect</span>() <span class="keyword">const</span>  <div>Returns whether sheet is protected.</div>
+          </li>   
+<li>
+  <a name="setProtect"></a><span class="keyword">void</span> <span class="fname">setProtect</span>(<span class="keyword">bool</span> protect = <span class="keyword">true</span>, <span class="keyword">const wchar_t</span>* password = 0, EnhancedProtection prot = PROT_DEFAULT)  <div>Protects/unprotects the sheet with password and enchanced parameters below. It is possible to combine a few EnhancedProtection values with operator |.
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>EnhancedProtection value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>PROT_DEFAULT</td><td>Default protection.</td></tr> 
+ <tr><td>PROT_ALL</td><td>Nothing is allowed except cell selections.</td></tr> 
+ <tr><td>PROT_OBJECTS</td><td>Objects are locked when the sheet is protected.</td></tr> 
+ <tr><td>PROT_SCENARIOS</td><td>Scenarios are locked when the sheet is protected.</td></tr> 
+ <tr><td>PROT_FORMAT_CELLS</td><td>Formatting cells is allowed when the sheet is protected.</td></tr> 
+ <tr><td>PROT_FORMAT_COLUMNS</td><td>Formatting columns is allowed when the sheet is protected.</td></tr> 
+ <tr><td>PROT_FORMAT_ROWS</td><td>Formatting rows is allowed when the sheet is protected.</td></tr> 
+ <tr><td>PROT_INSERT_COLUMNS</td><td>Inserting columns is allowed when the sheet is protected.</td></tr>  
+ <tr><td>PROT_INSERT_ROWS</td><td>Inserting rows is allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_INSERT_HYPERLINKS</td><td>Inserting hyperlinks is allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_DELETE_COLUMNS</td><td>Deleting columns is allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_DELETE_ROWS</td><td>Deleting rows is allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_SEL_LOCKED_CELLS</td><td>Selection of locked cells is locked when the sheet is protected.</td></tr>
+ <tr><td>PROT_SORT</td><td>Sorting is allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_AUTOFILTER</td><td>Autofilters are allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_PIVOTTABLES</td><td>Pivot tables are allowed when the sheet is protected.</td></tr>
+ <tr><td>PROT_SEL_UNLOCKED_CELLS</td><td>Selection of unlocked cells is locked when the sheet is protected.</td></tr>
+</tbody></table>
+</div>
+ </li> 
+          <li>
+            <a name="rightToLeft"></a><span class="keyword">bool</span> <span class="fname">rightToLeft</span>() <span class="keyword">const</span>  <div>Returns whether the text is displayed in right-to-left mode.</div>
+          </li>   
+          <li>
+            <a name="setRightToLeft"></a><span class="keyword">void</span> <span class="fname">setRightToLeft</span>(<span class="keyword">bool</span> rightToLeft = <span class="keyword">true</span>)
+            <div>Sets the right-to-left mode:<br/>
+            true - the text is displayed in right-to-left mode,<br/>
+            false - the text is displayed in left-to-right mode.
+            </div>
+          </li> 
+          <li>
+            <a name="hidden"></a>SheetState <span class="fname">hidden</span>() <span class="keyword">const</span>  <div>Returns whether sheet is hidden.</div>
+          </li>   
+          <li>
+            <a name="setHidden"></a><span class="keyword">bool</span> <span class="fname">setHidden</span>(SheetState state = SHEETSTATE_HIDDEN)  
+            <div>Hides/unhides the sheet. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+              <table class="helptable"> 
+              <thead>                
+               <tr> 
+                <td>SheetState value</td><td>Description</td> 
+               </tr>  
+              </thead>
+              <tbody><tr><td>SHEETSTATE_VISIBLE</td><td>sheet is visible</td></tr> 
+              <tr><td>SHEETSTATE_HIDDEN</td><td>sheet is hidden, but can be shown via the user interface</td></tr> 
+              <tr><td>SHEETSTATE_VERYHIDDEN</td><td>sheet is hidden and cannot be shown in the user interface</td></tr> 
+              </tbody>
+              </table>
+            </div>
+          </li> 
+          <li>
+            <a name="getTopLeftView"></a><span class="keyword">void</span> <span class="fname">getTopLeftView</span>(<span class="keyword">int</span>* row, <span class="keyword">int</span>* col) <span class="keyword">const</span>  <div>Extracts the first visible row and the leftmost visible column of the sheet.</div>
+          </li>
+          <li>
+            <a name="setTopLeftView"></a><span class="keyword">void</span> <span class="fname">setTopLeftView</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col)  <div>Sets the first visible row and the leftmost visible column of the sheet.</div>
+          </li>
+          <li>
+            <a name="setAutoFitArea"></a><span class="keyword">void</span> <span class="fname">setAutoFitArea</span>(<span class="keyword">int</span> rowFirst = 0, <span class="keyword">int</span> colFirst = 0, <span class="keyword">int</span> rowLast = -1, <span class="keyword">int</span> colLast = -1)  <div>Sets the borders for autofit column widths feature. The method <a href="#setCol">Sheet::setCol()</a> with -1 width value will affect only to the specified limited area.</div>
+          </li>
+          <li>
+            <a name="addrToRowCol"></a><span class="keyword">void</span> <span class="fname">addrToRowCol</span>(<span class="keyword">const wchar_t</span>* addr, <span class="keyword">int</span>* row, <span class="keyword">int</span>* col, <span class="keyword">bool</span>* rowRelative = 0, <span class="keyword">bool</span>* colRelative = 0)  <div>Converts a cell reference to row and column.</div>
+          </li>
+          <li>
+            <a name="rowColToAddr"></a><span class="keyword">const wchar_t</span>* <span class="fname">rowColToAddr</span>(<span class="keyword">int</span> row, <span class="keyword">int</span> col, <span class="keyword">bool</span> rowRelative = <span class="keyword">true</span>, <span class="keyword">bool</span> colRelative = <span class="keyword">true</span>)  <div>Converts row and column to a cell reference.</div>
+          </li>
+ <li>
+  <a name="setTabColor"></a><span class="keyword">void</span> <span class="fname">setTabColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the color for the sheet's tab.</div>
+ </li>
+ <li>
+  <a name="setTabColor2"></a><span class="keyword">void</span> <span class="fname">setTabColor</span>(<span class="keyword">int</span> red, <span class="keyword">int</span> green, <span class="keyword">int</span> blue)  <div>Sets the RGB color for the sheet's tab.</div>
+ </li>
+ <li>
+  <a name="addIgnoredError"></a><span class="keyword">bool</span> <span class="fname">addIgnoredError</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colLast, IgnoredError iError)  <div>Adds the ignored error for specified range. It allows to hide green triangles on left sides of cells. 
+For example, if a cell is formatted as text but contains a numeric value, this is considered to
+be a potential error because the number won't be treated as a number, for example, in calculations. It is possible to combine a few IgnoredError values with operator |.
+Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>IgnoredError value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>IERR_EVAL_ERROR</td><td>Ignore errors when cells contain formulas that result in an error.</td></tr> 
+ <tr><td>IERR_EMPTY_CELLREF</td><td>Ignore errors when formulas refer to empty cells.</td></tr> 
+ <tr><td>IERR_NUMBER_STORED_AS_TEXT</td><td>Ignore errors when numbers are formatted as text or are preceded by an apostrophe.</td></tr> 
+ <tr><td>IERR_INCONSIST_RANGE</td><td>Ignore errors when formulas omit certain cells in a region.</td></tr> 
+ <tr><td>IERR_INCONSIST_FMLA</td><td>Ignore errors when a formula in a region of your worksheet differs from other formulas in 
+the same region.</td></tr> 
+ <tr><td>IERR_TWODIG_TEXTYEAR</td><td>Ignore errors when formulas contain text formatted cells with years represented as 2 
+digits.</td></tr> 
+ <tr><td>IERR_UNLOCK_FMLA</td><td>Ignore errors when unlocked cells contain formulas.</td></tr> 
+ <tr><td>IERR_DATA_VALIDATION</td><td>Ignore errors when a cell's value in a Table does not comply with the Data Validation 
+rules specified.</td></tr> 
+</tbody></table>
+</div>
+ </li>
+<li>
+  <a name="addDataValidation"></a><span class="keyword">void</span> <span class="fname">addDataValidation</span>(DataValidationType type, DataValidationOperator op, <span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">const wchar_t</span>* value1, <span class="keyword">const wchar_t</span>* value2, <span class="keyword">bool</span> allowBlank = <span class="keyword">true</span>, <span class="keyword">bool</span> hideDropDown = <span class="keyword">false</span>, <span class="keyword">bool</span> showInputMessage = <span class="keyword">true</span>, <span class="keyword">bool</span> showErrorMessage = <span class="keyword">true</span>, <span class="keyword">const wchar_t</span>* promptTitle, <span class="keyword">const wchar_t</span>* prompt = 0, <span class="keyword">const wchar_t</span>* errorTitle = 0, <span class="keyword">const wchar_t</span>* error = 0, DataValidationErrorStyle errorStyle = VALIDATION_ERRSTYLE_STOP)  <div><br/>Adds a data validation for the specified range (only for xlsx files).<br/><br/>
+<i>type</i> - the type of data validation:
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>DataValidationType value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>VALIDATION_TYPE_NONE</td><td>No data validation.</td></tr> 
+ <tr><td>VALIDATION_TYPE_WHOLE</td><td>Data validation which checks for whole number values satisfying the given condition.</td></tr> 
+ <tr><td>VALIDATION_TYPE_DECIMAL</td><td>Data validation which checks for decimal values satisfying the given condition.</td></tr> 
+ <tr><td>VALIDATION_TYPE_LIST</td><td>Data validation which checks for a value matching one of list of values.</td></tr> 
+ <tr><td>VALIDATION_TYPE_DATE</td><td>Data validation which checks for date values satisfying the given condition.</td></tr> 
+ <tr><td>VALIDATION_TYPE_TIME</td><td>Data validation which checks for time values satisfying the given condition.</td></tr> 
+ <tr><td>VALIDATION_TYPE_TEXTLENGTH</td><td>Data validation which checks for text values, whose length satisfies the given condition.</td></tr> 
+ <tr><td>VALIDATION_TYPE_CUSTOM</td><td>Data validation which uses a custom formula to check the cell value.</td></tr> 
+</tbody></table>
+<br/>
+<i>op</i> - the relational operator of data validation:
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>DataValidationOperator value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>VALIDATION_OP_BETWEEN</td><td>Data validation which checks if a value is between two other values.</td></tr> 
+ <tr><td>VALIDATION_OP_NOTBETWEEN</td><td>Data validation which checks if a value is not between two other values.</td></tr> 
+ <tr><td>VALIDATION_OP_EQUAL</td><td>Data validation which checks if a value is equal to a specified value.</td></tr> 
+ <tr><td>VALIDATION_OP_NOTEQUAL</td><td>Data validation which checks if a value is not equal to a specified value.</td></tr> 
+ <tr><td>VALIDATION_OP_LESSTHAN</td><td>Data validation which checks if a value is less than a specified value.</td></tr> 
+ <tr><td>VALIDATION_OP_LESSTHANOREQUAL</td><td>Data validation which checks if a value is less than or equal to a specified value.</td></tr> 
+ <tr><td>VALIDATION_OP_GREATERTHAN</td><td>Data validation which checks if a value is greater than a specified value.</td></tr> 
+ <tr><td>VALIDATION_OP_GREATERTHANOREQUAL</td><td>Data validation which checks if a value is greater than or equal to a specified value.</td></tr> 
+</tbody></table>
+<br/>
+<i>rowFirst</i> - the first row of range;<br/>
+<i>rowLast</i> - the last row of range;<br/>
+<i>colFirst</i> - the first column of range;<br/>
+<i>colLast</i> - the last column of range;<br/>
+<i>value1</i> - the first value for relational operator;<br/>
+<i>value2</i> - the second value for VALIDATION_OP_BETWEEN or VALIDATION_OP_NOTBETWEEN operator;<br/>
+<i>allowBlank</i> - a boolean value indicating whether the data validation treats empty or blank entries as 
+valid, 'true' means empty entries are OK and do not violate the validation constraints;<br/>
+<i>hideDropDown</i> - a boolean value indicating whether to display the dropdown combo box for a list type 
+data validation (VALIDATION_TYPE_LIST);<br/>
+<i>showInputMessage</i> - a boolean value indicating whether to display the input prompt message;<br/> 
+<i>showErrorMessage</i> - a boolean value indicating whether to display the error alert message when an invalid 
+value has been entered, according to the criteria specified;<br/>
+<i>promptTitle</i> - title bar text of input prompt;<br/>
+<i>prompt</i> - message text of input prompt;<br/>
+<i>errorTitle</i> - title bar text of error alert;<br/>
+<i>error</i> - message text of error alert;<br/>
+<i>errorStyle</i> - the style of error alert used for this data validation:
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>DataValidationErrorStyle value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>VALIDATION_ERRSTYLE_STOP</td><td>This data validation error style uses a stop icon in the error alert.</td></tr> 
+ <tr><td>VALIDATION_ERRSTYLE_WARNING</td><td>This data validation error style uses a warning icon in the error alert.</td></tr> 
+ <tr><td>VALIDATION_ERRSTYLE_INFORMATION</td><td>This data validation error style uses an information icon in the error alert.</td></tr> 
+</tbody></table>
+<br/>
+</div>
+ </li>
+ <li>
+  <a name="addDataValidationDouble"></a><span class="keyword">void</span> <span class="fname">addDataValidationDouble</span>(DataValidationType type, DataValidationOperator op, <span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast, <span class="keyword">double</span> value1, <span class="keyword">double</span> value2, <span class="keyword">bool</span> allowBlank = <span class="keyword">true</span>, <span class="keyword">bool</span> hideDropDown = <span class="keyword">false</span>, <span class="keyword">bool</span> showInputMessage = <span class="keyword">true</span>, <span class="keyword">bool</span> showErrorMessage = <span class="keyword">true</span>, <span class="keyword">const wchar_t</span>* promptTitle, <span class="keyword">const wchar_t</span>* prompt = 0, <span class="keyword">const wchar_t</span>* errorTitle = 0, <span class="keyword">const wchar_t</span>* error = 0, DataValidationErrorStyle errorStyle = VALIDATION_ERRSTYLE_STOP)  <div><br/>Adds a data validation for the specified range with double or date values for the relational operator (only for xlsx files). See parameters in the <a href="#addDataValidation">Sheet::addDataValidation()</a> method.
+</div>
+ </li>
+ <li>
+  <a name="removeDataValidations"></a><span class="keyword">void</span> <span class="fname">removeDataValidations</span>()  <div>Removes all data validations for the sheet (only for xlsx files).
+</div>
+ </li>
+        </ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<b>Sheet</b>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>

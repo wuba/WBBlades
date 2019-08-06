@@ -1,0 +1,206 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en"><head>
+
+ 
+  <title>LibXL custom format guidelines</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+   </head><body>  
+
+  <table id="container" cellspacing="6">  
+   <tbody><tr>
+ <td id="header">
+  <a href="http://www.libxl.com" title="Home">  <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+  </a>  <div style="margin-left: 13em; margin-top: 2em;">
+   <span id="title">LibXL</span>
+   <br/> 
+   <div id="subtitle">API reference version 3.8.4</div>
+  </div>
+ </td>
+</tr>
+   <tr>
+ <td valign="top" width="100%">
+  <div id="content">
+   <div>
+  <a href="javascript:history.back();">Back</a>
+</div>
+
+<h3>Custom format string guidelines</h3>
+
+<div>
+ Up to four sections of format codes can be specified. The format codes, separated by semicolons, define the
+ formats for positive numbers, negative numbers, zero values, and text, in that order. If only two sections are
+ specified, the first is used for positive numbers and zeros, and the second is used for negative numbers. If only
+ one section is specified, it is used for all numbers. Four sections example:
+ <div style="margin: 20px; font-size: 16px;">
+  #,###.00_);[Red](#,###.00);0.00;"sales "@
+ </div>                
+ The following table describes the different symbols that are available for use in custom number formats.
+ <table class="helptable">
+  <thead>
+   <tr><td width="100">Symbol</td><td>Description and result</td></tr>                  
+  </thead>
+  <tbody><tr><td>0</td><td>Digit placeholder. For example, if the value 8.9 is to be displayed as 8.90, use the format #.00</td></tr>                  
+  <tr><td>#</td><td>Digit
+placeholder. This symbol follows the same rules as the 0 symbol.
+However, the application shall not display extra zeros when the number
+typed has fewer digits on either side of the decimal than there are #
+symbols in the format. For example, if the custom format is #.##, and
+8.9 is in the cell, the number 8.9 is displayed.</td></tr>
+  <tr><td>?</td><td>Digit
+placeholder. This symbol follows the same rules as the 0 symbol.
+However, the application shall put a space for insignificant zeros on
+either side of the decimal point so that decimal points are aligned in
+the column. For example, the custom format 0.0? aligns the decimal
+points for the numbers 8.9 and 88.99 in a column.</td></tr>
+  <tr><td>. (period)</td><td>Decimal point.</td></tr>
+  <tr><td>%</td><td>Percentage.
+If the cell contains a number between 0 and 1, and the custom format 0%
+is used, the application shall multiply the number by 100 and adds the
+percentage symbol in the cell.</td></tr>
+  <tr><td>, (comma)</td><td>Thousands
+separator. The application shall separate thousands by commas if the
+format contains a comma that is enclosed by number signs (#) or by
+zeros. A comma that follows a placeholder scales the number by one
+thousand. For example, if the format is #.0,, and the cell value is
+12,200,000 then the number 12.2 is displayed.</td></tr>
+  <tr><td>E- E+ e- e+</td><td>Scientific
+format. The application shall display a number to the right of the "E"
+symbol that corresponds to the number of places that the decimal point
+was moved. For example, if the format is 0.00E+00, and the value
+12,200,000 is in the cell, the number 1.22E+07 is displayed. If the
+number format is #0.0E+0, then the number 12.2E+6 is displayed.</td></tr>
+  <tr><td>$-+/():space</td><td>Displays
+the symbol. If it is desired to display a character that differs from
+one of these symbols, precede the character with a backslash (\).
+Alternatively, enclose the character in quotation marks. For example,
+if the number format is (000), and the value 12 is in the cell, the
+number (012) is displayed.</td></tr>
+  <tr><td>\</td><td>Display the
+next character in the format. The application shall not display the
+backslash. For example, if the number format is 0\!, and the value 3 is
+in the cell, the value 3! is displayed.</td></tr>
+  <tr><td>*</td><td>Repeat
+the next character in the format enough times to fill the column to its
+current width. There shall not be more than one asterisk in one section
+of the format. If more than one asterisk appears in one section of the
+format, all but the last asterisk shall be ignored. For example, if the
+number format is 0*x, and the value 3 is in the cell, the value 3xxxxxx
+is displayed. The number of x characters that are displayed in the cell
+varies based on the width of the column.</td></tr>
+  <tr><td>_ (underline)</td><td>Skip
+the width of the next character. This is useful for lining up negative
+and positive values in different cells of the same column. For example,
+the number format _(0.0_);(0.0) aligns the numbers 2.3 and -4.5 in the
+column even though the negative number is enclosed by parentheses.</td></tr>
+  <tr><td>"text"</td><td>Display
+whatever text is inside the quotation marks. For example, the format
+0.00 "dollars" displays 1.23 dollars when the value 1.23 is in the cell.</td></tr>
+  <tr><td>@</td><td>Text
+placeholder. If text is typed in the cell, the text from the cell is
+placed in the format where the at symbol (@) appears. For example, if
+the number format is "Bob "@" Smith" (including quotation marks), and
+the value "John" is in the cell, the value Bob John Smith is displayed.</td></tr>
+ </tbody></table>
+</div>
+
+<h3>Specify colors</h3>
+
+<div>
+ To set the text color for a section of the format, type the name of one of the following eight colors in square 
+ brackets in the section. The color code must be the first item in the section. 
+ <table style="font-size: 16px;" cellspacing="20">
+  <tbody><tr><td>[Black]</td><td>[Green]</td><td>[White]</td><td>[Blue]</td><td>[Magenta]</td><td>[Yellow]</td><td>[Cyan]</td><td>[Red]</td></tr>
+ </tbody></table>
+ Instead of using the name of the color, the color index can be used, like this [Color3] for Red. Valid numeric
+ indexes for color range from 1 to 56, which reference by index to the legacy color palette.
+</div>
+
+<h3>Specify conditions</h3>
+
+<div> To set number formats that will be applied only if a number meets
+a specified condition, enclose the condition in square brackets. The
+condition consists of a comparison operator and a value. Comparison
+operators include: = Equal to; &gt; Greater than; &lt; Less than; &gt;=
+Greater than or equal to, &lt;= Less than or equal to, and &lt;&gt; Not
+equal to. For example, the following format displays numbers that are
+less than or equal to 100 in a red font and numbers that are greater
+than 100 in a blue font. <div style="margin: 20px; font-size: 16px;">[Red][&lt;=100];[Blue][&gt;100]</div>
+  If the cell value does not meet any of the criteria, then pound signs ("#") are displayed across the width of the cell.
+</div>
+
+<h3>Dates and times</h3>
+
+<div>
+ <table class="helptable">
+  <thead>
+   <tr><td width="100">To display</td><td width="150">As</td><td width="100">Use this code</td></tr>
+  </thead>
+  <tbody><tr><td>Months</td><td>1-12</td><td>m</td></tr>
+  <tr><td>Months</td><td>01-12</td><td>mm</td></tr>
+  <tr><td>Months</td><td>Jan-Dec</td><td>mmm</td></tr>
+  <tr><td>Months</td><td>January-December</td><td>mmmm</td></tr>
+  <tr><td>Months</td><td>J-D</td><td>mmmmm</td></tr>
+  <tr><td>Days</td><td>1-31</td><td>d</td></tr>
+  <tr><td>Days</td><td>01-31</td><td>dd</td></tr>
+  <tr><td>Days</td><td>Sun-Sat</td><td>ddd</td></tr>
+  <tr><td>Days</td><td>Sunday-Saturday</td><td>dddd</td></tr>
+  <tr><td>Years</td><td>00-99</td><td>yy</td></tr>
+  <tr><td>Years</td><td>1900-9999</td><td>yyyy</td></tr>
+  <tr><td>Hours</td><td>0-23</td><td>h</td></tr>
+  <tr><td>Hours</td><td>00-23</td><td>hh</td></tr>
+  <tr><td>Minutes</td><td>0-59</td><td>m</td></tr>
+  <tr><td>Minutes</td><td>00-59</td><td>mm</td></tr>
+  <tr><td>Seconds</td><td>0-59</td><td>s</td></tr>
+  <tr><td>Seconds</td><td>00-59</td><td>ss</td></tr>
+  <tr><td>Time</td><td>4 AM</td><td>h AM/PM</td></tr>
+  <tr><td>Time</td><td>4:36 PM</td><td>h:mm AM/PM</td></tr>
+  <tr><td>Time</td><td>4:36:03 P</td><td>h:mm:ss A/P</td></tr>
+  <tr><td>Time</td><td>4:36:03.75</td><td>h:mm:ss.00</td></tr>
+  <tr><td>Elapsed time</td><td>1:02</td><td>[h]:mm</td></tr>
+  <tr><td>Elapsed time</td><td>62:16</td><td>[mm]:ss</td></tr>
+  <tr><td>Elapsed time</td><td>3735.80</td><td>[ss].00</td></tr>
+ </tbody></table>
+</div>
+
+<h3>Examples</h3>
+
+<div>
+ <table class="helptable">
+   <thead>
+    <tr><td width="100">To display</td><td width="100">As</td><td width="100">Use this code</td></tr>  
+   </thead>
+   <tbody><tr><td>1234.59</td><td>1234.6</td><td>####.#</td></tr>
+   <tr><td>8.9</td><td>8.900</td><td>#.000</td></tr>
+   <tr><td>.631</td><td>0.6</td><td>0.#</td></tr>
+   <tr><td>12<br/>1234.568</td><td>12.0<br/>1234.57</td><td>#.0#</td></tr>
+   <tr>
+    <td>44.398<br/>102.65<br/>2.8</td>
+    <td>
+     <table class="aligntable">
+      <tbody><tr><td align="right">44</td><td align="left">.398</td></tr>
+      <tr><td align="right">102</td><td align="left">.65</td></tr>
+      <tr><td align="right">2</td><td align="left">.8</td></tr>
+     </tbody></table>
+    </td>
+    <td>???.???</td>
+   </tr>
+   <tr><td>5.25<br/>5.3</td><td>5 1/4<br/>5 3/10</td><td># ??/??</td></tr>
+   <tr><td>12000</td><td>12,000</td><td>#,###</td></tr>
+   <tr><td>12000</td><td>12</td><td>#,</td></tr>
+   <tr><td>12400000</td><td>12.4</td><td>0.0,,</td></tr>
+ </tbody></table>
+</div>
+
+<div class="blinks">
+  <a href="javascript:history.back();">Back</a>
+</div>
+  </div>
+ </td>
+</tr>
+   <tr>
+ <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+</tr>
+  </tbody></table>
+ </body></html>

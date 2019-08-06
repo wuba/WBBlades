@@ -1,0 +1,634 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0A2AE4F51DB4D97000DC0E5B /* SwiftyXL.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE4F31DB4D97000DC0E5B /* SwiftyXL.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		0A2AE5011DB4DA5900DC0E5B /* Book.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AE5001DB4DA5900DC0E5B /* Book.swift */; };
+		0A2AE5191DB4DC5100DC0E5B /* AutoFilterA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5081DB4DC5100DC0E5B /* AutoFilterA.h */; };
+		0A2AE51A1DB4DC5100DC0E5B /* AutoFilterW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5091DB4DC5100DC0E5B /* AutoFilterW.h */; };
+		0A2AE51B1DB4DC5100DC0E5B /* BookA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50A1DB4DC5100DC0E5B /* BookA.h */; };
+		0A2AE51C1DB4DC5100DC0E5B /* BookW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50B1DB4DC5100DC0E5B /* BookW.h */; };
+		0A2AE51D1DB4DC5100DC0E5B /* enum.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50C1DB4DC5100DC0E5B /* enum.h */; };
+		0A2AE51E1DB4DC5100DC0E5B /* FilterColumnA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50D1DB4DC5100DC0E5B /* FilterColumnA.h */; };
+		0A2AE51F1DB4DC5100DC0E5B /* FilterColumnW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50E1DB4DC5100DC0E5B /* FilterColumnW.h */; };
+		0A2AE5201DB4DC5100DC0E5B /* FontA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE50F1DB4DC5100DC0E5B /* FontA.h */; };
+		0A2AE5211DB4DC5100DC0E5B /* FontW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5101DB4DC5100DC0E5B /* FontW.h */; };
+		0A2AE5221DB4DC5100DC0E5B /* FormatA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5111DB4DC5100DC0E5B /* FormatA.h */; };
+		0A2AE5231DB4DC5100DC0E5B /* FormatW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5121DB4DC5100DC0E5B /* FormatW.h */; };
+		0A2AE5241DB4DC5100DC0E5B /* handle.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5131DB4DC5100DC0E5B /* handle.h */; };
+		0A2AE5251DB4DC5100DC0E5B /* libxl.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5141DB4DC5100DC0E5B /* libxl.h */; };
+		0A2AE5261DB4DC5100DC0E5B /* setup.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5151DB4DC5100DC0E5B /* setup.h */; };
+		0A2AE5271DB4DC5100DC0E5B /* SheetA.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5161DB4DC5100DC0E5B /* SheetA.h */; };
+		0A2AE5281DB4DC5100DC0E5B /* SheetW.h in Headers */ = {isa = PBXBuildFile; fileRef = 0A2AE5171DB4DC5100DC0E5B /* SheetW.h */; };
+		0A2AE5291DB4DC5100DC0E5B /* libxl.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2AE5181DB4DC5100DC0E5B /* libxl.dylib */; };
+		0A2AE5301DB4E85C00DC0E5B /* Sheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AE52F1DB4E85C00DC0E5B /* Sheet.swift */; };
+		0A2AE5321DB4F32600DC0E5B /* Format.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AE5311DB4F32600DC0E5B /* Format.swift */; };
+		0A2AE5341DB5243600DC0E5B /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A2AE5331DB5243600DC0E5B /* Font.swift */; };
+		0A44E15C1DB543750067D8B1 /* SwiftyXLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E15B1DB543750067D8B1 /* SwiftyXLTests.swift */; };
+		0A44E15E1DB543750067D8B1 /* SwiftyXL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A2AE4F01DB4D97000DC0E5B /* SwiftyXL.framework */; };
+		0A44E17B1DB559A70067D8B1 /* BookTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E17A1DB559A70067D8B1 /* BookTests.swift */; };
+		0A44E17E1DB603A50067D8B1 /* book0.xls in Resources */ = {isa = PBXBuildFile; fileRef = 0A44E17D1DB603A50067D8B1 /* book0.xls */; };
+		0A44E1801DB61DC70067D8B1 /* Picture.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E17F1DB61DC70067D8B1 /* Picture.swift */; };
+		0A44E1821DB643CF0067D8B1 /* picture0.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A44E1811DB643CF0067D8B1 /* picture0.png */; };
+		0A44E1841DB65DCA0067D8B1 /* SheetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E1831DB65DCA0067D8B1 /* SheetTests.swift */; };
+		0A44E1861DB740990067D8B1 /* FontTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E1851DB740990067D8B1 /* FontTests.swift */; };
+		0A44E1881DB75B530067D8B1 /* FormatTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A44E1871DB75B530067D8B1 /* FormatTests.swift */; };
+		0ABE129F1DB8CC5A00ED9EC3 /* AutoFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE129E1DB8CC5A00ED9EC3 /* AutoFilter.swift */; };
+		0ABE12A11DB8CC6B00ED9EC3 /* AutoFilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE12A01DB8CC6B00ED9EC3 /* AutoFilterTests.swift */; };
+		0ABE12A31DB8DD8300ED9EC3 /* FilterColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABE12A21DB8DD8300ED9EC3 /* FilterColumn.swift */; };
+		0ABE12A51DBA027700ED9EC3 /* book1.xlsx in Resources */ = {isa = PBXBuildFile; fileRef = 0ABE12A41DBA027700ED9EC3 /* book1.xlsx */; };
+		66C5AF781DD3C19800DCC36E /* libxl.dylib in CopyFiles */ = {isa = PBXBuildFile; fileRef = 66C5AF771DD3C19800DCC36E /* libxl.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0A44E15F1DB543750067D8B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A2AE4E71DB4D97000DC0E5B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0A2AE4EF1DB4D97000DC0E5B;
+			remoteInfo = SwiftyXL;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0A2AE52A1DB4DC7000DC0E5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				66C5AF781DD3C19800DCC36E /* libxl.dylib in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0A2AE4F01DB4D97000DC0E5B /* SwiftyXL.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftyXL.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A2AE4F31DB4D97000DC0E5B /* SwiftyXL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftyXL.h; sourceTree = "<group>"; };
+		0A2AE4F41DB4D97000DC0E5B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A2AE5001DB4DA5900DC0E5B /* Book.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Book.swift; sourceTree = "<group>"; };
+		0A2AE5081DB4DC5100DC0E5B /* AutoFilterA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoFilterA.h; sourceTree = "<group>"; };
+		0A2AE5091DB4DC5100DC0E5B /* AutoFilterW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoFilterW.h; sourceTree = "<group>"; };
+		0A2AE50A1DB4DC5100DC0E5B /* BookA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookA.h; sourceTree = "<group>"; };
+		0A2AE50B1DB4DC5100DC0E5B /* BookW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookW.h; sourceTree = "<group>"; };
+		0A2AE50C1DB4DC5100DC0E5B /* enum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = enum.h; sourceTree = "<group>"; };
+		0A2AE50D1DB4DC5100DC0E5B /* FilterColumnA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterColumnA.h; sourceTree = "<group>"; };
+		0A2AE50E1DB4DC5100DC0E5B /* FilterColumnW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterColumnW.h; sourceTree = "<group>"; };
+		0A2AE50F1DB4DC5100DC0E5B /* FontA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontA.h; sourceTree = "<group>"; };
+		0A2AE5101DB4DC5100DC0E5B /* FontW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontW.h; sourceTree = "<group>"; };
+		0A2AE5111DB4DC5100DC0E5B /* FormatA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatA.h; sourceTree = "<group>"; };
+		0A2AE5121DB4DC5100DC0E5B /* FormatW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormatW.h; sourceTree = "<group>"; };
+		0A2AE5131DB4DC5100DC0E5B /* handle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = handle.h; sourceTree = "<group>"; };
+		0A2AE5141DB4DC5100DC0E5B /* libxl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libxl.h; sourceTree = "<group>"; };
+		0A2AE5151DB4DC5100DC0E5B /* setup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = setup.h; sourceTree = "<group>"; };
+		0A2AE5161DB4DC5100DC0E5B /* SheetA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheetA.h; sourceTree = "<group>"; };
+		0A2AE5171DB4DC5100DC0E5B /* SheetW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SheetW.h; sourceTree = "<group>"; };
+		0A2AE5181DB4DC5100DC0E5B /* libxl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libxl.dylib; sourceTree = "<group>"; };
+		0A2AE52E1DB4DDF500DC0E5B /* module.map */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.map; sourceTree = "<group>"; };
+		0A2AE52F1DB4E85C00DC0E5B /* Sheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sheet.swift; sourceTree = "<group>"; };
+		0A2AE5311DB4F32600DC0E5B /* Format.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Format.swift; sourceTree = "<group>"; };
+		0A2AE5331DB5243600DC0E5B /* Font.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
+		0A44E1591DB543750067D8B1 /* SwiftyXLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftyXLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0A44E15B1DB543750067D8B1 /* SwiftyXLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftyXLTests.swift; sourceTree = "<group>"; };
+		0A44E15D1DB543750067D8B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0A44E17A1DB559A70067D8B1 /* BookTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BookTests.swift; sourceTree = "<group>"; };
+		0A44E17D1DB603A50067D8B1 /* book0.xls */ = {isa = PBXFileReference; lastKnownFileType = file; path = book0.xls; sourceTree = "<group>"; };
+		0A44E17F1DB61DC70067D8B1 /* Picture.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Picture.swift; sourceTree = "<group>"; };
+		0A44E1811DB643CF0067D8B1 /* picture0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = picture0.png; sourceTree = "<group>"; };
+		0A44E1831DB65DCA0067D8B1 /* SheetTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheetTests.swift; sourceTree = "<group>"; };
+		0A44E1851DB740990067D8B1 /* FontTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FontTests.swift; sourceTree = "<group>"; };
+		0A44E1871DB75B530067D8B1 /* FormatTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatTests.swift; sourceTree = "<group>"; };
+		0ABE129E1DB8CC5A00ED9EC3 /* AutoFilter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoFilter.swift; sourceTree = "<group>"; };
+		0ABE12A01DB8CC6B00ED9EC3 /* AutoFilterTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoFilterTests.swift; sourceTree = "<group>"; };
+		0ABE12A21DB8DD8300ED9EC3 /* FilterColumn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilterColumn.swift; sourceTree = "<group>"; };
+		0ABE12A41DBA027700ED9EC3 /* book1.xlsx */ = {isa = PBXFileReference; lastKnownFileType = file; path = book1.xlsx; sourceTree = "<group>"; };
+		66C5AF771DD3C19800DCC36E /* libxl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxl.dylib; path = ../../lib/libxl.dylib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0A2AE4EC1DB4D97000DC0E5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A2AE5291DB4DC5100DC0E5B /* libxl.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A44E1561DB543750067D8B1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A44E15E1DB543750067D8B1 /* SwiftyXL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0A2AE4E61DB4D97000DC0E5B = {
+			isa = PBXGroup;
+			children = (
+				66C5AF771DD3C19800DCC36E /* libxl.dylib */,
+				0A2AE52E1DB4DDF500DC0E5B /* module.map */,
+				0A2AE4F21DB4D97000DC0E5B /* SwiftyXL */,
+				0A2AE4FB1DB4DA1500DC0E5B /* vendor */,
+				0A44E15A1DB543750067D8B1 /* SwiftyXLTests */,
+				0A2AE4F11DB4D97000DC0E5B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0A2AE4F11DB4D97000DC0E5B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0A2AE4F01DB4D97000DC0E5B /* SwiftyXL.framework */,
+				0A44E1591DB543750067D8B1 /* SwiftyXLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0A2AE4F21DB4D97000DC0E5B /* SwiftyXL */ = {
+			isa = PBXGroup;
+			children = (
+				0A2AE4F31DB4D97000DC0E5B /* SwiftyXL.h */,
+				0A2AE4F41DB4D97000DC0E5B /* Info.plist */,
+				0A2AE5001DB4DA5900DC0E5B /* Book.swift */,
+				0A2AE5311DB4F32600DC0E5B /* Format.swift */,
+				0A2AE52F1DB4E85C00DC0E5B /* Sheet.swift */,
+				0A2AE5331DB5243600DC0E5B /* Font.swift */,
+				0A44E17F1DB61DC70067D8B1 /* Picture.swift */,
+				0ABE129E1DB8CC5A00ED9EC3 /* AutoFilter.swift */,
+				0ABE12A21DB8DD8300ED9EC3 /* FilterColumn.swift */,
+			);
+			path = SwiftyXL;
+			sourceTree = "<group>";
+		};
+		0A2AE4FB1DB4DA1500DC0E5B /* vendor */ = {
+			isa = PBXGroup;
+			children = (
+				0A2AE5061DB4DC5100DC0E5B /* libxl */,
+			);
+			path = vendor;
+			sourceTree = "<group>";
+		};
+		0A2AE5061DB4DC5100DC0E5B /* libxl */ = {
+			isa = PBXGroup;
+			children = (
+				0A2AE5181DB4DC5100DC0E5B /* libxl.dylib */,
+				0A2AE5071DB4DC5100DC0E5B /* include */,
+			);
+			path = libxl;
+			sourceTree = "<group>";
+		};
+		0A2AE5071DB4DC5100DC0E5B /* include */ = {
+			isa = PBXGroup;
+			children = (
+				0A2AE5081DB4DC5100DC0E5B /* AutoFilterA.h */,
+				0A2AE5091DB4DC5100DC0E5B /* AutoFilterW.h */,
+				0A2AE50A1DB4DC5100DC0E5B /* BookA.h */,
+				0A2AE50B1DB4DC5100DC0E5B /* BookW.h */,
+				0A2AE50C1DB4DC5100DC0E5B /* enum.h */,
+				0A2AE50D1DB4DC5100DC0E5B /* FilterColumnA.h */,
+				0A2AE50E1DB4DC5100DC0E5B /* FilterColumnW.h */,
+				0A2AE50F1DB4DC5100DC0E5B /* FontA.h */,
+				0A2AE5101DB4DC5100DC0E5B /* FontW.h */,
+				0A2AE5111DB4DC5100DC0E5B /* FormatA.h */,
+				0A2AE5121DB4DC5100DC0E5B /* FormatW.h */,
+				0A2AE5131DB4DC5100DC0E5B /* handle.h */,
+				0A2AE5141DB4DC5100DC0E5B /* libxl.h */,
+				0A2AE5151DB4DC5100DC0E5B /* setup.h */,
+				0A2AE5161DB4DC5100DC0E5B /* SheetA.h */,
+				0A2AE5171DB4DC5100DC0E5B /* SheetW.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		0A44E15A1DB543750067D8B1 /* SwiftyXLTests */ = {
+			isa = PBXGroup;
+			children = (
+				0A44E17C1DB603A50067D8B1 /* assets */,
+				0A44E15B1DB543750067D8B1 /* SwiftyXLTests.swift */,
+				0A44E17A1DB559A70067D8B1 /* BookTests.swift */,
+				0A44E1831DB65DCA0067D8B1 /* SheetTests.swift */,
+				0A44E1851DB740990067D8B1 /* FontTests.swift */,
+				0A44E1871DB75B530067D8B1 /* FormatTests.swift */,
+				0ABE12A01DB8CC6B00ED9EC3 /* AutoFilterTests.swift */,
+				0A44E15D1DB543750067D8B1 /* Info.plist */,
+			);
+			path = SwiftyXLTests;
+			sourceTree = "<group>";
+		};
+		0A44E17C1DB603A50067D8B1 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				0A44E17D1DB603A50067D8B1 /* book0.xls */,
+				0ABE12A41DBA027700ED9EC3 /* book1.xlsx */,
+				0A44E1811DB643CF0067D8B1 /* picture0.png */,
+			);
+			path = assets;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		0A2AE4ED1DB4D97000DC0E5B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0A2AE5221DB4DC5100DC0E5B /* FormatA.h in Headers */,
+				0A2AE51F1DB4DC5100DC0E5B /* FilterColumnW.h in Headers */,
+				0A2AE5211DB4DC5100DC0E5B /* FontW.h in Headers */,
+				0A2AE4F51DB4D97000DC0E5B /* SwiftyXL.h in Headers */,
+				0A2AE51D1DB4DC5100DC0E5B /* enum.h in Headers */,
+				0A2AE5241DB4DC5100DC0E5B /* handle.h in Headers */,
+				0A2AE5201DB4DC5100DC0E5B /* FontA.h in Headers */,
+				0A2AE51B1DB4DC5100DC0E5B /* BookA.h in Headers */,
+				0A2AE5281DB4DC5100DC0E5B /* SheetW.h in Headers */,
+				0A2AE5271DB4DC5100DC0E5B /* SheetA.h in Headers */,
+				0A2AE5251DB4DC5100DC0E5B /* libxl.h in Headers */,
+				0A2AE5231DB4DC5100DC0E5B /* FormatW.h in Headers */,
+				0A2AE5191DB4DC5100DC0E5B /* AutoFilterA.h in Headers */,
+				0A2AE51E1DB4DC5100DC0E5B /* FilterColumnA.h in Headers */,
+				0A2AE5261DB4DC5100DC0E5B /* setup.h in Headers */,
+				0A2AE51C1DB4DC5100DC0E5B /* BookW.h in Headers */,
+				0A2AE51A1DB4DC5100DC0E5B /* AutoFilterW.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0A2AE4EF1DB4D97000DC0E5B /* SwiftyXL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A2AE4F81DB4D97000DC0E5B /* Build configuration list for PBXNativeTarget "SwiftyXL" */;
+			buildPhases = (
+				0A2AE4EB1DB4D97000DC0E5B /* Sources */,
+				0A2AE4EC1DB4D97000DC0E5B /* Frameworks */,
+				0A2AE4ED1DB4D97000DC0E5B /* Headers */,
+				0A2AE4EE1DB4D97000DC0E5B /* Resources */,
+				0A2AE52A1DB4DC7000DC0E5B /* CopyFiles */,
+				0A44E1791DB546510067D8B1 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SwiftyXL;
+			productName = SwiftyXL;
+			productReference = 0A2AE4F01DB4D97000DC0E5B /* SwiftyXL.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		0A44E1581DB543750067D8B1 /* SwiftyXLTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0A44E1631DB543750067D8B1 /* Build configuration list for PBXNativeTarget "SwiftyXLTests" */;
+			buildPhases = (
+				0A44E1551DB543750067D8B1 /* Sources */,
+				0A44E1561DB543750067D8B1 /* Frameworks */,
+				0A44E1571DB543750067D8B1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0A44E1601DB543750067D8B1 /* PBXTargetDependency */,
+			);
+			name = SwiftyXLTests;
+			productName = SwiftyXLTests;
+			productReference = 0A44E1591DB543750067D8B1 /* SwiftyXLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0A2AE4E71DB4D97000DC0E5B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0800;
+				LastUpgradeCheck = 0800;
+				ORGANIZATIONNAME = "Internals Exposed";
+				TargetAttributes = {
+					0A2AE4EF1DB4D97000DC0E5B = {
+						CreatedOnToolsVersion = 8.0;
+						LastSwiftMigration = 0800;
+						ProvisioningStyle = Automatic;
+					};
+					0A44E1581DB543750067D8B1 = {
+						CreatedOnToolsVersion = 8.0;
+						DevelopmentTeam = C6QG5C28K7;
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = 0A2AE4EA1DB4D97000DC0E5B /* Build configuration list for PBXProject "SwiftyXL" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0A2AE4E61DB4D97000DC0E5B;
+			productRefGroup = 0A2AE4F11DB4D97000DC0E5B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0A2AE4EF1DB4D97000DC0E5B /* SwiftyXL */,
+				0A44E1581DB543750067D8B1 /* SwiftyXLTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0A2AE4EE1DB4D97000DC0E5B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A44E1571DB543750067D8B1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ABE12A51DBA027700ED9EC3 /* book1.xlsx in Resources */,
+				0A44E17E1DB603A50067D8B1 /* book0.xls in Resources */,
+				0A44E1821DB643CF0067D8B1 /* picture0.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0A44E1791DB546510067D8B1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "install_name_tool -id @rpath/libxl.dylib \"$SRCROOT/../../lib/libxl.dylib\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0A2AE4EB1DB4D97000DC0E5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ABE129F1DB8CC5A00ED9EC3 /* AutoFilter.swift in Sources */,
+				0A2AE5341DB5243600DC0E5B /* Font.swift in Sources */,
+				0A44E1801DB61DC70067D8B1 /* Picture.swift in Sources */,
+				0ABE12A31DB8DD8300ED9EC3 /* FilterColumn.swift in Sources */,
+				0A2AE5011DB4DA5900DC0E5B /* Book.swift in Sources */,
+				0A2AE5301DB4E85C00DC0E5B /* Sheet.swift in Sources */,
+				0A2AE5321DB4F32600DC0E5B /* Format.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0A44E1551DB543750067D8B1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0ABE12A11DB8CC6B00ED9EC3 /* AutoFilterTests.swift in Sources */,
+				0A44E1861DB740990067D8B1 /* FontTests.swift in Sources */,
+				0A44E1881DB75B530067D8B1 /* FormatTests.swift in Sources */,
+				0A44E1841DB65DCA0067D8B1 /* SheetTests.swift in Sources */,
+				0A44E17B1DB559A70067D8B1 /* BookTests.swift in Sources */,
+				0A44E15C1DB543750067D8B1 /* SwiftyXLTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0A44E1601DB543750067D8B1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0A2AE4EF1DB4D97000DC0E5B /* SwiftyXL */;
+			targetProxy = 0A44E15F1DB543750067D8B1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0A2AE4F61DB4D97000DC0E5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		0A2AE4F71DB4D97000DC0E5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVES = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		0A2AE4F91DB4D97000DC0E5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = SwiftyXL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @rpath/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../../lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = exposed.internals.SwiftyXL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0A2AE4FA1DB4D97000DC0E5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = SwiftyXL/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @rpath/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/../../lib",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = exposed.internals.SwiftyXL;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_INCLUDE_PATHS = "$(SRCROOT)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		0A44E1611DB543750067D8B1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C6QG5C28K7;
+				INFOPLIST_FILE = SwiftyXLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @rpath/Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = exposed.internals.SwiftyXLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		0A44E1621DB543750067D8B1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = C6QG5C28K7;
+				INFOPLIST_FILE = SwiftyXLTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @rpath/Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = exposed.internals.SwiftyXLTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0A2AE4EA1DB4D97000DC0E5B /* Build configuration list for PBXProject "SwiftyXL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A2AE4F61DB4D97000DC0E5B /* Debug */,
+				0A2AE4F71DB4D97000DC0E5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A2AE4F81DB4D97000DC0E5B /* Build configuration list for PBXNativeTarget "SwiftyXL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A2AE4F91DB4D97000DC0E5B /* Debug */,
+				0A2AE4FA1DB4D97000DC0E5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0A44E1631DB543750067D8B1 /* Build configuration list for PBXNativeTarget "SwiftyXLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0A44E1611DB543750067D8B1 /* Debug */,
+				0A44E1621DB543750067D8B1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0A2AE4E71DB4D97000DC0E5B /* Project object */;
+}

@@ -31,6 +31,7 @@
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
 		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
+		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -107,6 +108,8 @@
 		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
 		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
 		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesFileManager.m; sourceTree = "<group>"; };
+		37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
+		37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +221,8 @@
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
 				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
 				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
+				37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */,
+				37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */,
 				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
 				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
 				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
@@ -296,6 +301,7 @@
 				372935DC22E18AC100C37C02 /* utils.c in Sources */,
 				372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */,
 				372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */,
+				37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */,
 				372935DF22E18AC100C37C02 /* AArch64GenDisassemblerTables.inc in Sources */,
 				372935E022E18AC100C37C02 /* AArch64GenSubtargetInfo.inc in Sources */,
 				372935E122E18AC100C37C02 /* AArch64Disassembler.c in Sources */,

@@ -1,0 +1,328 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		66C881DE165D10AA009069DF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66C881DD165D10AA009069DF /* Cocoa.framework */; };
+		66C881E8165D10AA009069DF /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66C881E6165D10AA009069DF /* InfoPlist.strings */; };
+		66C881EA165D10AA009069DF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C881E9165D10AA009069DF /* main.m */; };
+		66C881EE165D10AA009069DF /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 66C881EC165D10AA009069DF /* Credits.rtf */; };
+		66C881F1165D10AA009069DF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C881F0165D10AA009069DF /* AppDelegate.m */; };
+		66C881F4165D10AA009069DF /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 66C881F2165D10AA009069DF /* MainMenu.xib */; };
+		66D07907165D119D00D6B7FE /* LibXL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66D07906165D119D00D6B7FE /* LibXL.framework */; };
+		66D0790A165D12CB00D6B7FE /* LibXL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 66D07906165D119D00D6B7FE /* LibXL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		66D07909165D126400D6B7FE /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				66D0790A165D12CB00D6B7FE /* LibXL.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		66C881D9165D10AA009069DF /* libxl-example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "libxl-example.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		66C881DD165D10AA009069DF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		66C881E0165D10AA009069DF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		66C881E1165D10AA009069DF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		66C881E2165D10AA009069DF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		66C881E5165D10AA009069DF /* libxl-example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "libxl-example-Info.plist"; sourceTree = "<group>"; };
+		66C881E7165D10AA009069DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		66C881E9165D10AA009069DF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		66C881EB165D10AA009069DF /* libxl-example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "libxl-example-Prefix.pch"; sourceTree = "<group>"; };
+		66C881ED165D10AA009069DF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		66C881EF165D10AA009069DF /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		66C881F0165D10AA009069DF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		66C881F3165D10AA009069DF /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		66D07906165D119D00D6B7FE /* LibXL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LibXL.framework; path = ../../LibXL.framework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		66C881D6165D10AA009069DF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66C881DE165D10AA009069DF /* Cocoa.framework in Frameworks */,
+				66D07907165D119D00D6B7FE /* LibXL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		66C881CE165D10AA009069DF = {
+			isa = PBXGroup;
+			children = (
+				66C881E3165D10AA009069DF /* libxl-example */,
+				66C881DC165D10AA009069DF /* Frameworks */,
+				66C881DA165D10AA009069DF /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		66C881DA165D10AA009069DF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				66C881D9165D10AA009069DF /* libxl-example.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		66C881DC165D10AA009069DF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				66D07906165D119D00D6B7FE /* LibXL.framework */,
+				66C881DD165D10AA009069DF /* Cocoa.framework */,
+				66C881DF165D10AA009069DF /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		66C881DF165D10AA009069DF /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				66C881E0165D10AA009069DF /* AppKit.framework */,
+				66C881E1165D10AA009069DF /* CoreData.framework */,
+				66C881E2165D10AA009069DF /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		66C881E3165D10AA009069DF /* libxl-example */ = {
+			isa = PBXGroup;
+			children = (
+				66C881EF165D10AA009069DF /* AppDelegate.h */,
+				66C881F0165D10AA009069DF /* AppDelegate.m */,
+				66C881F2165D10AA009069DF /* MainMenu.xib */,
+				66C881E4165D10AA009069DF /* Supporting Files */,
+			);
+			path = "libxl-example";
+			sourceTree = "<group>";
+		};
+		66C881E4165D10AA009069DF /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				66C881E5165D10AA009069DF /* libxl-example-Info.plist */,
+				66C881E6165D10AA009069DF /* InfoPlist.strings */,
+				66C881E9165D10AA009069DF /* main.m */,
+				66C881EB165D10AA009069DF /* libxl-example-Prefix.pch */,
+				66C881EC165D10AA009069DF /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		66C881D8165D10AA009069DF /* libxl-example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 66C881F7165D10AA009069DF /* Build configuration list for PBXNativeTarget "libxl-example" */;
+			buildPhases = (
+				66C881D5165D10AA009069DF /* Sources */,
+				66C881D6165D10AA009069DF /* Frameworks */,
+				66C881D7165D10AA009069DF /* Resources */,
+				66D07909165D126400D6B7FE /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "libxl-example";
+			productName = "libxl-example";
+			productReference = 66C881D9165D10AA009069DF /* libxl-example.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		66C881D0165D10AA009069DF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = xlware;
+			};
+			buildConfigurationList = 66C881D3165D10AA009069DF /* Build configuration list for PBXProject "libxl-example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 66C881CE165D10AA009069DF;
+			productRefGroup = 66C881DA165D10AA009069DF /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				66C881D8165D10AA009069DF /* libxl-example */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		66C881D7165D10AA009069DF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66C881E8165D10AA009069DF /* InfoPlist.strings in Resources */,
+				66C881EE165D10AA009069DF /* Credits.rtf in Resources */,
+				66C881F4165D10AA009069DF /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		66C881D5165D10AA009069DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				66C881EA165D10AA009069DF /* main.m in Sources */,
+				66C881F1165D10AA009069DF /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		66C881E6165D10AA009069DF /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66C881E7165D10AA009069DF /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		66C881EC165D10AA009069DF /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66C881ED165D10AA009069DF /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		66C881F2165D10AA009069DF /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				66C881F3165D10AA009069DF /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		66C881F5165D10AA009069DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 1;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = "";
+			};
+			name = Debug;
+		};
+		66C881F6165D10AA009069DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = "";
+			};
+			name = Release;
+		};
+		66C881F8165D10AA009069DF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libxl-example/libxl-example-Prefix.pch";
+				INFOPLIST_FILE = "libxl-example/libxl-example-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		66C881F9165D10AA009069DF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/../..\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "libxl-example/libxl-example-Prefix.pch";
+				INFOPLIST_FILE = "libxl-example/libxl-example-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		66C881D3165D10AA009069DF /* Build configuration list for PBXProject "libxl-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66C881F5165D10AA009069DF /* Debug */,
+				66C881F6165D10AA009069DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		66C881F7165D10AA009069DF /* Build configuration list for PBXNativeTarget "libxl-example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				66C881F8165D10AA009069DF /* Debug */,
+				66C881F9165D10AA009069DF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 66C881D0165D10AA009069DF /* Project object */;
+}

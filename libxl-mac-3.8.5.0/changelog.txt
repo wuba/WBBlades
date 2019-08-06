@@ -1,0 +1,1362 @@
+Version 3.8.5 (2019-04-24)
+--------------------------------------------------
+
+     - now Sheet::setPicture() and Sheet::setPicture2() methods ignores the current Windows scaling and
+       interprets width and height as pixels for 100% scale factor (96 DPI)
+
+     - autofit feature ignores merged cells now
+
+     - added string length checking in Sheet::writeStr() (xlsx)
+
+     - fixed a bug in the Book::dateUnpack() method
+
+     - fixed a bug with loading some xls files
+
+     - fixed a bug in the Sheet::readFormula() method (xls)
+
+
+Version 3.8.4 (2018-12-18)
+--------------------------------------------------
+
+     - changed the open mode to "shared" for xlsx files
+
+     - added updateNamedRanges parameter to Sheet::insertCol(), Sheet::insertRow(), Sheet::removeCol() and Sheet::removeRow() methods
+
+     - added bitcode support for iOS package
+
+     - fixed a bug with character encoding in ANSI mode for xlsx files
+
+     - fixed a bug in formula processing (xls)
+     
+
+Version 3.8.3 (2018-09-03)
+--------------------------------------------------
+
+     - improved a copying colors from source format (initFormat parameter) in Book::addFormat() (xlsx)
+
+     - added reading comments for xlsx files
+
+     - added Book::loadInfo() and Book::getSheetName() methods
+
+     - improved reading some strings from inlined rich text (xlsx)
+
+     - improved reading performance for xlsx files without "r" attribute in rows (xlsx)
+
+     - added escaping "_x" character sequence (xlsx)
+
+     - added sheet name checking in Book::addSheet() and Sheet::setName() methods
+       (using some special characters leads to unreadable files)
+
+     - removed i386 binary from the framework for Mac
+       (AppStore doesn't accept i386 architecture now)
+
+     - changed mbstowcs() to MultiByteToWideChar() in Windows version
+
+     - fixed a bug with using a sheet name with space characters in the Book::insertSheet() method
+       in case of using initSheet with defined names (xlsx)
+
+     - fixed a bug with mistaken convering semicolon to comma inside arrays and braces {} (xlsx)
+
+     - fixed an issue with loading UTF-8 file names in Windows (xls)
+
+     - fixed some security issues
+
+New methods:
+
+     - Book::loadInfo()
+     - Book::getSheetName()
+
+
+Version 3.8.2 (2018-02-12)
+--------------------------------------------------
+
+     - added the Book::loadWithoutEmptyCells() method (xls)
+
+     - added support RGB values without alpha channel
+
+     - fixed a bug with copying an existing sheet in the Book::addSheet() method for Excel 2016 files (xlsx)
+
+     - fixed a bug with loading some xlsx files with pictures with incorrect extensions
+
+     - fixed a bug with saving some sheets with extensions (xlsx)
+
+     - fixed a bug with saving cells without "r" attribute (xlsx)
+
+     - fixed a bug with saving some Strict Open XML Spreadsheets (xlsx)
+
+     - fixed issue with unnecessary escaping some Unicode characters inside XML files (xlsx)
+
+     - fixed some security issues
+
+
+Version 3.8.1 (2017-09-13)
+--------------------------------------------------
+
+     - improved compatibility with Excel 2016 (xlsx)
+
+     - added support of OOXML format extensions (saved untouched, xlsx)
+
+     - fixed error "XML character encoding not supported" with loading files 
+       with specifying a temporary file in Linux/Mac platforms
+
+     - added an update of all existing named ranges after using Sheet::insertRow(), Sheet::removeRow(),
+       Sheet::insertCol(), Sheet::removeCol() methods (xlsx)
+
+     - removed some memory leaks for xlsx format
+
+     - fixed issue with autofit for cells with text rotation (only windows)
+
+     - added linkPath parameter to Sheet::getPicture() method (xlsx)
+
+
+Version 3.8.0 (2017-04-21)
+--------------------------------------------------
+
+     - added data validation feature for xlsx files
+
+     - added Book::addPictureAsLink() method (xlsx)
+
+     - added Book::moveSheet() method
+
+     - improved speed of Sheet::setMerge() method (removed overlap checking)
+
+     - improved compatibility with Apple Preview (xls)
+
+     - fixed a bug in autofit feature for a custom format with % character
+ 
+     - fixed issue with access to some worksheets for exported xlsx files
+       from the SAS statistical package
+
+     - fixed issue with 1900/2/1 date
+
+     - fixed a bug with loading some xls files
+
+     - fixed a bug in Book::load() and xlBookLoadUsingTempFile() with passing a full path 
+       with directories for temporary files (xlsx)
+
+     - fixed a bug in Sheet::setCol() (xls)
+
+     - fixed Sheet::getNamedRange() and Sheet::namedRange() methods for correct extracting 
+       the whole column or row as a range (xlsx)
+
+New methods:
+
+     - Book::moveSheet()
+
+New methods only for xlsx format:
+
+     - Sheet::addDataValidation()
+     - Sheet::addDataValidationDouble()
+     - Sheet::removeDataValidations()
+     - Book::addPictureAsLink()
+
+
+Version 3.7.2 (2016-11-27)
+--------------------------------------------------
+
+      - changed 3 overloaded Book::load() methods to Book::load(), Bool::loadSheet() and Book::loadPartially() for
+        correct working in C++ Builder
+
+
+Version 3.7.1 (2016-11-09)
+--------------------------------------------------
+
+      - added possibility to load workbook partially with specified sheet index and row range
+ 
+      - added possibility to use temporary files to decrease memory consumption
+
+      - added Swift 3.0 interface to Mac package
+
+      - fixed a bug with unlocked pictures in protected sheets (xls)
+
+
+Version 3.7.0 (2016-09-29)
+--------------------------------------------------
+
+      - added AutoFilter support (xlsx)
+
+      - added Sheet::addIgnoredError() method for possibility to ignore some errors
+        (green triangles on left sides of cells)
+
+      - added password support and enhanced protection properties to Sheet::setProtect() method
+
+      - added Sheet::setTabColor() method for setting sheet tab colors
+
+      - added copying named ranges together with copying sheets
+
+      - added Sheet::removeComment() method for removing comments in xls files
+
+      - added Sheet::writeFormulaNum(), Sheet::writeFormulaStr() and Sheet::writeFormulaBool() methods
+        for writing formula expressions with precalculated values
+
+      - improved precision for autofit feature for non-windows platforms
+
+      - added Sheet::table() and Sheet::tableSize() methods
+
+      - added Sheet::writeError() method
+
+      - added correct processing rows with r = "0" in xlsx files
+
+      - now Sheet::readStr() method can read numbers, 
+        added CellType parameters to Sheet::writeStr() for writing strings as numbers (xlsx)
+
+      - changed behavior of Book::setLocale() method, UTF-8 value is ignored for wide strings now
+
+      - added a recalculation of Sheet::lastRow() value after using of Sheet::clear() 
+        and Sheet::removeRow() methods (xls)
+
+      - taken into account also row size changes for Sheet::lastRow() according to UsedRange COM Interface (xls)
+
+      - improved algorithms with ColInfo records for better compability with old Excel applications,
+        modified Sheet::setCol() and Sheet::groupCols() methods (xls)
+
+      - fixed a bug with reading data from rows and cells without explicitly specified references in xlsx files
+
+      - fixed Sheet::removeRow() method (xls)
+
+      - fixed Sheet::clear() method (xls)
+
+      - fixed a bug in Book::delSheet() with removing necessary named ranges
+
+      - fixed a bug with reading of numbers in some xlsx files (issue with corrupted locale)
+
+      - fixed a bug in Sheet::setPicture2() with ignoring pos parameter for more than one pictures
+
+      - fixed a bug in Book::dateUnpack() with return 1000 ms in some cases 
+
+      - fixed a bug in Book::dateUnpack() method for dates before 1900-03-01
+
+      - fixed a bug in XMLSheetImplT::calcFirstRow()
+
+      - fixed Sheet::cellType() for a cell with formula string (t="str") (xlsx)
+
+      - fixed an issue with loading some non-standard xlsx files
+
+      - fixed a bug in Sheet::insertCol() (xlsx)
+
+      - fixed issues with Sheet::setCol() on Mac (xlsx)
+
+      - fixed a bug in Sheet::getPicture() for xlsx files
+        (it was impossible to get correct parameters rowBottom, colRight, width and height for some pictures)
+
+      - fixed Sheet::readStr() method in .NET wrapper
+
+      - fixed a bug in Sheet::removeRow() (xlsx)
+
+      - fixed a bug in Sheet::namedRangeSize() (xls)
+
+      - fixed a bug with loading some xls files
+
+      - fixed a python wrapper
+
+New methods:
+      
+      - Sheet::addIgnoredError()
+      - Sheet::setTabColor()
+      - Sheet::removeComment() (xls)
+      - Sheet::writeFormulaNum()
+      - Sheet::writeFormulaStr()
+      - Sheet::writeFormulaBool()
+      - Sheet::writeError()
+      - Sheet::table()
+      - Sheet::tableSize()
+
+New methods only for xlsx format:
+
+      - Sheet::autoFilter()
+      - Sheet::applyFilter()
+      - Sheet::removeFilter()
+      - AutoFilter::getRef()
+      - AutoFilter::setRef()
+      - AutoFilter::column()
+      - AutoFilter::columnSize()
+      - AutoFilter::columnByIndex()
+      - AutoFilter::getSortRange()
+      - AutoFilter::getSort()
+      - AutoFilter::setSort()
+      - FilterColumn::index()
+      - FilterColumn::filterType()
+      - FilterColumn::filterSize()
+      - FilterColumn::filter()   
+      - FilterColumn::addFilter()  
+      - FilterColumn::getTop10()   
+      - FilterColumn::setTop10()   
+      - FilterColumn::getCustomFilter()   
+      - FilterColumn::setCustomFilter()   
+      - FilterColumn::clear()   
+      
+
+Version 3.6.5 (2015-11-18)
+--------------------------------------------------
+
+       - fixed CRITICAL bug in "LibXL for Linux" package with reading numbers (xlsx)
+
+       - fixed bug with overwriting existing cell format if format parameter isn't specified or equals 0 (xlsx)
+
+       - fixed bug with loading some xlsx files
+
+       - taken into account also row size changes for Sheet::lastRow() according to UsedRange COM Interface
+
+
+Version 3.6.4 (2015-09-24)
+--------------------------------------------------
+  
+       - fixed a bug with dependency on current locale for decimal symbol 
+         in Sheet::readNum() and Sheet::writeNum() methods (xlsx)
+
+       - added a detecting overlaps to Sheet::setMerge() method
+
+
+Version 3.6.3 (2015-09-17)
+--------------------------------------------------
+
+       - now all writing methods (writeStr, writeNum, writeBool) take into account 
+         an existing column format if format parameter equals 0
+
+       - added a position parameter to Sheet::setPicture() method:
+
+           POSITION_MOVE_AND_SIZE - move and size with cells
+           POSITION_ONLY_MOVE - move but don't size with cells
+           POSITION_ABSOLUTE - don't move or size with cells
+
+       - added support of GIF pictures (xlsx)
+
+       - improved Book::addPicture() method: now type of picture is detected
+         by signature instead of extension (xls)
+           
+       - improved Sheet::lastRow() and Sheet::lastCol() methods:
+         taken into account rows without row index and columns without reference (xlsx)
+
+       - improved Sheet::readFormula() method: now parameter separators (';' or ',') depends on locale
+
+       - improved precision of autofit feature for multiple lines in a cell
+
+       - added a bool return value to Sheet::getMerge() in C# interface
+
+       - fixed bug with using named ranges in formula expressions (xls)
+
+       - fixed bug with % symbol in formula expressions (xls)
+
+       - fixed bugs with UTF-8 encoding in Book::load() and Book::save() methods
+
+       - fixed bugs with UTF-8 encoding in Sheet::setName()
+
+       - fixed a bug in Sheet::setColHidden() method (xls)
+
+       - fixed a bug with crash on loading some corrupted xlsx files        
+
+       - fixed bug with saving some graphics elements (xls)
+
+       - fixed bug in Sheet::setAutoFitArea() method
+         (the last column didn't automatically fit)
+
+       - fixed bug with loading some xlsx files with zero sized internal files
+
+
+Version 3.6.2 (2015-04-28)
+--------------------------------------------------
+
+       - added applyFont, applyFill, applyAlignment, applyBorder, applyNumberFormat attributes to styles
+         for better compatibility with Apple Preview (xlsx)
+
+       - added default Row records to a sheet,
+         it should improve compatibility with some third-party Excel tools/applications (xls)
+
+       - improved precision of autofit feature (sections)
+
+       - added calcId attribute to calcPr element (xlsx) 
+
+       - fixed bug in Sheet::writeFormula() with some R1C1 formulas
+
+       - fixed bug in Book::addPicture2(): it didn't recognize some JPG files (xls)
+
+       - fixed bug in Sheet::readStr() method with empty strings in some xlsx files
+
+       - fixed loading of some ExtSST records (xls)
+
+       - fixed bug with long custom format string
+
+       - fixed bug with reading formula expressions with user defined functions (xls)
+
+       - fixed bug with false loading some xls file with xlCreateXMLBook() function
+
+       - fixed bugs with copying a sheet with pictures, charts or diagrams in Book::addSheet() (xlsx)
+
+New methods:
+
+       - Sheet::setAutoFitArea()
+
+       - Sheet::printRepeatRows()
+
+       - Sheet::printRepeatCols()
+
+       - Sheet::printArea()
+
+
+Version 3.6.1 (2014-11-11)
+--------------------------------------------------
+
+       - added more precision to autofit column width feature (number formats are taken into consideration)
+
+       - optimized autofit column width feature: removed memory leak and increased performance
+         (Sheet::setCol() with -1 width parameter)
+
+       - added sheet dimensions to output files (xlsx)
+
+       - added anyAttribute to CT_Sst type for reading some irregular xlsx files
+
+       - standardized LibXL.framework in "LibXL for Mac" package, now it can be signed
+
+       - fixed bug in Book::setActiveSheet() method when book contains a chart (xlsx)
+
+       - fixed bug in Book::delSheet() (xls)
+
+       - fixed errors with autofit in trial mode
+
+       - fixed bug in Sheet::isDate(): added checking of quotes in custom format
+
+       - fixed the memory bug when loading some xls files
+
+       - fixed Sheet::firstRow() and Sheet::lastRow() methods (xlsx)
+
+       - fixed bug with writing references in formula expressions in lower case in Sheet::writeFormula() (xls)
+
+       - fixed bug with precision of real numbers in formula expressions in Sheet::readFormula() (xls)
+
+       - fixed bugs with some formula expressions with SUM, AVERAGE, MIN, MAX functions (xls)
+
+       - fixed bug with corrupted output files with macros on Solaris/AIX
+
+
+Version 3.6.0 (2014-07-14)
+--------------------------------------------------
+
+       - added autofit column width support 
+         (use -1 for width parameter in Sheet::setCol() method)
+
+       - added hyperlink support 
+
+       - added direct access to merges
+
+       - added a possibility to create xltx and xlsm files
+
+       - added a possibility to read errors "#NULL!", "#DIV/0!", "#VALUE!",
+         "#REF!", "#NAME?", "#NUM!", "#N/A" with Sheet::readFormula() method 
+         from xls files
+
+       - added support Windows-1251 encoding in XML files
+
+       - added support RGB colors without alpha component in xlsx files
+
+       - added a cell range support in formula expressions (xls)
+
+       - improved performance of Sheet::cellFormat() method (xls)
+
+       - optimized xls files reading
+
+       - fixed a bug with copying a sheet with pictures in Book::addSheet() (xls)
+
+       - fixed a memory bug when used a second parameter in Book::addSheet()
+
+       - fixed issue with nested quotes in formula expressions (xls)
+
+       - fixed bug with using a single quote in formula expressions (xls) 
+
+       - fixed issue with loading some xlsx files 
+         which were created in Numbers on Mac ("Unknown exception")
+
+       - fixed bug with UTF-8 encoding in custom format strings (xlsx)
+
+       - fixed bug with reading some non-standard characters (xlsx)
+
+New methods:
+
+       - Sheet::mergeSize()
+
+       - Sheet::merge()
+
+       - Sheet::delMergeByIndex()
+
+       - Sheet::hyperlinkSize()
+
+       - Sheet::hyperlink()
+
+       - Sheet::delHyperlink()
+
+       - Sheet::addHyperlink()
+
+       - Sheet::splitInfo() 
+
+
+Version 3.5.4 (2014-01-10)
+--------------------------------------------------
+
+       - added xltx and xltm file support
+
+       - added scopeId parameter to Sheet::getNamedRange(), Sheet::setNamedRange(), Sheet::delNamedRange(),
+         Sheet::namedRange() methods for specifying scope of named range.
+
+       - added Book::isTemplate() and Book::setTemplate() methods for detecting xltx files
+         and converting from xlsx to xltx and vice versa
+
+       - added "hidden" parameter to Sheet::getNamedRange() and Sheet::namedRange() methods
+
+       - added support built-in named ranges in Sheet::getNamedRange() method (xls)
+
+       - added compatibility between fonts/formats from xls files and fonts/formats from xlsx files
+         (now formats and fonts from xls file can be used as initial parameter for Book::addFormat()
+         and Book::addFont() methods for xlsx file and vice versa)
+
+       - added Sheet::rightToLeft() and Sheet::setRightToLeft() methods that
+         specifies whether the sheet in is "right to left" display mode.
+
+       - added support shared formulas in Sheet::clear() method
+
+       - fixed bugs with loading some xls files
+
+       - fixed bug in Sheet::readFormula() (xls)
+
+       - fixed Sheet::isDate() method (xlsx)      
+
+       - fixed bug with writing some non-standard characters (xlsx)
+
+       - fixed bug with writing some formula expressions with functions without arguments (xls)
+
+       - fixed bug with placing pictures into a sheet with non-default font
+         (incorrect aspect ratio and size)
+
+       - fixed issue with overwriting some strings in xls files
+      
+       - fixed bug with shared formulas (xls)
+
+       - fixed bug in Sheet::insertRow() for xls files
+
+       - fixed bug with extracting pictures in some xls files
+
+
+Version 3.5.3 (2013-07-03)
+--------------------------------------------------
+
+       - added two methods for getting and setting date system: 
+         Book::isDate1904() and Book::setDate1904()
+
+       - fixed bug with reading some strings with underscore (_) characters (xlsx)
+
+       - fixed bug with loading some xlsx files
+
+
+Version 3.5.2 (2013-06-25)
+--------------------------------------------------
+
+       - fixed bug with overwriting existing strings
+
+       - fixed bug in NoteSh record ("CalcDelta size is incorrect")
+
+
+Version 3.5.1 (2013-06-21)
+--------------------------------------------------
+
+       - fixed bug with overwriting existing strings
+
+
+Version 3.5.0 (2013-06-19)
+--------------------------------------------------
+
+       - added support of Strict Open XML Spreadsheet format (Excel 2013)
+
+       - increased precision of msec parameters in Book::dateUnpack() and 
+         Book::dataPack() methods. Now it is 1/1000 seconds.
+
+       - fixed bug with writing references to other sheets
+         in formulas (xls)
+
+       - fixed bug with reading shared formulas from xlsx format
+
+       - fixed bug in Format::setPatternForegroundColor() and
+         Format::setPatternBackgroundColor() methods (xlsx)
+
+       - added support of dual format files (BIFF8/BIFF5)
+
+       - added built-in named ranges for xls format
+
+       - fixed bug in namedRangeSize() for xls format
+
+       - fixed bug with named ranges that refer to external workbooks 
+
+       - added support of characters which cannot be represented in XML (xlsx)
+
+       - added warning if named range contains multiple parts
+
+       - fixed bug with incorrect identification of 1900/1904 date formats in Excel for Mac (xlsx)
+
+       - fixed bug with reading some formulas (xls)
+
+       - fixed bug with writing formula with SUMPRODUCT function (thanks to Don Prouty, DSA) (xls)
+ 
+       - fixed bug with loading/saving some xlsx files with drawings
+
+
+Version 3.4.2 (2013-04-25)
+--------------------------------------------------
+
+       - fixed NoteSh record (some xls files couldn't be loaded)
+
+       - fixed RRTabId record
+         (Protected view mode was activated in Excel 2010 and Excel 2013
+         in some cases)
+
+       - fixed Book::insertSheet() method
+         (named ranges, print areas, repeat rows and columns didn't remain 
+          in corresponding sheets)
+
+       - fixed Style record (some xls files couldn't be loaded)
+
+       - added quotes for names with hyphen (xlsx)
+
+       - fixed bug in Sheet::delNamedRange() (xlsx)
+       
+       - fixed bug with saving some xls files with pictures
+         (output file was corrupt)
+
+       - fixed bug with crash in MinGW 4.7
+         (added __cdecl keyword)
+
+       - fixed bug with Mac::Numbers compatibility
+
+       - fixed bug with overlapping of calculated values 
+         in cells with formula expression and format 
+         for xlsx format (no screen refresh)
+
+       - fixed bug in Sheet::writeFormula() method (xls)
+         [ "incorrect token in formula" error message
+         for some valid expressions ]
+
+       - fixes for Apple clang compiler
+
+       - updated ZipArchive library to version 4.5
+
+       - fixed bug with column-based named ranges in
+         Sheet::getNamedRange() and Sheet::namedRange() methods
+         for xlsx format
+         
+       - fixed bug in Sheet::getPicture() for xlsx files
+
+       - fixed bug in Sheet::insertRow() for xls files
+
+       - fixed bug with loading some xlsx files ("mergeCell ref is invalid")
+
+       - fixed bug with length of sheet name in UTF-8 encoding
+
+       - fixed bug with loading some xlsx files ("bad end element" error)
+
+       - fixed bug with SUMPRODUCT function in formula expression (xls)
+
+       - fixed bug in Sheet::pictureSize() for xlsx files
+
+
+Version 3.4.1 (2013-01-04)
+--------------------------------------------------
+
+       - added Book::sheetType() method for detection of chart sheet
+
+       - fixed bug with loading some xls files
+
+       - fixed bug in Sheet::delNamedRange() for xls files
+
+       - fixed bug in Sheet::writeNum() method
+
+
+Version 3.4.0 (2012-12-26)
+--------------------------------------------------
+
+       - added support of xlsm files
+
+       - added UTF-8 support (mode is activated with book->setLocale("UTF-8"))
+
+       - fixed bugs with loading some xls and xlsx files
+
+       - fixed compatibility issues with Numbers for Mac
+
+       - added support of empty cells in Sheet::cellFormat()
+
+       - changed format picture property from "Move but don't size with cells" to "Move and size with cells"
+
+       - fixed Sheet::setNamedRange(), Sheet::setPrintArea() and Sheet::setName() methods 
+         for sheet's names with spaces (xlsx)
+
+       - fixed bugs with some formula expressions with IF and AND functions (xls)
+ 
+       - fixed bug with saving multi formatted cells in xlsx files
+
+       - fixed bug in Book::delSheet() for xlsx files
+
+       - fixed bug with reading some kind of error values
+
+       - fixed issues with adding pictures into preloaded workbooks with pictures (xls)
+
+       - fixed bug in Book::saveRaw() method (xls)
+
+       - fixed possible memory leaks due to mismatched malloc/free functions (xlsx)
+
+       - fixed bug in Sheet::cellFormat()
+
+       - fixed bug with format/font inheritance for xlsx files
+
+       - fixed Sheet::setPrintRepeatCols() method for xlsx files
+
+       
+Version 3.3.1 (2012-08-07)
+--------------------------------------------------
+
+       - fixed issue with adding pictures (red cross images) in xls files
+
+
+Version 3.3.0 (2012-08-06)
+--------------------------------------------------
+Improvements:
+
+       - added preserving macros and properties for xls files
+
+       - added fullCalcOnLoad="true" attribute for xlsx files,
+         instruction for Excel to calculate all formulas on loading
+
+       - added defaultRowHeight property for xlsx files
+
+       - changed internal version for xls files
+
+       - added checking for corrupt xls files
+
+Bug fixes:
+
+       - fixed Sheet::getNamedRange(), Sheet::namedRangeSize() and Sheet::namedRange() methods (xls)
+
+       - fixed Sheet::removeRow() for xls files
+
+       - fixed bug in Sheet::getNamedRange() method (xlsx)
+
+       - fixed bug with percent operator in formulas (xls)
+
+       - fixed bug in Book::delSheet() method
+
+       - fixed bug in Sheet::setPicture() method (xlsx)
+
+       - fixed bug with comments (xls)
+
+
+Version 3.2.4 (2012-04-25)
+--------------------------------------------------
+Improvements:
+
+       - added two auxiliary methods for converting cell reference to row and column and vice versa
+
+       - added Sheet::getTopLeftView() and Sheet::setTopLeftView() methods for getting/setting
+         a view position in the sheet
+
+       - added support for EMF pictures
+
+       - added multisheet reference support in formulas in xls format, 
+         for example: SUM(Sheet1:Sheet10!A1)
+
+New methods:
+
+       - Sheet::addrToRowCol()
+
+       - Sheet::rowColToAddr()
+
+       - Sheet::getTopLeftView()
+
+       - Sheet::setTopLeftView()
+
+Bug fixes:
+
+       - fixed bug with loading some files
+
+       - fixed performance issue with Sheet::setMerge() for xlsx files
+
+       - fixed bug in OfficeArtBlip record
+
+       - fixed bug with adding pictures to some xls files
+
+       - fixed bug with macro records in xls files
+
+       - fixed bug with writing strings with leading and trailing space symbols in xlsx format
+         (added attribute xml:space="preserve" for such strings)
+
+       - fixed bug in Sheet::setRowHidden() for xls format
+
+       - fixed bug with getting named ranges in some xlsx files
+
+       - fixed bug in Sheet::setCol() method for widths in range from 0 to 1 for xlsx format
+
+
+Version 3.2.3 (2011-10-12)
+--------------------------------------------------
+Improvements:
+
+       - added possibility to hide/unhide sheets
+       
+Bug fixes:
+
+       - fixed bug in Book::addPicture2() for xlsx files
+
+       - fixed bugs with loading some xls files
+
+New methods:
+
+       - Sheet::hidden()
+
+       - Sheet::setHidden()
+
+
+Version 3.2.2 (2011-09-22)
+--------------------------------------------------
+
+       - added support of inlineStr in cell's data type (xlsx)
+
+       - added checking length of sheet name (it's allowed maximum 31 characters)
+
+       - fixed bugs in copying formats and fonts, methods
+         Book::addFormat() and Book::addFont() when are used initFormat and initFont parameters.
+         Now it is possible to pass to these methods a format or a font from other workbook.
+
+       - improved non-unicode strings: if a conversion of wide character to a multibyte character
+         is not possible in the current locale then LibXL uses '?' symbol in this place
+
+       - fixed bug in Sheet::colWidth()
+
+       - added R1C1 style formula support
+
+       - improved formula parsing, now it is possible to use comma (,) and semicolon (;)
+         as parameter dividers in functions 
+
+       - fixed bug in Sheet::removeCol() (xlsx)
+
+       - optimized speed in Sheet::clear() method
+
+       - optimized speed of firstRow/lastRow/firstCol/lastCol methods for xlsx part,
+         added ignoring a trial banner in trial mode
+
+       - fixed bug with loss of formatting when user copy-paste cells between workbooks (xls)
+
+       - small memory usage optimization for xlsx part
+
+       - changed the open mode to "shared" for xlsx files
+
+       - fixed bug in the picture extraction algorithm:
+         now Book::addPicture() and Sheet::getPicture() functions return zero-based indexes
+
+
+Version 3.2.1 (2011-08-08)
+--------------------------------------------------
+
+       - fixed critical bug from previous version: incorrect reading/writing numbers
+         with decimal point in xlsx files
+
+       - fixed bug in Sheet::readNum() and Sheet::writeNum() for big-endian platforms
+
+       - fixed bug with loading some xls file, before Book::load() can incorrectly 
+         return false with error message "Xls::read(): workbook section is not found"
+
+
+Version 3.2.0 (2011-07-25)
+--------------------------------------------------
+Improvements:
+
+       - added possibility to insert a new sheet at any position
+
+       - added possibility to extract pictures
+
+       - added possibility to extract page breaks
+
+       - added possibility to extract named range by name (Sheet::getNamedRange) and by index (Sheet::namedRange)
+
+       - added possibility to fit a sheet to specified number of pages (Sheet::setPrintFit)
+
+       - added access to R1C1 reference style property (Book::refR1C1 and Book::setRefR1C1)
+
+       - added BIFF version property for xls files (Book::biffVersion)
+
+       - added return value for Book::setLocale() method
+
+       - improved Sheet::writeFormula(), added support references to other sheets within the workbook
+
+       - improved method Sheet::setPicture2(): picture takes size of underlying cell/merging cells 
+         if width and height aren't specified
+
+       - removed line breaks in xml files (xlsx)
+
+New methods:
+ 
+       - Book::insertSheet()
+
+       - Book::pictureSize()
+
+       - Book::getPicture()
+
+       - Book::refR1C1()
+
+       - Book::setRefR1C1()
+
+       - Book::biffVersion()
+
+       - Sheet::pictureSize()
+
+       - Sheet::getPicture()
+
+       - Sheet::getHorPageBreakSize()
+
+       - Sheet::getHorPageBreak()
+
+       - Sheet::getVerPageBreakSize()
+
+       - Sheet::getVerPageBreak()
+
+       - Sheet::getNamedRange()      
+
+       - Sheet::namedRangeSize()
+
+       - Sheet::namedRange()
+
+       - Sheet::getPrintFit()
+
+       - Sheet::setPrintFit()
+
+Bug fixes:
+
+       - fixed bug in Sheet::getNamedRange()
+
+       - fixed string interoperability in .NET wrapper
+
+       - fixed bug in Sheet::isDate() method for xlsx files
+
+       - fixed bug with reading formatted strings
+
+       - fixed bug in writeFormula 
+         (removed error message "toReversePolish: unknown token" for some correct values)
+
+       - fixed bug with load/save conditional formatting
+
+       - fixed bug in Sheet::isDate() method 
+
+       - fixed bug in ExternSheet record (xls)
+
+       - fixed method Book::delSheet() (xls)
+
+       - fixed Book::setActiveSheet(): deselecting other sheets (xlsx)
+
+       - fixed Sheet::setPicture2(): checking ranges of offset_x and offset_y parameters (xls)
+
+       - fixed bug in fixed Book::delSheet(): removing definedName element (xlsx)
+
+       - fixed bug in Sheet::setPrintRepeatRows() and Sheet::setPrintRepeatCols(): added quotation for sheet's name 
+         with space symbols (xlsx)
+
+       - fixed bug in Sheet::setName(): added checking dependencies in definedNames block (xlsx)
+
+       - fixed Sheet::setPicture()
+
+       - fixed Sheet::setName(), added checking dependencies for old name in xlsx-file
+
+       - fixed Sheet::lastRow() and Sheet::lastCol(), taken into account non-default height of cell
+
+       - method Sheet::getNamedRange() is case-insensitive now
+
+       - fixed bug with "Unexpected attribute" error for xml:space attribute in formula element (xlsx)
+
+       - fixed addPicture/setPicture for different sheets (xlsx)
+
+       - fixed bug when writing string constants in formulas (xls)
+
+       - added removing storage extension elements <extLst> from sheets and workbooks (xlsx)
+
+
+Version 3.1.0 (2010-11-16)
+--------------------------------------------------
+Improvements:
+
+       - named ranges support
+
+       - RGB colors support for xls format
+
+       - added offset_x and offset_y parameters in Sheet::setPicture() method
+
+       - print area support
+
+       - print titles support (repeated rows and columns on each page)
+
+       - added two sheet's properties: summaryBelow and summaryRight for grouped cells
+
+       - reduced memory consumtion for reading/writing xlsx files
+
+New methods:
+
+       - Sheet::setNamedRange()
+
+       - Sheet::delNamedRange()
+
+       - Sheet::setPrintRepeatRows()
+
+       - Sheet::setPrintRepeatCols()
+
+       - Sheet::setPrintArea()
+
+       - Sheet::clearPrintRepeats()
+
+       - Sheet::clearPrintArea()
+
+       - Sheet::groupSummaryBelow()
+
+       - Sheet::setGroupSummaryBelow()
+
+       - Sheet::groupSummaryRight()
+
+       - Sheet::setGroupSummaryRight()
+
+Bug fixes:
+
+       - fixed bugs in Sheet::setCol() and Sheet::groupCols() methods
+
+       - added stretch property for pictures in xlsx files
+
+       - fixed bug with adding pictures in existing xls-file
+
+       - fixed bug with shared formulas
+
+
+Version 3.0.2 (2010-09-15)
+--------------------------------------------------
+
+       - improved writing performance for xlsx format
+
+       - changed all "unsigned short" types to "int", 
+         therefore now it's possible to write more than 65536 rows in xlsx format       
+
+
+Version 3.0.1 (2010-08-25)
+--------------------------------------------------
+
+       - fixed bug with loading some xlsx files (unknown attribute error)
+
+
+Version 3.0.0 (2010-08-24)
+--------------------------------------------------
+
+       - Excel 2007/2010 support (xlsx)
+
+       Changes in binary interface:
+
+       - optimized reading speed and memory consumption for big files
+
+       - fixed bug with sheet's name in Japanese/Korean/Chinese languages in multi-byte interface
+
+       - changed behaviour of Sheet::split() method
+
+       - added method Sheet::setCellFormat()
+
+       - removed message "too many dir sectors - perhaps it's infinite loop" for large files
+
+       - fixed bug in OfficeArtFDGGBlock
+
+       - added access to list of formats and fonts in document
+
+       - added msec parameter in datePack/dateUnpack
+
+       New methods:
+
+       - xlCreateXMLBook()
+
+       - Book::format() 
+
+       - Book::formatSize()
+
+       - Book::font()
+
+       - Book::fontSize()
+
+       - Book::colorPack()
+
+       - Book::colorUnpack()
+
+       - Book::rgbMode()
+
+       - Book::setRgbMode()
+
+       - Sheet::setCellFormat()
+
+
+Version 2.4.3 (2010-06-07)
+--------------------------------------------------
+
+       - added Sheet::setProtect() and Sheet::protect() methods
+
+       - fixed bug with loading xls files with form controls
+
+       - fixed bug in Sheet::writeFormula()
+
+       - fixed some incorrect relative references
+
+       - fixed bug with reading string values in shared formula
+
+       - fixed printZoom default value
+
+       - fixed .NET interface: Book::errorMessage(), Book::sheetCount(), Book::activeSheet()
+
+       - fixed bugs with loading some xls files
+
+       - fixed bug with reading coordinates in shared formula
+
+       - fixed bug with incorrect reading formula with external reference
+
+
+Version 2.4.2 (2010-05-12)
+--------------------------------------------------
+Improvements:
+
+       - support BMP and DIB picture formats
+
+       - loading pictures from memory buffer
+
+New methods:
+
+       - Book::addPicture2()
+
+Bug fixes:
+
+       - fixed bug with reading shared formulas
+
+       - fixed issue with loading workbook with dropdown lists ("error in record FtLbsData")
+
+       - changed return type "unsigned short" to "int" in firstRow/lastRow/firstCol/lastCol methods
+
+       - restoring normal book state after loading error       
+
+       - fixed datePack/dateUnpack for time values
+
+       - fixed bugs with loading some xls files
+
+
+Version 2.4.1 (2010-03-01)
+--------------------------------------------------
+
+       - removed memory leaks
+
+       - small fixes
+
+
+Version 2.4.0 (2010-02-25)
+--------------------------------------------------
+Improvements:
+
+       - formula support
+
+       - ability to change a default font
+
+New methods:
+
+       - Sheet::readFormula()
+
+       - Sheet::writeFormula()
+
+       - Sheet::isFormula()
+
+       - Book::defaultFont()
+
+       - Book::setDefaultFont()
+
+       
+Version 2.3.2 (2010-02-01)
+--------------------------------------------------
+
+       - fixed bug with saving some xls files
+
+       - fixed bug in margin methods                      
+
+
+Version 2.3.1 (2010-01-20)
+--------------------------------------------------
+
+       - fixed bug with Book::loadRaw() on Linux and Mac
+
+       - changed behavior Book::saveRaw(): now LibXL writes raw data to internal memory buffer
+
+
+Version 2.3.0 (2010-01-14)
+--------------------------------------------------
+Improvements:
+
+       - loading/saving a book from/to memory buffer
+
+       - copying sheets and cells
+
+       - access to format for any cell (without detecting type)
+
+       - now library doesn't touch existing formats when user edits an existing document
+
+       - renaming sheets
+
+New methods:
+      
+       - Book::loadRaw()
+
+       - Book::saveRaw()
+
+       - Book::copySheet()      
+
+       - Sheet::copyCell()
+
+       - Sheet::cellFormat()
+
+       - Sheet::setName()
+       
+Bug fixes:
+
+       - fixed bug with opening xls in Numbers (iWork on MacOSX)
+
+       - fixed Sheet::colWidth() and Sheet:setCol(), precise column's widths now
+
+       - fixed issues with loading some xls files
+
+       - fixed bug when user loads several xls files in memory at a time
+
+       - fixed Sheet::setRow()       
+
+       - values from firstRow/lastRow/firstCol/lastCol methods are updating in run-time now
+
+
+Version 2.2.2 (2009-10-13)
+--------------------------------------------------
+Improvements:
+
+       - inserting/removing rows/columns
+
+       - removing merges
+
+New methods:
+
+       - Sheet::insertCol()
+
+       - Sheet::insertRow()
+
+       - Sheet::removeCol()
+
+       - Sheet::removeRow()
+
+       - Sheet::delMerge()
+
+
+Version 2.2.1
+--------------------------------------------------
+      
+       - new method Sheet::isDate() for fast detecting any date/time values
+
+       - fixed Sheet::split()
+
+       - removed GLIBCXX_3.4.9 dependency in Linux package
+
+
+Version 2.2.0
+--------------------------------------------------
+Improvements:
+       
+       - support comments
+
+       - sheet splitting  
+
+       - grouping and outline                      
+
+       - clear areas in sheets
+
+       - extracting dimensions of sheets
+
+New methods:
+
+       - Sheet::readComment()
+
+       - Sheet::writeComment()
+
+       - Sheet::split()
+
+       - Sheet::split2()
+
+       - Sheet::groupRows()
+
+       - Sheet::groupCols()
+
+       - Sheet::clear()
+
+       - Sheet::firstRow()
+
+       - Sheet::lastRow()
+
+       - Sheet::firstCol()
+
+       - Sheet::lastCol()
+
+Bug fixes:
+       
+       - fixed warning when file is opened in Excel 2007 
+
+       - opens xls with external links without errors
+
+       - fixed some minor bugs
+
+
+Version 2.1.0
+--------------------------------------------------
+Improvements:
+        
+       - support pictures (png, jpg, wmf)     
+
+       - page breaks support
+
+       - read/write bool values
+
+       - read/write blank cells
+
+       - detecting cell's type
+
+       - read cells with formula
+
+       - get/set active sheet
+
+       - get row height and column width
+
+New methods:
+
+       - Book::addPicture()
+
+       - Book::activeSheet()
+
+       - Book::setActiveSheet()       
+
+       - Sheet::cellType()
+
+       - Sheet::setPicture()
+
+       - Sheet::readBool()
+
+       - Sheet::writeBool()
+
+       - Sheet::readError()
+
+       - Sheet::colWidth()
+
+       - Sheet::rowHeight()
+
+       - Sheet::setHorPageBreak()       
+
+       - Sheet::setVerPageBreak()
+
+Bug fixes:      
+     
+       - opens xls with macros without errors       
+
+       - opens xls with charts without errors
+
+       - fixed some minor bugs
+
+
+Version 2.0.0
+--------------------------------------------------
+New release with a completely new redesign
+

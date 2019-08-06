@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: Font class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">
+        <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+      </a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<b>Font</b>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+        <h3>Font class reference</h3>
+        <ul class="doc"> 
+          <li>
+            <a name="size"></a><span class="keyword">int</span> <span class="fname">size</span>() <span class="keyword">const</span>  <div>Returns the size of the font in points.</div>
+          </li>            
+          <li>
+            <a name="setSize"></a><span class="keyword">void</span> <span class="fname">setSize</span>(<span class="keyword">int</span> size)  <div>Sets the size of the font in points.</div>
+          </li> 
+          <li>
+            <a name="italic"></a><span class="keyword">bool</span> <span class="fname">italic</span>() <span class="keyword">const</span>  <div>Returns whether the font is italic.</div>
+          </li>            
+          <li>
+            <a name="setItalic"></a><span class="keyword">void</span> <span class="fname">setItalic</span>(<span class="keyword">bool</span> italic = <span class="keyword">true</span>)  <div>Turns on/off the italic font.</div>
+          </li> 
+          <li>
+            <a name="strikeOut"></a><span class="keyword">bool</span> <span class="fname">strikeOut</span>() <span class="keyword">const</span>  <div>Returns whether the font is strikeout.</div>
+          </li>            
+          <li>
+            <a name="setStrikeOut"></a><span class="keyword">void</span> <span class="fname">setStrikeOut</span>(<span class="keyword">bool</span> strikeOut = <span class="keyword">true</span>)  <div>Turns on/off the strikeout font.</div>
+          </li> 
+          <li>
+            <a name="color"></a><a href="colors.html">Color</a> <span class="fname">color</span>() <span class="keyword">const</span>  <div>Returns the <a href="colors.html">color</a> of the font.</div>
+          </li>            
+          <li>
+            <a name="setColor"></a><span class="keyword">void</span> <span class="fname">setColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the <a href="colors.html">color</a> of the font.</div>
+          </li> 
+          <li>
+            <a name="bold"></a><span class="keyword">bool</span> <span class="fname">bold</span>() <span class="keyword">const</span>  <div>Returns whether the font is bold.</div>
+          </li>            
+          <li>
+            <a name="setBold"></a><span class="keyword">void</span> <span class="fname">setBold</span>(<span class="keyword">bool</span> bold = <span class="keyword">true</span>)  <div>Turns on/off the bold font.</div>
+          </li> 
+          <li>
+            <a name="script"></a>Script <span class="fname">script</span>() <span class="keyword">const</span>
+            <div>Returns the script style of the font.</div>
+          </li> 
+          <li>
+            <a name="setScript"></a><span class="keyword">void</span> <span class="fname">setScript</span>(Script script)
+            <div>
+              Sets the script style of the font.
+              <table class="helptable"> 
+              <thead>
+                <tr><td>Script value</td><td>View</td></tr>
+              </thead>
+              <tbody>
+                <tr><td>SCRIPT_NORMAL</td><td>TEXT SCRIPT_NORMAL</td></tr> 
+                <tr><td>SCRIPT_SUPER</td><td>TEXT<sup>SCRIPT_SUPER</sup></td></tr> 
+                <tr><td>SCRIPT_SUB</td><td>TEXT<sub>SCRIPT_SUB</sub></td></tr> 
+              </tbody>
+              </table> 
+            </div>
+          </li> 
+          <li>
+            <a name="underline"></a>Underline <span class="fname">underline</span>() <span class="keyword">const</span>
+            <div>Returns the underline style of the font.</div>
+          </li> 
+          <li>
+            <a name="setUnderline"></a><span class="keyword">void</span> <span class="fname">setUnderline</span>(Underline underline)
+            <div>
+              Sets the underline style of the font.
+              <table class="helptable"> 
+              <thead>
+                <tr><td>Underline value</td><td>View</td></tr> 
+              </thead>
+              <tbody>
+                <tr><td>UNDERLINE_NONE</td><td style="text-align: center;" width="100"><img src="images/underline_none.png" alt="UNDERLINE_NONE" style="border: medium none ;" /></td></tr> 
+                <tr><td>UNDERLINE_SINGLE</td><td style="text-align: center;"><img src="images/underline_single.png" alt="UNDERLINE_SINGLE" style="border: medium none ;" /></td></tr> 
+                <tr><td>UNDERLINE_DOUBLE</td><td style="text-align: center;"><img src="images/underline_double.png" alt="UNDERLINE_DOUBLE" style="border: medium none ;" /></td></tr> 
+                <tr><td>UNDERLINE_SINGLEACC</td><td style="text-align: center;"><img src="images/underline_singleacc.png" alt="UNDERLINE_SINGLEACC" style="border: medium none ;" /></td></tr> 
+                <tr><td>UNDERLINE_DOUBLEACC</td><td style="text-align: center;"><img src="images/underline_doubleacc.png" alt="UNDERLINE_DOUBLEACC" style="border: medium none ;" /></td></tr> 
+              </tbody>
+              </table> 
+            </div>
+          </li> 
+          <li>
+            <a name="name"></a><span class="keyword">const wchar_t</span>* <span class="fname">name</span>() <span class="keyword">const</span>  <div>Returns the name of the font.</div>
+          </li>            
+          <li>
+            <a name="setName"></a><span class="keyword">bool</span> <span class="fname">setName</span>(<span class="keyword">const wchar_t</span>* name)  <div>Sets the name of the font. Default name is "Arial".</div>
+          </li>
+        </ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<b>Font</b>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>

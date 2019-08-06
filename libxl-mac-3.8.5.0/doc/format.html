@@ -1,0 +1,433 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: Format class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">  
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">  <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" /></a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<b>Format</b>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+        <h3>Format class reference</h3>
+        <ul class="doc"> 
+          <li style="margin-top: 0px;">
+            <a name="font"></a><a href="font.html">Font</a>* <span class="fname">font</span>() <span class="keyword">const</span>  <div>Returns the pointer to the current font. Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>    
+           <li>
+             <a name="setFont"></a><span class="keyword">bool</span> <span class="fname">setFont</span>(<a href="font.html">Font</a>* font)  <div>Sets the font for the format. To create a new font use <a href="workbook.html#addFont">Book::addFont()</a>. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+           </li> 
+           <li>  
+             <a name="numFormat"></a><span class="keyword">int</span> <span class="fname">numFormat</span>() <span class="keyword">const</span>  <div>Returns the number format identifier.</div>
+           </li> 
+           <li>  
+             <a name="setNumFormat"></a><span class="keyword">void</span> <span class="fname">setNumFormat</span>(<span class="keyword">int</span> numFormat)
+             <div>
+               Sets the number format identifier. The identifier must be a valid
+               built-in number format identifier or the identifier of a custom number
+               format. To create a custom format use <a href="workbook.html#addCustomNumFormat">Book::addCustomNumFormat()</a>. See built-in values in the following table:   
+               <table class="helptable">           
+               <thead>
+                <tr>
+                 <td>Constant</td><td>Description</td><td>Example</td>
+                </tr>
+               </thead>
+               <tbody><tr>
+                <td>NUMFORMAT_GENERAL</td><td>general format</td><td></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER</td><td>general number</td><td align="right">1000</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_D2</td><td>number with decimal point</td><td align="right">1000.00</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_SEP</td><td>number with thousands separator</td><td align="right">100,000</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_SEP_D2</td><td>number with decimal point and thousands separator</td><td align="right">100,000.00</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CURRENCY_NEGBRA</td><td>monetary value, negative in brackets</td><td align="right">(1000$)</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CURRENCY_NEGBRARED</td><td>monetary value, negative is red in brackets</td><td align="right"><span style="color: red;">(1000$)</span></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CURRENCY_D2_NEGBRA</td><td>monetary value with decimal point, negative in brackets</td><td align="right">($1000.00)</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CURRENCY_D2_NEGBRARED</td><td>monetary value with decimal point, negative is red in brackets</td><td align="right"><span style="color: red;">($1000.00)</span></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_PERCENT</td><td>percent value, multiply the cell value by 100</td><td align="right">75%</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_PERCENT_D2</td><td>percent value with decimal point, multiply the cell value by 100</td><td align="right">75.00%</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_SCIENTIFIC_D2</td><td>scientific value with E character and decimal point</td><td align="right">10.00E+1</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_FRACTION_ONEDIG</td><td>fraction value, one digit</td><td align="right">10 1/2</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_FRACTION_TWODIG</td><td>fraction value, two digits</td><td align="right">10 23/95</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_DATE</td><td>date value, depends on OS settings</td><td align="right">3/11/2009</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_D_MON_YY</td><td>custom date value</td><td align="right">11-Mar-09</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_D_MON</td><td>custom date value</td><td align="right">11-Mar</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_MON_YY</td><td>custom date value</td><td align="right">Mar-09</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_HMM_AM</td><td>custom date value</td><td align="right">8:30 AM</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_HMMSS_AM</td><td>custom date value</td><td align="right">8:30:00 AM</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_HMM</td><td>custom date value</td><td align="right">8:30</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_HMMSS</td><td>custom date value</td><td align="right">8:30:00</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_MDYYYY_HMM</td><td>custom datetime value</td><td align="right">3/11/2009 8:30</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_SEP_NEGBRA</td><td>number with thousands separator, negative in brackets</td><td align="right">(4,000)</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_SEP_NEGBRARED</td><td>number with thousands separator, negative is red in brackets</td><td align="right"><span style="color: red;">(4,000)</span></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_D2_SEP_NEGBRA</td><td>number with thousands separator and decimal point, negative in brackets</td><td align="right">(4,000.00)</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_NUMBER_D2_SEP_NEGBRARED</td><td>number with thousands separator and decimal point, negative is red in brackets</td><td align="right"><span style="color: red;">(4,000.00)</span></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_ACCOUNT</td><td>account value</td><td align="right">5,000</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_ACCOUNTCUR</td><td>account value with currency symbol</td><td style="padding: 0px;"><table width="100%"><tbody><tr><td style="border: 0px none ; padding: 3px;">$</td><td style="border: 0px none ; padding: 3px; text-align: right;">5,000</td></tr></tbody></table></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_ACCOUNT_D2</td><td>account value with decimal point</td><td align="right">5,000.00</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_ACCOUNT_D2_CUR</td><td>account value with currency symbol and decimal point</td><td style="padding: 0px;"><table width="100%"><tbody><tr><td style="border: 0px none ; padding: 3px;">$</td><td style="border: 0px none ; padding: 3px; text-align: right;">5,000.00</td></tr></tbody></table></td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_MMSS</td><td>custom time value</td><td align="right">30:55</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_H0MMSS</td><td>custom time value</td><td align="right">20:30:55</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_MMSS0</td><td>custom time value</td><td align="right">30:55.0</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_CUSTOM_000P0E_PLUS0</td><td>custom value</td><td align="right">15.2E+3</td>
+               </tr>
+               <tr>
+                <td>NUMFORMAT_TEXT</td><td>text value</td><td>any text</td>
+               </tr>
+               </tbody>
+               </table>
+             </div>
+           </li> 
+           <li> 
+             <a name="alignH"></a>AlignH <span class="fname">alignH</span>() <span class="keyword">const</span>
+             <div>Returns the horizontal alignment.</div>
+           </li>
+           <li>
+             <a name="setAlignH"></a><span class="keyword">void</span> <span class="fname">setAlignH</span>(AlignH align)
+             <div>
+               Sets the horizontal alignment.
+               <table class="helptable"> 
+               <thead>
+                 <tr><td width="140">AlignH value</td><td>View</td></tr> 
+               </thead>
+               <tbody>
+                 <tr><td>ALIGNH_GENERAL</td><td><img src="images/alignh_general.png" alt="ALIGNH_GENERAL" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_LEFT</td><td><img src="images/alignh_left.png" alt="ALIGNH_LEFT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_CENTER</td><td><img src="images/alignh_center.png" alt="ALIGNH_CENTER" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_RIGHT</td><td><img src="images/alignh_right.png" alt="ALIGNH_RIGHT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_FILL</td><td><img src="images/alignh_fill.png" alt="ALIGNH_FILL" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_JUSTIFY</td><td><img src="images/alignh_justify.png" alt="ALIGNH_JUSTIFY" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_MERGE</td><td><img src="images/alignh_merge.png" alt="ALIGNH_MERGE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNH_DISTRIBUTED</td><td><img src="images/alignh_distributed.png" alt="ALIGNH_DISTRIBUTED" style="border: medium none ;" /></td></tr> 
+               </tbody>
+               </table> 
+             </div>
+           </li> 
+           <li>
+             <a name="alignV"></a>AlignV <span class="fname">alignV</span>() <span class="keyword">const</span>
+             <div>Returns the vertical alignment.</div>
+           </li>
+           <li>
+             <a name="setAlignV"></a><span class="keyword">void</span> <span class="fname">setAlignV</span>(AlignV align)
+             <div>
+               Sets the vertical alignment.
+               <table class="helptable"> 
+               <thead>
+                 <tr><td width="140">AlignV value</td><td>View</td></tr> 
+               </thead>
+               <tbody>
+                 <tr><td>ALIGNV_TOP</td><td><img src="images/alignv_top.png" alt="ALIGNV_TOP" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNV_CENTER</td><td><img src="images/alignv_center.png" alt="ALIGNV_CENTER" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNV_BOTTOM</td><td><img src="images/alignv_bottom.png" alt="ALIGNV_BOTTOM" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNV_JUSTIFY</td><td><img src="images/alignv_justify.png" alt="ALIGNV_JUSTIFY" style="border: medium none ;" /></td></tr> 
+                 <tr><td>ALIGNV_DISTRIBUTED</td><td><img src="images/alignv_distributed.png" alt="ALIGNV_DISTRIBUTED" style="border: medium none ;" /></td></tr> 
+               </tbody>
+               </table> 
+             </div>
+           </li> 
+           <li>
+             <a name="wrap"></a>bool <span class="fname">wrap</span>() <span class="keyword">const</span>  <div>Returns whether the cell text is wrapped.</div>
+           </li>            
+           <li>
+             <a name="setWrap"></a><span class="keyword">void</span> <span class="fname">setWrap</span>(<span class="keyword">bool</span> wrap = <span class="keyword">true</span>)  <div>Sets the flag whether the cell text is wrapped.</div>
+           </li> 
+           <li>
+             <a name="rotation"></a><span class="keyword">int</span> <span class="fname">rotation</span>() <span class="keyword">const</span>
+             <div>Returns the text rotation.</div>
+           </li>
+           <li>
+             <a name="setRotation"></a><span class="keyword">bool</span> <span class="fname">setRotation</span>(<span class="keyword">int</span> rotation)
+             <div>
+               Sets the text rotation. Must be a value from the following table:
+               <table class="helptable" style="margin-top: 8px;">           
+               <thead>
+                 <tr><td>Value</td><td>Meaning</td></tr>
+               </thead>
+               <tbody>
+                 <tr><td>0 - 90</td><td>Text rotated counterclockwise 0 to 90 degrees</td></tr>
+                 <tr><td>91 - 180</td><td>Text rotated clockwise 1 to 90 degrees</td></tr>
+                 <tr><td>255</td><td>Vertical text</td></tr>
+               </tbody>
+               </table>
+             </div>
+           </li> 
+           <li>
+             <a name="indent"></a><span class="keyword">int</span> <span class="fname">indent</span>() <span class="keyword">const</span>  <div>Returns the text indentation level.</div>
+           </li>            
+           <li>
+             <a name="setIndent"></a><span class="keyword">void</span> <span class="fname">setIndent</span>(<span class="keyword">int</span> indent)  <div>Sets the text indentation level. Must be less than or equal to 15.</div>
+           </li> 
+           <li>
+             <a name="shrinkToFit"></a><span class="keyword">bool</span> <span class="fname">shrinkToFit</span>() <span class="keyword">const</span>  <div>Returns whether the cell is shrink-to-fit.</div>
+           </li>            
+           <li>
+             <a name="setShrinkToFit"></a><span class="keyword">void</span> <span class="fname">setShrinkToFit</span>(<span class="keyword">bool</span> shrinkToFit = <span class="keyword">true</span>)  <div>Sets the flag whether the cell is shrink-to-fit.</div>
+           </li> 
+           <li>
+             <a name="setBorder"></a><span class="keyword">void</span> <span class="fname">setBorder</span>(BorderStyle style = BORDERSTYLE_THIN)
+             <div>
+               Sets the border style.
+               <a name="borderStyleTable"></a>
+               <table class="helptable"> 
+               <thead>
+                 <tr><td>BorderStyle value</td><td>View</td></tr> 
+               </thead>
+               <tbody>
+                 <tr><td>BORDERSTYLE_NONE</td><td><img src="images/borderstyle_none.png" alt="BORDERSTYLE_NONE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_THIN</td><td><img src="images/borderstyle_thin.png" alt="BORDERSTYLE_THIN" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_MEDIUM</td><td><img src="images/borderstyle_medium.png" alt="BORDERSTYLE_MEDIUM" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_DASHED</td><td><img src="images/borderstyle_dashed.png" alt="BORDERSTYLE_DASHED" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_DOTTED</td><td><img src="images/borderstyle_dotted.png" alt="BORDERSTYLE_DOTTED" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_THICK</td><td><img src="images/borderstyle_thick.png" alt="BORDERSTYLE_THICK" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_DOUBLE</td><td><img src="images/borderstyle_double.png" alt="BORDERSTYLE_DOUBLE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_HAIR</td><td><img src="images/borderstyle_hair.png" alt="BORDERSTYLE_HAIR" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_MEDIUMDASHED</td><td><img src="images/borderstyle_mediumdashed.png" alt="BORDERSTYLE_MEDIUMDASHED" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_DASHDOT</td><td><img src="images/borderstyle_dashdot.png" alt="BORDERSTYLE_DASHDOT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_MEDIUMDASHDOT</td><td><img src="images/borderstyle_mediumdashdot.png" alt="BORDERSTYLE_MEDIUMDASHDOT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_DASHDOTDOT</td><td><img src="images/borderstyle_dashdotdot.png" alt="BORDERSTYLE_DASHDOTDOT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_MEDIUMDASHDOTDOT</td><td><img src="images/borderstyle_mediumdashdotdot.png" alt="BORDERSTYLE_MEDIUMDASHDOTDOT" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERSTYLE_SLANTDASHDOT</td><td><img src="images/borderstyle_slantdashdot.png" alt="BORDERSTYLE_SLANTDASHDOT" style="border: medium none ;" /></td></tr> 
+               </tbody>
+               </table> 
+             </div>
+           </li> 
+           <li>
+             <a name="setBorderColor"></a><span class="keyword">void</span> <span class="fname">setBorderColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the border <a href="colors.html">color</a>.</div>
+           </li> 
+           <li>
+             <a name="borderLeft"></a><a href="#borderStyleTable">BorderStyle</a> <span class="fname">borderLeft</span>() <span class="keyword">const</span>  <div>Returns the left <a href="#borderStyleTable">border style</a>.</div>
+           </li>            
+           <li>
+             <a name="setBorderLeft"></a><span class="keyword">void</span> <span class="fname">setBorderLeft</span>(<a href="#borderStyleTable">BorderStyle</a> style = BORDERSTYLE_THIN)  <div>Sets the left <a href="#borderStyleTable">border style</a>.</div>
+           </li> 
+           <li>
+             <a name="borderRight"></a><a href="#borderStyleTable">BorderStyle</a> <span class="fname">borderRight</span>() <span class="keyword">const</span>  <div>Returns the right <a href="#borderStyleTable">border style</a>.</div>
+           </li>           
+           <li>
+             <a name="setBorderRight"></a><span class="keyword">void</span> <span class="fname">setBorderRight</span>(<a href="#borderStyleTable">BorderStyle</a> style = BORDERSTYLE_THIN)  <div>Sets the right <a href="#borderStyleTable">border style</a>.</div>
+           </li> 
+           <li>
+             <a name="borderTop"></a><a href="#borderStyleTable">BorderStyle</a> <span class="fname">borderTop</span>() <span class="keyword">const</span>  <div>Returns the top <a href="#borderStyleTable">border style</a>.</div>
+           </li>            
+           <li>
+             <a name="setBorderTop"></a><span class="keyword">void</span> <span class="fname">setBorderTop</span>(<a href="#borderStyleTable">BorderStyle</a> style = BORDERSTYLE_THIN)  <div>Sets the top <a href="#borderStyleTable">border style</a>.</div>
+           </li> 
+           <li>
+             <a name="borderBottom"></a><a href="#borderStyleTable">BorderStyle</a> <span class="fname">borderBottom</span>() <span class="keyword">const</span>  <div>Returns the bottom <a href="#borderStyleTable">border style</a>.</div>
+           </li>          
+           <li>
+             <a name="setBorderBottom"></a><span class="keyword">void</span> <span class="fname">setBorderBottom</span>(<a href="#borderStyleTable">BorderStyle</a> style = BORDERSTYLE_THIN)  <div>Sets the bottom <a href="#borderStyleTable">border style</a>.</div>
+           </li> 
+           <li>
+             <a name="borderLeftColor"></a><a href="colors.html">Color</a> <span class="fname">borderLeftColor</span>() <span class="keyword">const</span>  <div>Returns the <a href="colors.html">color</a> of the left border.</div>
+           </li>            
+           <li>
+             <a name="setBorderLeftColor"></a><span class="keyword">void</span> <span class="fname">setBorderLeftColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the <a href="colors.html">color</a> of the left border.</div>
+           </li> 
+           <li>
+             <a name="borderRightColor"></a><a href="colors.html">Color</a> <span class="fname">borderRightColor</span>() <span class="keyword">const</span>  <div>Returns the <a href="colors.html">color</a> of the right border.</div>
+           </li>            
+           <li>
+             <a name="setBorderRightColor"></a><span class="keyword">void</span> <span class="fname">setBorderRightColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the <a href="colors.html">color</a> of the right border.</div>
+           </li> 
+           <li>
+             <a name="borderTopColor"></a><a href="colors.html">Color</a> <span class="fname">borderTopColor</span>() <span class="keyword">const</span>  <div>Returns the <a href="colors.html">color</a> of the top border.</div>
+           </li>            
+           <li>
+             <a name="setBorderTopColor"></a><span class="keyword">void</span> <span class="fname">setBorderTopColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the <a href="colors.html">color</a> of the top border.</div>
+           </li> 
+           <li>
+             <a name="borderBottomColor"></a><a href="colors.html">Color</a> <span class="fname">borderBottomColor</span>() <span class="keyword">const</span>  <div>Returns the <a href="colors.html">color</a> of the bottom border.</div>
+           </li>            
+           <li>
+             <a name="setBorderBottomColor"></a><span class="keyword">void</span> <span class="fname">setBorderBottomColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the <a href="colors.html">color</a> of the bottom border.</div>
+           </li> 
+           <li>
+             <a name="borderDiagonal"></a>BorderDiagonal <span class="fname">borderDiagonal</span>() <span class="keyword">const</span>
+             <div>Returns the diagonal border.</div>
+           </li> 
+           <li>
+             <a name="setBorderDiagonal"></a><span class="keyword">void</span> <span class="fname">setBorderDiagonal</span>(BorderDiagonal border)
+             <div>
+               Sets the diagonal border.
+               <a name="borderDiagonalTable"></a>
+               <table class="helptable"> 
+               <thead>
+                 <tr><td>BorderDiagonal value</td><td>View</td></tr> 
+               </thead>
+               <tbody>
+                 <tr><td>BORDERDIAGONAL_NONE</td><td><img src="images/borderdiagonal_none.png" alt="BORDERDIAGONAL_NONE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERDIAGONAL_DOWN</td><td><img src="images/borderdiagonal_down.png" alt="BORDERDIAGONAL_DOWN" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERDIAGONAL_UP</td><td><img src="images/borderdiagonal_up.png" alt="BORDERDIAGONAL_UP" style="border: medium none ;" /></td></tr> 
+                 <tr><td>BORDERDIAGONAL_BOTH</td><td><img src="images/borderdiagonal_both.png" alt="BORDERDIAGONAL_BOTH" style="border: medium none ;" /></td></tr> 
+               </tbody>
+               </table> 
+             </div>
+           </li>
+           <li>
+             <a name="borderDiagonalStyle"></a><a href="#borderStyleTable">BorderStyle</a> <span class="fname">borderDiagonalStyle</span>() <span class="keyword">const</span>  <div>Returns the <a href="#borderStyleTable">style</a> of the diagonal border.</div>
+           </li> 
+           <li>
+             <a name="setBorderDiagonalStyle"></a><span class="keyword">void</span> <span class="fname">setBorderDiagonalStyle</span>(<a href="#borderStyleTable">BorderStyle</a> style)  
+             <div>Sets the <a href="#borderStyleTable">style</a> of the diagonal border.</div>
+           </li>  
+           <li>
+             <a name="borderDiagonalColor"></a><a href="colors.html">Color</a> <span class="fname">borderDiagonalColor</span>() <span class="keyword">const</span>
+             <div>Returns the <a href="colors.html">color</a> of the diagonal border.</div>
+           </li>            
+           <li>
+             <a name="setBorderDiagonalColor"></a><span class="keyword">void</span> <span class="fname">setBorderDiagonalColor</span>(<a href="colors.html">Color</a> color)
+             <div>Sets the <a href="colors.html">color</a> of the diagonal border.</div>
+           </li> 
+           <li>
+             <a name="fillPattern"></a>FillPattern <span class="fname">fillPattern</span>() <span class="keyword">const</span>
+             <div>Returns the fill pattern.</div>
+           </li> 
+           <li>  
+             <a name="setFillPattern"></a><span class="keyword">void</span> <span class="fname">setFillPattern</span>(FillPattern pattern)
+             <div>
+               Sets the fill pattern.
+               <table class="helptable"> 
+               <thead>
+                 <tr><td>FillPattern value</td><td>View</td></tr> 
+               </thead>
+               <tbody>
+                 <tr><td>FILLPATTERN_NONE</td><td></td></tr> 
+                 <tr><td>FILLPATTERN_SOLID</td><td><img src="images/pattern_solid.png" alt="FILLPATTERN_SOLID" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_GRAY50</td><td><img src="images/pattern_gray50.png" alt="FILLPATTERN_GRAY50" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_GRAY75</td><td><img src="images/pattern_gray75.png" alt="FILLPATTERN_GRAY75" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_GRAY25</td><td><img src="images/pattern_gray25.png" alt="FILLPATTERN_GRAY25" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_HORSTRIPE</td><td><img src="images/pattern_horstripe.png" alt="FILLPATTERN_HORSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_VERSTRIPE</td><td><img src="images/pattern_verstripe.png" alt="FILLPATTERN_VERSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_REVDIAGSTRIPE</td><td><img src="images/pattern_revdiagstripe.png" alt="FILLPATTERN_REVDIAGSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_DIAGSTIPE</td><td><img src="images/pattern_diagstripe.png" alt="FILLPATTERN_DIAGSTIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_DIAGCROSSHATCH</td><td><img src="images/pattern_diagcrosshatch.png" alt="FILLPATTERN_DIAGCROSSHATCH" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THICKDIAGCROSSHATCH</td><td><img src="images/pattern_thickdiagcrosshatch.png" alt="FILLPATTERN_THICKDIAGCROSSHATCH" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINHORSTRIPE</td><td><img src="images/pattern_thinhorstripe.png" alt="FILLPATTERN_THINHORSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINVERSTRIPE</td><td><img src="images/pattern_thinverstripe.png" alt="FILLPATTERN_THINVERSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINREVDIAGSTRIPE</td><td><img src="images/pattern_thinrevdiagstripe.png" alt="FILLPATTERN_THINREVDIAGSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINDIAGSTRIPE</td><td><img src="images/pattern_thindiagstripe.png" alt="FILLPATTERN_THINDIAGSTRIPE" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINHORCROSSHATCH</td><td><img src="images/pattern_thinhorcrosshatch.png" alt="FILLPATTERN_THINHORCROSSHATCH" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_THINDIAGCROSSHATCH</td><td><img src="images/pattern_thindiagcrosshatch.png" alt="FILLPATTERN_THINDIAGCROSSHATCH" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_GRAY12P5</td><td><img src="images/pattern_gray12p5.png" alt="FILLPATTERN_GRAY12P5" style="border: medium none ;" /></td></tr> 
+                 <tr><td>FILLPATTERN_GRAY6P25</td><td><img src="images/pattern_gray6p25.png" alt="FILLPATTERN_GRAY6P25" style="border: medium none ;" /></td></tr> 
+               </tbody>
+               </table> 
+             </div>
+           </li> 
+           <li>  
+             <a name="patternForegroundColor"></a><a href="colors.html">Color</a> <span class="fname">patternForegroundColor</span>() <span class="keyword">const</span>  <div>Returns the foreground <a href="colors.html">color</a> of the fill pattern.</div>
+           </li>            
+           <li>  
+             <a name="setPatternForegroundColor"></a><span class="keyword">void</span> <span class="fname">setPatternForegroundColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the foreground <a href="colors.html">color</a> of the fill pattern.</div>
+           </li> 
+           <li>  
+             <a name="patternBackgroundColor"></a><a href="colors.html">Color</a> <span class="fname">patternBackgroundColor</span>() <span class="keyword">const</span>  <div>Returns the background <a href="colors.html">color</a> of the fill pattern.</div>
+           </li>           
+           <li>  
+             <a name="setPatternBackgroundColor"></a><span class="keyword">void</span> <span class="fname">setPatternBackgroundColor</span>(<a href="colors.html">Color</a> color)  <div>Sets the background <a href="colors.html">color</a> of the fill pattern.</div>
+           </li> 
+           <li>  
+             <a name="locked"></a><span class="keyword">bool</span> <span class="fname">locked</span>() <span class="keyword">const</span>  <div>Returns whether the locked protection property is set to true.</div>
+           </li>          
+           <li>  
+             <a name="setLocked"></a><span class="keyword">void</span> <span class="fname">setLocked</span>(<span class="keyword">bool</span> locked = <span class="keyword">true</span>)  <div>Sets the locked protection property.</div>
+           </li> 
+           <li>  
+             <a name="hidden"></a><span class="keyword">bool</span> <span class="fname">hidden</span>() <span class="keyword">const</span>  <div>Returns whether the hidden protection property is set to true.</div>
+           </li>          
+           <li>  
+             <a name="setHidden"></a><span class="keyword">void</span> <span class="fname">setHidden</span>(<span class="keyword">bool</span> hidden = <span class="keyword">true</span>)  <div>Sets the hidden protection property.</div>
+           </li>        
+         </ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<b>Format</b>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>
+

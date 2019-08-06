@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: AutoFilter class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">
+        <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+      </a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<b>AutoFilter</b>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>
+<h3>AutoFilter class reference</h3>
+<ul class="doc"> 
+ <li>
+  <a name="getRef"></a><span class="keyword">bool</span> <span class="fname">getRef</span>(<span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast)  <div>Gets the cell range of AutoFilter with header. Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="setRef"></a><span class="keyword">void</span> <span class="fname">setRef</span>(<span class="keyword">int</span> rowFirst, <span class="keyword">int</span> rowLast, <span class="keyword">int</span> colFirst, <span class="keyword">int</span> colLast)  <div>Sets the cell range of AutoFilter with header.</div>
+ </li> 
+ <li>
+  <a name="column"></a><a href="filterColumn.html">FilterColumn</a> <span class="fname">column</span>(<span class="keyword">int</span> colId)  <div>Returns the AutoFilter column by zero-based index. Creates it if it doesn't exist.</div>
+ </li> 
+ <li>
+  <a name="columnSize"></a><span class="keyword">int</span> <span class="fname">columnSize</span>() <span class="keyword">const</span>  <div>Returns the number of specified AutoFilter columns which have a filter information.
+</div>
+ </li> 
+ <li>
+  <a name="columnByIndex"></a><a href="filterColumn.html">FilterColumn</a> <span class="fname">columnByIndex</span>(<span class="keyword">int</span> index)  <div>Returns the specified AutoFilter column which have a filter information by index.
+</div>
+ </li> 
+ <li>
+  <a name="getSortRange"></a><span class="keyword">bool</span> <span class="fname">getSortRange</span>(<span class="keyword">int</span>* rowFirst, <span class="keyword">int</span>* rowLast, <span class="keyword">int</span>* colFirst, <span class="keyword">int</span>* colLast)  <div>Gets the whole range of data to sort. Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="getSort"></a><span class="keyword">bool</span> <span class="fname">getSort</span>(<span class="keyword">int</span>* columnIndex, <span class="keyword">bool</span>* descending)  <div>Gets the zero-based index of sorted column in AutoFilter and its sort order. Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="setSort"></a><span class="keyword">bool</span> <span class="fname">setSort</span>(<span class="keyword">int</span> columnIndex, <span class="keyword">bool</span> descending = <span class="keyword">false</span>)  <div>Sets the sorted column in AutoFilter by zero-based index and its sort order. Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+</ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<b>AutoFilter</b>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>

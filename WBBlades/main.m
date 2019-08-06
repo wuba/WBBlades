@@ -10,24 +10,36 @@
 #import "WBBladesFileManager.h"
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
-
+#import "WBBladesScanManager+UnuseClassScan.h"
 void colorPrint(NSString *info);
 const char *cmd(NSString *cmd);
 bool isResource(NSString *type);
 void enumAllFiles(NSString *path);
+void enumPodFiles(NSString *path);
 
 unsigned long long resourceSize = 0;
 unsigned long long codeSize = 0;
 static NSDictionary *podResult;
+static NSMutableSet *s_classSet;
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 //    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
     
-        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
+//        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
 //        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Desktop/WinSFA"];
-
-        [WBBladesScanManager scanAllClassWithFileData:fileData];
+        NSLog(@"start");
+        s_classSet = [NSMutableSet set];
+        
+        for (int i = 0; i < argc - 2; i++) {
+            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
+            NSLog(@"---%@",podPath);
+            enumPodFiles(podPath);
+        }
+        NSString *appPath = [NSString stringWithFormat:@"%s",argv[1]];
+        NSLog(@"正在扫描...");
+        [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
+        NSLog(@"end");
         return 0;
         
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
@@ -88,6 +100,78 @@ void handleStaticLibrary(NSString *filePath){
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
     if (size>0) {
         [podResult setValue:[NSString stringWithFormat:@"%.1f MB",size/1024.0/1024] forKey:name];
+    }
+}
+
+void handleStaticLibraryForClassList(NSString *filePath){
+    
+    @autoreleasepool {
+        //拷贝文件
+        NSLog(@"正在备份文件...");
+        NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
+        NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
+        cmd(rmCmd);
+        cmd(cpCmd);
+        
+        //文件架构拆分
+        NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
+        cmd(thinCmd);
+        
+        //读取mach-o文件
+        NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
+        NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
+        
+        NSSet *classSet = [WBBladesScanManager scanStaticLibraryForClassList:fileData];
+        s_classSet = [[s_classSet setByAddingObjectsFromSet:classSet] mutableCopy];
+        //删除临时文件
+        cmd(rmCmd);
+    }
+}
+
+
+void enumPodFiles(NSString *path){
+    
+    //遍历单一pod
+    NSFileManager * fileManger = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+    NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
+    
+    if (isExist && !symbolicLink) {
+        if (isDir) {
+            
+            if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
+                
+                return;
+            }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
+                      ){
+                //忽略文档、demo、git 目录
+                return;
+            }else{
+                NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+                NSString * subPath = nil;
+                for (NSString * str in dirArray) {
+                    subPath  = [path stringByAppendingPathComponent:str];
+                    BOOL issubDir = NO;
+                    [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+                    enumPodFiles(subPath);
+                }
+            }
+        }else{
+            NSString *fileName = [path lastPathComponent];
+            
+            //判断是否为资源
+            NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
+            NSString *fileType = [array lastObject];
+            if (isResource(fileType)) {
+                
+            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
+                handleStaticLibraryForClassList(path);
+            }else{//大概率是编译产生的中间文件
+            }
+        }
     }
 }
 

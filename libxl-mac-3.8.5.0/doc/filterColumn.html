@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: FilterColumn class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">
+        <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+      </a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<b>FilterColumn</b>&nbsp;</div>
+
+<h3>FilterColumn class reference</h3>
+
+<ul class="doc"> 
+ <li>
+  <a name="index"></a><span class="keyword">int</span> <span class="fname">index</span>() <span class="keyword">const</span>  <div>Returns the zero-based index of this AutoFilter column.
+
+</div>
+ </li> 
+ <li>
+  <a name="filterType"></a>Filter <span class="fname">filterType</span>() <span class="keyword">const</span>  <div>Returns the filter type of this AutoFilter column.
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>Filter value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>FILTER_VALUE</td><td>Filter by specified values.</td></tr> 
+ <tr><td>FILTER_TOP10</td><td>The top N (percent or number of items) to filter by.</td></tr> 
+ <tr><td>FILTER_CUSTOM</td><td>Custom filter with specified criteria.</td></tr> 
+ <tr><td>FILTER_DYNAMIC</td><td>Specifies dynamic filter criteria.</td></tr> 
+ <tr><td>FILTER_COLOR</td><td>Specifies the color to filter by.</td></tr> 
+ <tr><td>FILTER_ICON</td><td>Specifies the icon to filter by.</td></tr> 
+ <tr><td>FILTER_EXT</td><td>Defines flexible storage extensions.</td></tr> 
+ <tr><td>FILTER_NOT_SET</td><td>No filter.</td></tr>  
+</tbody></table>
+
+</div>
+ </li> 
+ <li>
+  <a name="filterSize"></a><span class="keyword">int</span> <span class="fname">filterSize</span>() <span class="keyword">const</span>  <div>Returns the number of filter values.
+
+</div>
+ </li> 
+ <li>
+  <a name="filter"></a><span class="keyword">const wchar_t</span>* <span class="fname">filter</span>(<span class="keyword">int</span> index) <span class="keyword">const</span>  <div>Returns the filter value by index.
+
+</div>
+ </li> 
+ <li>
+  <a name="addFilter"></a><span class="keyword">void</span> <span class="fname">addFilter</span>(<span class="keyword">const wchar_t</span>* value)  <div>Adds the filter value.
+
+</div>
+ </li> 
+ <li>
+  <a name="getTop10"></a><span class="keyword">bool</span> <span class="fname">getTop10</span>(<span class="keyword">double</span>* value, <span class="keyword">bool</span>* top, <span class="keyword">bool</span>* percent)  <div>Gets the number of top or bottom items:<br/>
+<i>value</i> - number of items;<br/>
+<i>top</i> - top items if true otherwise bottom items;<br/>
+<i>percent</i> - using percent instead of number items.<br/>
+Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="setTop10"></a><span class="keyword">void</span> <span class="fname">setTop10</span>(<span class="keyword">double</span> value, <span class="keyword">bool</span> top = <span class="keyword">true</span>, <span class="keyword">bool</span> percent = <span class="keyword">false</span>)  <div>Sets the number of top or bottom items:<br/>
+<i>value</i> - number of items;<br/>
+<i>top</i> - top items if true otherwise bottom items;<br/>
+<i>percent</i> - using percent instead of number items.<br/>
+</div>
+ </li> 
+ <li>
+  <a name="getCustomFilter"></a><span class="keyword">bool</span> <span class="fname">getCustomFilter</span>(Operator* op1, <span class="keyword">const wchar_t</span>** v1, Operator* op2, <span class="keyword">const wchar_t</span>** v2, <span class="keyword">bool</span>* andOp)  <div>Gets the custom filter criteria:<br/>
+<i>op1</i> - operator used by the filter comparison in the first filter criteria;<br/>
+<i>v1</i> - value used in the first filter criteria;<br/>
+<i>op2</i> - operator used by the filter comparison in the second filter criteria;<br/>
+<i>v2</i> - value used in the second filter criteria;<br/>
+<i>andOp</i> - flag indicating whether the two criterias have an "and" relationship. True indicates "and", false indicates "or".<br/>
+Returns false if error. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+ </li> 
+ <li>
+  <a name="setCustomFilter"></a><span class="keyword">void</span> <span class="fname">setCustomFilter</span>(Operator op1, <span class="keyword">const wchar_t</span>* v1, Operator op2 = OPERATOR_EQUAL, <span class="keyword">const wchar_t</span>* v2 = 0, <span class="keyword">bool</span> andOp = <span class="keyword">false</span>)  <div>Sets the custom filter criteria:<br/>
+<i>op1</i> - operator used by the filter comparison in the first filter criteria;<br/>
+<i>v1</i> - value used in the first filter criteria;<br/>
+<i>op2</i> - operator used by the filter comparison in the second filter criteria;<br/>
+<i>v2</i> - value used in the second filter criteria;<br/>
+<i>andOp</i> - flag indicating whether the two criterias have an "and" relationship. True indicates "and", false indicates "or".
+<table class="helptable"> 
+ <thead>                
+  <tr> 
+   <td>Operator value</td><td>Description</td> 
+  </tr>  
+ </thead>
+ <tbody><tr><td>OPERATOR_EQUAL</td><td>=</td></tr> 
+ <tr><td>OPERATOR_GREATER_THAN</td><td>&gt;</td></tr> 
+ <tr><td>OPERATOR_GREATER_THAN_OR_EQUAL</td><td>&gt;=</td></tr> 
+ <tr><td>OPERATOR_LESS_THAN</td><td>&lt;</td></tr> 
+ <tr><td>OPERATOR_LESS_THAN_OR_EQUAL</td><td>&lt;=</td></tr> 
+ <tr><td>OPERATOR_NOT_EQUAL</td><td>&lt;&gt;</td></tr> 
+</tbody></table>
+</div>
+ </li> 
+ <li>
+  <a name="clear"></a><span class="keyword">void</span> <span class="fname">clear</span>()  <div>Clear the filter criteria.</div>
+ </li> 
+
+</ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<a href="workbook.html">Book</a>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<b>FilterColumn</b>&nbsp;</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>

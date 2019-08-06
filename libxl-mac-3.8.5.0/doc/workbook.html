@@ -1,0 +1,321 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xml:lang="en" xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head> 
+  <title>LibXL: Book class reference</title>
+  <meta http-equiv="content-type" content="text/html; charset=ISO-8859-15" />
+  <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />  
+  <link rel="stylesheet" type="text/css" href="style.css" />  
+</head>
+<body>  
+  <table id="container" cellspacing="6">  
+  <tbody>
+  <tr>
+    <td id="header">
+      <a href="http://www.libxl.com" title="Home">
+        <img src="images/logo.png" style="border: medium none ; float: left; margin-left: 2em;" alt="LibXL - direct reading and writing Excel files" />
+      </a>
+      <div style="margin-left: 13em; margin-top: 2em;">
+        <span id="title">LibXL</span><br/> 
+        <div id="subtitle">API reference version 3.8.4</div>
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="100%">
+      <div id="content">
+        <div><a href="index.html">Index</a>&nbsp;<b>Book</b>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+        <h3>Book class reference</h3>
+        <ul class="doc"> 
+          <li>
+            <a name="load"></a><span class="keyword">bool</span> <span class="fname">load</span>(<span class="keyword">const wchar_t</span>* filename, <span class="keyword">const wchar_t</span>* tempFile = 0)<br/>
+            <div>Loads an entire file into memory. Specify a temporary file for reducing memory consumption. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="load2"></a><span class="keyword">bool</span> <span class="fname">loadSheet</span>(<span class="keyword">const wchar_t</span>* filename, <span class="keyword">int</span> sheetIndex, <span class="keyword">const wchar_t</span>* tempFile = 0)<br/>
+            <div>Loads a file only with specified sheet index into memory. Specify a temporary file for reducing memory consumption. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>
+            <a name="load3"></a><span class="keyword">bool</span> <span class="fname">loadPartially</span>(<span class="keyword">const wchar_t</span>* filename, <span class="keyword">int</span> sheetIndex, <span class="keyword">int</span> firstRow, <span class="keyword">int</span> lastRow, <span class="keyword">const wchar_t</span>* tempFile = 0)<br/>
+            <div>Loads a file only with specified sheet index and row range into memory. Specify a temporary file for reducing memory consumption. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="save"></a><span class="keyword">bool</span> <span class="fname">save</span>(<span class="keyword">const wchar_t</span>* filename, <span class="keyword">bool</span> useTempFile = <span class="keyword">false</span>)<br/>
+            <div>Saves current workbook into the file. Use a temporary file for reducing memory consumption. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li>          
+          <li>  
+            <a name="loadWithoutEmptyCells"></a><span class="keyword">bool</span> <span class="fname">loadWithoutEmptyCells</span>(<span class="keyword">const wchar_t</span>* filename)<br/>
+            <div>Loads only cells which contain values. Empty formatted cells will be ignored for reducing memory consumption. Works only for binary xls files. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>          
+          <li>  
+            <a name="loadInfo"></a><span class="keyword">bool</span> <span class="fname">loadInfo</span>(<span class="keyword">const wchar_t</span>* filename)<br/>
+            <div>Loads only information about sheets. Afterwards you can call <a href="workbook.html#sheetCount">Book::sheetCount()</a> and <a href="workbook.html#getSheetName">Book::getSheetName()</a> methods. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>  
+          <li>
+            <a name="loadRaw"></a><span class="keyword">bool</span> <span class="fname">loadRaw</span>(<span class="keyword">const char</span>* data, <span class="keyword">unsigned</span> size, <span class="keyword">int</span> sheetIndex = -1, <span class="keyword">int</span> firstRow = -1, <span class="keyword">int</span> lastRow = -1)<br/>
+            <div>Loads a file from user's memory buffer. Parameters:<br/>
+              <i>data</i> - pointer to buffer;<br/>
+              <i>size</i> - size of data in buffer;<br/>
+              <i>sheetIndex</i> - loads a file only with specified sheet index, -1 loads all sheets;<br/>
+              <i>firstRow</i> - the first row of loaded range, -1 loads all rows until <i>lastRow</i>;<br/>
+              <i>lastRow</i> - the last row of loaded range, -1 loads all rows after <i>firstRow</i>.<br/>
+              Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>  
+            <a name="saveRaw"></a><span class="keyword">bool</span> <span class="fname">saveRaw</span>(<span class="keyword">const char</span>** data, <span class="keyword">unsigned</span>* size)<br/>
+            <div>Saves a file to internal memory buffer. Parameters:<br/>
+              <i>data</i> - pointer to buffer;<br/>
+              <i>size</i> - pointer to saved size.<br/>
+              Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li>     
+          <li>  
+            <a name="addSheet"></a><a href="spreadsheet.html">Sheet</a>* <span class="fname">addSheet</span>(<span class="keyword">const wchar_t</span>* name, <a href="spreadsheet.html">Sheet</a>* initSheet = 0)<br/>
+            <div>Adds a new <a href="spreadsheet.html">sheet</a> to this book, returns the sheet pointer. Use initSheet parameter if you wish to copy an existing sheet. Note initSheet must be only from this book. You can't use the following characters in sheet names:<br/>
+            - colon (:)<br/>
+            - backslash (\)<br/>
+            - asterisk (*)<br/>
+            - question mark (?)<br/>
+            - forward slash (/)<br/>
+            - opening square bracket ([)<br/>
+            - closing square bracket (])<br/>
+            The sheet name must not begin or end with the single quote (') character.  Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>  
+           <a name="insertSheet"></a><a href="spreadsheet.html">Sheet</a>* <span class="fname">insertSheet</span>(<span class="keyword">int</span> index, <span class="keyword">const wchar_t</span>* name, <a href="spreadsheet.html">Sheet</a>* initSheet = 0)<br/>
+           <div>Inserts a new <a href="spreadsheet.html">sheet</a> to this book at position <i>index</i>, returns the sheet pointer. Use initSheet parameter if you wish to copy an existing sheet. Note initSheet must be only from this book. Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="getSheet"></a><a href="spreadsheet.html">Sheet</a>* <span class="fname">getSheet</span>(<span class="keyword">int</span> index) <span class="keyword">const</span><br/>
+            <div>Gets pointer to a <a href="spreadsheet.html">sheet</a> with specified index. Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="getSheetName"></a><span class="keyword">const wchar_t</span>* <span class="fname">getSheetName</span>(<span class="keyword">int</span> index) <span class="keyword">const</span><br/>
+            <div>Returns a sheet name with specified index. Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>  
+            <a name="sheetType"></a>SheetType <span class="fname">sheetType</span>(<span class="keyword">int</span> index) <span class="keyword">const</span><br/>
+            <div>Returns type of sheet with specified index.    
+              <table class="helptable"> 
+              <thead>
+              <tr><td>SheetType value</td><td width="140">Description</td></tr>
+              </thead>
+              <tr><td>SHEETTYPE_SHEET</td><td align="center">standard sheet</td></tr> 
+              <tr><td>SHEETTYPE_CHART</td><td align="center">chart sheet</td></tr> 
+              <tr><td>SHEETTYPE_UNKNOWN</td><td align="center">unknown sheet</td></tr> 
+              </table>
+            </div>
+          </li> 
+          <li>  
+            <a name="moveSheet"></a><span class="keyword">bool</span> <span class="fname">moveSheet</span>(<span class="keyword">int</span> srcIndex, <span class="keyword">int</span> dstIndex)<br/>
+            <div>Moves a sheet with specified index to a new position. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>  
+            <a name="delSheet"></a><span class="keyword">bool</span> <span class="fname">delSheet</span>(<span class="keyword">int</span> index)<br/>
+            <div>Deletes a <a href="spreadsheet.html">sheet</a> with specified index. Returns false if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="sheetCount"></a><span class="keyword">int</span> <span class="fname">sheetCount</span>() <span class="keyword">const</span><br/>
+            <div>Returns a number of sheets in this book.</div>
+          </li>  
+          <li>  
+            <a name="addFormat"></a><a href="format.html">Format</a>* <span class="fname">addFormat</span>(<a href="format.html">Format</a>* initFormat = 0)<br/>
+            <div>Adds a new <a href="format.html">format</a> to the workbook, initial parameters can be copied from other <a href="format.html">format</a>. Returns NULL if error occurs.</div>
+          </li> 
+          <li>  
+            <a name="addFont"></a><a href="font.html">Font</a>* <span class="fname">addFont</span>(<a href="font.html">Font</a>* initFont = 0)<br/>
+            <div>Adds a new <a href="font.html">font</a> to the workbook, initial parameters can be copied from other <a href="format.html">font</a>. Returns NULL if error occurs.</div>
+          </li> 
+          <li>  
+            <a name="addCustomNumFormat"></a><span class="keyword">int</span> <span class="fname">addCustomNumFormat</span>(<span class="keyword">const wchar_t</span>* customNumFormat)<br/>
+            <div>
+              Adds a new custom number format to the workbook. The format string <i>customNumFormat</i> indicates how to format and render the numeric value of a cell. See <a href="custom-format.html">custom format strings guidelines</a>.
+              Returns the custom format identifier. It's used in <a href="format.html#setNumFormat">Format::setNumFormat()</a>. Returns 0 if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>  
+            <a name="customNumFormat"></a><span class="keyword">const wchar_t</span>* <span class="fname">customNumFormat</span>(<span class="keyword">int</span> fmt) <span class="keyword">const</span><br/>
+            <div>Returns a custom format string for specified custom format identifier <i>fmt</i>. See <a href="custom-format.html">custom format string guidelines</a>. Returns NULL if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="format"></a><a href="format.html">Format</a>* <span class="fname">format</span>(<span class="keyword">int</span> index)<br/>
+            <div>Returns a <a href="format.html">format</a> with defined index. Index must be less than return value of <a href="#formatSize">formatSize()</a> method.</div>
+          </li> 
+          <li>  
+            <a name="formatSize"></a><span class="keyword">int</span> <span class="fname">formatSize</span>()<br/>
+            <div>Returns a number of formats in this book.</div>
+          </li> 
+          <li>  
+            <a name="font"></a><a href="font.html">Font</a>* <span class="fname">font</span>(<span class="keyword">int</span> index)<br/>
+            <div>Returns a <a href="font.html">font</a> with defined index. Index must be less than return value of <a href="#fontSize">fontSize()</a> method.</div>
+          </li> 
+          <li>  
+            <a name="fontSize"></a><span class="keyword">int</span> <span class="fname">fontSize</span>()<br/>
+            <div>Returns a number of fonts in this book.</div>
+          </li> 
+          <li>  
+            <a name="datePack"></a><span class="keyword">double</span> <span class="fname">datePack</span>(<span class="keyword">int</span> year, <span class="keyword">int</span> month, <span class="keyword">int</span> day,
+            <span class="keyword">int</span> hour = 0, <span class="keyword">int</span> min = 0, <span class="keyword">int</span> sec = 0, <span class="keyword">int</span> msec = 0)
+            <br/>
+            <div>Packs date and time information into double type.</div>
+          </li>    
+          <li>  
+            <a name="dateUnpack"></a><span class="keyword">bool</span> <span class="fname">dateUnpack</span>(<span class="keyword">double</span> value,
+            <span class="keyword">int</span>* year, <span class="keyword">int</span>* month, <span class="keyword">int</span>* day,<br/>
+            <span class="keyword">int</span>* hour = 0, <span class="keyword">int</span>* min = 0, <span class="keyword">int</span>* sec = 0, <span class="keyword">int</span>* msec = 0)<br/>
+            <div>Unpacks date and time information from double type. Returns false if error occurs.</div>
+          </li>    
+          <li>  
+            <a name="colorPack"></a><a href="colors.html">Color</a> <span class="fname">colorPack</span>(<span class="keyword">int</span> red, <span class="keyword">int</span> green, <span class="keyword">int</span> blue)
+            <br/>
+            <div>Packs red, green and blue components in color type.</div>
+          </li> 
+          <li>  
+            <a name="colorUnpack"></a><span class="keyword">void</span> <span class="fname">colorUnpack</span>(<a href="colors.html">Color</a> color, <span class="keyword">int</span>* red, <span class="keyword">int</span>* green, <span class="keyword">int</span>* blue)<br/>
+            <div>Unpacks color type to red, green and blue components.</div>
+          </li> 
+          <li>  
+            <a name="activeSheet"></a><span class="keyword">int</span> <span class="fname">activeSheet</span>() <span class="keyword">const</span><br/>
+            <div>Returns an active sheet index in this workbook.</div>
+          </li> 
+          <li>  
+            <a name="setActiveSheet"></a><span class="keyword">void</span> <span class="fname">setActiveSheet</span>(<span class="keyword">int</span> index)<br/>
+            <div>Sets an active sheet index in this workbook.</div>
+          </li> 
+          <li>  
+            <a name="pictureSize"></a><span class="keyword">int</span> <span class="fname">pictureSize</span>() <span class="keyword">const</span><br/>
+            <div>Returns a number of pictures in this workbook.
+          </div>
+           </li> 
+           <li>  
+            <a name="getPicture"></a>PictureType <span class="fname">getPicture</span>(<span class="keyword">int</span> index, <span class="keyword">const char</span>** data, <span class="keyword">unsigned</span>* size) <span class="keyword">const</span><br/>
+
+            <div>
+            Returns a picture at position <i>index</i> in memory buffer. Parameters:<br/>
+            index - position in the workbook;<br/>
+            data - reference to buffer;<br/>
+            size - reference to saved size.<br/>
+
+            Returns type of picture:
+            <table class="helptable"> 
+             <thead>
+             <tr><td>PictureType value</td><td width="270">Description</td></tr>
+             </thead>
+             <tr><td>PICTURETYPE_PNG</td><td align="center">PNG format</td></tr> 
+             <tr><td>PICTURETYPE_JPEG</td><td align="center">JPEG format</td></tr> 
+             <tr><td>PICTURETYPE_GIF</td><td align="center">GIF format</td></tr> 
+             <tr><td>PICTURETYPE_WMF</td><td align="center">WMF format</td></tr> 
+             <tr><td>PICTURETYPE_DIB</td><td align="center">DIB format</td></tr> 
+             <tr><td>PICTURETYPE_EMF</td><td align="center">EMF format</td></tr> 
+             <tr><td>PICTURETYPE_TIFF</td><td align="center">TIFF format</td></tr> 
+               
+             <tr><td>PICTURETYPE_ERROR</td><td align="center">Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a></td></tr> 
+               </table>
+
+            </div>
+          </li> 
+          <li>  
+            <a name="addPicture"></a><span class="keyword">int</span> <span class="fname">addPicture</span>(<span class="keyword">const wchar_t*</span> filename)<br/>
+            <div>
+              Adds a picture to the workbook. Returns a picture identifier. Supports BMP, DIB, PNG, JPG and WMF picture formats. Use picture identifier with <a href="spreadsheet.html#setPicture">Sheet::setPicture()</a>.
+              Returns -1 if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.
+            </div>
+          </li> 
+          <li>  
+            <a name="addPicture2"></a><span class="keyword">int</span> <span class="fname">addPicture2</span>(<span class="keyword">const char</span>* data, <span class="keyword">unsigned</span> size)<br/>
+            <div>Adds a picture to the workbook from memory buffer:<br/>
+            <i>data</i> - pointer to buffer with picture data (BMP, DIB, PNG, JPG or WMF formats);<br/>
+            <i>size</i> - size of data in buffer.<br/>
+            Returns a picture identifier. Use picture identifier with <a href="spreadsheet.html#setPicture">Sheet::setPicture()</a>. Returns -1 if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="addPictureAsLink"></a><span class="keyword">int</span> <span class="fname">addPictureAsLink</span>(<span class="keyword">const wchar_t*</span> filename, <span class="keyword">bool</span> insert = <span class="keyword">false</span>)<br/>
+            <div>Adds a picture to the workbook as link (only for xlsx files):<br/>
+            <i>insert = false</i> - stores only a link to file;<br/>
+            <i>insert = true</i> - stores a picture and a link to file.<br/>
+            Returns a picture identifier. Supports BMP, DIB, PNG, JPG and WMF picture formats. Use picture identifier with <a href="spreadsheet.html#setPicture">Sheet::setPicture()</a>. Returns -1 if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li>
+          <li>  
+            <a name="defaultFont"></a><span class="keyword">const wchar_t</span>* <span class="fname">defaultFont</span>(<span class="keyword">int</span>* fontSize)<br/>
+            <div>Returns a default font name and size for this workbook. Returns 0 if error occurs. Get error info with <a href="workbook.html#errorMessage">Book::errorMessage()</a>.</div>
+          </li> 
+          <li>  
+            <a name="setDefaultFont"></a><span class="keyword">void</span> <span class="fname">setDefaultFont</span>(<span class="keyword">const wchar_t</span>* fontName, <span class="keyword">int</span> fontSize)<br/>
+            <div>Sets a default font name and size for this workbook.</div>
+          </li> 
+          <li>  
+            <a name="refR1C1"></a><span class="keyword">bool</span> <span class="fname">refR1C1</span>() <span class="keyword">const</span><br/>
+            <div>Returns whether the R1C1 reference mode is active.</div>
+           </li>              
+           <li>  
+            <a name="setRefR1C1"></a><span class="keyword">void</span> <span class="fname">setRefR1C1</span>(<span class="keyword">bool</span> refR1C1 = <span class="keyword">true</span>)<br/>
+            <div>Sets the R1C1 reference mode.
+          </div>
+          </li> 
+          <li>  
+            <a name="rgbMode"></a><span class="keyword">bool</span> <span class="fname">rgbMode</span>()<br/>
+            <div>Returns whether the RGB mode is active.</div>
+          </li>    
+          <li>  
+            <a name="setRgbMode"></a><span class="keyword">void</span> <span class="fname">setRgbMode</span>(<span class="keyword">bool</span> rgbMode = <span class="keyword">true</span>)<br/>
+            <div>Sets a RGB mode: true - RGB mode, false - Index mode (default). In RGB mode use <a href="#colorPack">colorPack()</a> and <a href="#colorUnpack">colorUnpack()</a> methods for getting/setting colors.</div>
+          </li> 
+          <li>  
+            <a name="biffVersion"></a><span class="keyword">int</span> <span class="fname">biffVersion</span>() <span class="keyword">const</span><br/>
+            <div>Returns BIFF version of binary file. Used for xls format only.</div>
+          </li> 
+          <li>  
+            <a name="isDate1904"></a><span class="keyword">bool</span> <span class="fname">isDate1904</span>() <span class="keyword">const</span><br/>
+            <div>Returns whether the 1904 date system is active.</div>
+          </li>    
+          <li>  
+            <a name="setDate1904"></a><span class="keyword">void</span> <span class="fname">setDate1904</span>(<span class="keyword">bool</span> date1904 = <span class="keyword">true</span>)<br/>
+            <div>Sets the date system mode: true - 1904 date system, false - 1900 date system (default).<br/>
+            In the 1900 date base system, the lower limit is January 1, 1900, which has serial value 1.<br/>
+            In the 1904 date base system, the lower limit is January 1, 1904, which has serial value 0.
+            </div>
+          </li> 
+          <li>  
+            <a name="isTemplate"></a><span class="keyword">bool</span> <span class="fname">isTemplate</span>() <span class="keyword">const</span><br/>
+            <div>Returns whether the workbook is template.</div>
+          </li>    
+          <li>  
+            <a name="setTemplate"></a><span class="keyword">void</span> <span class="fname">setTemplate</span>(<span class="keyword">bool</span> tmpl = <span class="keyword">true</span>)<br/>
+            <div>Sets the template flag: true - workbook is template, false - workbook is not template (default).<br/>
+            It allows to change type of file from a template file (xlt and xltx) to a regular file (xls and xlsx) and vice versa.
+            </div>
+          </li> 
+          <li>  
+            <a name="setKey"></a><span class="keyword">void</span> <span class="fname">setKey</span>(<span class="keyword">const wchar_t</span>* name, <span class="keyword">const wchar_t</span>* key)<br/>
+            <div>Sets customer's license key.</div>
+          </li>    
+          <li>  
+            <a name="setLocale"></a><span class="keyword">bool</span> <span class="fname">setLocale</span>(<span class="keyword">const char</span>* locale)<br/>
+            <div>Sets the locale for this library.<br/>
+The locale argument is the same as the locale argument in setlocale() function from C Run-Time Library.<br/>
+For example, value "en_US.UTF-8" allows to use non-ascii characters in Linux or Mac.<br/>
+It accepts the special value "UTF-8" for using UTF-8 character encoding in Windows and other operating systems.<br/>
+It has no effect for unicode projects with wide strings (with _UNICODE preprocessor variable).<br/>
+Returns true if a valid locale argument is given.</div>
+          </li> 
+          <li>  
+            <a name="errorMessage"></a><span class="keyword">const char</span>* <span class="fname">errorMessage</span>() <span class="keyword">const</span><br/>
+            <div>Returns the last error message.</div>
+          </li> 
+          <li>  
+            <a name="release"></a><span class="keyword">void</span> <span class="fname">release</span>()<br/>
+            <div>Deletes this object and free resources.</div>
+          </li>
+        </ul>
+        <div class="blinks"><a href="index.html">Index</a>&nbsp;<b>Book</b>&nbsp;<a href="spreadsheet.html">Sheet</a>&nbsp;<a href="format.html">Format</a>&nbsp;<a href="font.html">Font</a>&nbsp;<a href="autoFilter.html">AutoFilter</a>&nbsp;<a href="filterColumn.html">FilterColumn</a>&nbsp;</div>  
+      </div>
+    </td>
+  </tr>
+  <tr>
+    <td id="footer">© 2008 - 2018 XLware. All rights reserved.</td>
+  </tr>
+  </tbody>
+  </table>
+</body>
+</html>
