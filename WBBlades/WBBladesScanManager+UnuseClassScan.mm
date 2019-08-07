@@ -60,7 +60,7 @@ static section_64 textList = {0};
 }
 
 
-+ (void)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses{
++ (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses{
     
     unsigned long long max = [fileData length];
     mach_header_64 mhHeader;
@@ -230,7 +230,7 @@ static section_64 textList = {0};
                     helper.className = className;
                     helper.selName = @"";
                     helper.offset = range.location;
-                    if ([aimClasses containsObject:className]) {
+                    if (!aimClasses ||  [aimClasses containsObject:className]) {
                         if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
                             [classrefSet addObject:className];
                         }
@@ -325,14 +325,14 @@ static section_64 textList = {0};
             
             //            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
             //            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
-             
+            
             //类名最大50字节
             uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
             [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
             NSString * className = NSSTRING(buffer);
             free(buffer);
             
-            if (![aimClasses containsObject:className]) {
+            if (aimClasses && ![aimClasses containsObject:className]) {
                 continue;
             }
             [classSet addObject:className];
@@ -440,10 +440,8 @@ static section_64 textList = {0};
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
     }];
-    NSLog(@"-----------校验完成--------------");
-    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSLog(@"%@",obj);
-    }];
+    
+    return classSet;
 }
 
 + (BOOL)inClassBlacklistCheck:(char *)className{

@@ -21,46 +21,86 @@ unsigned long long resourceSize = 0;
 unsigned long long codeSize = 0;
 static NSDictionary *podResult;
 static NSMutableSet *s_classSet;
-
+static void scanStaticLibrary(int argc, const char * argv[]);
+static void scanUnUseClass(int argc, const char * argv[]);
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
 //    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
     
-//        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app/58tongcheng"];
+        NSData *fileData = [WBBladesFileManager readFromFile:@"/Volumes/pliaf/8.22.5/Payload/58tongcheng.app/58tongcheng_arm64"];
 //        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Desktop/WinSFA"];
-        NSLog(@"start");
-        s_classSet = [NSMutableSet set];
-        
-        for (int i = 0; i < argc - 2; i++) {
-            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
-            NSLog(@"---%@",podPath);
-            enumPodFiles(podPath);
+        [WBBladesScanManager scanAllClassWithFileData:fileData classes:nil];
+        //静态库体积分析参数 1 + 路径
+        //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
+
+        NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
+        if ([type isEqualToString:@"1"]) {
+            scanStaticLibrary(argc, argv);
+        }else if ([type isEqualToString:@"2"]){
+            scanUnUseClass(argc, argv);
         }
-        NSString *appPath = [NSString stringWithFormat:@"%s",argv[1]];
-        NSLog(@"正在扫描...");
-        [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
-        NSLog(@"end");
-        return 0;
-        
-        NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
-        NSLog(@"Pod 路径：%@",podPath);
-        NSString * podName = [podPath lastPathComponent];
-        NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
-        outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
-        NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
-        NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
-        podResult = [NSMutableDictionary dictionary];
-        
-        enumAllFiles(podPath);
-        colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
-        
-        [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
-        [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
-        [resultData setValue:podResult forKey:podName];
-        [resultData writeToFile:outPutPath atomically:YES];
     }
-    return 0;
 }
+void scanStaticLibrary(int argc, const char * argv[]){
+    NSString *podPath = [NSString stringWithFormat:@"%s",argv[2]];
+    NSLog(@"Pod 路径：%@",podPath);
+    NSString * podName = [podPath lastPathComponent];
+    NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
+    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
+    NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
+    podResult = [NSMutableDictionary dictionary];
+    
+    enumAllFiles(podPath);
+    colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
+    
+    [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
+    [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
+    [resultData setValue:podResult forKey:podName];
+    [resultData writeToFile:outPutPath atomically:YES];
+}
+
+void scanUnUseClass(int argc, const char * argv[]){
+    s_classSet = [NSMutableSet set];
+    NSString *podName = @"";
+    for (int i = 0; i < argc - 3; i++) {
+        NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+3]];
+        NSLog(@"读取%@所有类",podPath);
+        enumPodFiles(podPath);
+        NSString * tmp = [podPath lastPathComponent];
+        if (i != 0) {
+            tmp = [@"+" stringByAppendingString:tmp];
+        }
+        podName = [podName stringByAppendingString:tmp];
+        
+    }
+    NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
+    
+    if (![[[[appPath lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"app"]) {
+        NSLog(@"请在第二个参数输入app文件");
+        return;
+    }
+    NSLog(@"正在扫描 %@",appPath);
+    
+    NSString *appName = [[[appPath lastPathComponent] componentsSeparatedByString:@"."] firstObject];
+    appPath = [appPath stringByAppendingPathComponent:appName];
+    
+    NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
+    
+    NSString * outPutPath = [[appPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
+    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
+    NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
+    NSMutableArray *classes = [NSMutableArray array];
+    [classset enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [classes addObject:obj];
+    }];
+    [resultData setObject:classes forKey:podName];
+    [resultData writeToFile:outPutPath atomically:YES];
+}
+
+
+
 
 void handleStaticLibrary(NSString *filePath){
     //获取静态库名字
