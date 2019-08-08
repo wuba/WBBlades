@@ -25,15 +25,12 @@ static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-//    NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Library/Developer/Xcode/DerivedData/HelloWorld-gygobitexxxrzsfnedhacdluklxc/Build/Products/Debug-iphoneos/HelloWorld.app/HelloWorld"];
-    
-        NSData *fileData = [WBBladesFileManager readFromFile:@"/Volumes/pliaf/8.22.5/Payload/58tongcheng.app/58tongcheng_arm64"];
-//        NSData *fileData = [WBBladesFileManager readFromFile:@"/Users/a58/Desktop/WinSFA"];
-        [WBBladesScanManager scanAllClassWithFileData:fileData classes:nil];
+        
         //静态库体积分析参数 1 + 路径
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
-
+        
         NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
+        type = @"1";
         if ([type isEqualToString:@"1"]) {
             scanStaticLibrary(argc, argv);
         }else if ([type isEqualToString:@"2"]){
@@ -43,6 +40,7 @@ int main(int argc, const char * argv[]) {
 }
 void scanStaticLibrary(int argc, const char * argv[]){
     NSString *podPath = [NSString stringWithFormat:@"%s",argv[2]];
+    podPath = @"/Users/a58/wb_frameworks/";
     NSLog(@"Pod 路径：%@",podPath);
     NSString * podName = [podPath lastPathComponent];
     NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
@@ -105,26 +103,26 @@ void scanUnUseClass(int argc, const char * argv[]){
 void handleStaticLibrary(NSString *filePath){
     //获取静态库名字
     NSString *name = [filePath lastPathComponent];
-    NSLog(@"尝试分析文件---%@",name);
+    NSLog(@"分析文件---%@",name);
     
     //拷贝文件
-    NSLog(@"正在备份文件...");
+//    NSLog(@"正在备份文件...");
     NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
     NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
     cmd(rmCmd);
     cmd(cpCmd);
     
     //文件架构拆分
-    NSLog(@"正在进行架构拆分...");
+//    NSLog(@"正在进行架构拆分...");
     NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
     cmd(thinCmd);
-
+    
     //去除bitcode信息
-    NSLog(@"正在去除bitcode中间码...");
+//    NSLog(@"正在去除bitcode中间码...");
     NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
     cmd(bitcodeCmd);
     //剥离符号表
-    NSLog(@"正在剥离符号表...");
+//    NSLog(@"正在剥离符号表...");
     NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x %@_copy",filePath];
     cmd(stripCmd);
     
@@ -134,7 +132,7 @@ void handleStaticLibrary(NSString *filePath){
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
     codeSize += size;
     //暂时不考虑多静态库链接问题
-    [[WBBladesLinkManager shareInstance] clearLinker];
+//    [[WBBladesLinkManager shareInstance] clearLinker];
     //删除临时文件
     cmd(rmCmd);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
@@ -216,55 +214,58 @@ void enumPodFiles(NSString *path){
 }
 
 void enumAllFiles(NSString *path){
-    //遍历单一pod
-    NSFileManager * fileManger = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
-    NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
-   
-    if (isExist && !symbolicLink) {
-        if (isDir) {
-            
-            if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
+    @autoreleasepool {
+        
+        //遍历单一pod
+        NSFileManager * fileManger = [NSFileManager defaultManager];
+        BOOL isDir = NO;
+        BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
+        NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
+        
+        if (isExist && !symbolicLink) {
+            if (isDir) {
                 
-                //进行xcassets 编译
-                NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --enable-on-demand-resources YES --filter-for-device-model iPhone9,2 --filter-for-device-os-version 12.2  --target-device iphone --target-device ipad --minimum-deployment-target 11 --platform iphoneos --product-type com.apple.product-type.application --compile %@ %@",[path stringByDeletingLastPathComponent],path];
-                cmd(complieCmd);
-                NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
-                NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
-                resourceSize += [fileData length];
-                cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
-            }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
-                      ){
-                //忽略文档、demo、git 目录
-                return;
-            }else{
-                NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
-                NSString * subPath = nil;
-                for (NSString * str in dirArray) {
-                    subPath  = [path stringByAppendingPathComponent:str];
-                    BOOL issubDir = NO;
-                    [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
-                    enumAllFiles(subPath);
+                if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
+                    
+                    //进行xcassets 编译
+                    NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --enable-on-demand-resources YES --filter-for-device-model iPhone9,2 --filter-for-device-os-version 12.2  --target-device iphone --target-device ipad --minimum-deployment-target 11 --platform iphoneos --product-type com.apple.product-type.application --compile %@ %@",[path stringByDeletingLastPathComponent],path];
+                    cmd(complieCmd);
+                    NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
+                    NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
+                    resourceSize += [fileData length];
+                    cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
+                }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
+                          [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
+                          [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
+                          ){
+                    //忽略文档、demo、git 目录
+                    return;
+                }else{
+                    NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+                    NSString * subPath = nil;
+                    for (NSString * str in dirArray) {
+                        subPath  = [path stringByAppendingPathComponent:str];
+                        BOOL issubDir = NO;
+                        [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+                        enumAllFiles(subPath);
+                    }
                 }
-            }
-        }else{
-            NSString *fileName = [path lastPathComponent];
-            
-            //判断是否为资源
-            NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
-            NSString *fileType = [array lastObject];
-            if (isResource(fileType)) {
-                //统计资源文件大小
-                NSData *fileData = [WBBladesFileManager  readFromFile:path];
-                NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
-                resourceSize += [fileData length];
+            }else{
+                NSString *fileName = [path lastPathComponent];
                 
-            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
-                handleStaticLibrary(path);
-            }else{//大概率是编译产生的中间文件
+                //判断是否为资源
+                NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
+                NSString *fileType = [array lastObject];
+                if (isResource(fileType)) {
+                    //统计资源文件大小
+                    NSData *fileData = [WBBladesFileManager  readFromFile:path];
+                    NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
+                    resourceSize += [fileData length];
+                    
+                }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
+                    handleStaticLibrary(path);
+                }else{//大概率是编译产生的中间文件
+                }
             }
         }
     }
@@ -289,7 +290,7 @@ bool isResource(NSString *type){
         [type isEqualToString:@"aiff"] ||
         [type isEqualToString:@"ttf"] ||
         [type isEqualToString:@"strings"]) {
-     
+        
         return YES;
     }
     
@@ -322,7 +323,7 @@ void colorPrint(NSString *info){
     NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
     NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
     [task setArguments: arguments];
-   
+    
     [task launch];
 }
 

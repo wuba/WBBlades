@@ -388,7 +388,7 @@
         default:
         {
             if (*(uint64_t*)((uint8_t *)[fileData bytes]) == *(uint64_t*)"!<arch>\n"){
-//                NSLog(@"符合单架构静态库特征");
+                //                NSLog(@"符合单架构静态库特征");
                 return YES;
             }else{
                 NSLog(@"非Mach-O文件");
