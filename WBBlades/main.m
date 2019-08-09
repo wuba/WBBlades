@@ -30,7 +30,6 @@ int main(int argc, const char * argv[]) {
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
         
         NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
-        type = @"1";
         if ([type isEqualToString:@"1"]) {
             scanStaticLibrary(argc, argv);
         }else if ([type isEqualToString:@"2"]){
@@ -39,38 +38,43 @@ int main(int argc, const char * argv[]) {
     }
 }
 void scanStaticLibrary(int argc, const char * argv[]){
-    NSString *podPath = [NSString stringWithFormat:@"%s",argv[2]];
-    podPath = @"/Users/a58/wb_frameworks/";
-    NSLog(@"Pod 路径：%@",podPath);
-    NSString * podName = [podPath lastPathComponent];
-    NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
-    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
-    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
-    NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
-    podResult = [NSMutableDictionary dictionary];
     
-    enumAllFiles(podPath);
-    colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
-    
-    [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
-    [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
-    [resultData setValue:podResult forKey:podName];
-    [resultData writeToFile:outPutPath atomically:YES];
+    for (int i = 0; i < argc - 3; i++) {
+        @autoreleasepool {
+            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
+            NSLog(@"Pod 路径：%@",podPath);
+            NSString * podName = [podPath lastPathComponent];
+            NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+            outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
+            NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
+            NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
+            podResult = [NSMutableDictionary dictionary];
+        
+            enumAllFiles(podPath);
+            colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
+        
+            [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
+            [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
+            [resultData setValue:podResult forKey:podName];
+            [resultData writeToFile:outPutPath atomically:YES];
+        }
+    }
 }
 
 void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
     for (int i = 0; i < argc - 3; i++) {
-        NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+3]];
-        NSLog(@"读取%@所有类",podPath);
-        enumPodFiles(podPath);
-        NSString * tmp = [podPath lastPathComponent];
-        if (i != 0) {
-            tmp = [@"+" stringByAppendingString:tmp];
+        @autoreleasepool {
+            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
+            NSLog(@"读取%@所有类",podPath);
+            enumPodFiles(podPath);
+            NSString * tmp = [podPath lastPathComponent];
+            if (i != 0) {
+                tmp = [@"+" stringByAppendingString:tmp];
+            }
+            podName = [podName stringByAppendingString:tmp];
         }
-        podName = [podName stringByAppendingString:tmp];
-        
     }
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     
@@ -130,6 +134,7 @@ void handleStaticLibrary(NSString *filePath){
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
+    NSLog(@"%@ 大小为 %.1f MB",name,(size - codeSize)/1024.0/1024.0);
     codeSize += size;
     //暂时不考虑多静态库链接问题
 //    [[WBBladesLinkManager shareInstance] clearLinker];
@@ -183,6 +188,7 @@ void enumPodFiles(NSString *path){
                 return;
             }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
                       [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
+                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"product"] ||
                       [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
                       ){
                 //忽略文档、demo、git 目录
