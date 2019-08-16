@@ -57,6 +57,11 @@ typedef struct wb_objc_classdata {
 }
 
 - (unsigned long long )linkWithObjects:(NSArray<WBBladesObject *>*)objects{
+    
+    self.linkSize = 0;
+    if ([self.unixData count] >0 ) {
+        NSLog(@"用到了其他的文件信息  总数：%ld",self.unixData.count);
+    }
     for (WBBladesObject *object in objects) {
         
         self.linkSize += object.objectMachO.size;

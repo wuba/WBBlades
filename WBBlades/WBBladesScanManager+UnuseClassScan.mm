@@ -62,6 +62,7 @@ static section_64 textList = {0};
 
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses{
     
+    NSLog(@"目标%ld个类",aimClasses.count);
     unsigned long long max = [fileData length];
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];

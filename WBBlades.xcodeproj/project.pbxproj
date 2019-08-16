@@ -457,6 +457,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",

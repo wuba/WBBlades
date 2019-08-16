@@ -25,7 +25,43 @@ static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-        
+       
+//        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Users/a58/Desktop/WBBladesClass.plist"];
+//        NSString *path = @"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app";
+//
+//        //遍历单一pod
+//        NSFileManager * fileManger = [NSFileManager defaultManager];
+//        NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+//        NSString * subPath = nil;
+//        for (NSString * str in dirArray) {
+//            subPath  = [path stringByAppendingPathComponent:str];
+//            BOOL issubDir = NO;
+//            [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+//            if (!issubDir) {
+//                if (([[[[subPath lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"plist"])) {
+//                    NSLog(@"%@",subPath);
+//
+//                    NSDictionary *router = [NSDictionary dictionaryWithContentsOfFile:subPath];
+//                    if ([router isKindOfClass:[NSDictionary class]]) {
+//                        [router enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+//
+//                            [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key0, id  _Nonnull classes, BOOL * _Nonnull stop) {
+//
+//                                NSArray *array = (NSArray *)classes;
+//                                NSMutableArray *muArray = [NSMutableArray arrayWithArray:array];
+//                                [muArray removeObject:obj];
+//                                [dic setObject:muArray forKey:key0];
+//
+//                            }];
+//                        }];
+//                    }
+//                }
+//            }
+//        }
+//        [dic writeToFile:@"/Users/a58/Desktop/WBBladesClass_new.plist" atomically:YES];
+//        return 0;
+//
+//
         //静态库体积分析参数 1 + 路径
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
         
@@ -38,18 +74,18 @@ int main(int argc, const char * argv[]) {
     }
 }
 void scanStaticLibrary(int argc, const char * argv[]){
-    
-    for (int i = 0; i < argc - 3; i++) {
+    for (int i = 0; i < argc - 2; i++) {
         @autoreleasepool {
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
             NSLog(@"Pod 路径：%@",podPath);
             NSString * podName = [podPath lastPathComponent];
-            NSString * outPutPath = [[podPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+            NSString * outPutPath = [podPath stringByDeletingLastPathComponent];
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
             NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
             podResult = [NSMutableDictionary dictionary];
-        
+            resourceSize = 0;
+            codeSize = 0;
             enumAllFiles(podPath);
             colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
         
@@ -64,7 +100,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
 void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
-    for (int i = 0; i < argc - 3; i++) {
+    for (int i = 0; i < argc - 2; i++) {
         @autoreleasepool {
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
             NSLog(@"读取%@所有类",podPath);
@@ -123,18 +159,18 @@ void handleStaticLibrary(NSString *filePath){
     
     //去除bitcode信息
 //    NSLog(@"正在去除bitcode中间码...");
-    NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
-    cmd(bitcodeCmd);
-    //剥离符号表
-//    NSLog(@"正在剥离符号表...");
-    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x %@_copy",filePath];
-    cmd(stripCmd);
+//    NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
+//    cmd(bitcodeCmd);
+//    //剥离符号表
+////    NSLog(@"正在剥离符号表...");
+//    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x %@_copy",filePath];
+//    cmd(stripCmd);
     
     //读取mach-o文件
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
-    NSLog(@"%@ 大小为 %.1f MB",name,(size - codeSize)/1024.0/1024.0);
+    NSLog(@"%@ 大小为 %.1f MB",name,(size)/1024.0/1024.0);
     codeSize += size;
     //暂时不考虑多静态库链接问题
 //    [[WBBladesLinkManager shareInstance] clearLinker];
@@ -265,7 +301,7 @@ void enumAllFiles(NSString *path){
                 if (isResource(fileType)) {
                     //统计资源文件大小
                     NSData *fileData = [WBBladesFileManager  readFromFile:path];
-                    NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
+//                    NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
                     resourceSize += [fileData length];
                     
                 }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件

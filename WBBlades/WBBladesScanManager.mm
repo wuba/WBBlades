@@ -141,8 +141,7 @@
                 }
                 
                 //__TEXT的section 做存储，用于虚拟链接
-                if ([segName isEqualToString:@"__TEXT"] ||
-                    [segName isEqualToString:@"__DATA"]) {
+                if ([segName isEqualToString:@"__TEXT"]) {
                     
                     //跳转到相应的section
                     unsigned int secOffset = sectionHeader.offset;
@@ -195,7 +194,7 @@
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
                         }
                             break;
-                            
+                        
                         case S_REGULAR:{
                             if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
                                 //获取中文字符串
