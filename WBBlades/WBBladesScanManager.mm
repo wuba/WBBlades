@@ -45,10 +45,12 @@
     NSMutableArray *objects = [NSMutableArray array];
     //循环扫描静态库中所有的目标文件
     while (range.location < fileData.length) {
-        WBBladesObject *object = [self scanObject:fileData range:range];
-        range = NSMakeRange(NSMaxRange(object.range), 0);
-        [objects addObject:object];
-        range = [self rangeAlign:range];
+        @autoreleasepool {
+            WBBladesObject *object = [self scanObject:fileData range:range];
+            range = NSMakeRange(NSMaxRange(object.range), 0);
+            [objects addObject:object];
+            range = [self rangeAlign:range];
+        }
     }
     
     unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects];
