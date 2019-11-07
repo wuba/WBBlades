@@ -25,46 +25,8 @@ static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
-       
-//        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithContentsOfFile:@"/Users/a58/Desktop/WBBladesClass.plist"];
-//        NSString *path = @"/Users/a58/Library/Developer/Xcode/DerivedData/cube-eeildwblwfmkxmaklywdjgeyqndc/Build/Products/Debug-iphoneos/58tongcheng.app";
-//
-//        //遍历单一pod
-//        NSFileManager * fileManger = [NSFileManager defaultManager];
-//        NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
-//        NSString * subPath = nil;
-//        for (NSString * str in dirArray) {
-//            subPath  = [path stringByAppendingPathComponent:str];
-//            BOOL issubDir = NO;
-//            [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
-//            if (!issubDir) {
-//                if (([[[[subPath lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"plist"])) {
-//                    NSLog(@"%@",subPath);
-//
-//                    NSDictionary *router = [NSDictionary dictionaryWithContentsOfFile:subPath];
-//                    if ([router isKindOfClass:[NSDictionary class]]) {
-//                        [router enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//
-//                            [dic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key0, id  _Nonnull classes, BOOL * _Nonnull stop) {
-//
-//                                NSArray *array = (NSArray *)classes;
-//                                NSMutableArray *muArray = [NSMutableArray arrayWithArray:array];
-//                                [muArray removeObject:obj];
-//                                [dic setObject:muArray forKey:key0];
-//
-//                            }];
-//                        }];
-//                    }
-//                }
-//            }
-//        }
-//        [dic writeToFile:@"/Users/a58/Desktop/WBBladesClass_new.plist" atomically:YES];
-//        return 0;
-//
-//
         //静态库体积分析参数 1 + 路径
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
-        
         NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
         if ([type isEqualToString:@"1"]) {
             scanStaticLibrary(argc, argv);
@@ -93,6 +55,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
             [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
             [resultData setValue:podResult forKey:podName];
             [resultData writeToFile:outPutPath atomically:YES];
+            [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
         }
     }
 }

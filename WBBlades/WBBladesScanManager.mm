@@ -31,25 +31,34 @@
     if (!fileData || ![self isSupport:fileData]) {
         return 0;
     }
-    NSRange range = NSMakeRange(8, 0);
-    WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
-    
-    range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
-    WBBladesSymTab * symTab = [self scanSymbolTab:fileData range:range];
-    
-    range = NSMakeRange(NSMaxRange(symTab.range), 0);
-    WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
-    
-    range = NSMakeRange(NSMaxRange(stringTab.range), 0);
-    
     NSMutableArray *objects = [NSMutableArray array];
-    //循环扫描静态库中所有的目标文件
-    while (range.location < fileData.length) {
-        @autoreleasepool {
-            WBBladesObject *object = [self scanObject:fileData range:range];
-            range = NSMakeRange(NSMaxRange(object.range), 0);
-            [objects addObject:object];
-            range = [self rangeAlign:range];
+    uint32_t  magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
+    if (magic == MH_CIGAM_64 || magic == MH_MAGIC_64) {
+        WBBladesObject *object = [WBBladesObject new];
+        NSRange range = NSMakeRange(0, 0);
+        WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
+        object.objectMachO = macho;
+        [objects addObject:object];
+    }else{
+        NSRange range = NSMakeRange(8, 0);
+        WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
+        
+        range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
+        WBBladesSymTab * symTab = [self scanSymbolTab:fileData range:range];
+        
+        range = NSMakeRange(NSMaxRange(symTab.range), 0);
+        WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
+        
+        range = NSMakeRange(NSMaxRange(stringTab.range), 0);
+        
+        //循环扫描静态库中所有的目标文件
+        while (range.location < fileData.length) {
+            @autoreleasepool {
+                WBBladesObject *object = [self scanObject:fileData range:range];
+                range = NSMakeRange(NSMaxRange(object.range), 0);
+                [objects addObject:object];
+                range = [self rangeAlign:range];
+            }
         }
     }
     
@@ -384,7 +393,9 @@
         case MH_MAGIC_64:
         case MH_CIGAM_64:
         {
+            //还真有单目标文件的静态库。。。。
             NSLog(@"64位 mach-o");
+            return YES;
         } break;
         default:
         {
