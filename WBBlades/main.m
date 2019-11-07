@@ -23,32 +23,6 @@ static NSDictionary *podResult;
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         
-//
-//        NSString *s = @"/Users/a58/WBBladesResult.plist";
-//        NSDictionary *p = [NSDictionary dictionaryWithContentsOfFile:s];
-//        __block float rs = 0;
-//        __block float ts = 0;
-//        [p enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-//
-//            NSDictionary *d = (NSDictionary *)obj;
-//            NSString *r = d[@"resource"] ;
-//            NSString *t = d[@"total"];
-//            r = [r stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-//            t = [t stringByReplacingOccurrencesOfString:@" MB" withString:@""];
-//            rs += [r floatValue];
-//            ts += [t floatValue];
-//
-////            NSLog(@"%@ %.2f MB",key,[r floatValue]);
-//            NSLog(@"%@ %.2f MB",key,[t floatValue]);
-//
-//        }];
-//
-//        NSLog(@"%.2f MB",rs);
-//        NSLog(@"%.2f MB",ts);
-//
-//        return 0;
-
-        
         NSString *podPath = [NSString stringWithFormat:@"%s",argv[1]];
         NSLog(@"Pod 路径：%@",podPath);
         NSString * podName = [podPath lastPathComponent];
@@ -65,6 +39,7 @@ int main(int argc, const char * argv[]) {
         [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
         [resultData setValue:podResult forKey:podName];
         [resultData writeToFile:outPutPath atomically:YES];
+        [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
     }
     return 0;
 }
