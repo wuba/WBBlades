@@ -233,7 +233,7 @@ void enumAllFiles(NSString *path){
                 if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
                     
                     //进行xcassets 编译
-                    NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --enable-on-demand-resources YES --filter-for-device-model iPhone9,2 --filter-for-device-os-version 12.2  --target-device iphone --target-device ipad --minimum-deployment-target 11 --platform iphoneos --product-type com.apple.product-type.application --compile %@ %@",[path stringByDeletingLastPathComponent],path];
+                    NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@",[path stringByDeletingLastPathComponent],path];
                     cmd(complieCmd);
                     NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
                     NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
