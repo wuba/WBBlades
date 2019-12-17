@@ -76,12 +76,14 @@ static section_64 textList = {0};
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
+            //遍历查找classlist、selref、classref、nlcls、cfstring section
             if ([segName isEqualToString:@"__DATA"]) {
                 //遍历所有的section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
@@ -108,8 +110,7 @@ static section_64 textList = {0};
                     }
                     currentSecLocation += sizeof(section_64);
                 }
-            }
-            else if ([segName isEqualToString:@"__TEXT"]){
+            }else if ([segName isEqualToString:@"__TEXT"]){
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     
@@ -119,6 +120,8 @@ static section_64 textList = {0};
                     
                     if ([secName isEqualToString:@"__text"]) {
                         textList = sectionHeader;
+                        
+                        //对二进制文件的汇编代码进行反汇编
                         s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
                     }
                     
@@ -278,11 +281,13 @@ static section_64 textList = {0};
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             unsigned long long classOffset = classAddress - vm;
             
+            //获取类结构体
             class64 targetClass = {0};
             NSRange targetClassRange = NSMakeRange(classOffset, 0);
             data = [self read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
             [data getBytes:&targetClass length:sizeof(class64)];
             
+            //获取类信息结构体
             class64Info targetClassInfo = {0};
             unsigned long long targetClassInfoOffset = targetClass.data - vm;
             NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
@@ -301,6 +306,7 @@ static section_64 textList = {0};
             //            data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
             //            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
             //
+            //获取父类信息
             if (targetClass.superClass != 0) {
                 class64 superClass = {0};
                 NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
@@ -333,6 +339,7 @@ static section_64 textList = {0};
             NSString * className = NSSTRING(buffer);
             free(buffer);
             
+            //当前类是否在目标类集合中
             if (aimClasses && ![aimClasses containsObject:className]) {
                 continue;
             }
@@ -630,10 +637,12 @@ static section_64 textList = {0};
         NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
         return NULL;
     }
+    //设置解析模式
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
     //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
     
+    //进行反汇编
     size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, size, ot_addr, 0, &cs_insn);
     if (disasm_count < 1 ) {
         NSLog(@"汇编指令解析不符合预期！");

@@ -28,24 +28,33 @@
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData{
     
+    //判断是否为静态库文件
     if (!fileData || ![self isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
+    
+    //获取文件特征值
     uint32_t  magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
+    //如果fileData 为目标文件，目标文件中只加入此目标文件
     if (magic == MH_CIGAM_64 || magic == MH_MAGIC_64) {
         WBBladesObject *object = [WBBladesObject new];
         NSRange range = NSMakeRange(0, 0);
+        //提取Mach-O文件
         WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
         object.objectMachO = macho;
         [objects addObject:object];
     }else{
+        
+        //header
         NSRange range = NSMakeRange(8, 0);
         WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
         
+        //符号表
         range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
         WBBladesSymTab * symTab = [self scanSymbolTab:fileData range:range];
         
+        //字符串表
         range = NSMakeRange(NSMaxRange(symTab.range), 0);
         WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
         
@@ -62,6 +71,7 @@
         }
     }
     
+    //对所有的目标文件进行虚拟链接
     unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects];
     return linkSize;
 }
@@ -90,7 +100,6 @@
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
-    //    NSLog(@"正在分析%@",objcHeader.longName);
     return objcHeader;
 }
 
@@ -125,11 +134,14 @@
     //遍历load command
     for (int i = 0; i < mhHeader.ncmds; i++) {
         
+        //获取load command数据
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
         
+        //如果load command为 segment类型则进行文本段和数据段的提取
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             
+            //重新以segment_command_64结构体类型来获取command数据
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             
@@ -138,6 +150,7 @@
             //遍历所有的section header
             for (int j = 0; j < segmentCommand.nsects; j++) {
                 
+                //获取segment_command后的每个secton信息
                 section_64 sectionHeader;
                 [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                 NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
@@ -145,9 +158,6 @@
                 //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
                 if ([segName isEqualToString:@"__TEXT"] ||
                     [segName isEqualToString:@"__DATA"]) {
-                    
-                    //                    NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
-                    //                    NSLog(@"------- %@ -------%llu",sectionName,sectionHeader.size);
                     objcMachO.size += sectionHeader.size;
                 }
                 
@@ -160,7 +170,7 @@
                     NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
                     NSRange secRange = NSMakeRange(secLocation, 0);
                     
-                    //获取section 内容
+                    //根据section数据类型获取section 内容
                     switch (sectionHeader.flags & SECTION_TYPE) {
                         case S_CSTRING_LITERALS:{
                             
@@ -174,7 +184,6 @@
                                 NSData *literals = [self read_bytes:secRange length:4 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    //                                    NSLog(@"4字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -187,7 +196,6 @@
                                 NSData *literals = [self read_bytes:secRange length:8 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    //                                    NSLog(@"8字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -199,7 +207,6 @@
                                 NSData *literals = [self read_bytes:secRange length:16 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
-                                    //                                    NSLog(@"16字节常量：%@",literals);
                                 }
                             }
                             [objcMachO.sections setObject:[array copy] forKey:sectionName];
@@ -244,30 +251,6 @@
             symtab_command symtabCommand;
             [fileData getBytes:&symtabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
             stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
-            
-            //加上字符串表和符号表的大小
-            //            objcMachO.size += symtabCommand.strsize;
-            //            objcMachO.size += symtabCommand.nsyms * (sizeof(nlist_64));
-            
-            
-            //保存符号表和字符串表的关键数据，用于虚拟链接
-            //            NSRange tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.stroff, 0);
-            //            objcMachO.stringTab = (char *)((char*)[fileData bytes] + mhHeaderLocation + symtabCommand.stroff);
-            //            objcMachO.stringSize = symtabCommand.strsize;
-            //            tmpRange = NSMakeRange(mhHeaderLocation + symtabCommand.symoff, symtabCommand.nsyms * sizeof(nlist_64));
-            //            nlist_64 *symbolList = (nlist_64 *)malloc(symtabCommand.nsyms * sizeof(nlist_64));
-            //            [fileData getBytes:symbolList range:tmpRange];
-            //            NSMutableArray *indexList = [NSMutableArray array];
-            //            for (int j = 0; j<symtabCommand.nsyms; j++) {
-            //                nlist_64 symbol = symbolList[j];
-            //                NSDictionary *symbolIndex = @{
-            //                                              @"index":@(symbol.n_un.n_strx),
-            //                                              @"type":@(symbol.n_type)
-            //                                              };
-            //                [indexList addObject:symbolIndex];
-            //            }
-            //            objcMachO.symbolTab = [indexList copy];
-            //            free(symbolList);
         }
         
         currentLcLocation += cmd->cmdsize;
@@ -375,30 +358,33 @@
 }
 
 + (BOOL)isSupport:(NSData *)fileData{
+    
+    
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic)
     {
-        case FAT_MAGIC:
+        case FAT_MAGIC: //胖二进制文件
         case FAT_CIGAM:
         {
             NSLog(@"fat binary");
         } break;
             
-        case MH_MAGIC:
+        case MH_MAGIC: //32位mach-o
         case MH_CIGAM:
         {
             NSLog(@"32位 mach-o");
         } break;
             
-        case MH_MAGIC_64:
+        case MH_MAGIC_64://64位mach-o
         case MH_CIGAM_64:
         {
-            //还真有单目标文件的静态库。。。。
+            //存在一个静态库为单目标文件的情况
             NSLog(@"64位 mach-o");
             return YES;
         } break;
         default:
         {
+            //静态库文件的特征
             if (*(uint64_t*)((uint8_t *)[fileData bytes]) == *(uint64_t*)"!<arch>\n"){
                 //                NSLog(@"符合单架构静态库特征");
                 return YES;
@@ -434,7 +420,6 @@
     return [strings copy];
 }
 
-//-----------------------------------------------------------------------------
 + (NSString *)read_string:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData
 {
     range = NSMakeRange(NSMaxRange(range),len);
@@ -445,7 +430,6 @@
     return [self replaceEscapeCharsInString:str];
 }
 
-//-----------------------------------------------------------------------------
 + (NSData *)read_bytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData
 {
     range = NSMakeRange(NSMaxRange(range),length);
@@ -456,7 +440,6 @@
     return ret;
 }
 
-//-----------------------------------------------------------------------------
 + (NSString *) replaceEscapeCharsInString: (NSString *)orig
 {
     NSUInteger len = [orig length];

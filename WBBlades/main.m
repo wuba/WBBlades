@@ -23,34 +23,54 @@ static NSDictionary *podResult;
 static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
+
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         //静态库体积分析参数 1 + 路径
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
         NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
         if ([type isEqualToString:@"1"]) {
+            //进行静态库体积分析
             scanStaticLibrary(argc, argv);
         }else if ([type isEqualToString:@"2"]){
+            //进行无用类检测
             scanUnUseClass(argc, argv);
         }
     }
 }
 void scanStaticLibrary(int argc, const char * argv[]){
+    
+    //参数1 为个数，参数2 为pod 路径列表
     for (int i = 0; i < argc - 2; i++) {
         @autoreleasepool {
+            
+            //获取每个pod的路径
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
             NSLog(@"Pod 路径：%@",podPath);
+            
+            //获取pod 名称
             NSString * podName = [podPath lastPathComponent];
+            
+            //获取结果文件输出路径，为pod的兄弟路径
             NSString * outPutPath = [podPath stringByDeletingLastPathComponent];
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
+            
+            //获取上次分析结果
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
             NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
             podResult = [NSMutableDictionary dictionary];
+            
+            //资源和代码体积f清空
             resourceSize = 0;
             codeSize = 0;
+            
+            //遍历pod中的每个文件
             enumAllFiles(podPath);
+            
+            //打印当前pod资源和代码大小
             colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
-        
+            
+            //将结果写入文件
             [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
             [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
             [resultData setValue:podResult forKey:podName];
@@ -63,6 +83,8 @@ void scanStaticLibrary(int argc, const char * argv[]){
 void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
+    
+    //遍历输入的pod，提取所有pod中的类
     for (int i = 0; i < argc - 2; i++) {
         @autoreleasepool {
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
@@ -83,11 +105,14 @@ void scanUnUseClass(int argc, const char * argv[]){
     }
     NSLog(@"正在扫描 %@",appPath);
     
+    //获取app中二进制文件路径
     NSString *appName = [[[appPath lastPathComponent] componentsSeparatedByString:@"."] firstObject];
     appPath = [appPath stringByAppendingPathComponent:appName];
     
+    //读取二进制文件，对输入的pod下的类进行无用类扫描
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
     
+    //输出数据
     NSString * outPutPath = [[appPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
     outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
     NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
@@ -109,27 +134,16 @@ void handleStaticLibrary(NSString *filePath){
     NSLog(@"分析文件---%@",name);
     
     //拷贝文件
-//    NSLog(@"正在备份文件...");
     NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
     NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
     cmd(rmCmd);
     cmd(cpCmd);
     
     //文件架构拆分
-//    NSLog(@"正在进行架构拆分...");
     NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
     cmd(thinCmd);
     
-    //去除bitcode信息
-//    NSLog(@"正在去除bitcode中间码...");
-//    NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
-//    cmd(bitcodeCmd);
-//    //剥离符号表
-////    NSLog(@"正在剥离符号表...");
-//    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x %@_copy",filePath];
-//    cmd(stripCmd);
-    
-    //读取mach-o文件
+    //读取mach-o文件并统计体积
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
@@ -227,17 +241,25 @@ void enumAllFiles(NSString *path){
         BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
         NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
         
+        //如果不是软连接
         if (isExist && !symbolicLink) {
+            
+            //如果是路径
             if (isDir) {
                 
+                //如果是xcassets资源
                 if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
                     
                     //进行xcassets 编译
                     NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@",[path stringByDeletingLastPathComponent],path];
                     cmd(complieCmd);
+                    
+                    //获取编译后的.car文件的大小并统计
                     NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
                     NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
                     resourceSize += [fileData length];
+                    
+                    //删除编译后的.car文件
                     cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
                 }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
                           [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
@@ -246,8 +268,10 @@ void enumAllFiles(NSString *path){
                     //忽略文档、demo、git 目录
                     return;
                 }else{
+                    
                     NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
                     NSString * subPath = nil;
+                    //递归遍历当前文件夹内所有文件
                     for (NSString * str in dirArray) {
                         subPath  = [path stringByAppendingPathComponent:str];
                         BOOL issubDir = NO;
@@ -256,11 +280,14 @@ void enumAllFiles(NSString *path){
                     }
                 }
             }else{
+                //获取资源文件后缀名
                 NSString *fileName = [path lastPathComponent];
                 
                 //判断是否为资源
                 NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
                 NSString *fileType = [array lastObject];
+                
+                //只统计在资源列表内的资源
                 if (isResource(fileType)) {
                     //统计资源文件大小
                     NSData *fileData = [WBBladesFileManager  readFromFile:path];

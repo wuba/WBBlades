@@ -64,6 +64,7 @@ typedef struct wb_objc_classdata {
     }
     for (WBBladesObject *object in objects) {
         
+
         self.linkSize += object.objectMachO.size;
         
         //对section 进行链接
@@ -84,49 +85,6 @@ typedef struct wb_objc_classdata {
                 [set addObject:value];
             }
         }];
-        
-//        //对符号表进行链接
-//        if (!self.unixData[SYMBOL_TABLE]) {
-//            self.unixData[SYMBOL_TABLE] = [NSMutableSet set];
-//        }
-//        NSMutableSet *symbolSet = self.unixData[SYMBOL_TABLE];
-//        for (NSDictionary  *indexDic in object.objectMachO.symbolTab) {
-//            unsigned long index = [indexDic[@"index"] unsignedIntegerValue];
-//            unsigned char type = [indexDic[@"type"] charValue];
-//            char *symbol = object.objectMachO.stringTab + index;
-//            NSString *symbolName = [NSString stringWithUTF8String:symbol];
-//
-//            if (type == 0x0e) {
-//                self.linkSize -= sizeof(nlist_64);
-//                self.linkSize -= (symbolName.length + 1);
-//                [self.abandonStringSet addObject:symbolName];
-//
-////                symSize -= sizeof(nlist_64);
-////                stringSize -= (symbolName.length + 1);
-//            }else{
-//                if ([symbolSet containsObject:symbolName]) {
-//                    self.linkSize -= sizeof(nlist_64);
-////                    symSize -= sizeof(nlist_64);
-//                }
-//                [symbolSet addObject:symbolName];
-//            }
-//        }
-//
-//        //对字符串表进行链接
-//        if (!self.unixData[STRING_TABLE]) {
-//            self.unixData[STRING_TABLE] = [NSMutableSet set];
-//        }
-//        NSMutableSet *stringSet = self.unixData[STRING_TABLE];
-//        char * strP = object.objectMachO.stringTab;
-//        while (strP < object.objectMachO.stringSize + object.objectMachO.stringTab) {
-//            NSString *string = [NSString stringWithUTF8String:strP];
-//            if ([stringSet containsObject:string] && ![stringSet containsObject:string]) {
-//                self.linkSize -= ([string length] + 1);
-////                stringSize -= ([string length] + 1);
-//            }
-//            [stringSet addObject:string];
-//            strP += [string length] + 1;
-//        }
     }
     
     return self.linkSize;
