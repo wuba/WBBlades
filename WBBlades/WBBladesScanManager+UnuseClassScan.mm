@@ -137,7 +137,7 @@ static section_64 textList = {0};
     NSMutableSet *classrefSet = [NSMutableSet set];
     NSMutableDictionary *selrefDic = [NSMutableDictionary dictionary];
     
-    //获取selref
+    //获取selref，目前没啥用
     NSRange range = NSMakeRange(selrefList.offset, 0);
     for (int i = 0; i < selrefList.size / 8; i++) {
         
@@ -211,12 +211,14 @@ static section_64 textList = {0};
             //方法名最大150字节
             if (classAddress < max) {
                 
+                //获取class64结构体
                 class64 targetClass;
                 ptrdiff_t off = classAddress;
                 char * p = (char *)fileData.bytes;
                 p = p+off;
                 memcpy(&targetClass, p, sizeof(class64));
                 
+                //获取class64info结构体
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
@@ -229,12 +231,15 @@ static section_64 textList = {0};
                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
                 NSString * className = NSSTRING(buffer);
                 free(buffer);
+                
                 if (className) {
                     WBBladesHelper *helper = [WBBladesHelper new];
                     helper.className = className;
                     helper.selName = @"";
                     helper.offset = range.location;
                     if (!aimClasses ||  [aimClasses containsObject:className]) {
+                        
+                        //查看是否在别的类中有调用
                         if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
                             [classrefSet addObject:className];
                         }
@@ -464,49 +469,6 @@ static section_64 textList = {0};
     return NO;
 }
 //
-//+ (NSArray *)methodWhitelist{
-//    return @[@"init",
-//             @"dealloc",
-//             @"copy",
-//             @"mutableCopy",
-//             @"initialize",
-//             @"willActivate",
-//             @"didDeactivate",
-//             @"initWithCoder:",
-//             @"loadView",
-//             @"viewDidLoad",
-//             @"viewWillAppear:",
-//             @"viewDidAppear:",
-//             @"viewWillDisappear:",
-//             @"viewDidDisappear:",
-//             @"viewWillLayoutSubviews",
-//             @"viewDidLayoutSubviews",
-//             @"didReceiveMemoryWarning",
-//             @"willMoveToParentViewController:",
-//             @"didMoveToParentViewController:",
-//             @"updateViewConstraints",
-//             @"initWithStyle:reuseIdentifier:",
-//             @"initWithCoder:",
-//             @"imageView",
-//             @"textLabel",
-//             @"detailTextLabel",
-//             @"contentView",
-//             @"reuseIdentifier",
-//             @"initWithFrame:",
-//             @"tableView:numberOfRowsInSection:",
-//             @"tableView:cellForRowAtIndexPath:",
-//             @"tableView:titleForHeaderInSection:",
-//             @"tableView:titleForFooterInSection:",
-//             @"tableView:canEditRowAtIndexPath:",
-//             @"tableView:canMoveRowAtIndexPath:",
-//             @"sectionIndexTitlesForTableView:",
-//             @"tableView:sectionForSectionIndexTitle:atIndex:",
-//             @"tableView:commitEditingStyle:forRowAtIndexPath:",
-//             @"tableView:moveRowAtIndexPath:toIndexPath:",
-//             ];
-//}
-
-//
 + (WBBladesSymTabCommand *)symbolTabOffsetWithMachO:(NSData *)fileData{
     
     WBBladesSymTabCommand * symTabCommand = objc_getAssociatedObject(fileData, "sym");
@@ -554,13 +516,21 @@ static section_64 textList = {0};
     
     unsigned long long vb = 0x100000000;
     
+    //获取二进制文件符号表
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     unsigned long long symbolOffset = symCmd.symbolOff;
     unsigned long long targetAddress = helper.offset;
     
+    //目标地址
     char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址高位
     char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址低位
     char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //遍历符号表
     for (int i=0; i<symCmd.symbolNum - 1; i++) {
         nlist_64 nlist;
         ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
@@ -591,6 +561,8 @@ static section_64 textList = {0};
                 continue;
             }
             unsigned long long begin = nlist.n_value;
+            
+            //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
             BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vb:vb];
             if (use) {
                 return YES;
@@ -603,6 +575,8 @@ static section_64 textList = {0};
 + (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
     char * asmStr;
     BOOL high = NO;
+    
+    //自前向后遍历函数指令
     do {
         unsigned long long index = (begin - textList.offset - vb)/4;
         char *dataStr = s_cs_insn[index].op_str;
@@ -620,7 +594,7 @@ static section_64 textList = {0};
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0);
+    } while (strcmp("ret",asmStr) != 0);//直到遇到ret指令
     return NO;
     
 }
