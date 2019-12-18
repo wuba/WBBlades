@@ -23,6 +23,7 @@ static NSDictionary *podResult;
 static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
+static void scanCrashSymbol(int argc, const char * argv[]);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -35,9 +36,14 @@ int main(int argc, const char * argv[]) {
         }else if ([type isEqualToString:@"2"]){
             //进行无用类检测
             scanUnUseClass(argc, argv);
+        }else if([type isEqualToString:@"3"]){
+            //进行crash日志解析
+            scanCrashSymbol(argc, argv);
         }
     }
 }
+
+
 void scanStaticLibrary(int argc, const char * argv[]){
     
     //参数1 为个数，参数2 为pod 路径列表
@@ -125,8 +131,11 @@ void scanUnUseClass(int argc, const char * argv[]){
     [resultData writeToFile:outPutPath atomically:YES];
 }
 
-
-
+static void scanCrashSymbol(int argc, const char * argv[]){
+    NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
+    NSString *crashAddressPath = [NSString stringWithFormat:@"%s",argv[3]];
+    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readFromFile:appPath] crashPlistPath:crashAddressPath];
+}
 
 void handleStaticLibrary(NSString *filePath){
     //获取静态库名字
