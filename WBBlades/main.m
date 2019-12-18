@@ -64,7 +64,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
             resourceSize = 0;
             codeSize = 0;
             
-            //遍历pod中的每个文件
+            //递归遍历pod中的每个文件
             enumAllFiles(podPath);
             
             //打印当前pod资源和代码大小
