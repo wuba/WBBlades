@@ -13,7 +13,23 @@
 		373DEFE223AB60FD00B0D4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFE023AB60FD00B0D4CE /* Main.storyboard */; };
 		373DEFE523AB60FD00B0D4CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373DEFE423AB60FD00B0D4CE /* main.m */; };
 		373DEFED23AB617500B0D4CE /* WBBlades in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFEC23AB617500B0D4CE /* WBBlades */; };
+		373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; };
+		373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		373DF04423AB898F00B0D4CE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		373DEFD523AB60FA00B0D4CE /* WBBlades.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBBlades.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -27,6 +43,7 @@
 		373DEFE423AB60FD00B0D4CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		373DEFEC23AB617500B0D4CE /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
+		373DF04023AB898200B0D4CE /* xlsxwriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = xlsxwriter.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -34,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +77,7 @@
 		373DEFD723AB60FA00B0D4CE /* WBBlades */ = {
 			isa = PBXGroup;
 			children = (
+				373DF04023AB898200B0D4CE /* xlsxwriter.framework */,
 				373DEFEC23AB617500B0D4CE /* WBBlades */,
 				373DEFD823AB60FA00B0D4CE /* AppDelegate.h */,
 				373DEFD923AB60FA00B0D4CE /* AppDelegate.m */,
@@ -83,6 +102,7 @@
 				373DEFD123AB60FA00B0D4CE /* Sources */,
 				373DEFD223AB60FA00B0D4CE /* Frameworks */,
 				373DEFD323AB60FA00B0D4CE /* Resources */,
+				373DF04423AB898F00B0D4CE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -281,6 +301,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WBBlades",
+				);
 				INFOPLIST_FILE = WBBlades/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -300,6 +324,10 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				ENABLE_HARDENED_RUNTIME = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WBBlades",
+				);
 				INFOPLIST_FILE = WBBlades/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
