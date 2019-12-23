@@ -13,14 +13,14 @@
 		373DEFE223AB60FD00B0D4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFE023AB60FD00B0D4CE /* Main.storyboard */; };
 		373DEFE523AB60FD00B0D4CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373DEFE423AB60FD00B0D4CE /* main.m */; };
 		373DEFED23AB617500B0D4CE /* WBBlades in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFEC23AB617500B0D4CE /* WBBlades */; };
+		373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; };
+		373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		A7D057A923AC9D73005287E1 /* AnalyzeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */; };
 		A7D057AA23AC9D73005287E1 /* AnalyzeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D057A823AC9D73005287E1 /* AnalyzeWindowController.xib */; };
 		A7D057B823ACD2AE005287E1 /* AnalyzeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057B623ACD2AE005287E1 /* AnalyzeViewController.m */; };
 		A7D057B923ACD2AE005287E1 /* AnalyzeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D057B723ACD2AE005287E1 /* AnalyzeViewController.xib */; };
 		A7D057BC23ACD343005287E1 /* AnalyzeLibView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057BB23ACD343005287E1 /* AnalyzeLibView.m */; };
 		A7D057BF23ACD350005287E1 /* AnalyzeCrashView.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057BE23ACD350005287E1 /* AnalyzeCrashView.m */; };
-		373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; };
-		373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -49,6 +49,7 @@
 		373DEFE423AB60FD00B0D4CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		373DEFEC23AB617500B0D4CE /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
+		373DF04023AB898200B0D4CE /* xlsxwriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = xlsxwriter.framework; sourceTree = "<group>"; };
 		A7D057A623AC9D73005287E1 /* AnalyzeWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeWindowController.h; sourceTree = "<group>"; };
 		A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeWindowController.m; sourceTree = "<group>"; };
 		A7D057A823AC9D73005287E1 /* AnalyzeWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyzeWindowController.xib; sourceTree = "<group>"; };
@@ -59,7 +60,6 @@
 		A7D057BB23ACD343005287E1 /* AnalyzeLibView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeLibView.m; sourceTree = "<group>"; };
 		A7D057BD23ACD350005287E1 /* AnalyzeCrashView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeCrashView.h; sourceTree = "<group>"; };
 		A7D057BE23ACD350005287E1 /* AnalyzeCrashView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeCrashView.m; sourceTree = "<group>"; };
-		373DF04023AB898200B0D4CE /* xlsxwriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = xlsxwriter.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +79,7 @@
 			children = (
 				373DEFD723AB60FA00B0D4CE /* WBBlades */,
 				373DEFD623AB60FA00B0D4CE /* Products */,
+				A747C24623ADFCD000702503 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -116,6 +117,13 @@
 				373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */,
 			);
 			path = WBBlades;
+			sourceTree = "<group>";
+		};
+		A747C24623ADFCD000702503 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

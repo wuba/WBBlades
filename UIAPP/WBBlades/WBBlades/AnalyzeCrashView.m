@@ -66,15 +66,20 @@
     startBtn.bordered = YES;
     startBtn.bezelStyle = NSBezelStyleRegularSquare;
     
-    NSTextView *crashTextView = [[NSTextView alloc]initWithFrame:NSMakeRect(30.0, 214.0, 765.0, 148.0)];
-    [self addSubview:crashTextView];
+    NSScrollView *scrollView = [[NSScrollView alloc]initWithFrame:NSMakeRect(30.0, 214.0, 765.0, 148.0)];
+    [self addSubview:scrollView];
+    [scrollView setHasVerticalScroller:YES];
+    [scrollView setBorderType:NSLineBorder];
+    scrollView.wantsLayer = YES;
+    scrollView.layer.backgroundColor = [NSColor whiteColor].CGColor;
+    scrollView.layer.borderWidth = 1.0;
+    scrollView.layer.cornerRadius = 2.0;
+    scrollView.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    
+    NSTextView *crashTextView = [[NSTextView alloc]initWithFrame:NSMakeRect(0, 0, 765.0, 148.0)];
+     scrollView.documentView = crashTextView;
     crashTextView.font = [NSFont systemFontOfSize:14.0];
     crashTextView.textColor = [NSColor blackColor];
-    crashTextView.wantsLayer = YES;
-    crashTextView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    crashTextView.layer.borderWidth = 1.0;
-    crashTextView.layer.cornerRadius = 2.0;
-    crashTextView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     
     NSTextField *resultLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 161.0, 434.0, 38.0)];
     [self addSubview:resultLabel];
@@ -85,15 +90,20 @@
     resultLabel.bordered = NO;
     resultLabel.backgroundColor = [NSColor clearColor];
     
-    NSTextView *resultTextView = [[NSTextView alloc]initWithFrame:NSMakeRect(30.0, 20.0, 765.0, 148.0)];
-    [self addSubview:resultTextView];
+    NSScrollView *scrollView2 = [[NSScrollView alloc]initWithFrame:NSMakeRect(30.0, 20.0, 765.0, 148.0)];
+    [self addSubview:scrollView2];
+    [scrollView2 setHasVerticalScroller:YES];
+    [scrollView2 setBorderType:NSLineBorder];
+    scrollView2.wantsLayer = YES;
+    scrollView2.layer.backgroundColor = [NSColor whiteColor].CGColor;
+    scrollView2.layer.borderWidth = 1.0;
+    scrollView2.layer.cornerRadius = 2.0;
+    scrollView2.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    
+    NSTextView *resultTextView = [[NSTextView alloc]initWithFrame:NSMakeRect(0, 0, 765.0, 148.0)];
+    scrollView2.documentView = resultTextView;
     resultTextView.font = [NSFont systemFontOfSize:14.0];
     resultTextView.textColor = [NSColor blackColor];
-    resultTextView.wantsLayer = YES;
-    resultTextView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    resultTextView.layer.borderWidth = 1.0;
-    resultTextView.layer.cornerRadius = 2.0;
-    resultTextView.layer.borderColor = [NSColor lightGrayColor].CGColor;
 }
 
 - (void)ipaPreviewBtnClicked:(id)sender{

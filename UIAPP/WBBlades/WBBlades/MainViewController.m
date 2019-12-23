@@ -24,6 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.view.window.title = @"分析工具";
 //    [self startTask];
 }
 

@@ -33,8 +33,9 @@
             crashView.delegate = self;
         }else{
             _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame];
-            AnalyzeLibView *crashView = (AnalyzeLibView *)_controlView;
-            crashView.delegate = self;
+            AnalyzeLibView *libView = (AnalyzeLibView *)_controlView;
+            libView.type = self.types;
+            libView.delegate = self;
         }
     }
     return _controlView;

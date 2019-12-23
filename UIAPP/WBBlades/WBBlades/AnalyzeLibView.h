@@ -22,6 +22,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id <AnalyzeLibViewProtocol>delegate;
 
+@property (nonatomic, copy) NSString *type;
+
 @end
 
 NS_ASSUME_NONNULL_END
