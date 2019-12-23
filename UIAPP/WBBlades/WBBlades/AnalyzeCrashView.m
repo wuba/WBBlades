@@ -8,6 +8,11 @@
 
 #import "AnalyzeCrashView.h"
 
+@interface AnalyzeCrashView()
+
+@property (nonatomic,weak) NSTextView *ipaFileView;
+@end
+
 @implementation AnalyzeCrashView
 
 - (instancetype)initWithFrame:(NSRect)frameRect{
@@ -38,10 +43,11 @@
     textView.layer.borderWidth = 1.0;
     textView.layer.cornerRadius = 2.0;
     textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    _ipaFileView = textView;
     
     NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 105.0, 40.0)];
     [self addSubview:ipaPreviewBtn];
-    ipaPreviewBtn.title = @"选择文件夹";
+    ipaPreviewBtn.title = @"选择ipa文件";
     ipaPreviewBtn.font = [NSFont systemFontOfSize:14.0];
     ipaPreviewBtn.target = self;
     ipaPreviewBtn.action = @selector(ipaPreviewBtnClicked:);
@@ -107,11 +113,46 @@
 }
 
 - (void)ipaPreviewBtnClicked:(id)sender{
-    NSLog(@"preview");
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setPrompt:@"选择ipa文件"];
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.canChooseFiles = YES;
+    openPanel.canChooseDirectories = NO;
+    openPanel.directoryURL = nil;
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"ipa", nil]];
+    __weak __typeof(self) weakself = self;
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        
+        if (returnCode == 1 && [openPanel URLs]) {
+            NSMutableString *fileFolders = [NSMutableString stringWithString:@""];
+            NSArray *array = [openPanel URLs];
+            for (NSInteger i = 0; i < array.count; i++) {
+                NSURL *url = array[i];
+                NSString *string = @",";
+                if (i == array.count - 1) {
+                    string = @"";
+                }
+                [fileFolders appendFormat:@"%@%@",url.absoluteString,string];
+            }
+            weakself.ipaFileView.string = [fileFolders copy];
+            //weakself.ipaFileView.editable = NO;
+        }
+    }];
 }
 
 - (void)startBtnClicked:(id)sender{
-     NSLog(@"start");
+    NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
+    
+    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"好的"];
+        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
+        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        return;
+    }
+    
+    
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
