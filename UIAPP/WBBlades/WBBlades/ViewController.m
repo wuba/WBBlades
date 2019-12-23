@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import <xlsxwriter/xlsxwriter.h>
 
 @interface ViewController ()
 
@@ -19,7 +18,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self startTask];
+    
+    
 }
 
 - (void)startTask{
@@ -30,6 +30,7 @@
 
     [self.bladesTask setArguments:[NSArray arrayWithObjects:@"1", @"/Users/a58/wb_frameworks/WBAPP3rdLib/wb3rdcomponent", nil]];
     [self.bladesTask launch];
+    
     
     //同步执行
     [self.bladesTask waitUntilExit];

@@ -13,8 +13,6 @@
 		373DEFE223AB60FD00B0D4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFE023AB60FD00B0D4CE /* Main.storyboard */; };
 		373DEFE523AB60FD00B0D4CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373DEFE423AB60FD00B0D4CE /* main.m */; };
 		373DEFED23AB617500B0D4CE /* WBBlades in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFEC23AB617500B0D4CE /* WBBlades */; };
-		373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; };
-		373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 373DF04023AB898200B0D4CE /* xlsxwriter.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -24,7 +22,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				373DF04323AB898F00B0D4CE /* xlsxwriter.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -43,7 +40,6 @@
 		373DEFE423AB60FD00B0D4CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		373DEFEC23AB617500B0D4CE /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
-		373DF04023AB898200B0D4CE /* xlsxwriter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = xlsxwriter.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				373DF04223AB898F00B0D4CE /* xlsxwriter.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,7 +72,6 @@
 		373DEFD723AB60FA00B0D4CE /* WBBlades */ = {
 			isa = PBXGroup;
 			children = (
-				373DF04023AB898200B0D4CE /* xlsxwriter.framework */,
 				373DEFEC23AB617500B0D4CE /* WBBlades */,
 				373DEFD823AB60FA00B0D4CE /* AppDelegate.h */,
 				373DEFD923AB60FA00B0D4CE /* AppDelegate.m */,
