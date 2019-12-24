@@ -384,15 +384,19 @@ static section_64 textList = {0};
     return classSet;
 }
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashPlistPath:(NSString *)crashAddressPath{
-    
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddressPath{
+    // 读取文件数据大小
     unsigned long long max = [fileData length];
+    // mach64文件头
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
-    
+    // 64位架构
     section_64 classList = {0};
+    // 获取LoadCommand首地址
     unsigned long long currentLcLocation = sizeof(mach_header_64);
+    // 遍历所有Load Commands
     for (int i = 0; i < mhHeader.ncmds; i++) {
+        
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
         
@@ -486,7 +490,8 @@ static section_64 textList = {0};
         free(buffer);
         
         
-        NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
+        //NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
+        NSArray *crashAdress = [crashAddressPath componentsSeparatedByString:@","];
         
         //遍历每个class的method (实例方法)
         if (methodListOffset < max) {

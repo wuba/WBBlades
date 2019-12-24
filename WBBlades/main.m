@@ -135,7 +135,7 @@ void scanUnUseClass(int argc, const char * argv[]){
 static void scanCrashSymbol(int argc, const char * argv[]){
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     NSString *crashAddressPath = [NSString stringWithFormat:@"%s",argv[3]];
-    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readFromFile:appPath] crashPlistPath:crashAddressPath];
+    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readFromFile:appPath] crashOffsets:crashAddressPath];
 }
 
 void handleStaticLibrary(NSString *filePath){

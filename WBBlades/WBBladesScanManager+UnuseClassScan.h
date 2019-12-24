@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSSet*)scanStaticLibraryForClassList:(NSData *)fileData;
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashPlistPath:(NSString *)crashAddressPath;
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddressPath;
 
 @end
 

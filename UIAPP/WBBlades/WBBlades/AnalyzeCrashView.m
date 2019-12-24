@@ -160,7 +160,7 @@
 //    NSString *crash = _crashStackView.string;
 //    NSLog(@"%@", _crashStackView.string);
     NSArray *crashInfoLines = [_crashStackView.string componentsSeparatedByString:@"\n"];
-    NSMutableArray *crashOffsets = [[NSArray alloc] init];
+    NSMutableArray *crashOffsets = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < crashInfoLines.count; i++) {
         NSString *crashLine = crashInfoLines[i];
         NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];

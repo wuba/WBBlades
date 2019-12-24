@@ -15,6 +15,7 @@
     NSData * fileData = [NSMutableData dataWithContentsOfURL:tmpURL
                                  options:NSDataReadingMappedIfSafe
                                                        error:NULL];
+    // Get arm64 from fileData?
     if (!fileData) {
         NSLog(@"文件读取失败");
     }
