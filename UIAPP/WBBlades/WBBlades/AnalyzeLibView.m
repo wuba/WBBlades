@@ -15,6 +15,11 @@
 @property (nonatomic,weak) NSScrollView *scrollView;
 @property (nonatomic,weak) NSTextView *consoleView;
 
+@property (nonatomic,weak) NSButton *stopBtn;
+@property (nonatomic,weak) NSButton *inFinderBtn;
+
+@property (nonatomic,strong)NSTask *bladesTask;
+
 @end
 
 @implementation AnalyzeLibView
@@ -25,6 +30,15 @@
          [self prepareSubview];
     }
     return self;
+}
+
+-(NSTask *)bladesTask{
+    if (!_bladesTask) {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
+        _bladesTask = [[NSTask alloc] init];
+        [_bladesTask setLaunchPath:path];
+    }
+    return _bladesTask;
 }
 
 - (void)prepareSubview{
@@ -38,24 +52,25 @@
     pathLabel.bordered = NO;
     pathLabel.backgroundColor = [NSColor clearColor];
     
-    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 440.0, 559.0, 30.0)];
-    [self addSubview:textView];
+    NSScrollView *textScroll = [[NSScrollView alloc]initWithFrame:NSMakeRect(109.0, 440.0, 559.0, 30.0)];
+    [self addSubview:textScroll];
+    [textScroll setBorderType:NSLineBorder];
+    textScroll.wantsLayer = YES;
+    textScroll.layer.backgroundColor = [NSColor whiteColor].CGColor;
+    textScroll.layer.borderWidth = 1.0;
+    textScroll.layer.cornerRadius = 2.0;
+    textScroll.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    
+    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(0.0, 0.0, 559.0, 30.0)];
     textView.font = [NSFont systemFontOfSize:14.0];
     textView.textColor = [NSColor blackColor];
-    textView.wantsLayer = YES;
-    textView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    textView.layer.borderWidth = 1.0;
-    textView.layer.cornerRadius = 2.0;
-    textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
-    textView.editable = NO;
-    textView.horizontallyResizable = NO;
-    textView.verticallyResizable = NO;
+    textScroll.documentView = textView;
     _objFilesView = textView;
     
     NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0, 559.0, 20.0)];
     [self addSubview:pathTipLabel];
     pathTipLabel.font = [NSFont systemFontOfSize:12.0];
-    pathTipLabel.stringValue = @"选择一个或多个目标文件夹，还可以选择一个或多个目标静态库文件";
+    pathTipLabel.stringValue = @"选择或输入一个或多个目标文件夹，在输入时两个路径间以空格隔开";
     pathTipLabel.textColor = [NSColor grayColor];
     pathTipLabel.editable = NO;
     pathTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -157,6 +172,8 @@
     stopBtn.action = @selector(stopBtnClicked:);
     stopBtn.bordered = YES;
     stopBtn.bezelStyle = NSBezelStyleRegularSquare;
+    stopBtn.enabled = NO;
+    _stopBtn = stopBtn;
     
     NSButton *inFinderBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 159.0, 105.0, 36.0)];
     [self addSubview:inFinderBtn];
@@ -167,6 +184,7 @@
     inFinderBtn.bordered = YES;
     inFinderBtn.bezelStyle = NSBezelStyleRegularSquare;
     inFinderBtn.enabled = NO;
+    _inFinderBtn = inFinderBtn;
 }
 
 - (void)pathBtnClicked:(id)sender{
@@ -185,11 +203,12 @@
             NSArray *array = [openPanel URLs];
             for (NSInteger idx = 0; idx<array.count; idx++) {
                 NSURL *url = array[idx];
-                NSString *string = @",";
+                NSString *urlString = [url.absoluteString substringFromIndex:7];//去掉file://
+                NSString *string = @" ";
                 if (idx == array.count - 1) {
                     string = @"";
                 }
-                [fileFolders appendFormat:@"%@%@",url.absoluteString,string];
+                [fileFolders appendFormat:@"%@%@",urlString,string];
             }
             weakSelf.objFilesView.string = [fileFolders copy];
         }
@@ -206,9 +225,10 @@
     
     __weak __typeof(self)weakSelf = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        
         if (returnCode == 1 && [openPanel URLs]) {
-            NSString *outputPath = [NSString stringWithFormat:@"%@/result.plist",[[openPanel URLs] firstObject]];
+            NSURL *url = [[openPanel URLs] firstObject];
+            NSString *urlString = [url.absoluteString substringFromIndex:7];//去掉file://
+            NSString *outputPath = [NSString stringWithFormat:@"%@result.plist",urlString];
             weakSelf.outputView.string = outputPath;
         }
     }];
@@ -224,22 +244,36 @@
         return;
     }
     
-    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@","];
-    for (NSInteger idx = 0; idx<array.count; idx++) {
-        NSString *string = [NSString stringWithFormat:@"%@\n正在遍历 %@",self.consoleView.string,array[idx]];
-        self.consoleView.string = string;
-//        [self.scrollView scrollToPoint:NSMakePoint(0,self.consoleView.frame.size.height)];
-        [_scrollView.contentView scrollToPoint:NSMakePoint(0, _scrollView.documentView.frame.size.height)];
-    }
+    _stopBtn.enabled = YES;
+    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@" "];
     
-    NSString *finish = [NSString stringWithFormat:@"%@\n遍历完毕，可以点击打开文件夹查看结果数据。\n",self.consoleView.string];
-    self.consoleView.string = finish;
-    [_scrollView.contentView scrollToPoint:NSMakePoint(0, self.consoleView.frame.size.height)];
+    __weak __typeof(self)weakSelf = self;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        for (NSInteger idx = 0; idx<array.count; idx++) {
+            __block NSString *string = @"";
+            dispatch_async(dispatch_get_main_queue(), ^{
+                string = [NSString stringWithFormat:@"%@\n正在遍历 %@",weakSelf.consoleView.string,array[idx]];
+                if (idx == array.count - 1) {
+                    string = [NSString stringWithFormat:@"%@\n遍历完毕，可以点击打开文件夹查看结果数据。\n",string];
+                }
+                weakSelf.consoleView.string = string;
+                [weakSelf.scrollView.contentView scrollToPoint:NSMakePoint(0, weakSelf.scrollView.documentView.bounds.size.height)];
+            });
+            
+//            [weakSelf.bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
+//            [weakSelf.bladesTask launch];
+//            [weakSelf.bladesTask waitUntilExit];//同步执行
+            
+            
+        }
+    });
+    
     
 }
 
 - (void)stopBtnClicked:(id)sender{
     NSLog(@"stop");
+    
 }
 
 - (void)inFinderBtnClicked:(id)sender{
