@@ -11,6 +11,8 @@
 @interface AnalyzeCrashView()
 
 @property (nonatomic,weak) NSTextView *ipaFileView;
+@property (nonatomic,weak) NSTextView *crashStackView;
+
 @end
 
 @implementation AnalyzeCrashView
@@ -86,6 +88,7 @@
      scrollView.documentView = crashTextView;
     crashTextView.font = [NSFont systemFontOfSize:14.0];
     crashTextView.textColor = [NSColor blackColor];
+    _crashStackView = crashTextView;
     
     NSTextField *resultLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 161.0, 434.0, 38.0)];
     [self addSubview:resultLabel];
@@ -152,7 +155,19 @@
         return;
     }
     
-    
+//    NSString *crashInfo = [_crashStackView.string stringByReplacingOccurrencesOfString:@" " withString:@""];
+//    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
+//    NSString *crash = _crashStackView.string;
+//    NSLog(@"%@", _crashStackView.string);
+    NSArray *crashInfoLines = [_crashStackView.string componentsSeparatedByString:@"\n"];
+    NSMutableArray *crashOffsets = [[NSArray alloc] init];
+    for (NSInteger i = 0; i < crashInfoLines.count; i++) {
+        NSString *crashLine = crashInfoLines[i];
+        NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
+        NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
+        NSString *offset = comps.lastObject;
+        [crashOffsets addObject:[NSString stringWithString:offset]];
+    }
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
