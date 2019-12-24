@@ -24,6 +24,7 @@ static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 static void scanCrashSymbol(int argc, const char * argv[]);
+static NSString *resultFilePath();
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -58,7 +59,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
             NSString * podName = [podPath lastPathComponent];
             
             //获取结果文件输出路径，为pod的兄弟路径
-            NSString * outPutPath = [podPath stringByDeletingLastPathComponent];
+            NSString * outPutPath = resultFilePath();
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
             
             //获取上次分析结果
@@ -77,11 +78,11 @@ void scanStaticLibrary(int argc, const char * argv[]){
             colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB",codeSize/1024,resourceSize/1024]);
             
             //将结果写入文件
-            [podResult setValue:[NSString stringWithFormat:@"%.1f MB",resourceSize/1024.0/1024] forKey:@"resource"];
-            [podResult setValue:[NSString stringWithFormat:@"%.1f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
+            [podResult setValue:[NSString stringWithFormat:@"%.2f MB",resourceSize/1024.0/1024] forKey:@"resource"];
+            [podResult setValue:[NSString stringWithFormat:@"%.2f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
             [resultData setValue:podResult forKey:podName];
             [resultData writeToFile:outPutPath atomically:YES];
-            [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
+//            [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
         }
     }
 }
@@ -119,7 +120,7 @@ void scanUnUseClass(int argc, const char * argv[]){
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
     
     //输出数据
-    NSString * outPutPath = [[appPath stringByDeletingLastPathComponent] stringByDeletingLastPathComponent];
+    NSString * outPutPath = resultFilePath();
     outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
     NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
     NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
@@ -156,7 +157,7 @@ void handleStaticLibrary(NSString *filePath){
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
-    NSLog(@"%@ 大小为 %.1f MB",name,(size)/1024.0/1024.0);
+    NSLog(@"%@ 大小为 %.2f MB",name,(size)/1024.0/1024.0);
     codeSize += size;
     //暂时不考虑多静态库链接问题
 //    [[WBBladesLinkManager shareInstance] clearLinker];
@@ -164,7 +165,7 @@ void handleStaticLibrary(NSString *filePath){
     cmd(rmCmd);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
     if (size>0) {
-        [podResult setValue:[NSString stringWithFormat:@"%.1f MB",size/1024.0/1024] forKey:name];
+        [podResult setValue:[NSString stringWithFormat:@"%.2f MB",size/1024.0/1024] forKey:name];
     }
 }
 
@@ -368,3 +369,8 @@ void colorPrint(NSString *info){
     [task launch];
 }
 
+static NSString *resultFilePath() {
+    // 文件保存的路径
+    NSString *documentPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory,NSUserDomainMask, YES) objectAtIndex:0];
+    return documentPath;
+}

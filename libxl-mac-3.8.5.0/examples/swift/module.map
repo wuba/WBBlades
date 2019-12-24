@@ -1,4 +1,0 @@
-module Libxl [system] {
-    header "../../include_c/libxl.h"
-    export *
-}
