@@ -286,7 +286,7 @@
                     NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
                     NSTask *bladesTask = [[NSTask alloc] init];
                     [bladesTask setLaunchPath:path];
-                    [bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
+                    [bladesTask setArguments:[NSArray arrayWithObjects:weakSelf.type, array[idx], nil]];
                     [bladesTask launch];
                     [weakSelf.taskArray addObject:bladesTask];
                     [bladesTask waitUntilExit];//同步执行

@@ -10,9 +10,17 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class AnalyzeCrashView;
+@protocol AnalyzeCrashViewProtocol <NSObject>
+
+@required
+-(void)analyzeCrashView:(AnalyzeCrashView *)view;
+
+@end
+
 @interface AnalyzeCrashView : NSView
 
-- (void)stopAnalyze;
+@property (nonatomic, weak) id <AnalyzeCrashViewProtocol>delegate;
 
 @end
 
