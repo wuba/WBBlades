@@ -269,7 +269,9 @@
     }
     _pathArray = array;
     
-    dispatch_semaphore_signal(self.sema);
+    if (_sema) {//若不是第一次开始，先发送一个信号
+        dispatch_semaphore_signal(_sema);
+    }
     __weak __typeof(self)weakSelf = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         for (NSInteger idx = 0; idx<array.count; idx++) {
@@ -314,13 +316,6 @@
             });
         }
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (weakSelf.needStop) {
-                 NSString *string = [NSString stringWithFormat:@"%@\n解析已中断。",weakSelf.consoleView.string];
-                 weakSelf.consoleView.string = string;
-            }
-        });
-        
     });
 }
 
@@ -336,6 +331,9 @@
         }
         [self.taskArray removeAllObjects];
     }
+    
+    NSString *string = [NSString stringWithFormat:@"%@\n解析已中断。",self.consoleView.string];
+    self.consoleView.string = string;
 }
 
 - (void)inFinderBtnClicked:(id)sender{
