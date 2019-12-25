@@ -441,7 +441,8 @@
 		3794EE8022B3C71300D5DFA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
@@ -449,14 +450,17 @@
 					"-D__STDC_FORMAT_MACROS",
 					"-DCAPSTONE_HAS_ARM64",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		3794EE8122B3C71300D5DFA4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
@@ -465,7 +469,9 @@
 					"-D__STDC_FORMAT_MACROS",
 					"-DCAPSTONE_HAS_ARM64",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

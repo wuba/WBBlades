@@ -11,20 +11,22 @@
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
 #import "WBBladesScanManager+UnuseClassScan.h"
-void colorPrint(NSString *info);
-const char *cmd(NSString *cmd);
-bool isResource(NSString *type);
-void enumAllFiles(NSString *path);
-void enumPodFiles(NSString *path);
 
-unsigned long long resourceSize = 0;
-unsigned long long codeSize = 0;
+static void colorPrint(NSString *info);
+static const char *cmd(NSString *cmd);
+static BOOL isResource(NSString *type);
+static void enumAllFiles(NSString *path);
+static void enumPodFiles(NSString *path);
+
+static unsigned long long resourceSize = 0;
+static unsigned long long codeSize = 0;
+
 static NSDictionary *podResult;
 static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 static void scanCrashSymbol(int argc, const char * argv[]);
-static NSString *resultFilePath();
+static NSString *resultFilePath(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -45,7 +47,7 @@ int main(int argc, const char * argv[]) {
 }
 
 
-void scanStaticLibrary(int argc, const char * argv[]){
+static void scanStaticLibrary(int argc, const char * argv[]){
     
     //参数1 为个数，参数2 为pod 路径列表
     for (int i = 0; i < argc - 2; i++) {
@@ -58,7 +60,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
             //获取pod 名称
             NSString * podName = [podPath lastPathComponent];
             
-            //获取结果文件输出路径，为pod的兄弟路径
+            //获取结果文件输出路径
             NSString * outPutPath = resultFilePath();
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
             
@@ -82,12 +84,11 @@ void scanStaticLibrary(int argc, const char * argv[]){
             [podResult setValue:[NSString stringWithFormat:@"%.2f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
             [resultData setValue:podResult forKey:podName];
             [resultData writeToFile:outPutPath atomically:YES];
-//            [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
         }
     }
 }
 
-void scanUnUseClass(int argc, const char * argv[]){
+static void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
     
@@ -159,8 +160,7 @@ void handleStaticLibrary(NSString *filePath){
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
     NSLog(@"%@ 大小为 %.2f MB",name,(size)/1024.0/1024.0);
     codeSize += size;
-    //暂时不考虑多静态库链接问题
-//    [[WBBladesLinkManager shareInstance] clearLinker];
+    
     //删除临时文件
     cmd(rmCmd);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
@@ -195,7 +195,7 @@ void handleStaticLibraryForClassList(NSString *filePath){
 }
 
 
-void enumPodFiles(NSString *path){
+static void enumPodFiles(NSString *path){
     
     //遍历单一pod
     NSFileManager * fileManger = [NSFileManager defaultManager];
@@ -242,7 +242,7 @@ void enumPodFiles(NSString *path){
     }
 }
 
-void enumAllFiles(NSString *path){
+static void enumAllFiles(NSString *path){
     @autoreleasepool {
         
         //遍历单一pod
@@ -313,7 +313,7 @@ void enumAllFiles(NSString *path){
     }
 }
 
-bool isResource(NSString *type){
+static BOOL isResource(NSString *type){
     
     if ([type isEqualToString:@"nib"] ||
         [type isEqualToString:@"plist"] ||
@@ -340,7 +340,7 @@ bool isResource(NSString *type){
 }
 
 
-const char *cmd(NSString *cmd){
+static const char *cmd(NSString *cmd){
     
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
@@ -358,7 +358,7 @@ const char *cmd(NSString *cmd){
     return [data bytes];
 }
 
-void colorPrint(NSString *info){
+static void colorPrint(NSString *info){
     
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
