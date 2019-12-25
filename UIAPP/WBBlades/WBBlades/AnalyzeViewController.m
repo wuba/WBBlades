@@ -10,7 +10,7 @@
 #import "AnalyzeCrashView.h"
 #import "AnalyzeLibView.h"
 
-@interface AnalyzeViewController () <AnalyzeLibViewProtocol,AnalyzeCrashViewProtocol>
+@interface AnalyzeViewController ()
 
 @property (nonatomic,strong) NSView *controlView;
 
@@ -27,15 +27,12 @@
 
 -(NSView *)controlView{
     if (!_controlView) {
-        if ([self.types isEqualToString:@"3"]) {
-            _controlView = [[AnalyzeCrashView alloc]initWithFrame:self.view.frame];
-            AnalyzeCrashView *crashView = (AnalyzeCrashView *)_controlView;
-            crashView.delegate = self;
-        }else{
+        if ([self.types isEqualToString:@"1"]) {
             _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame];
-            AnalyzeLibView *libView = (AnalyzeLibView *)_controlView;
-            libView.type = self.types;
-            libView.delegate = self;
+        }else if([self.types isEqualToString:@"2"]){
+            
+        }else{
+            _controlView = [[AnalyzeCrashView alloc]initWithFrame:self.view.frame];
         }
     }
     return _controlView;
@@ -53,15 +50,5 @@
         [self.controlView performSelector:@selector(stopAnalyze)];
     }
     [self.view.window orderOut:nil];
-}
-
-#pragma mark AnalyzeLibViewProtocol
-- (void)analyzeLibView:(AnalyzeLibView *)view{
-    
-}
-
-#pragma mark AnalyzeCrashViewProtocol
-- (void)analyzeCrashView:(AnalyzeCrashView *)view{
-    
 }
 @end

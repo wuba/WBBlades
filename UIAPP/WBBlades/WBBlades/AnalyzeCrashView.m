@@ -114,6 +114,10 @@
      NSLog(@"start");
 }
 
+- (void)stopAnalyze{
+    
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     
