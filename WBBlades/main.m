@@ -11,9 +11,8 @@
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
 #import "WBBladesScanManager+UnuseClassScan.h"
+#import "CMD.h"
 
-static void colorPrint(NSString *info);
-static const char *cmd(NSString *cmd);
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
 static void enumPodFiles(NSString *path);
@@ -153,6 +152,9 @@ void handleStaticLibrary(NSString *filePath){
     //文件架构拆分
     NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
     cmd(thinCmd);
+    
+    stripFile(filePath);
+
     
     //读取mach-o文件并统计体积
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
@@ -337,36 +339,6 @@ static BOOL isResource(NSString *type){
     }
     
     return NO;
-}
-
-
-static const char *cmd(NSString *cmd){
-    
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments: arguments];
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    
-    // 开始task
-    NSFileHandle *file = [pipe fileHandleForReading];
-    [task launch];
-    
-    // 获取运行结果
-    NSData *data = [file readDataToEndOfFile];
-    return [data bytes];
-}
-
-static void colorPrint(NSString *info){
-    
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments: arguments];
-    
-    [task launch];
 }
 
 static NSString *resultFilePath() {
