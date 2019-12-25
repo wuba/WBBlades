@@ -15,10 +15,14 @@
 @property (nonatomic,weak) NSScrollView *scrollView;
 @property (nonatomic,weak) NSTextView *consoleView;
 
+@property (nonatomic,weak) NSButton *startBtn;
 @property (nonatomic,weak) NSButton *stopBtn;
 @property (nonatomic,weak) NSButton *inFinderBtn;
 
-@property (nonatomic,strong)NSTask *bladesTask;
+@property (nonatomic,strong)NSMutableArray *taskArray;
+@property (nonatomic,strong)NSArray *pathArray;
+@property (nonatomic,assign)BOOL needStop;
+@property (nonatomic,strong)dispatch_semaphore_t  sema;
 
 @end
 
@@ -28,17 +32,26 @@
     self = [super initWithFrame:frameRect];
     if (self) {
          [self prepareSubview];
+        _taskArray = [NSMutableArray array];
+        _needStop = NO;
     }
     return self;
 }
 
--(NSTask *)bladesTask{
-    if (!_bladesTask) {
-        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
-        _bladesTask = [[NSTask alloc] init];
-        [_bladesTask setLaunchPath:path];
+//-(NSTask *)bladesTask{
+//    if (!_bladesTask) {
+//        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
+//        _bladesTask = [[NSTask alloc] init];
+//        [_bladesTask setLaunchPath:path];
+//    }
+//    return _bladesTask;
+//}
+
+-(dispatch_semaphore_t)sema{
+    if (!_sema) {
+        _sema = dispatch_semaphore_create(1);
     }
-    return _bladesTask;
+    return _sema;
 }
 
 - (void)prepareSubview{
@@ -90,7 +103,7 @@
     [self addSubview:outputLabel];
     outputLabel.font = [NSFont systemFontOfSize:14.0];
     outputLabel.stringValue = @"输出路径";
-    outputLabel.textColor = [NSColor blackColor];
+    outputLabel.textColor = [NSColor grayColor];
     outputLabel.editable = NO;
     outputLabel.bordered = NO;
     outputLabel.backgroundColor = [NSColor clearColor];
@@ -126,6 +139,7 @@
     outputBtn.target = self;
     outputBtn.action = @selector(outputBtnClicked:);
     outputBtn.bordered = YES;
+    outputBtn.enabled = NO;
     outputBtn.bezelStyle = NSBezelStyleRegularSquare;
     
     NSTextField *progressLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 320.0, 66, 36.0)];
@@ -163,6 +177,7 @@
     startBtn.action = @selector(startBtnClicked:);
     startBtn.bordered = YES;
     startBtn.bezelStyle = NSBezelStyleRegularSquare;
+    _startBtn = startBtn;
 
     NSButton *stopBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 222.0, 105.0, 36.0)];
     [self addSubview:stopBtn];
@@ -227,57 +242,111 @@
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == 1 && [openPanel URLs]) {
             NSURL *url = [[openPanel URLs] firstObject];
-            NSString *urlString = [url.absoluteString substringFromIndex:7];//去掉file://
-            NSString *outputPath = [NSString stringWithFormat:@"%@result.plist",urlString];
+            NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
             weakSelf.outputView.string = outputPath;
         }
     }];
 }
 
 - (void)startBtnClicked:(id)sender{
-    if (self.objFilesView.string.length == 0 || self.outputView.string.length == 0) {
+    if (self.objFilesView.string.length == 0) {
         NSAlert *alert = [[NSAlert alloc]init];
         [alert addButtonWithTitle:@"好的"];
-        [alert setMessageText:@"目标路径以及输出路径不能为空！"];
+        [alert setMessageText:@"目标路径不能为空！"];
         [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         }];
         return;
     }
     
+    _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
-    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@" "];
+    _consoleView.string = @"";
+    _needStop = NO;
     
+    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+    if(array && array.count == 1){
+       array = [self.objFilesView.string componentsSeparatedByString:@" "];
+    }
+    _pathArray = array;
+    
+    dispatch_semaphore_signal(self.sema);
     __weak __typeof(self)weakSelf = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         for (NSInteger idx = 0; idx<array.count; idx++) {
-            __block NSString *string = @"";
+            dispatch_semaphore_wait(weakSelf.sema, DISPATCH_TIME_FOREVER);
+            if (weakSelf.needStop) {
+                break;
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
-                string = [NSString stringWithFormat:@"%@\n正在遍历 %@",weakSelf.consoleView.string,array[idx]];
-                if (idx == array.count - 1) {
-                    string = [NSString stringWithFormat:@"%@\n遍历完毕，可以点击打开文件夹查看结果数据。\n",string];
+                __block NSString *string = weakSelf.consoleView.string;
+                if (idx == 0) {
+                    string = [NSString stringWithFormat:@"%@\n正在遍历 %@",string,array[idx]];
+                    weakSelf.consoleView.string = string;
                 }
-                weakSelf.consoleView.string = string;
-                [weakSelf.scrollView.contentView scrollToPoint:NSMakePoint(0, weakSelf.scrollView.documentView.bounds.size.height)];
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                    NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
+                    NSTask *bladesTask = [[NSTask alloc] init];
+                    [bladesTask setLaunchPath:path];
+                    [bladesTask setArguments:[NSArray arrayWithObjects:weakSelf.type, array[idx], nil]];
+                    [bladesTask launch];
+                    [weakSelf.taskArray addObject:bladesTask];
+                    [bladesTask waitUntilExit];//同步执行
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [bladesTask terminate];
+                        [weakSelf.taskArray removeObject:bladesTask];
+                        if (!weakSelf.needStop) {
+                            if (idx <array.count - 1) {
+                                string = [NSString stringWithFormat:@"%@\n正在遍历 %@",string,array[idx+1]];
+                                weakSelf.consoleView.string = string;
+                            }
+                            if (idx == array.count - 1) {
+                                string = [NSString stringWithFormat:@"%@\n\n遍历完毕，可以点击打开文件夹查看结果数据，将保存到WBBladesResult.plist中。\n",string];
+                                weakSelf.consoleView.string = string;
+                                weakSelf.startBtn.enabled = YES;
+                                weakSelf.stopBtn.enabled = NO;
+                                weakSelf.inFinderBtn.enabled = YES;
+                            }
+                            dispatch_semaphore_signal(weakSelf.sema);
+                        }
+                    });
+                });
             });
-            
-//            [weakSelf.bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
-//            [weakSelf.bladesTask launch];
-//            [weakSelf.bladesTask waitUntilExit];//同步执行
-            
-            
         }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (weakSelf.needStop) {
+                 NSString *string = [NSString stringWithFormat:@"%@\n解析已中断。",weakSelf.consoleView.string];
+                 weakSelf.consoleView.string = string;
+            }
+        });
+        
     });
-    
-    
 }
 
 - (void)stopBtnClicked:(id)sender{
-    NSLog(@"stop");
-    
+    self.needStop = YES;
+    _startBtn.enabled = YES;
+    _stopBtn.enabled = NO;
+    _inFinderBtn.enabled = NO;
+    dispatch_semaphore_signal(self.sema);
+    if (self.taskArray && self.taskArray.count >0) {
+        for (NSTask *task in self.taskArray) {
+            [task terminate];
+        }
+        [self.taskArray removeAllObjects];
+    }
 }
 
 - (void)inFinderBtnClicked:(id)sender{
-    NSLog(@"finder");
+    if (_pathArray && _pathArray.count>0) {
+        NSMutableArray *array = [NSMutableArray array];
+        for (NSString *path in _pathArray) {
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",path]];
+            [array addObject:url];
+        }
+        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[array copy]];
+    }
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -285,5 +354,4 @@
     
     // Drawing code here.
 }
-
 @end
