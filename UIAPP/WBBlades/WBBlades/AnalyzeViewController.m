@@ -49,8 +49,10 @@
 }
 
 - (void)closeCurWindow{
+    if ([self.controlView respondsToSelector:@selector(stopAnalyze)]) {
+        [self.controlView performSelector:@selector(stopAnalyze)];
+    }
     [self.view.window orderOut:nil];
-    NSLog(@"close");
 }
 
 #pragma mark AnalyzeLibViewProtocol

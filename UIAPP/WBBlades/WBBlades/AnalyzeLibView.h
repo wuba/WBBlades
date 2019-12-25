@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *type;
 
+-(void)stopAnalyze;
+
 @end
 
 NS_ASSUME_NONNULL_END

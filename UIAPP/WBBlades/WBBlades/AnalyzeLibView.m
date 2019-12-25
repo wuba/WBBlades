@@ -20,7 +20,7 @@
 @property (nonatomic,weak) NSButton *inFinderBtn;
 
 @property (nonatomic,strong)NSMutableArray *taskArray;
-@property (nonatomic,strong)NSArray *pathArray;
+//@property (nonatomic,strong)NSArray *pathArray;
 @property (nonatomic,assign)BOOL needStop;
 @property (nonatomic,strong)dispatch_semaphore_t  sema;
 
@@ -38,14 +38,9 @@
     return self;
 }
 
-//-(NSTask *)bladesTask{
-//    if (!_bladesTask) {
-//        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
-//        _bladesTask = [[NSTask alloc] init];
-//        [_bladesTask setLaunchPath:path];
-//    }
-//    return _bladesTask;
-//}
+-(void)dealloc{
+    NSLog(@"dealloc");
+}
 
 -(dispatch_semaphore_t)sema{
     if (!_sema) {
@@ -111,7 +106,7 @@
     NSTextView *outputView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 385.0, 559.0, 30.0)];
     [self addSubview:outputView];
     outputView.font = [NSFont systemFontOfSize:14.0];
-    outputView.textColor = [NSColor blackColor];
+    outputView.textColor = [NSColor grayColor];
     outputView.wantsLayer = YES;
     outputView.layer.backgroundColor = [NSColor whiteColor].CGColor;
     outputView.layer.borderWidth = 1.0;
@@ -120,6 +115,8 @@
     outputView.editable = NO;
     outputView.horizontallyResizable = NO;
     outputView.verticallyResizable = NO;
+    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    outputView.string = deskTop;
     _outputView = outputView;
     
     NSTextField *outputTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 360.0, 559.0, 20.0)];
@@ -267,7 +264,7 @@
     if(array && array.count == 1){
        array = [self.objFilesView.string componentsSeparatedByString:@" "];
     }
-    _pathArray = array;
+//    _pathArray = array;
     
     if (_sema) {//若不是第一次开始，先发送一个信号
         dispatch_semaphore_signal(_sema);
@@ -297,7 +294,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [bladesTask terminate];
                         [weakSelf.taskArray removeObject:bladesTask];
-                        if (!weakSelf.needStop) {
+                        if (weakSelf && !weakSelf.needStop) {
                             if (idx <array.count - 1) {
                                 string = [NSString stringWithFormat:@"%@\n正在遍历 %@",string,array[idx+1]];
                                 weakSelf.consoleView.string = string;
@@ -337,14 +334,23 @@
 }
 
 - (void)inFinderBtnClicked:(id)sender{
-    if (_pathArray && _pathArray.count>0) {
-        NSMutableArray *array = [NSMutableArray array];
-        for (NSString *path in _pathArray) {
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",path]];
-            [array addObject:url];
-        }
-        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[array copy]];
-    }
+//    if (_pathArray && _pathArray.count>0) {
+//        NSMutableArray *array = [NSMutableArray array];
+//        for (NSString *path in _pathArray) {
+//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",path]];
+//            [array addObject:url];
+//        }
+//        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[array copy]];
+//    }
+    
+    //暂时直接打开桌面
+    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",deskTop]];
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
+}
+
+- (void)stopAnalyze{
+    [self stopBtnClicked:nil];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
