@@ -166,8 +166,11 @@
         NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
         NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
         NSString *offset = comps.lastObject;
-        [crashOffsets addObject:[NSString stringWithString:offset]];
+        if(offset.longLongValue) {
+            [crashOffsets addObject:[NSString stringWithString:offset]];
+        }
     }
+    
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
