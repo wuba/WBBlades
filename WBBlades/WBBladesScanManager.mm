@@ -29,21 +29,24 @@
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData{
     
     //判断是否为静态库文件
-    if (!fileData || ![self isSupport:fileData]) {
+    if ([fileData length] < sizeof(mach_header) || ![self isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
     
     //获取文件特征值
-    uint32_t  magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
+    mach_header header = *(mach_header*)((mach_header *)[fileData bytes]);
     //如果fileData 为目标文件，目标文件中只加入此目标文件
-    if (magic == MH_CIGAM_64 || magic == MH_MAGIC_64) {
+    if (header.filetype == MH_OBJECT) {
         WBBladesObject *object = [WBBladesObject new];
         NSRange range = NSMakeRange(0, 0);
         //提取Mach-O文件
         WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
         object.objectMachO = macho;
         [objects addObject:object];
+    }else if(header.filetype == MH_DYLIB){
+        //动态库直接返回文件大小
+        return [fileData length];
     }else{
         
         //header
@@ -359,7 +362,6 @@
 
 + (BOOL)isSupport:(NSData *)fileData{
     
-    
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic)
     {
@@ -463,3 +465,4 @@
 }
 
 @end
+

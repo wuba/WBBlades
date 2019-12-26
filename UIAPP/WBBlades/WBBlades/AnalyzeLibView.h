@@ -22,7 +22,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id <AnalyzeLibViewProtocol>delegate;
 
-@property (nonatomic, copy) NSString *type;
+-(instancetype)initWithFrame:(NSRect)frameRect type:(NSString *)type;
+
+-(void)stopAnalyze;
 
 @end
 

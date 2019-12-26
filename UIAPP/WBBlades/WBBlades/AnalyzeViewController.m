@@ -32,9 +32,8 @@
             AnalyzeCrashView *crashView = (AnalyzeCrashView *)_controlView;
             crashView.delegate = self;
         }else{
-            _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame];
+            _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame type:self.types];
             AnalyzeLibView *libView = (AnalyzeLibView *)_controlView;
-            libView.type = self.types;
             libView.delegate = self;
         }
     }
@@ -49,8 +48,10 @@
 }
 
 - (void)closeCurWindow{
+    if ([self.controlView respondsToSelector:@selector(stopAnalyze)]) {
+        [self.controlView performSelector:@selector(stopAnalyze)];
+    }
     [self.view.window orderOut:nil];
-    NSLog(@"close");
 }
 
 #pragma mark AnalyzeLibViewProtocol

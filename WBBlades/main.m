@@ -11,20 +11,21 @@
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
 #import "WBBladesScanManager+UnuseClassScan.h"
-void colorPrint(NSString *info);
-const char *cmd(NSString *cmd);
-bool isResource(NSString *type);
-void enumAllFiles(NSString *path);
-void enumPodFiles(NSString *path);
+#import "CMD.h"
 
-unsigned long long resourceSize = 0;
-unsigned long long codeSize = 0;
+static BOOL isResource(NSString *type);
+static void enumAllFiles(NSString *path);
+static void enumPodFiles(NSString *path);
+
+static unsigned long long resourceSize = 0;
+static unsigned long long codeSize = 0;
+
 static NSDictionary *podResult;
 static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnUseClass(int argc, const char * argv[]);
 static void scanCrashSymbol(int argc, const char * argv[]);
-static NSString *resultFilePath();
+static NSString *resultFilePath(void);
 
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
@@ -45,7 +46,7 @@ int main(int argc, const char * argv[]) {
 }
 
 
-void scanStaticLibrary(int argc, const char * argv[]){
+static void scanStaticLibrary(int argc, const char * argv[]){
     
     //参数1 为个数，参数2 为pod 路径列表
     for (int i = 0; i < argc - 2; i++) {
@@ -58,7 +59,7 @@ void scanStaticLibrary(int argc, const char * argv[]){
             //获取pod 名称
             NSString * podName = [podPath lastPathComponent];
             
-            //获取结果文件输出路径，为pod的兄弟路径
+            //获取结果文件输出路径
             NSString * outPutPath = resultFilePath();
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
             
@@ -82,12 +83,11 @@ void scanStaticLibrary(int argc, const char * argv[]){
             [podResult setValue:[NSString stringWithFormat:@"%.2f MB",(codeSize+resourceSize)/1024.0/1024] forKey:@"total"];
             [resultData setValue:podResult forKey:podName];
             [resultData writeToFile:outPutPath atomically:YES];
-//            [podResult writeToFile:[podPath stringByAppendingPathComponent:@"WBBladesResult.plist"] atomically:YES];
         }
     }
 }
 
-void scanUnUseClass(int argc, const char * argv[]){
+static void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
     
@@ -153,14 +153,16 @@ void handleStaticLibrary(NSString *filePath){
     NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
     cmd(thinCmd);
     
+    stripFile(filePath);
+
+    
     //读取mach-o文件并统计体积
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
     NSLog(@"%@ 大小为 %.2f MB",name,(size)/1024.0/1024.0);
     codeSize += size;
-    //暂时不考虑多静态库链接问题
-//    [[WBBladesLinkManager shareInstance] clearLinker];
+    
     //删除临时文件
     cmd(rmCmd);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
@@ -195,7 +197,7 @@ void handleStaticLibraryForClassList(NSString *filePath){
 }
 
 
-void enumPodFiles(NSString *path){
+static void enumPodFiles(NSString *path){
     
     //遍历单一pod
     NSFileManager * fileManger = [NSFileManager defaultManager];
@@ -242,7 +244,7 @@ void enumPodFiles(NSString *path){
     }
 }
 
-void enumAllFiles(NSString *path){
+static void enumAllFiles(NSString *path){
     @autoreleasepool {
         
         //遍历单一pod
@@ -313,7 +315,7 @@ void enumAllFiles(NSString *path){
     }
 }
 
-bool isResource(NSString *type){
+static BOOL isResource(NSString *type){
     
     if ([type isEqualToString:@"nib"] ||
         [type isEqualToString:@"plist"] ||
@@ -337,36 +339,6 @@ bool isResource(NSString *type){
     }
     
     return NO;
-}
-
-
-const char *cmd(NSString *cmd){
-    
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments: arguments];
-    NSPipe *pipe = [NSPipe pipe];
-    [task setStandardOutput: pipe];
-    
-    // 开始task
-    NSFileHandle *file = [pipe fileHandleForReading];
-    [task launch];
-    
-    // 获取运行结果
-    NSData *data = [file readDataToEndOfFile];
-    return [data bytes];
-}
-
-void colorPrint(NSString *info){
-    
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments: arguments];
-    
-    [task launch];
 }
 
 static NSString *resultFilePath() {
