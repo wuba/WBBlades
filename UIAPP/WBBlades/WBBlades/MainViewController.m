@@ -8,6 +8,7 @@
 
 #import "MainViewController.h"
 #import "AnalyzeWindowController.h"
+#import "AnalyzeHeader.h"
 
 @interface MainViewController ()
 
@@ -30,22 +31,22 @@
 
 - (IBAction)staticLibSizeClicked:(id)sender {
     NSLog(@"static");
-    [self createANewWindow:@"1"];
+    [self createANewWindow:AnalyzeStaticLibrarySizeType];
 }
 
 - (IBAction)unusedClassClicked:(id)sender {
     NSLog(@"unused");
-   [self createANewWindow:@"2"];
+   [self createANewWindow:AnalyzeAppUnusedClassType];
 }
 
 - (IBAction)crashAnalyzeClicked:(id)sender {
     NSLog(@"crash");
-    [self createANewWindow:@"3"];
+    [self createANewWindow:AnalyzeAppCrashLogType];
 }
 
-- (void)createANewWindow:(NSString *)type{
+- (void)createANewWindow:(AnalyzeType)type{
     AnalyzeWindowController *wc = [[AnalyzeWindowController alloc]initWithWindowNibName:@"AnalyzeWindowController"];
-    wc.types = type;
+    wc.type = type;
     [wc.window center];
     [wc.window orderFront:nil];
 }

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AnalyzeHeader.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -22,7 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id <AnalyzeLibViewProtocol>delegate;
 
--(instancetype)initWithFrame:(NSRect)frameRect type:(NSString *)type;
+-(instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type;
 
 -(void)stopAnalyze;
 
