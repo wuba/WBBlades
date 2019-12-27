@@ -92,7 +92,7 @@ static void scanUnUseClass(int argc, const char * argv[]){
     NSString *podName = @"";
     
     //遍历输入的pod，提取所有pod中的类
-    for (int i = 0; i < argc - 2; i++) {
+    for (int i = 0; i < argc - 3; i++) {
         @autoreleasepool {
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
             NSLog(@"读取%@所有类",podPath);
@@ -116,8 +116,12 @@ static void scanUnUseClass(int argc, const char * argv[]){
     NSString *appName = [[[appPath lastPathComponent] componentsSeparatedByString:@"."] firstObject];
     appPath = [appPath stringByAppendingPathComponent:appName];
     
+    
+   
+    
+    
     //读取二进制文件，对输入的pod下的类进行无用类扫描
-    NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readFromFile:appPath] classes:s_classSet];
+    NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     
     //输出数据
     NSString * outPutPath = resultFilePath();
@@ -144,17 +148,11 @@ void handleStaticLibrary(NSString *filePath){
     NSLog(@"分析文件---%@",name);
     
     //拷贝文件
-    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
-    NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
-    cmd(rmCmd);
-    cmd(cpCmd);
+    removeFile(filePath);
+    copyFile(filePath);
     
     //文件架构拆分
-    NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
-    cmd(thinCmd);
-    
-    stripFile(filePath);
-
+    thinFile(filePath);
     
     //读取mach-o文件并统计体积
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
@@ -164,7 +162,7 @@ void handleStaticLibrary(NSString *filePath){
     codeSize += size;
     
     //删除临时文件
-    cmd(rmCmd);
+    removeFile(filePath);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
     if (size>0) {
         [podResult setValue:[NSString stringWithFormat:@"%.2f MB",size/1024.0/1024] forKey:name];
@@ -176,14 +174,11 @@ void handleStaticLibraryForClassList(NSString *filePath){
     @autoreleasepool {
         //拷贝文件
         NSLog(@"正在备份文件...");
-        NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
-        NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
-        cmd(rmCmd);
-        cmd(cpCmd);
+        removeCopyFile(filePath);
+        copyFile(filePath);
         
         //文件架构拆分
-        NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
-        cmd(thinCmd);
+        thinFile(filePath);
         
         //读取mach-o文件
         NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
@@ -192,7 +187,8 @@ void handleStaticLibraryForClassList(NSString *filePath){
         NSSet *classSet = [WBBladesScanManager scanStaticLibraryForClassList:fileData];
         s_classSet = [[s_classSet setByAddingObjectsFromSet:classSet] mutableCopy];
         //删除临时文件
-        cmd(rmCmd);
+        removeCopyFile(filePath);
+
     }
 }
 
@@ -263,8 +259,7 @@ static void enumAllFiles(NSString *path){
                 if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
                     
                     //进行xcassets 编译
-                    NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@",[path stringByDeletingLastPathComponent],path];
-                    cmd(complieCmd);
+                    compileXcassets(path);
                     
                     //获取编译后的.car文件的大小并统计
                     NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
@@ -272,7 +267,7 @@ static void enumAllFiles(NSString *path){
                     resourceSize += [fileData length];
                     
                     //删除编译后的.car文件
-                    cmd([NSString stringWithFormat:@"rm -rf %@/Assets.car",[path stringByDeletingLastPathComponent]]);
+                    removeFile(path);
                 }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
                           [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
                           [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]

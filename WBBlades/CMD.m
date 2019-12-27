@@ -9,7 +9,7 @@
 #import "CMD.h"
 
 
-const char *cmd(NSString *cmd){
+static const char *cmd(NSString *cmd){
     
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
@@ -45,8 +45,32 @@ void stripFile(NSString *filePath){
     cmd(bitcodeCmd);
     //剥离符号表
     NSLog(@"正在剥离符号表...");
-    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x %@_copy",filePath];
+    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x -S %@_copy",filePath];
     cmd(stripCmd);
 }
 
+void removeCopyFile(NSString *filePath){
+    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
+    cmd(rmCmd);
+}
 
+void copyFile(NSString *filePath){
+    NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
+    cmd(cpCmd);
+}
+
+void thinFile(NSString *filePath){
+    NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
+    cmd(thinCmd);
+
+}
+
+void compileXcassets(NSString *path){
+    NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@",[path stringByDeletingLastPathComponent],path];
+    cmd(complieCmd);
+}
+
+void removeFile(NSString *filePath){
+    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@",filePath];
+    cmd(rmCmd);
+}

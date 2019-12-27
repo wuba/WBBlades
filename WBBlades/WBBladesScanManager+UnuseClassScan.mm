@@ -485,7 +485,6 @@ static section_64 textList = {0};
         NSString * className = NSSTRING(buffer);
         free(buffer);
         
-        
         NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
         
         //遍历每个class的method (实例方法)
