@@ -46,6 +46,7 @@
 		373DEFE423AB60FD00B0D4CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		373DEFEC23AB617500B0D4CE /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
+		A75205DC23B5DD23005D2F71 /* AnalyzeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeHeader.h; sourceTree = "<group>"; };
 		A7D057A623AC9D73005287E1 /* AnalyzeWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeWindowController.h; sourceTree = "<group>"; };
 		A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeWindowController.m; sourceTree = "<group>"; };
 		A7D057A823AC9D73005287E1 /* AnalyzeWindowController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AnalyzeWindowController.xib; sourceTree = "<group>"; };
@@ -104,6 +105,7 @@
 				A7D057A623AC9D73005287E1 /* AnalyzeWindowController.h */,
 				A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */,
 				A7D057A823AC9D73005287E1 /* AnalyzeWindowController.xib */,
+				A75205DC23B5DD23005D2F71 /* AnalyzeHeader.h */,
 				373DEFDE23AB60FD00B0D4CE /* Assets.xcassets */,
 				373DEFE023AB60FD00B0D4CE /* Main.storyboard */,
 				373DEFE323AB60FD00B0D4CE /* Info.plist */,

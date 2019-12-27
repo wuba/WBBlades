@@ -27,12 +27,12 @@
 
 -(NSView *)controlView{
     if (!_controlView) {
-        if ([self.types isEqualToString:@"3"]) {
+        if (self.type == AnalyzeAppCrashLogType) {
             _controlView = [[AnalyzeCrashView alloc]initWithFrame:self.view.frame];
             AnalyzeCrashView *crashView = (AnalyzeCrashView *)_controlView;
             crashView.delegate = self;
         }else{
-            _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame type:self.types];
+            _controlView = [[AnalyzeLibView alloc]initWithFrame:self.view.frame type:self.type];
             AnalyzeLibView *libView = (AnalyzeLibView *)_controlView;
             libView.delegate = self;
         }

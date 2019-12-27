@@ -10,7 +10,7 @@
 
 @interface AnalyzeLibView()
 
-@property (nonatomic, copy) NSString *type;
+@property (nonatomic, assign) AnalyzeType type;
 
 @property (nonatomic,weak) NSTextView *excView;
 @property (nonatomic,weak) NSTextView *objFilesView;
@@ -31,7 +31,7 @@
 
 @implementation AnalyzeLibView
 
-- (instancetype)initWithFrame:(NSRect)frameRect type:(nonnull NSString *)type{
+- (instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type{
     self = [super initWithFrame:frameRect];
     if (self) {
         _taskArray = [NSMutableArray array];
@@ -47,16 +47,9 @@
     NSLog(@"dealloc");
 }
 
--(dispatch_semaphore_t)sema{
-    if (!_sema) {
-        _sema = dispatch_semaphore_create(1);
-    }
-    return _sema;
-}
-
 - (void)prepareSubview{
     CGFloat typeHeight = 0;
-    if([self.type isEqualToString:@"2"]){
+    if(self.type == AnalyzeAppUnusedClassType){//无用类检测的特殊UI
         NSTextField *execLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 80, 36.0)];
         [self addSubview:execLabel];
         execLabel.font = [NSFont systemFontOfSize:14.0];
@@ -254,6 +247,7 @@
     _inFinderBtn = inFinderBtn;
 }
 
+//目标路径点击事件
 - (void)pathBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"打开"];
@@ -282,6 +276,7 @@
     }];
 }
 
+//输出路径点击事件
 - (void)outputBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"选择文件夹"];
@@ -300,6 +295,7 @@
     }];
 }
 
+//开始解析点击事件
 - (void)startBtnClicked:(id)sender{
     if (self.objFilesView.string.length == 0) {
         NSAlert *alert = [[NSAlert alloc]init];
@@ -315,14 +311,15 @@
     _consoleView.string = @"";
     _needStop = NO;
     
-    if ([self.type isEqualToString:@"1"]) {//静态库体积分析
+    if (self.type == AnalyzeStaticLibrarySizeType) {//静态库体积分析
         [self analyzeLibSize];
-    }else if ([self.type isEqualToString:@"2"]){//无用类检测
+    }else if (self.type == AnalyzeAppUnusedClassType){//无用类检测
         [self analyzeUnusedClass];
     }
     
 }
 
+//暂停解析点击事件
 - (void)stopBtnClicked:(id)sender{
     self.needStop = YES;
     _startBtn.enabled = YES;
@@ -340,6 +337,12 @@
     self.consoleView.string = string;
 }
 
+//暂停解析
+- (void)stopAnalyze{
+    [self stopBtnClicked:nil];
+}
+
+//打开文件夹点击事件
 - (void)inFinderBtnClicked:(id)sender{
 //    if (_pathArray && _pathArray.count>0) {
 //        NSMutableArray *array = [NSMutableArray array];
@@ -356,15 +359,23 @@
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
-- (void)excBtnClicked:(id)sender{
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
     
+    // Drawing code here.
 }
 
-- (void)stopAnalyze{
-    [self stopBtnClicked:nil];
+#pragma mark getter
+//信号
+-(dispatch_semaphore_t)sema{
+    if (!_sema) {
+        _sema = dispatch_semaphore_create(1);
+    }
+    return _sema;
 }
 
-
+#pragma mark 静态库体积检测
+//静态库体积分析
 - (void)analyzeLibSize{
     NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     if(array && array.count == 1){
@@ -420,6 +431,8 @@
     });
 }
 
+#pragma mark 无用类检测
+//无用类检测
 - (void)analyzeUnusedClass{
     NSString *string = [self.objFilesView.string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     NSMutableArray *array = [NSMutableArray arrayWithArray:[string componentsSeparatedByString:@" "]];
@@ -447,10 +460,25 @@
         });
     });
 }
-         
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+
+//无用类检测，选择app可执行文件
+- (void)excBtnClicked:(id)sender{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setPrompt: @"选择app执行文件"];
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.canChooseFiles = YES;
+    openPanel.canChooseDirectories = NO;
+    openPanel.directoryURL = nil;
+    openPanel.allowedFileTypes = @[@"app"];
     
-    // Drawing code here.
+    __weak __typeof(self)weakSelf = self;
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == 1 && [openPanel URLs]) {
+            NSURL *url = [[openPanel URLs] firstObject];
+            NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
+            weakSelf.excView.string = outputPath;
+        }
+    }];
 }
+
 @end
