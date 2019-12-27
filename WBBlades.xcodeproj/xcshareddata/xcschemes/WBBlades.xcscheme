@@ -56,7 +56,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/a58/58_ios_libs"
+            argument = "/Users/a58/wb_frameworks/WBAPP3rdLib/wb3rdcomponent/BUAdSDK/BUAdSDK.framework/BUAdSDK"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
