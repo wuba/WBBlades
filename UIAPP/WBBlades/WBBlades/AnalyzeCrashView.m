@@ -12,6 +12,7 @@
 
 @property (nonatomic,weak) NSTextView *ipaFileView;
 @property (nonatomic,weak) NSTextView *crashStackView;
+@property (nonatomic,weak) NSTextView *resultView;
 
 @end
 
@@ -113,6 +114,7 @@
     scrollView2.documentView = resultTextView;
     resultTextView.font = [NSFont systemFontOfSize:14.0];
     resultTextView.textColor = [NSColor blackColor];
+    _resultView = resultTextView;
 }
 
 - (void)ipaPreviewBtnClicked:(id)sender{
@@ -145,8 +147,8 @@
 }
 
 - (void)startBtnClicked:(id)sender{
-    NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
+    //NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    //NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
     
 //    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
 //        NSAlert *alert = [[NSAlert alloc] init];
@@ -198,8 +200,13 @@
     data = [file readDataToEndOfFile];
     NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     NSLog(@"%@", resultStr);
+    [self outputResults:resultStr];
     [bladesTask waitUntilExit];
     
+}
+
+- (void)outputResults:(NSString*)resultStr {
+    _resultView.string = [resultStr copy];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

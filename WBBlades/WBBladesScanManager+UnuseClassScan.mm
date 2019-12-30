@@ -530,9 +530,11 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                     
                     [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
+//                        NSLog(@"the object is: @%@",(NSString *)obj);
+//                        NSLog(@"the crash is %lld",crash);
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
-                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName];
+                            NSLog(@"起始地址:%lld    崩溃地址:%@ \n -[%@ %@ \n]",tmp,obj,className,methodName);
+                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@ \n]",tmp,crash,className,methodName];
                             [resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
                             [results addObject:resultStr];
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
