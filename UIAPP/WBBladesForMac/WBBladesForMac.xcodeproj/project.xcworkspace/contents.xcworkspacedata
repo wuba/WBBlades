@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:WBBlades.xcodeproj">
+      location = "self:/Users/a58/Desktop/WBBlades/UIAPP/WBBlades/WBBladesForMac.xcodeproj">
    </FileRef>
 </Workspace>

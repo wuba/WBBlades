@@ -1,6 +1,6 @@
 //
 //  AnalyzeViewController.h
-//  WBBlades
+//  WBBladesForMac
 //
 //  Created by phs on 2019/12/20.
 //  Copyright © 2019 邓竹立. All rights reserved.
