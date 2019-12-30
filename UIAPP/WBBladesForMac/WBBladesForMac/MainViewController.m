@@ -1,6 +1,6 @@
 //
 //  ViewController.m
-//  WBBlades
+//  WBBladesForMac
 //
 //  Created by 邓竹立 on 2019/12/19.
 //  Copyright © 2019 邓竹立. All rights reserved.
@@ -25,7 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.window.title = @"分析工具";
 //    [self startTask];
 }
 
