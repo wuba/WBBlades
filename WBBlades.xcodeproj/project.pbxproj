@@ -449,6 +449,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
@@ -467,7 +468,8 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
-				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",

@@ -7,6 +7,7 @@
 //
 
 #import "WBBladesFileManager.h"
+#import "CMD.h"
 
 @implementation WBBladesFileManager
 
@@ -24,6 +25,28 @@
     }
     return fileData;
 }
+
++(NSData *)readArm64FromFile:(NSString *)filePath{
+    
+    removeCopyFile(filePath);
+    
+    copyFile(filePath);
+    
+    thinFile(filePath);
+
+    
+    NSURL * tmpURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@_copy",filePath]];
+    NSData * fileData = [NSMutableData dataWithContentsOfURL:tmpURL
+                                 options:NSDataReadingMappedIfSafe
+                                                       error:NULL];
+    removeCopyFile(filePath);
+    
+    if (!fileData) {
+        NSLog(@"文件读取失败");
+    }
+    return fileData;
+}
+
 
 
 @end

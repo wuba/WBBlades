@@ -52,11 +52,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "1"
+            argument = "2"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/a58/wb_frameworks/WBAPP3rdLib/wb3rdcomponent/BUAdSDK/BUAdSDK.framework/BUAdSDK"
+            argument = "/Users/a58/Downloads/AnalyzeLogApp.app"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

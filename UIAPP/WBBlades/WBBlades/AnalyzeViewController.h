@@ -7,12 +7,13 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AnalyzeHeader.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AnalyzeViewController : NSViewController
 
-@property(nonatomic, copy) NSString *types;
+@property(nonatomic, assign) AnalyzeType type;
 
 @end
 
