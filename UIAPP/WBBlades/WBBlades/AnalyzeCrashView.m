@@ -131,11 +131,12 @@
             NSArray *array = [openPanel URLs];
             for (NSInteger i = 0; i < array.count; i++) {
                 NSURL *url = array[i];
+                NSString *urlString = [url.absoluteString substringFromIndex:7];
                 NSString *string = @",";
                 if (i == array.count - 1) {
                     string = @"";
                 }
-                [fileFolders appendFormat:@"%@%@",url.absoluteString,string];
+                [fileFolders appendFormat:@"%@%@",urlString,string];
             }
             weakself.ipaFileView.string = [fileFolders copy];
             //weakself.ipaFileView.editable = NO;
@@ -147,13 +148,13 @@
     NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
     
-    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"好的"];
-        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
-        [alert beginSheetModalForWindow:self.window completionHandler:nil];
-        return;
-    }
+//    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
+//        NSAlert *alert = [[NSAlert alloc] init];
+//        [alert addButtonWithTitle:@"好的"];
+//        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
+//        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+//        return;
+//    }
     
 //    NSString *crashInfo = [_crashStackView.string stringByReplacingOccurrencesOfString:@" " withString:@""];
 //    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
@@ -170,6 +171,34 @@
             [crashOffsets addObject:[NSString stringWithString:offset]];
         }
     }
+    if (crashOffsets.count > 0) {
+        NSString *offsets = [crashOffsets componentsJoinedByString:@","];
+        [self analyzeCrashFromOffsets:offsets];
+    } else {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"好的"];
+        [alert setMessageText:@"请粘贴崩溃堆栈"];
+        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        return;
+    }
+}
+
+-(void)analyzeCrashFromOffsets:(NSString*)offsets {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
+    NSTask *bladesTask = [[NSTask alloc] init];
+    [bladesTask setLaunchPath:path];
+    [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:_ipaFileView.string], [NSString stringWithString:offsets], nil]];
+    NSPipe *pipe;
+    pipe = [NSPipe pipe];
+    [bladesTask setStandardOutput:pipe];
+    NSFileHandle *file;
+    file = [pipe fileHandleForReading];
+    [bladesTask launch];
+    NSData *data;
+    data = [file readDataToEndOfFile];
+    NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    NSLog(@"%@", resultStr);
+    [bladesTask waitUntilExit];
     
 }
 

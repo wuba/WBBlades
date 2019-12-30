@@ -384,24 +384,28 @@ static section_64 textList = {0};
     return classSet;
 }
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddressPath{
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
+    NSMutableArray *results = [[NSMutableArray alloc] init];
     // 读取文件数据大小
     unsigned long long max = [fileData length];
     // mach64文件头
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    
+//    NSLog(@"mach header is @%u",mhHeader.magic);
+//    NSString *str = [NSString stringWithFormat:@"mach header is @%u",mhHeader.magic];
+//    [str writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//    [results addObject:str];
     // 64位架构
     section_64 classList = {0};
     // 获取LoadCommand首地址
     unsigned long long currentLcLocation = sizeof(mach_header_64);
+    //NSLog(@"current lc location is: @%llu",currentLcLocation);
     // 遍历所有Load Commands
     for (int i = 0; i < mhHeader.ncmds; i++) {
-        
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
-            
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
@@ -423,31 +427,31 @@ static section_64 textList = {0};
                     currentSecLocation += sizeof(section_64);
                 }
             } else if ([segName isEqualToString:@"__TEXT"]){
-                           unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-                           for (int j = 0; j < segmentCommand.nsects; j++) {
-                               //
-                               section_64 sectionHeader;
-                               [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-                               NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                               
-                               if ([secName isEqualToString:@"__text"]) {
-                                   textList = sectionHeader;
-                                   s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
-                               }
-                               
-                               currentSecLocation += sizeof(section_64);
-                           }
-                       }
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    //
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:@"__text"]) {
+                        textList = sectionHeader;
+                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                    }
+                    
+                    currentSecLocation += sizeof(section_64);
+                }
+            }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
     unsigned long long vm = classList.addr - classList.offset;
-    
+    //NSLog(@"vm is: %llu",vm);
     static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-    //获取所有类classlist
-    NSRange range = NSMakeRange(classList.offset, 0);
-    for (int i = 0; i < classList.size / 8 ; i++) {
+//获取所有类classlist
+NSRange range = NSMakeRange(classList.offset, 0);
+for (int i = 0; i < classList.size / 8 ; i++) {
     @autoreleasepool {
         
         unsigned long long classAddress;
@@ -491,8 +495,9 @@ static section_64 textList = {0};
         
         
         //NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
-        NSArray *crashAdress = [crashAddressPath componentsSeparatedByString:@","];
-        
+        NSArray *crashAdress = [crashAddresses componentsSeparatedByString:@","];
+        //NSLog(@"crash adresses are: %@",crashAdress);
+        //[crashAddresses writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
         //遍历每个class的method (实例方法)
         if (methodListOffset < max) {
             
@@ -505,7 +510,7 @@ static section_64 textList = {0};
                 //获取方法名
                 methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
                 data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                
+                //NSLog(@"%@", [NSString stringWithFormat:@"%@",data]);
                 unsigned long long methodNameOffset;
                 [data getBytes:&methodNameOffset length:8];
                 methodNameOffset = methodNameOffset - vm;
@@ -527,6 +532,9 @@ static section_64 textList = {0};
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
+                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName];
+                            [resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+                            [results addObject:resultStr];
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
@@ -571,6 +579,9 @@ static section_64 textList = {0};
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm] ) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
+                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName];
+                            [resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+                            [results addObject:resultStr];
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
@@ -579,28 +590,33 @@ static section_64 textList = {0};
                         }
                     }];
                     
-                    }
-                    free(buffer);
                 }
+                free(buffer);
             }
         }
     }
-    NSLog(@"%@",crashSymbolRst);
+}
+NSLog(@"%@",crashSymbolRst);
+//NSString *resultStr = [NSString stringWithFormat:@"%@",crashSymbolRst];
+//[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//[results addObject:resultStr];
+[[results componentsJoinedByString:@","] writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//return results;
 }
 
 + (BOOL)scanSELCallerWithAddress:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
     char * asmStr;
     do {
-           unsigned long long index = (begin - textList.offset - vb)/4;
-           asmStr = s_cs_insn[index].mnemonic;
-           if (strcmp(".byte",asmStr) == 0) {
-               return NO;
-           }
-           
-           if (begin == target + vb) {
-               return YES;
-           }
-           begin += 4;
+        unsigned long long index = (begin - textList.offset - vb)/4;
+        asmStr = s_cs_insn[index].mnemonic;
+        if (strcmp(".byte",asmStr) == 0) {
+            return NO;
+        }
+        
+        if (begin == target + vb) {
+            return YES;
+        }
+        begin += 4;
     } while (strcmp("ret",asmStr) != 0);
     return NO;
 }
