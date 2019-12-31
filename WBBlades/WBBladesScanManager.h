@@ -17,8 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData;
 
-+ (void)scanSymbolTabWithFileData:(NSData *)fileData;
-
 + (BOOL)isSupport:(NSData *)fileData;
 
 + (WBBladesObjectHeader *)scanSymtabHeader:(NSData *)fileData range:(NSRange )range;

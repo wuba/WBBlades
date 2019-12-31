@@ -145,7 +145,7 @@ void handleStaticLibrary(NSString *filePath){
     NSLog(@"分析文件---%@",name);
     
     //拷贝文件
-    removeFile(filePath);
+    removeCopyFile(filePath);
     copyFile(filePath);
     
     //文件架构拆分
@@ -159,7 +159,7 @@ void handleStaticLibrary(NSString *filePath){
     codeSize += size;
     
     //删除临时文件
-    removeFile(filePath);
+    removeCopyFile(filePath);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
     if (size>0) {
         [podResult setValue:[NSString stringWithFormat:@"%.2f MB",size/1024.0/1024] forKey:name];

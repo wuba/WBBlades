@@ -53,23 +53,6 @@
                     currentSecLocation += sizeof(section_64);
                 }
             }
-            
-//            else if ([segName isEqualToString:@"__TEXT"]){
-//                           unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-//                           for (int j = 0; j < segmentCommand.nsects; j++) {
-//                               //
-//                               section_64 sectionHeader;
-//                               [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-//                               NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-//
-//                               if ([secName isEqualToString:@"__text"]) {
-////                                   textList = sectionHeader;
-////                                   s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
-//                               }
-//
-//                               currentSecLocation += sizeof(section_64);
-//                           }
-//                       }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -148,10 +131,6 @@
                     [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                     NSString * methodName = NSSTRING(buffer);
                     
-                    if([className isEqualToString:@"GmacsIMClient"] && [methodName isEqualToString:@"getXidWithTargetParams:sucess:error:"]){
-                        NSLog(@"ok");
-                    }
-                    
                     methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
                     data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
                     
@@ -225,6 +204,10 @@
 
 
 + (BOOL)scanFuncBinaryCode:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb fileData:(NSData*)fileData{
+    
+    if (begin > target + vb) {
+        return NO;
+    }
     
      unsigned int asmCode = 0;
     do {
