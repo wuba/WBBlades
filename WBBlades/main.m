@@ -107,16 +107,6 @@ static void scanUnUseClass(int argc, const char * argv[]){
     }
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     
-    if (![[[[appPath lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"app"]) {
-        NSLog(@"请在第二个参数输入app文件");
-        return;
-    }
-    NSLog(@"正在扫描 %@",appPath);
-    
-    //获取app中二进制文件路径
-    NSString *appName = [[[appPath lastPathComponent] componentsSeparatedByString:@"."] firstObject];
-    appPath = [appPath stringByAppendingPathComponent:appName];
-    
     //读取二进制文件，对输入的pod下的类进行无用类扫描
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     

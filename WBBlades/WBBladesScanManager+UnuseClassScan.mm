@@ -86,7 +86,8 @@ static section_64 textList = {0};
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //遍历查找classlist、selref、classref、nlcls、cfstring section
-            if ([segName isEqualToString:@"__DATA"]) {
+            if ([segName isEqualToString:@"__DATA"] ||
+                [segName isEqualToString:@"__DATA_CONST"]) {
                 //遍历所有的section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -95,16 +96,19 @@ static section_64 textList = {0};
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
-                    if ([secName isEqualToString:@"__objc_classlist__DATA"]) {
+                    if ([secName isEqualToString:@"__objc_classlist__DATA"] ||
+                        [secName isEqualToString:@"__objc_classlist__DATA_CONST"]) {
                         classList = sectionHeader;
                     }
                     if ([secName isEqualToString:@"__objc_selrefs"]) {
                         selrefList = sectionHeader;
                     }
-                    if ([secName isEqualToString:@"__objc_classrefs__DATA"]) {
+                    if ([secName isEqualToString:@"__objc_classrefs__DATA"] ||
+                        [secName isEqualToString:@"__objc_classrefs__DATA_CONST"]) {
                         classrefList = sectionHeader;
                     }
-                    if ([secName isEqualToString:@"__objc_nlclslist__DATA"]) {
+                    if ([secName isEqualToString:@"__objc_nlclslist__DATA"] ||
+                        [secName isEqualToString:@"__objc_nlclslist__DATA_CONST"]) {
                         nlclsList = sectionHeader;
                     }
                     if ([secName isEqualToString:@"__cfstring"]) {

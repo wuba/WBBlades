@@ -37,7 +37,8 @@
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //遍历查找classlist、selref、classref、nlcls、cfstring section
-            if ([segName isEqualToString:@"__DATA"]) {
+            if ([segName isEqualToString:@"__DATA"] ||
+                [segName isEqualToString:@"__DATA_CONST"]) {
                 //遍历所有的section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -46,7 +47,8 @@
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
-                    if ([secName isEqualToString:@"__objc_classlist__DATA"]) {
+                    if ([secName isEqualToString:@"__objc_classlist__DATA"] ||
+                        [secName isEqualToString:@"__objc_classlist__DATA_CONST"]) {
                         classList = sectionHeader;
                     }
                     

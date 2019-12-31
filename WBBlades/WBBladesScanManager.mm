@@ -160,7 +160,8 @@
                 
                 //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
                 if ([segName isEqualToString:@"__TEXT"] ||
-                    [segName isEqualToString:@"__DATA"]) {
+                    [segName isEqualToString:@"__DATA"] ||
+                    [segName isEqualToString:@"__DATA_CONST"]) {
                     objcMachO.size += sectionHeader.size;
                 }
                 
