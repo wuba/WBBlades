@@ -19,10 +19,12 @@
 #import "WBBladesObject.h"
 #import "WBBladesLinkManager.h"
 #import <mach-o/nlist.h>
-#import "WBBladesClassDefine.h"
+#import "WBBladesDefines.h"
 #import "capstone.h"
 #import <objc/runtime.h>
 #import "WBBladesFileManager.h"
+#import "WBBladesTool.h"
+
 @implementation WBBladesScanManager (UnuseClassScan)
 
 
@@ -122,7 +124,7 @@ static section_64 textList = {0};
                         textList = sectionHeader;
                         
                         //对二进制文件的汇编代码进行反汇编
-                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                        s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
                     }
                     
                     currentSecLocation += sizeof(section_64);
@@ -143,7 +145,7 @@ static section_64 textList = {0};
         
         @autoreleasepool {
             unsigned long long selAddress;
-            NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
             [data getBytes:&selAddress range:NSMakeRange(0, 8)];
             selAddress = selAddress - vm;
             //方法名最大150字节
@@ -170,7 +172,7 @@ static section_64 textList = {0};
         @autoreleasepool {
             
             unsigned long long classAddress;
-            NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             classAddress = classAddress - vm;
             //方法名最大150字节
@@ -182,7 +184,7 @@ static section_64 textList = {0};
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                 unsigned long long classNameOffset = targetClassInfo.name - vm;
                 
@@ -205,7 +207,7 @@ static section_64 textList = {0};
         @autoreleasepool {
             
             unsigned long long classAddress;
-            NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             classAddress = classAddress - vm;
             //方法名最大150字节
@@ -222,7 +224,7 @@ static section_64 textList = {0};
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                 unsigned long long classNameOffset = targetClassInfo.name - vm;
                 
@@ -257,7 +259,7 @@ static section_64 textList = {0};
         @autoreleasepool {
             
             cfstring64 cfstring;
-            NSData *data = [self read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
+            NSData *data = [WBBladesTool read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
             [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
             unsigned long long stringOff = cfstring.stringAddress - vm;
             //方法名最大150字节
@@ -282,46 +284,46 @@ static section_64 textList = {0};
         @autoreleasepool {
             
             unsigned long long classAddress;
-            NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             unsigned long long classOffset = classAddress - vm;
             
             //获取类结构体
             class64 targetClass = {0};
             NSRange targetClassRange = NSMakeRange(classOffset, 0);
-            data = [self read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+            data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
             [data getBytes:&targetClass length:sizeof(class64)];
             
             //获取类信息结构体
             class64Info targetClassInfo = {0};
             unsigned long long targetClassInfoOffset = targetClass.data - vm;
             NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-            data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+            data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
             [data getBytes:&targetClassInfo length:sizeof(class64Info)];
             unsigned long long classNameOffset = targetClassInfo.name - vm;
             
             //            class64 metaClass = {0};
             //            NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-            //            data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+            //            data = [WBBladesTool read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
             //            [data getBytes:&metaClass length:sizeof(class64)];
             //
             //            class64Info metaClassInfo = {0};
             //            unsigned long long metaClassInfoOffset = metaClass.data - vm;
             //            NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-            //            data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+            //            data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
             //            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
             //
             //获取父类信息
             if (targetClass.superClass != 0) {
                 class64 superClass = {0};
                 NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
-                data = [self read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                data = [WBBladesTool read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
                 [data getBytes:&superClass length:sizeof(class64)];
                 
                 class64Info superClassInfo = {0};
                 unsigned long long superClassInfoOffset = superClass.data - vm;
                 NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
-                data = [self read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                data = [WBBladesTool read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&superClassInfo length:sizeof(class64Info)];
                 unsigned long long superClassNameOffset = superClassInfo.name - vm;
                 
@@ -355,11 +357,11 @@ static section_64 textList = {0};
             if (varListOffset < max) {
                 unsigned int varCount;
                 NSRange varRange = NSMakeRange(varListOffset+4, 0);
-                data = [self read_bytes:varRange length:4 fromFile:fileData];
+                data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
                 [data getBytes:&varCount length:4];
                 for (int j = 0; j<varCount; j++) {
                     varRange = NSMakeRange(varListOffset+8 + 32 * j + 16, 0);
-                    data = [self read_bytes:varRange length:8 fromFile:fileData];
+                    data = [WBBladesTool read_bytes:varRange length:8 fromFile:fileData];
                     unsigned long long methodNameOffset;
                     [data getBytes:&methodNameOffset length:8];
                     methodNameOffset = methodNameOffset - vm;
@@ -384,220 +386,7 @@ static section_64 textList = {0};
     return classSet;
 }
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashPlistPath:(NSString *)crashAddressPath{
-    
-    unsigned long long max = [fileData length];
-    mach_header_64 mhHeader;
-    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
-    
-    section_64 classList = {0};
-    unsigned long long currentLcLocation = sizeof(mach_header_64);
-    for (int i = 0; i < mhHeader.ncmds; i++) {
-        load_command* cmd = (load_command *)malloc(sizeof(load_command));
-        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
-        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
-            
-            segment_command_64 segmentCommand;
-            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
-            NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
-            
-            //遍历查找classlist、selref、classref、nlcls、cfstring section
-            if ([segName isEqualToString:@"__DATA"]) {
-                //遍历所有的section header
-                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-                for (int j = 0; j < segmentCommand.nsects; j++) {
-                    
-                    section_64 sectionHeader;
-                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                    
-                    if ([secName isEqualToString:@"__objc_classlist__DATA"]) {
-                        classList = sectionHeader;
-                    }
-                    
-                    currentSecLocation += sizeof(section_64);
-                }
-            } else if ([segName isEqualToString:@"__TEXT"]){
-                           unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
-                           for (int j = 0; j < segmentCommand.nsects; j++) {
-                               //
-                               section_64 sectionHeader;
-                               [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
-                               NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                               
-                               if ([secName isEqualToString:@"__text"]) {
-                                   textList = sectionHeader;
-                                   s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
-                               }
-                               
-                               currentSecLocation += sizeof(section_64);
-                           }
-                       }
-        }
-        currentLcLocation += cmd->cmdsize;
-        free(cmd);
-    }
-    unsigned long long vm = classList.addr - classList.offset;
-    
-    static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-    //获取所有类classlist
-    NSRange range = NSMakeRange(classList.offset, 0);
-    for (int i = 0; i < classList.size / 8 ; i++) {
-    @autoreleasepool {
-        
-        unsigned long long classAddress;
-        NSData *data = [self read_bytes:range length:8 fromFile:fileData];
-        [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-        unsigned long long classOffset = classAddress - vm;
-        
-        class64 targetClass = {0};
-        NSRange targetClassRange = NSMakeRange(classOffset, 0);
-        data = [self read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
-        [data getBytes:&targetClass length:sizeof(class64)];
-        
-        class64Info targetClassInfo = {0};
-        unsigned long long targetClassInfoOffset = targetClass.data - vm;
-        NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-        data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-        [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-        unsigned long long classNameOffset = targetClassInfo.name - vm;
-        
-        
-        class64 metaClass = {0};
-        NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-        data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
-        [data getBytes:&metaClass length:sizeof(class64)];
-        
-        class64Info metaClassInfo = {0};
-        unsigned long long metaClassInfoOffset = metaClass.data - vm;
-        NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-        data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-        [data getBytes:&metaClassInfo length:sizeof(class64Info)];
-        
-        
-        unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
-        unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
-        
-        //类名最大50字节
-        uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-        [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-        NSString * className = NSSTRING(buffer);
-        free(buffer);
-        
-        NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
-        
-        //遍历每个class的method (实例方法)
-        if (methodListOffset < max) {
-            
-            unsigned int methodCount;
-            NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
-            data = [self read_bytes:methodRange length:4 fromFile:fileData];
-            [data getBytes:&methodCount length:4];
-            for (int j = 0; j<methodCount; j++) {
-                
-                //获取方法名
-                methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
-                data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                
-                unsigned long long methodNameOffset;
-                [data getBytes:&methodNameOffset length:8];
-                methodNameOffset = methodNameOffset - vm;
-                
-                //方法名最大150字节
-                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                if (methodNameOffset < max) {
-                    
-                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                    NSString * methodName = NSSTRING(buffer);
-                    
-                    methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
-                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                    
-                    unsigned long long tmp;
-                    [data getBytes:&tmp length:8];
-                    
-                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        unsigned long long crash = [(NSString *)obj longLongValue];
-                        if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
-                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
-                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
-                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
-                                [crashSymbolRst setObject:dic forKey:key];
-                            }
-                        }
-                    }];
-                }
-                free(buffer);
-            }
-        }
-        if (classMethodListOffset < max) {
-            
-            unsigned int methodCount;
-            NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
-            data = [self read_bytes:methodRange length:4 fromFile:fileData];
-            [data getBytes:&methodCount length:4];
-            for (int j = 0; j<methodCount; j++) {
-                
-                //获取方法名
-                methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
-                data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                
-                unsigned long long methodNameOffset;
-                [data getBytes:&methodNameOffset length:8];
-                methodNameOffset = methodNameOffset - vm;
-                
-                //方法名最大150字节
-                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                if (methodNameOffset < max) {
-                    
-                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                    NSString * methodName = NSSTRING(buffer);
-                    
-                    methodRange = NSMakeRange(classMethodListOffset+8 +16 + 24 * j, 0);
-                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
-                    
-                    unsigned long long tmp;
-                    [data getBytes:&tmp length:8];
-                    
-                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        unsigned long long crash = [(NSString *)obj longLongValue];
-                        if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm] ) {
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
-                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
-                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
-                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
-                                [crashSymbolRst setObject:dic forKey:key];
-                            }
-                        }
-                    }];
-                    
-                    }
-                    free(buffer);
-                }
-            }
-        }
-    }
-    NSLog(@"%@",crashSymbolRst);
-}
 
-+ (BOOL)scanSELCallerWithAddress:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
-    char * asmStr;
-    do {
-           unsigned long long index = (begin - textList.offset - vb)/4;
-           asmStr = s_cs_insn[index].mnemonic;
-           if (strcmp(".byte",asmStr) == 0) {
-               return NO;
-           }
-           
-           if (begin == target + vb) {
-               return YES;
-           }
-           begin += 4;
-    } while (strcmp("ret",asmStr) != 0);
-    return NO;
-}
 
 + (BOOL)inClassBlacklistCheck:(char *)className{
     
@@ -741,100 +530,6 @@ static section_64 textList = {0};
     
 }
 
-+ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size vmBase:(unsigned long long)vmAddress{
-    
-    //获取汇编
-    char * ot_sect = (char *)[fileData bytes] + begin - vmAddress;
-    uint64_t ot_addr = begin ;
-    csh cs_handle = 0;
-    cs_insn *cs_insn = NULL;
-    cs_err cserr;
-    if ((cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ){
-        NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
-        return NULL;
-    }
-    //设置解析模式
-    cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
-    //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
-    cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-    
-    //进行反汇编
-    size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, size, ot_addr, 0, &cs_insn);
-    if (disasm_count < 1 ) {
-        NSLog(@"汇编指令解析不符合预期！");
-        return NULL;
-    }
-    return cs_insn;
-}
-
-
-+ (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
-    range = NSMakeRange(NSMaxRange(range),len);
-    NSMutableArray *strings = [NSMutableArray array];
-    
-    unsigned long size = 0;
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
-    [fileData getBytes:buffer range:range];
-    uint8_t *p = buffer;
-    while (size < len) {
-        NSString * str = NSSTRING(p);
-        str = [self replaceEscapeCharsInString:str];
-        if (str) {
-            [strings addObject:str];
-            //            NSLog(@"%@",str);
-            //+1 是为了留出'\0'的位置
-            size = [str length] + size + 1;
-            p = p + [str length] + 1;
-        }
-    }
-    free (buffer);
-    return [strings copy];
-}
-
-//-----------------------------------------------------------------------------
-+ (NSString *)read_string:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData
-{
-    range = NSMakeRange(NSMaxRange(range),len);
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
-    [fileData getBytes:buffer range:range];
-    NSString * str = NSSTRING(buffer);
-    free (buffer);
-    return [self replaceEscapeCharsInString:str];
-}
-
-//-----------------------------------------------------------------------------
-+ (NSData *)read_bytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData
-{
-    range = NSMakeRange(NSMaxRange(range),length);
-    uint8_t * buffer = (uint8_t *)malloc(length);
-    [fileData getBytes:buffer range:range];
-    NSData * ret = [NSData dataWithBytes:buffer length:length];
-    free (buffer);
-    return ret;
-}
-
-//-----------------------------------------------------------------------------
-+ (NSString *) replaceEscapeCharsInString: (NSString *)orig
-{
-    NSUInteger len = [orig length];
-    NSMutableString * str = [[NSMutableString alloc] init];
-    SEL sel = @selector(characterAtIndex:);
-    unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
-    for (NSUInteger i = 0; i < len; i++)
-    {
-        unichar c = charAtIdx(orig, sel, i);
-        switch (c)
-        {
-            default:    [str appendFormat:@"%C",c]; break;
-            case L'\f': [str appendString:@"\\f"]; break; // form feed - new page (byte 0x0c)
-            case L'\n': [str appendString:@"\\n"]; break; // line feed - new line (byte 0x0a)
-            case L'\r': [str appendString:@"\\r"]; break; // carriage return (byte 0x0d)
-            case L'\t': [str appendString:@"\\t"]; break; // horizontal tab (byte 0x09)
-            case L'\v': [str appendString:@"\\v"]; break; // vertical tab (byte 0x0b)
-        }
-    }
-    return str;
-}
 
 
 @end
