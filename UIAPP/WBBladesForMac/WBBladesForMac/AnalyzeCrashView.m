@@ -13,7 +13,7 @@
 @property (nonatomic,weak) NSTextView *ipaFileView;
 @property (nonatomic,weak) NSTextView *crashStackView;
 @property (nonatomic,weak) NSTextView *resultView;
-
+@property (nonatomic,copy) NSMutableArray *crashStacks;
 @end
 
 @implementation AnalyzeCrashView
@@ -27,10 +27,10 @@
 }
 
 - (void)prepareSubview{
-    NSTextField *ipaLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 66, 36.0)];
+    NSTextField *ipaLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
     [self addSubview:ipaLabel];
     ipaLabel.font = [NSFont systemFontOfSize:14.0];
-    ipaLabel.stringValue = @"IPA路径";
+    ipaLabel.stringValue = @"可执行文件路径";
     ipaLabel.textColor = [NSColor blackColor];
     ipaLabel.editable = NO;
     ipaLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -48,9 +48,9 @@
     textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     _ipaFileView = textView;
     
-    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 105.0, 40.0)];
+    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 125.0, 40.0)];
     [self addSubview:ipaPreviewBtn];
-    ipaPreviewBtn.title = @"选择ipa文件";
+    ipaPreviewBtn.title = @"选择可执行文件";
     ipaPreviewBtn.font = [NSFont systemFontOfSize:14.0];
     ipaPreviewBtn.target = self;
     ipaPreviewBtn.action = @selector(ipaPreviewBtnClicked:);
@@ -66,7 +66,7 @@
     crashOriLabel.bordered = NO;
     crashOriLabel.backgroundColor = [NSColor clearColor];
     
-    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 40.0)];
+    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 125.0, 40.0)];
     [self addSubview:startBtn];
     startBtn.title = @"开始解析";
     startBtn.font = [NSFont systemFontOfSize:14.0];
@@ -119,12 +119,12 @@
 
 - (void)ipaPreviewBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setPrompt:@"选择ipa文件"];
+    [openPanel setPrompt:@"选择可执行文件"];
     openPanel.allowsMultipleSelection = NO;
     openPanel.canChooseFiles = YES;
     openPanel.canChooseDirectories = NO;
     openPanel.directoryURL = nil;
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"ipa", nil]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", nil]];
     __weak __typeof(self) weakself = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         
@@ -141,7 +141,7 @@
                 [fileFolders appendFormat:@"%@%@",urlString,string];
             }
             weakself.ipaFileView.string = [fileFolders copy];
-            //weakself.ipaFileView.editable = NO;
+            weakself.ipaFileView.editable = NO;
         }
     }];
 }
@@ -162,6 +162,8 @@
 //    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
 //    NSString *crash = _crashStackView.string;
 //    NSLog(@"%@", _crashStackView.string);
+    NSString *execName = [_ipaFileView.string componentsSeparatedByString:@"/"].lastObject;
+    NSLog(@"%@",execName);
     NSArray *crashInfoLines = [_crashStackView.string componentsSeparatedByString:@"\n"];
     NSMutableArray *crashOffsets = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < crashInfoLines.count; i++) {
@@ -198,8 +200,12 @@
     [bladesTask launch];
     NSData *data;
     data = [file readDataToEndOfFile];
+    //NSArray *arr = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSString class] fromData:data error:nil];
+    //NSLog(@"results array is %@",arr);
     NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    NSLog(@"%@", resultStr);
+    //NSLog(@"%@", resultStr);
+    //NSDictionary *resultsDic = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSDictionary class] fromData:data error:nil];
+    NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
     [self outputResults:resultStr];
     [bladesTask waitUntilExit];
     

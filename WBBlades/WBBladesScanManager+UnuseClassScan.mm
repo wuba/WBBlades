@@ -386,6 +386,7 @@ static section_64 textList = {0};
 
 + (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
     NSMutableArray *results = [[NSMutableArray alloc] init];
+    NSMutableDictionary *resultsDic = [[NSMutableDictionary alloc] init];
     // 读取文件数据大小
     unsigned long long max = [fileData length];
     // mach64文件头
@@ -498,6 +499,8 @@ for (int i = 0; i < classList.size / 8 ; i++) {
         NSArray *crashAdress = [crashAddresses componentsSeparatedByString:@","];
         //NSLog(@"crash adresses are: %@",crashAdress);
         //[crashAddresses writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+        
+      
         //遍历每个class的method (实例方法)
         if (methodListOffset < max) {
             
@@ -534,9 +537,14 @@ for (int i = 0; i < classList.size / 8 ; i++) {
 //                        NSLog(@"the crash is %lld",crash);
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
                             NSLog(@"起始地址:%lld    崩溃地址:%@ \n -[%@ %@ \n]",tmp,obj,className,methodName);
-                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@ \n]",tmp,crash,className,methodName];
-                            [resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:%@ -[%@ %@ \n]",tmp,obj,className,methodName];
+                            //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
                             [results addObject:resultStr];
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
@@ -580,10 +588,15 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                     [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm] ) {
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
-                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName];
-                            [resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+                            NSLog(@"起始地址:0x%llx    崩溃地址:%@ +[%@ %@]",tmp,obj,className,methodName);
+                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:%@ +[%@ %@]",tmp,obj,className,methodName];
+                            //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
                             [results addObject:resultStr];
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
@@ -599,10 +612,18 @@ for (int i = 0; i < classList.size / 8 ; i++) {
     }
 }
 NSLog(@"%@",crashSymbolRst);
+
+NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options:NSJSONWritingPrettyPrinted error:nil];
+NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
+[resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+
+
 //NSString *resultStr = [NSString stringWithFormat:@"%@",crashSymbolRst];
 //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 //[results addObject:resultStr];
-[[results componentsJoinedByString:@","] writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+//NSData *data = [NSKeyedArchiver archivedDataWithRootObject:results requiringSecureCoding:NO error:nil];
+//[data writeToFile:@"/dev/stdout" atomically:NO];
+//[[results componentsJoinedByString:@","] writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 //return results;
 }
 
