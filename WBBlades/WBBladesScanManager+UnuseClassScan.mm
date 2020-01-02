@@ -12,12 +12,12 @@
 #include <mach/vm_map.h>
 #include <mach-o/loader.h>
 #include <mach-o/fat.h>
-#import "WBBladesObjectHeader.h"
 #import <mach-o/nlist.h>
-#import "WBBladesDefines.h"
-#import "capstone.h"
 #import <objc/runtime.h>
 #import "WBBladesTool.h"
+#import "WBBladesObjectHeader.h"
+#import "WBBladesDefines.h"
+#import "capstone.h"
 
 @implementation WBBladesScanManager (UnuseClassScan)
 
@@ -44,10 +44,10 @@ static section_64 textList = {0};
     
     for (NSString *symbol in stringTab.strings) {
         
-        if ([symbol hasPrefix:@"_OBJC_CLASS_$_"] ||
-            [symbol hasPrefix:@"_OBJC_METACLASS_$_"]) {
-            NSString * className = [symbol stringByReplacingOccurrencesOfString:@"_OBJC_CLASS_$_" withString:@""];
-            className = [className stringByReplacingOccurrencesOfString:@"_OBJC_METACLASS_$_" withString:@""];
+        if ([symbol hasPrefix:CLASS_SYMBOL_PRE] ||
+            [symbol hasPrefix:METACLASS_SYMBOL_PRE]) {
+            NSString * className = [symbol stringByReplacingOccurrencesOfString:CLASS_SYMBOL_PRE withString:@""];
+            className = [className stringByReplacingOccurrencesOfString:METACLASS_SYMBOL_PRE withString:@""];
             [set addObject:className];
         }
     }
@@ -78,8 +78,8 @@ static section_64 textList = {0};
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //遍历查找classlist、selref、classref、nlcls、cfstring section
-            if ([segName isEqualToString:@"__DATA"] ||
-                [segName isEqualToString:@"__DATA_CONST"]) {
+            if ([segName isEqualToString:SEGMENT_DATA] ||
+                [segName isEqualToString:SEGMENT_DATA_CONST]) {
                 //遍历所有的section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -88,24 +88,24 @@ static section_64 textList = {0};
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
-                    if ([secName isEqualToString:@"__objc_classlist__DATA"] ||
-                        [secName isEqualToString:@"__objc_classlist__DATA_CONST"]) {
+                    if ([secName isEqualToString:DATA_CLASSLIST_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_CLASSLIST_SECTION]) {
                         classList = sectionHeader;
                     }
-                    if ([secName isEqualToString:@"__objc_classrefs__DATA"] ||
-                        [secName isEqualToString:@"__objc_classrefs__DATA_CONST"]) {
+                    if ([secName isEqualToString:DATA_CLASSREF_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_CLASSREF_SECTION]) {
                         classrefList = sectionHeader;
                     }
-                    if ([secName isEqualToString:@"__objc_nlclslist__DATA"] ||
-                        [secName isEqualToString:@"__objc_nlclslist__DATA_CONST"]) {
+                    if ([secName isEqualToString:DATA_NCLSLIST_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
                         nlclsList = sectionHeader;
                     }
-                    if ([secName isEqualToString:@"__cfstring"]) {
+                    if ([secName isEqualToString:DATA_CSTRING]) {
                         cfstringList = sectionHeader;
                     }
                     currentSecLocation += sizeof(section_64);
                 }
-            }else if ([segName isEqualToString:@"__TEXT"]){
+            }else if ([segName isEqualToString:SEGMENT_TEXT]){
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     

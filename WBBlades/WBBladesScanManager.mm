@@ -12,17 +12,17 @@
 #include <mach/vm_map.h>
 #include <mach-o/loader.h>
 #include <mach-o/fat.h>
+#import <mach-o/nlist.h>
+#import <objc/runtime.h>
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
 #import "WBBladesLinkManager.h"
-#import <mach-o/nlist.h>
 #import "WBBladesDefines.h"
-#import "capstone.h"
-#import <objc/runtime.h>
 #import "WBBladesFileManager.h"
 #import "WBBladesTool.h"
+#import "WBBladesDefines.h"
 
 @implementation WBBladesScanManager
 
@@ -159,15 +159,15 @@
                 NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
                 
                 //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
-                if ([segName isEqualToString:@"__TEXT"] ||
-                    [segName isEqualToString:@"__RODATA"] ||
-                    [segName isEqualToString:@"__DATA"] ||
-                    [segName isEqualToString:@"__DATA_CONST"]) {
+                if ([segName isEqualToString:SEGMENT_TEXT] ||
+                    [segName isEqualToString:SEGMENT_RODATA] ||
+                    [segName isEqualToString:SEGMENT_DATA] ||
+                    [segName isEqualToString:SEGMENT_DATA_CONST]) {
                     objcMachO.size += sectionHeader.size;
                 }
                 
                 //__TEXT的section 做存储，用于虚拟链接
-                if ([segName isEqualToString:@"__TEXT"] || [segName isEqualToString:@"__RODATA"]) {
+                if ([segName isEqualToString:SEGMENT_TEXT] || [segName isEqualToString:SEGMENT_RODATA]) {
                     
                     //跳转到相应的section
                     unsigned int secOffset = sectionHeader.offset;
@@ -219,7 +219,7 @@
                             break;
                         
                         case S_REGULAR:{
-                            if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
+                            if ([sectionName isEqualToString:CHINESE_STRING_SECTION]) {
                                 //获取中文字符串
                                 NSData *data = [WBBladesTool read_bytes:secRange length:sectionHeader.size fromFile:fileData];
                                 
