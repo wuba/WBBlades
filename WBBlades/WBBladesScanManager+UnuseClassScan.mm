@@ -44,7 +44,6 @@ static section_64 textList = {0};
     
     for (NSString *symbol in stringTab.strings) {
         
-        
         if ([symbol hasPrefix:@"_OBJC_CLASS_$_"] ||
             [symbol hasPrefix:@"_OBJC_METACLASS_$_"]) {
             NSString * className = [symbol stringByReplacingOccurrencesOfString:@"_OBJC_CLASS_$_" withString:@""];

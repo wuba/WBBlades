@@ -160,13 +160,14 @@
                 
                 //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
                 if ([segName isEqualToString:@"__TEXT"] ||
+                    [segName isEqualToString:@"__RODATA"] ||
                     [segName isEqualToString:@"__DATA"] ||
                     [segName isEqualToString:@"__DATA_CONST"]) {
                     objcMachO.size += sectionHeader.size;
                 }
                 
                 //__TEXT的section 做存储，用于虚拟链接
-                if ([segName isEqualToString:@"__TEXT"]) {
+                if ([segName isEqualToString:@"__TEXT"] || [segName isEqualToString:@"__RODATA"]) {
                     
                     //跳转到相应的section
                     unsigned int secOffset = sectionHeader.offset;
