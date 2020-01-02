@@ -95,7 +95,6 @@
         data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
         [data getBytes:&metaClassInfo length:sizeof(class64Info)];
         
-        
         unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
         unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
         

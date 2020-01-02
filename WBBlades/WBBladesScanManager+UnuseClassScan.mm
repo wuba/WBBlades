@@ -113,7 +113,7 @@ static section_64 textList = {0};
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
-                    if ([secName isEqualToString:@"__text"]) {
+                    if ([secName isEqualToString:TEXT_TEXT_SECTION]) {
                         textList = sectionHeader;
                         
                         //对二进制文件的汇编代码进行反汇编
@@ -312,10 +312,10 @@ static section_64 textList = {0};
                 data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
                 [data getBytes:&varCount length:4];
                 for (int j = 0; j<varCount; j++) {
-                    varRange = NSMakeRange(varListOffset+8 + 32 * j + 16, 0);
-                    data = [WBBladesTool read_bytes:varRange length:8 fromFile:fileData];
-                    unsigned long long methodNameOffset;
-                    [data getBytes:&methodNameOffset length:8];
+                    NSRange varRange = NSMakeRange(varListOffset+sizeof(ivar64_list_t) + sizeof(ivar64_t) * j, sizeof(ivar64_t));
+                    ivar64_t var = {};
+                    [fileData getBytes:&var range:varRange];
+                    unsigned long long methodNameOffset = var.type;
                     methodNameOffset = methodNameOffset - vm;
                     uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
                     if (methodNameOffset > 0 && methodNameOffset < max) {
