@@ -141,37 +141,37 @@ static section_64 textList = {0};
     unsigned long long vm = classList.addr - classList.offset;
     
     NSMutableSet *classrefSet = [NSMutableSet set];
-    NSMutableDictionary *selrefDic = [NSMutableDictionary dictionary];
+//    NSMutableDictionary *selrefDic = [NSMutableDictionary dictionary];
     
     //获取selref，目前没啥用
-    NSRange range = NSMakeRange(selrefList.offset, 0);
-    for (int i = 0; i < selrefList.size / 8; i++) {
-        
-        @autoreleasepool {
-            unsigned long long selAddress;
-            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-            [data getBytes:&selAddress range:NSMakeRange(0, 8)];
-            selAddress = selAddress - vm;
-            //方法名最大150字节
-            uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-            if (selAddress < max) {
-                
-                [fileData getBytes:buffer range:NSMakeRange(selAddress,150)];
-                NSString * selName = NSSTRING(buffer);
-                
-                if (selName) {
-                    WBBladesHelper *helper = [WBBladesHelper new];
-                    helper.selName = selName;
-                    helper.offset = selrefList.offset + i*8;
-                    [selrefDic setObject:helper forKey:selName];
-                }
-            }
-            free(buffer);
-        }
-    }
+//    NSRange range = NSMakeRange(selrefList.offset, 0);
+//    for (int i = 0; i < selrefList.size / 8; i++) {
+//
+//        @autoreleasepool {
+//            unsigned long long selAddress;
+//            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+//            [data getBytes:&selAddress range:NSMakeRange(0, 8)];
+//            selAddress = selAddress - vm;
+//            //方法名最大150字节
+//            uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+//            if (selAddress < max) {
+//
+//                [fileData getBytes:buffer range:NSMakeRange(selAddress,150)];
+//                NSString * selName = NSSTRING(buffer);
+//
+//                if (selName) {
+//                    WBBladesHelper *helper = [WBBladesHelper new];
+//                    helper.selName = selName;
+//                    helper.offset = selrefList.offset + i*8;
+//                    [selrefDic setObject:helper forKey:selName];
+//                }
+//            }
+//            free(buffer);
+//        }
+//    }
     
     //获取nlclslist
-    range = NSMakeRange(nlclsList.offset, 0);
+    NSRange range = NSMakeRange(nlclsList.offset, 0);
     for (int i = 0; i < nlclsList.size / 8; i++) {
         @autoreleasepool {
             
@@ -180,7 +180,7 @@ static section_64 textList = {0};
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             classAddress = classAddress - vm;
             //方法名最大150字节
-            if (classAddress < max) {
+            if (classAddress > 0 && classAddress < max) {
                 
                 class64 targetClass;
                 [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
@@ -215,7 +215,7 @@ static section_64 textList = {0};
             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
             classAddress = classAddress - vm;
             //方法名最大150字节
-            if (classAddress < max) {
+            if (classAddress > 0 && classAddress < max) {
                 
                 //获取class64结构体
                 class64 targetClass;
@@ -267,7 +267,7 @@ static section_64 textList = {0};
             [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
             unsigned long long stringOff = cfstring.stringAddress - vm;
             //方法名最大150字节
-            if (stringOff < max) {
+            if (stringOff > 0 && stringOff < max) {
                 //类名最大50字节
                 uint8_t * buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
                 [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
@@ -358,7 +358,7 @@ static section_64 textList = {0};
             
             //遍历成员变量
             unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
-            if (varListOffset < max) {
+            if (varListOffset > 0 && varListOffset < max) {
                 unsigned int varCount;
                 NSRange varRange = NSMakeRange(varListOffset+4, 0);
                 data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
@@ -370,7 +370,7 @@ static section_64 textList = {0};
                     [data getBytes:&methodNameOffset length:8];
                     methodNameOffset = methodNameOffset - vm;
                     uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                    if (methodNameOffset < max) {
+                    if (methodNameOffset > 0 && methodNameOffset < max) {
                         [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                         NSString * typeName = NSSTRING(buffer);
                         if (typeName) {

@@ -109,7 +109,7 @@
         NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
         
         //遍历每个class的method (实例方法)
-        if (methodListOffset < max) {
+        if (methodListOffset > 0 && methodListOffset < max) {
             
             unsigned int methodCount;
             NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
@@ -138,7 +138,8 @@
                     
                     unsigned long long tmp;
                     [data getBytes:&tmp length:8];
-                    
+                    NSLog(@"遍历 -[%@ %@]",className,methodName);
+
                     [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData]) {
@@ -154,7 +155,7 @@
                 free(buffer);
             }
         }
-        if (classMethodListOffset < max) {
+        if (classMethodListOffset > 0 && classMethodListOffset < max) {
             
             unsigned int methodCount;
             NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
@@ -172,7 +173,7 @@
                 
                 //方法名最大150字节
                 uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                if (methodNameOffset < max) {
+                if (methodNameOffset > 0 && methodNameOffset < max) {
                     
                     [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                     NSString * methodName = NSSTRING(buffer);
@@ -183,6 +184,7 @@
                     unsigned long long tmp;
                     [data getBytes:&tmp length:8];
                     
+                    NSLog(@"遍历 -[%@ %@]",className,methodName);
                     [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData] ) {
