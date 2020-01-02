@@ -16,8 +16,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSSet*)scanStaticLibraryForClassList:(NSData *)fileData;
 
-+ (void)scanSymbolTabWithFileData:(NSData *)fileData;
-
 @end
 
 NS_ASSUME_NONNULL_END

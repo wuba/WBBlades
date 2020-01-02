@@ -7,7 +7,6 @@
 //
 
 #import "WBBladesScanManager+CrashSymbol.h"
-#import "WBBladesScanManager.h"
 #include <mach/mach.h>
 #include <mach/mach_vm.h>
 #include <mach/vm_map.h>

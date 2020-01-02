@@ -7,22 +7,16 @@
 //
 
 #import "WBBladesScanManager+UnuseClassScan.h"
-#import "WBBladesScanManager.h"
 #include <mach/mach.h>
 #include <mach/mach_vm.h>
 #include <mach/vm_map.h>
 #include <mach-o/loader.h>
 #include <mach-o/fat.h>
 #import "WBBladesObjectHeader.h"
-#import "WBBladesSymTab.h"
-#import "WBBladesStringTab.h"
-#import "WBBladesObject.h"
-#import "WBBladesLinkManager.h"
 #import <mach-o/nlist.h>
 #import "WBBladesDefines.h"
 #import "capstone.h"
 #import <objc/runtime.h>
-#import "WBBladesFileManager.h"
 #import "WBBladesTool.h"
 
 @implementation WBBladesScanManager (UnuseClassScan)
@@ -70,7 +64,6 @@ static section_64 textList = {0};
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
     section_64 classList = {0};
-    section_64 selrefList = {0};
     section_64 classrefList= {0};
     section_64 nlclsList= {0};
     section_64 cfstringList= {0};
@@ -99,9 +92,6 @@ static section_64 textList = {0};
                     if ([secName isEqualToString:@"__objc_classlist__DATA"] ||
                         [secName isEqualToString:@"__objc_classlist__DATA_CONST"]) {
                         classList = sectionHeader;
-                    }
-                    if ([secName isEqualToString:@"__objc_selrefs"]) {
-                        selrefList = sectionHeader;
                     }
                     if ([secName isEqualToString:@"__objc_classrefs__DATA"] ||
                         [secName isEqualToString:@"__objc_classrefs__DATA_CONST"]) {
@@ -141,34 +131,6 @@ static section_64 textList = {0};
     unsigned long long vm = classList.addr - classList.offset;
     
     NSMutableSet *classrefSet = [NSMutableSet set];
-//    NSMutableDictionary *selrefDic = [NSMutableDictionary dictionary];
-    
-    //获取selref，目前没啥用
-//    NSRange range = NSMakeRange(selrefList.offset, 0);
-//    for (int i = 0; i < selrefList.size / 8; i++) {
-//
-//        @autoreleasepool {
-//            unsigned long long selAddress;
-//            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-//            [data getBytes:&selAddress range:NSMakeRange(0, 8)];
-//            selAddress = selAddress - vm;
-//            //方法名最大150字节
-//            uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-//            if (selAddress < max) {
-//
-//                [fileData getBytes:buffer range:NSMakeRange(selAddress,150)];
-//                NSString * selName = NSSTRING(buffer);
-//
-//                if (selName) {
-//                    WBBladesHelper *helper = [WBBladesHelper new];
-//                    helper.selName = selName;
-//                    helper.offset = selrefList.offset + i*8;
-//                    [selrefDic setObject:helper forKey:selName];
-//                }
-//            }
-//            free(buffer);
-//        }
-//    }
     
     //获取nlclslist
     NSRange range = NSMakeRange(nlclsList.offset, 0);
@@ -306,16 +268,6 @@ static section_64 textList = {0};
             [data getBytes:&targetClassInfo length:sizeof(class64Info)];
             unsigned long long classNameOffset = targetClassInfo.name - vm;
             
-            //            class64 metaClass = {0};
-            //            NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-            //            data = [WBBladesTool read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
-            //            [data getBytes:&metaClass length:sizeof(class64)];
-            //
-            //            class64Info metaClassInfo = {0};
-            //            unsigned long long metaClassInfoOffset = metaClass.data - vm;
-            //            NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-            //            data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-            //            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
             //
             //获取父类信息
             if (targetClass.superClass != 0) {
@@ -340,9 +292,6 @@ static section_64 textList = {0};
                     [classrefSet addObject:superClassName];
                 }
             }
-            
-            //            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
-            //            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
             
             //类名最大50字节
             uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
