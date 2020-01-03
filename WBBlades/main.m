@@ -11,6 +11,7 @@
 #import "WBBladesScanManager.h"
 #import "WBBladesLinkManager.h"
 #import "WBBladesScanManager+UnuseClassScan.h"
+#import "WBBladesScanManager+CrashSymbol.h"
 #import "CMD.h"
 
 static BOOL isResource(NSString *type);
@@ -106,20 +107,6 @@ static void scanUnUseClass(int argc, const char * argv[]){
     }
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     
-    if (![[[[appPath lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"app"]) {
-        NSLog(@"请在第二个参数输入app文件");
-        return;
-    }
-    NSLog(@"正在扫描 %@",appPath);
-    
-    //获取app中二进制文件路径
-    NSString *appName = [[[appPath lastPathComponent] componentsSeparatedByString:@"."] firstObject];
-    appPath = [appPath stringByAppendingPathComponent:appName];
-    
-    
-   
-    
-    
     //读取二进制文件，对输入的pod下的类进行无用类扫描
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     
@@ -139,7 +126,7 @@ static void scanUnUseClass(int argc, const char * argv[]){
 static void scanCrashSymbol(int argc, const char * argv[]){
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     NSString *crashAddressPath = [NSString stringWithFormat:@"%s",argv[3]];
-    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readFromFile:appPath] crashPlistPath:crashAddressPath];
+    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashPlistPath:crashAddressPath];
 }
 
 void handleStaticLibrary(NSString *filePath){
@@ -148,7 +135,7 @@ void handleStaticLibrary(NSString *filePath){
     NSLog(@"分析文件---%@",name);
     
     //拷贝文件
-    removeFile(filePath);
+    removeCopyFile(filePath);
     copyFile(filePath);
     
     //文件架构拆分
@@ -162,7 +149,7 @@ void handleStaticLibrary(NSString *filePath){
     codeSize += size;
     
     //删除临时文件
-    removeFile(filePath);
+    removeCopyFile(filePath);
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节",name,size]);
     if (size>0) {
         [podResult setValue:[NSString stringWithFormat:@"%.2f MB",size/1024.0/1024] forKey:name];

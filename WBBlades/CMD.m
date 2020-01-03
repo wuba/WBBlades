@@ -55,7 +55,7 @@ void removeCopyFile(NSString *filePath){
 }
 
 void copyFile(NSString *filePath){
-    NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
+    NSString *cpCmd = [NSString stringWithFormat:@"cp  -f %@ %@_copy",filePath,filePath];
     cmd(cpCmd);
 }
 
