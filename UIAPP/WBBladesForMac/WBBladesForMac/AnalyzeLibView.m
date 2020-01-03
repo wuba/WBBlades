@@ -297,15 +297,6 @@
 
 //开始解析点击事件
 - (void)startBtnClicked:(id)sender{
-    if (self.objFilesView.string.length == 0) {
-        NSAlert *alert = [[NSAlert alloc]init];
-        [alert addButtonWithTitle:@"好的"];
-        [alert setMessageText:@"目标路径不能为空！"];
-        [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        }];
-        return;
-    }
-    
     _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
     _consoleView.string = @"";
@@ -344,15 +335,6 @@
 
 //打开文件夹点击事件
 - (void)inFinderBtnClicked:(id)sender{
-//    if (_pathArray && _pathArray.count>0) {
-//        NSMutableArray *array = [NSMutableArray array];
-//        for (NSString *path in _pathArray) {
-//            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",path]];
-//            [array addObject:url];
-//        }
-//        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[array copy]];
-//    }
-    
     NSString *fileName = @"";
     if (self.type == AnalyzeStaticLibrarySizeType) {
         fileName = @"/WBBladesResult.plist";
@@ -383,6 +365,11 @@
 #pragma mark 静态库体积检测
 //静态库体积分析
 - (void)analyzeLibSize{
+    if (self.objFilesView.string.length == 0) {
+        [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
+        return;
+    }
+    
     NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     if(array && array.count == 1){
         array = [self.objFilesView.string componentsSeparatedByString:@" "];
@@ -440,6 +427,13 @@
 #pragma mark 无用类检测
 //无用类检测
 - (void)analyzeUnusedClass{
+    if (self.excView.string.length == 0) {
+        [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
+        return;
+    }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string] || ![self.excView.string hasSuffix:@".app"]){
+        [self stopAnalyzeAlertMessage:@"无法找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
+        return;
+    }
     NSString *string = [self.objFilesView.string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     NSMutableArray *array = [NSMutableArray arrayWithArray:[string componentsSeparatedByString:@" "]];
     if (!array || array.count == 0) {
@@ -484,6 +478,21 @@
             NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
             weakSelf.excView.string = outputPath;
         }
+    }];
+}
+
+#pragma mark Tools
+//无法启动解析的弹框
+- (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName{
+    NSAlert *alert = [[NSAlert alloc]init];
+    [alert addButtonWithTitle:btnName];
+    [alert setMessageText:msg];
+    __weak __typeof(self)weakSelf = self;
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        weakSelf.startBtn.enabled = YES;
+        weakSelf.stopBtn.enabled = NO;
+        weakSelf.consoleView.string = @"";
+        weakSelf.needStop = YES;
     }];
 }
 
