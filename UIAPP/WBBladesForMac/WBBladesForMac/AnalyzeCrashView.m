@@ -14,6 +14,9 @@
 @property (nonatomic,weak) NSTextView *crashStackView;
 @property (nonatomic,weak) NSTextView *resultView;
 @property (nonatomic,copy) NSMutableArray *crashStacks;
+@property (nonatomic,copy) NSMutableArray *usefulCrashStacks;
+@property (nonatomic,weak) NSButton *startButton;
+
 @end
 
 @implementation AnalyzeCrashView
@@ -27,6 +30,9 @@
 }
 
 - (void)prepareSubview{
+    _crashStacks = [[NSMutableArray alloc] init];
+    _usefulCrashStacks = [[NSMutableArray alloc] init];
+    
     NSTextField *ipaLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
     [self addSubview:ipaLabel];
     ipaLabel.font = [NSFont systemFontOfSize:14.0];
@@ -74,6 +80,7 @@
     startBtn.action = @selector(startBtnClicked:);
     startBtn.bordered = YES;
     startBtn.bezelStyle = NSBezelStyleRegularSquare;
+    _startButton = startBtn;
     
     NSScrollView *scrollView = [[NSScrollView alloc]initWithFrame:NSMakeRect(30.0, 214.0, 765.0, 148.0)];
     [self addSubview:scrollView];
@@ -86,7 +93,7 @@
     scrollView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     
     NSTextView *crashTextView = [[NSTextView alloc]initWithFrame:NSMakeRect(0, 0, 765.0, 148.0)];
-     scrollView.documentView = crashTextView;
+    scrollView.documentView = crashTextView;
     crashTextView.font = [NSFont systemFontOfSize:14.0];
     crashTextView.textColor = [NSColor blackColor];
     _crashStackView = crashTextView;
@@ -141,39 +148,65 @@
                 [fileFolders appendFormat:@"%@%@",urlString,string];
             }
             weakself.ipaFileView.string = [fileFolders copy];
-            weakself.ipaFileView.editable = NO;
+            //weakself.ipaFileView.editable = NO;
         }
     }];
 }
 
 - (void)startBtnClicked:(id)sender{
+    
+    _resultView.string = @"";
+    _startButton.enabled = NO;
     //NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     //NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
     
-//    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
-//        NSAlert *alert = [[NSAlert alloc] init];
-//        [alert addButtonWithTitle:@"好的"];
-//        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
-//        [alert beginSheetModalForWindow:self.window completionHandler:nil];
-//        return;
-//    }
+    //    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
+    //        NSAlert *alert = [[NSAlert alloc] init];
+    //        [alert addButtonWithTitle:@"好的"];
+    //        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
+    //        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+    //        return;
+    //    }
     
-//    NSString *crashInfo = [_crashStackView.string stringByReplacingOccurrencesOfString:@" " withString:@""];
-//    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
-//    NSString *crash = _crashStackView.string;
-//    NSLog(@"%@", _crashStackView.string);
+    //    NSString *crashInfo = [_crashStackView.string stringByReplacingOccurrencesOfString:@" " withString:@""];
+    //    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
+    //    NSString *crash = _crashStackView.string;
+    //    NSLog(@"%@", _crashStackView.string);
+    NSURL *fileUrl = [NSURL fileURLWithPath:_ipaFileView.string];
+    NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
+    if (!fileData) {
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert addButtonWithTitle:@"好的"];
+        [alert setMessageText:@"请选择或拖入一个可执行文件"];
+        [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        return;
+    }
+    
+    // 获得可执行文件的名称
     NSString *execName = [_ipaFileView.string componentsSeparatedByString:@"/"].lastObject;
-    NSLog(@"%@",execName);
+    
+    // 获得此app的崩溃地址
     NSArray *crashInfoLines = [_crashStackView.string componentsSeparatedByString:@"\n"];
     NSMutableArray *crashOffsets = [[NSMutableArray alloc] init];
     for (NSInteger i = 0; i < crashInfoLines.count; i++) {
+        
         NSString *crashLine = crashInfoLines[i];
-        NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
-        NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
-        NSString *offset = comps.lastObject;
-        if(offset.longLongValue) {
-            [crashOffsets addObject:[NSString stringWithString:offset]];
+        NSMutableArray *compos = [[crashLine componentsSeparatedByString:@" "] mutableCopy];
+        [compos removeObject:@""];
+        if (compos.count == 6) {
+            NSString *appName = compos[1];
+            if ([appName isEqualToString:execName]) {
+                NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
+                NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
+                NSString *offset = comps.lastObject;
+                if(offset.longLongValue) {
+                    [crashOffsets addObject:[NSString stringWithString:offset]];
+                }
+                [_usefulCrashStacks addObject:crashLine];
+            }
         }
+        [_crashStacks addObject:crashLine];
+        
     }
     if (crashOffsets.count > 0) {
         NSString *offsets = [crashOffsets componentsJoinedByString:@","];
@@ -188,31 +221,62 @@
 }
 
 -(void)analyzeCrashFromOffsets:(NSString*)offsets {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
-    NSTask *bladesTask = [[NSTask alloc] init];
-    [bladesTask setLaunchPath:path];
-    [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:_ipaFileView.string], [NSString stringWithString:offsets], nil]];
-    NSPipe *pipe;
-    pipe = [NSPipe pipe];
-    [bladesTask setStandardOutput:pipe];
-    NSFileHandle *file;
-    file = [pipe fileHandleForReading];
-    [bladesTask launch];
-    NSData *data;
-    data = [file readDataToEndOfFile];
-    //NSArray *arr = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSString class] fromData:data error:nil];
-    //NSLog(@"results array is %@",arr);
-    NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    //NSLog(@"%@", resultStr);
-    //NSDictionary *resultsDic = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSDictionary class] fromData:data error:nil];
-    NSDictionary *resultsDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-    [self outputResults:resultStr];
-    [bladesTask waitUntilExit];
+    _resultView.string = @"解析中，请稍候";
     
+    __weak typeof(self) weakSelf = self;
+    NSString *inputStack = _ipaFileView.string;
+
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
+        NSTask *bladesTask = [[NSTask alloc] init];
+        [bladesTask setLaunchPath:path];
+        [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:inputStack], [NSString stringWithString:offsets], nil]];
+        NSPipe *pipe;
+        pipe = [NSPipe pipe];
+        [bladesTask setStandardOutput:pipe];
+        NSFileHandle *file;
+        file = [pipe fileHandleForReading];
+        [bladesTask launch];
+        NSData *data;
+        data = [file readDataToEndOfFile];
+        //NSArray *arr = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSString class] fromData:data error:nil];
+        //NSLog(@"results array is %@",arr);
+        //NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        //NSLog(@"%@", resultStr);
+        //NSDictionary *resultsDic = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSDictionary class] fromData:data error:nil];
+        NSDictionary * resultsDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        [bladesTask waitUntilExit];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [bladesTask terminate];
+            [weakSelf outputResults:resultsDic];
+        });
+    });
+    
+ 
 }
 
-- (void)outputResults:(NSString*)resultStr {
-    _resultView.string = [resultStr copy];
+- (void)outputResults:(NSDictionary*)resultDic {
+    _startButton.enabled = YES;
+    NSMutableArray *outputArr = [[NSMutableArray alloc] init];
+    for (NSString *infoStr in _crashStacks) {
+        if (![_usefulCrashStacks containsObject:infoStr]) {
+            [outputArr addObject:infoStr];
+        } else {
+            NSArray *infoComps = [infoStr componentsSeparatedByString:@"+ "];
+            NSArray *infos = [infoStr componentsSeparatedByString:@"0x"];
+            NSString *offset = infoComps.lastObject;
+            if (offset) {
+                NSString* methodName = [resultDic valueForKey:offset];
+                NSString *resultStr = [NSString stringWithFormat:@"%@ %@",infos.firstObject,methodName];
+                NSString *result = [resultStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                [outputArr addObject:result];
+            }
+        }
+    }
+    NSString *outputer = [outputArr componentsJoinedByString:@"\n"];
+    _resultView.string = [outputer copy];
+    [_crashStacks removeAllObjects];
+    [_usefulCrashStacks removeAllObjects];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {

@@ -21,6 +21,7 @@
     //NSLog(@"%@", fileData);
     // Get arm64 from fileData?
     if (!fileData) {
+        
         NSLog(@"文件读取失败");
     }
     return fileData;

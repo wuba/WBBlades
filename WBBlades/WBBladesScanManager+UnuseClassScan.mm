@@ -617,7 +617,7 @@ NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options
 NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
 [resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 
-
+NSLog(@"results are %@",results);
 //NSString *resultStr = [NSString stringWithFormat:@"%@",crashSymbolRst];
 //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 //[results addObject:resultStr];
