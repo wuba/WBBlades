@@ -353,9 +353,15 @@
 //        [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:[array copy]];
 //    }
     
+    NSString *fileName = @"";
+    if (self.type == AnalyzeStaticLibrarySizeType) {
+        fileName = @"/WBBladesResult.plist";
+    }else if (self.type == AnalyzeAppUnusedClassType){
+        fileName = @"/WBBladesClass.plist";
+    }
     //暂时直接打开桌面
     NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@",deskTop]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
