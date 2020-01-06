@@ -58,7 +58,6 @@ static section_64 textList = {0};
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses{
     
     NSLog(@"目标%ld个类",aimClasses.count);
-    unsigned long long max = [fileData length];
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
@@ -127,217 +126,243 @@ static section_64 textList = {0};
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
-    unsigned long long vm = classList.addr - classList.offset;
-    
     NSMutableSet *classrefSet = [NSMutableSet set];
     
     //获取nlclslist
-    NSRange range = NSMakeRange(nlclsList.offset, 0);
-    for (int i = 0; i < nlclsList.size / 8; i++) {
-        @autoreleasepool {
-            
-            unsigned long long classAddress;
-            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-            [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-            classAddress = classAddress - vm;
-            //方法名最大150字节
-            if (classAddress > 0 && classAddress < max) {
-                
-                class64 targetClass;
-                [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
-                
-                class64Info targetClassInfo = {0};
-                unsigned long long targetClassInfoOffset = targetClass.data - vm;
-                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-                unsigned long long classNameOffset = targetClassInfo.name - vm;
-                
-                //类名最大50字节
-                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-                NSString * className = NSSTRING(buffer);
-                free(buffer);
-                if (className) {
-                    [classrefSet addObject:className];
-                }
-            }
-            
-        }
-    }
+    classrefSet = [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
     
     //获取classref
-    range = NSMakeRange(classrefList.offset, 0);
-    for (int i = 0; i < classrefList.size / 8; i++) {
-        @autoreleasepool {
-            
-            unsigned long long classAddress;
-            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-            [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-            classAddress = classAddress - vm;
-            //方法名最大150字节
-            if (classAddress > 0 && classAddress < max) {
-                
-                //获取class64结构体
-                class64 targetClass;
-                ptrdiff_t off = classAddress;
-                char * p = (char *)fileData.bytes;
-                p = p+off;
-                memcpy(&targetClass, p, sizeof(class64));
-                
-                //获取class64info结构体
-                class64Info targetClassInfo = {0};
-                unsigned long long targetClassInfoOffset = targetClass.data - vm;
-                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-                unsigned long long classNameOffset = targetClassInfo.name - vm;
-                
-                //类名最大50字节
-                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-                NSString * className = NSSTRING(buffer);
-                free(buffer);
-                
-                if (className) {
-                    WBBladesHelper *helper = [WBBladesHelper new];
-                    helper.className = className;
-                    helper.selName = @"";
-                    helper.offset = range.location;
-                    if (!aimClasses ||  [aimClasses containsObject:className]) {
-                        
-                        //查看是否在别的类中有调用
-                        if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
-                            [classrefSet addObject:className];
-                        }
-                    }else{
-                        [classrefSet addObject:className];
-                    }
-                }
-            }
-        }
-    }
+    classrefSet = [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
     //
     //获取cfstring
-    range = NSMakeRange(cfstringList.offset, 0);
-    for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
-        @autoreleasepool {
-            
-            cfstring64 cfstring;
-            NSData *data = [WBBladesTool read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
-            [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
-            unsigned long long stringOff = cfstring.stringAddress - vm;
-            //方法名最大150字节
-            if (stringOff > 0 && stringOff < max) {
-                //类名最大50字节
-                uint8_t * buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
-                [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
-                NSString * className = NSSTRING(buffer);
-                free(buffer);
-                if (className){
-                    [classrefSet addObject:className];
-                }
-            }
-        }
-        
-    }
+    classrefSet = [self readCStringList:cfstringList set:classrefSet fileData:fileData];
     
     //获取所有类classlist
-    NSMutableSet *classSet = [NSMutableSet set];
-    range = NSMakeRange(classList.offset, 0);
-    for (int i = 0; i < classList.size / 8 ; i++) {
-        @autoreleasepool {
-            
-            unsigned long long classAddress;
-            NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-            [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-            unsigned long long classOffset = classAddress - vm;
-            
-            //获取类结构体
-            class64 targetClass = {0};
-            NSRange targetClassRange = NSMakeRange(classOffset, 0);
-            data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
-            [data getBytes:&targetClass length:sizeof(class64)];
-            
-            //获取类信息结构体
-            class64Info targetClassInfo = {0};
-            unsigned long long targetClassInfoOffset = targetClass.data - vm;
-            NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-            data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-            [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-            unsigned long long classNameOffset = targetClassInfo.name - vm;
-            
-            //
-            //获取父类信息
-            if (targetClass.superClass != 0) {
-                class64 superClass = {0};
-                NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
-                data = [WBBladesTool read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
-                [data getBytes:&superClass length:sizeof(class64)];
-                
-                class64Info superClassInfo = {0};
-                unsigned long long superClassInfoOffset = superClass.data - vm;
-                NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
-                data = [WBBladesTool read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-                [data getBytes:&superClassInfo length:sizeof(class64Info)];
-                unsigned long long superClassNameOffset = superClassInfo.name - vm;
-                
-                //类名最大50字节
-                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, 50)];
-                NSString * superClassName = NSSTRING(buffer);
-                free(buffer);
-                if (superClassName) {
-                    [classrefSet addObject:superClassName];
-                }
-            }
-            
-            //类名最大50字节
-            uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-            [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-            NSString * className = NSSTRING(buffer);
-            free(buffer);
-            
-            //当前类是否在目标类集合中
-            if (aimClasses && ![aimClasses containsObject:className]) {
-                continue;
-            }
-            [classSet addObject:className];
-            
-            //遍历成员变量
-            unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
-            if (varListOffset > 0 && varListOffset < max) {
-                unsigned int varCount;
-                NSRange varRange = NSMakeRange(varListOffset+4, 0);
-                data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
-                [data getBytes:&varCount length:4];
-                for (int j = 0; j<varCount; j++) {
-                    NSRange varRange = NSMakeRange(varListOffset+sizeof(ivar64_list_t) + sizeof(ivar64_t) * j, sizeof(ivar64_t));
-                    ivar64_t var = {};
-                    [fileData getBytes:&var range:varRange];
-                    unsigned long long methodNameOffset = var.type;
-                    methodNameOffset = methodNameOffset - vm;
-                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                    if (methodNameOffset > 0 && methodNameOffset < max) {
-                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                        NSString * typeName = NSSTRING(buffer);
-                        if (typeName) {
-                            typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
-                            typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-                            [classrefSet addObject:typeName];
-                        }
-                    }
-                }
-            }
-        }
-    }
+    NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
     }];
     
     return classSet;
 }
++ (NSMutableSet*)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    
+    NSMutableSet *classSet = [NSMutableSet set];
+    unsigned long long vm = classList.addr - classList.offset;
+    unsigned long long max = [fileData length];
+    NSRange  range = NSMakeRange(classList.offset, 0);
+        for (int i = 0; i < classList.size / 8 ; i++) {
+            @autoreleasepool {
+                
+                unsigned long long classAddress;
+                NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+                unsigned long long classOffset = classAddress - vm;
+                
+                //获取类结构体
+                class64 targetClass = {0};
+                NSRange targetClassRange = NSMakeRange(classOffset, 0);
+                data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+                [data getBytes:&targetClass length:sizeof(class64)];
+                
+                //获取类信息结构体
+                class64Info targetClassInfo = {0};
+                unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                unsigned long long classNameOffset = targetClassInfo.name - vm;
+                
+                //
+                //获取父类信息
+                if (targetClass.superClass != 0) {
+                    class64 superClass = {0};
+                    NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
+                    data = [WBBladesTool read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                    [data getBytes:&superClass length:sizeof(class64)];
+                    
+                    class64Info superClassInfo = {0};
+                    unsigned long long superClassInfoOffset = superClass.data - vm;
+                    NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
+                    data = [WBBladesTool read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                    [data getBytes:&superClassInfo length:sizeof(class64Info)];
+                    unsigned long long superClassNameOffset = superClassInfo.name - vm;
+                    
+                    //类名最大50字节
+                    uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                    [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, 50)];
+                    NSString * superClassName = NSSTRING(buffer);
+                    free(buffer);
+                    if (superClassName) {
+                        [classrefSet addObject:superClassName];
+                    }
+                }
+                
+                //类名最大50字节
+                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                NSString * className = NSSTRING(buffer);
+                NSLog(@"%@",className);
+                free(buffer);
+                
+                //当前类是否在目标类集合中
+    //            if (aimClasses && ![aimClasses containsObject:className]) {
+    //                continue;
+    //            }
+                [classSet addObject:className];
+                
+                //遍历成员变量
+                unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
+                if (varListOffset > 0 && varListOffset < max) {
+                    unsigned int varCount;
+                    NSRange varRange = NSMakeRange(varListOffset+4, 0);
+                    data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
+                    [data getBytes:&varCount length:4];
+                    for (int j = 0; j<varCount; j++) {
+                        NSRange varRange = NSMakeRange(varListOffset+sizeof(ivar64_list_t) + sizeof(ivar64_t) * j, sizeof(ivar64_t));
+                        ivar64_t var = {};
+                        [fileData getBytes:&var range:varRange];
+                        unsigned long long methodNameOffset = var.type;
+                        methodNameOffset = methodNameOffset - vm;
+                        uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                        if (methodNameOffset > 0 && methodNameOffset < max) {
+                            [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                            NSString * typeName = NSSTRING(buffer);
+                            if (typeName) {
+                                typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
+                                typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                                [classrefSet addObject:typeName];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    return classrefSet;
+}
++ (NSMutableSet*)readCStringList:(section_64)cfstringList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    NSRange range = NSMakeRange(cfstringList.offset, 0);
+    unsigned long long vm = cfstringList.addr - cfstringList.offset;
+    unsigned long long max = [fileData length];
+    for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
+         @autoreleasepool {
+             
+             cfstring64 cfstring;
+             NSData *data = [WBBladesTool read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
+             [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
+             unsigned long long stringOff = cfstring.stringAddress - vm;
+             //方法名最大150字节
+             if (stringOff > 0 && stringOff < max) {
+                 //类名最大50字节
+                 uint8_t * buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
+                 [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
+                 NSString * className = NSSTRING(buffer);
+                 free(buffer);
+                 if (className){
+                     [classrefSet addObject:className];
+                 }
+             }
+         }
+         
+     }
+    return classrefSet;
+}
 
++ (NSMutableSet*)readClsRefList:(section_64)classrefList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    NSRange range = NSMakeRange(classrefList.offset, 0);
+    unsigned long long vm = classrefList.addr - classrefList.offset;
+    unsigned long long max = [fileData length];
+    for (int i = 0; i < classrefList.size / 8; i++) {
+           @autoreleasepool {
+               
+               unsigned long long classAddress;
+               NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+               [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+               classAddress = classAddress - vm;
+               //方法名最大150字节
+               if (classAddress > 0 && classAddress < max) {
+                   
+                   //获取class64结构体
+                   class64 targetClass;
+                   ptrdiff_t off = classAddress;
+                   char * p = (char *)fileData.bytes;
+                   p = p+off;
+                   memcpy(&targetClass, p, sizeof(class64));
+                   
+                   //获取class64info结构体
+                   class64Info targetClassInfo = {0};
+                   unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                   NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                   data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                   [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                   unsigned long long classNameOffset = targetClassInfo.name - vm;
+                   
+                   //类名最大50字节
+                   uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                   [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                   NSString * className = NSSTRING(buffer);
+                   free(buffer);
+                   
+                   if (className) {
+                       WBBladesHelper *helper = [WBBladesHelper new];
+                       helper.className = className;
+                       helper.selName = @"";
+                       helper.offset = range.location;
+                       if (!aimClasses ||  [aimClasses containsObject:className]) {
+                           
+                           //查看是否在别的类中有调用
+                           if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                               [classrefSet addObject:className];
+                           }
+                       }else{
+                           [classrefSet addObject:className];
+                       }
+                   }
+               }
+           }
+       }
+    return classrefSet;
+}
+
++ (NSMutableSet*)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    //获取nlclslist
+    NSRange range = NSMakeRange(nlclsList.offset, 0);
+    unsigned long long vm = nlclsList.addr - nlclsList.offset;
+    unsigned long long max = [fileData length];
+     for (int i = 0; i < nlclsList.size / 8; i++) {
+         @autoreleasepool {
+           
+             unsigned long long classAddress;
+             NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+             classAddress = classAddress - vm;
+             //方法名最大150字节
+             if (classAddress > 0 && classAddress < max) {
+                 
+                 class64 targetClass;
+                 [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
+                 
+                 class64Info targetClassInfo = {0};
+                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                 data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                 unsigned long long classNameOffset = targetClassInfo.name - vm;
+                 
+                 //类名最大50字节
+                 uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                 NSString * className = NSSTRING(buffer);
+                 free(buffer);
+                 if (className) {
+                     [classrefSet addObject:className];
+                 }
+             }
+             
+         }
+     }
+    return classrefSet;
+}
 
 
 + (BOOL)inClassBlacklistCheck:(char *)className{
