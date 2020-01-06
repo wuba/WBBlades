@@ -168,12 +168,13 @@ static section_64 textList = {0};
                 //获取类信息结构体
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                 data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                
                 unsigned long long classNameOffset = targetClassInfo.name - vm;
                 
-                //
                 //获取父类信息
                 if (targetClass.superClass != 0) {
                     class64 superClass = {0};
@@ -202,13 +203,12 @@ static section_64 textList = {0};
                 uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
                 NSString * className = NSSTRING(buffer);
-                NSLog(@"%@",className);
                 free(buffer);
                 
                 //当前类是否在目标类集合中
-    //            if (aimClasses && ![aimClasses containsObject:className]) {
-    //                continue;
-    //            }
+                if (aimClasses && ![aimClasses containsObject:className]) {
+                    continue;
+                }
                 [classSet addObject:className];
                 
                 //遍历成员变量
@@ -228,6 +228,7 @@ static section_64 textList = {0};
                         if (methodNameOffset > 0 && methodNameOffset < max) {
                             [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                             NSString * typeName = NSSTRING(buffer);
+                            NSLog(@"type = %@",typeName);
                             if (typeName) {
                                 typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
                                 typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];

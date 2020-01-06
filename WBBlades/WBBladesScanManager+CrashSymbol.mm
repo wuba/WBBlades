@@ -78,6 +78,7 @@
         
         class64Info targetClassInfo = {0};
         unsigned long long targetClassInfoOffset = targetClass.data - vm;
+        targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
         NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
         data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
         [data getBytes:&targetClassInfo length:sizeof(class64Info)];
