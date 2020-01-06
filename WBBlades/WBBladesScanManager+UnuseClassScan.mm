@@ -385,7 +385,6 @@ static section_64 textList = {0};
 }
 
 + (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
-    NSMutableArray *results = [[NSMutableArray alloc] init];
     NSMutableDictionary *resultsDic = [[NSMutableDictionary alloc] init];
     // 读取文件数据大小
     unsigned long long max = [fileData length];
@@ -393,15 +392,10 @@ static section_64 textList = {0};
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
-//    NSLog(@"mach header is @%u",mhHeader.magic);
-//    NSString *str = [NSString stringWithFormat:@"mach header is @%u",mhHeader.magic];
-//    [str writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-//    [results addObject:str];
     // 64位架构
     section_64 classList = {0};
     // 获取LoadCommand首地址
     unsigned long long currentLcLocation = sizeof(mach_header_64);
-    //NSLog(@"current lc location is: @%llu",currentLcLocation);
     // 遍历所有Load Commands
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
@@ -448,7 +442,6 @@ static section_64 textList = {0};
         free(cmd);
     }
     unsigned long long vm = classList.addr - classList.offset;
-    //NSLog(@"vm is: %llu",vm);
     static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
 //获取所有类classlist
 NSRange range = NSMakeRange(classList.offset, 0);
@@ -494,12 +487,7 @@ for (int i = 0; i < classList.size / 8 ; i++) {
         NSString * className = NSSTRING(buffer);
         free(buffer);
         
-        
-        //NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
         NSArray *crashAdress = [crashAddresses componentsSeparatedByString:@","];
-        //NSLog(@"crash adresses are: %@",crashAdress);
-        //[crashAddresses writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-        
       
         //遍历每个class的method (实例方法)
         if (methodListOffset < max) {
@@ -533,13 +521,8 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                     
                     [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
-//                        NSLog(@"the object is: @%@",(NSString *)obj);
-//                        NSLog(@"the crash is %lld",crash);
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
                             NSLog(@"起始地址:%lld    崩溃地址:%@ \n -[%@ %@ \n]",tmp,obj,className,methodName);
-                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:%@ -[%@ %@ \n]",tmp,obj,className,methodName];
-                            //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-                            [results addObject:resultStr];
                             
                             NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
                             NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
@@ -589,9 +572,6 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm] ) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:%@ +[%@ %@]",tmp,obj,className,methodName);
-                            NSString *resultStr = [NSString stringWithFormat:@"起始地址:0x%llx    崩溃地址:%@ +[%@ %@]",tmp,obj,className,methodName];
-                            //[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-                            [results addObject:resultStr];
                             
                             NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
                             NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
@@ -617,14 +597,6 @@ NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options
 NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
 [resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
 
-NSLog(@"results are %@",results);
-//NSString *resultStr = [NSString stringWithFormat:@"%@",crashSymbolRst];
-//[resultStr writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-//[results addObject:resultStr];
-//NSData *data = [NSKeyedArchiver archivedDataWithRootObject:results requiringSecureCoding:NO error:nil];
-//[data writeToFile:@"/dev/stdout" atomically:NO];
-//[[results componentsJoinedByString:@","] writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-//return results;
 }
 
 + (BOOL)scanSELCallerWithAddress:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
