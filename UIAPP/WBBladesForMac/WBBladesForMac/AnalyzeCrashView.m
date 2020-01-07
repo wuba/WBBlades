@@ -10,7 +10,7 @@
 
 @interface AnalyzeCrashView()
 
-@property (nonatomic,weak) NSTextView *ipaFileView;
+@property (nonatomic,weak) NSTextView *exeFileView;
 @property (nonatomic,weak) NSTextView *crashStackView;
 @property (nonatomic,weak) NSTextView *resultView;
 @property (nonatomic,copy) NSMutableArray *crashStacks;
@@ -33,15 +33,15 @@
     _crashStacks = [[NSMutableArray alloc] init];
     _usefulCrashStacks = [[NSMutableArray alloc] init];
     
-    NSTextField *ipaLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
-    [self addSubview:ipaLabel];
-    ipaLabel.font = [NSFont systemFontOfSize:14.0];
-    ipaLabel.stringValue = @"可执行文件路径";
-    ipaLabel.textColor = [NSColor blackColor];
-    ipaLabel.editable = NO;
-    ipaLabel.bezelStyle = NSBezelStyleTexturedSquare;
-    ipaLabel.bordered = NO;
-    ipaLabel.backgroundColor = [NSColor clearColor];
+    NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
+    [self addSubview:exeLabel];
+    exeLabel.font = [NSFont systemFontOfSize:14.0];
+    exeLabel.stringValue = @"可执行文件路径";
+    exeLabel.textColor = [NSColor blackColor];
+    exeLabel.editable = NO;
+    exeLabel.bezelStyle = NSBezelStyleTexturedSquare;
+    exeLabel.bordered = NO;
+    exeLabel.backgroundColor = [NSColor clearColor];
     
     NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 434.0, 559.0, 36.0)];
     [self addSubview:textView];
@@ -52,7 +52,7 @@
     textView.layer.borderWidth = 1.0;
     textView.layer.cornerRadius = 2.0;
     textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
-    _ipaFileView = textView;
+    _exeFileView = textView;
     
     NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 125.0, 40.0)];
     [self addSubview:ipaPreviewBtn];
@@ -147,7 +147,7 @@
                 }
                 [fileFolders appendFormat:@"%@%@",urlString,string];
             }
-            weakself.ipaFileView.string = [fileFolders copy];
+            weakself.exeFileView.string = [fileFolders copy];
             //weakself.ipaFileView.editable = NO;
         }
     }];
@@ -157,22 +157,7 @@
     
     _resultView.string = @"";
     _startButton.enabled = NO;
-    //NSString *pureStr = [_ipaFileView.string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-    //NSArray *paths = [pureStr componentsSeparatedByString:@".ipa"];
-    
-    //    if (!(paths.count == 2) || (paths.count == 2 && ![paths[1]  isEqual: @""])) {
-    //        NSAlert *alert = [[NSAlert alloc] init];
-    //        [alert addButtonWithTitle:@"好的"];
-    //        [alert setMessageText:@"请选择或拖入一个.ipa文件"];
-    //        [alert beginSheetModalForWindow:self.window completionHandler:nil];
-    //        return;
-    //    }
-    
-    //    NSString *crashInfo = [_crashStackView.string stringByReplacingOccurrencesOfString:@" " withString:@""];
-    //    NSArray *crashComp = [crashInfo componentsSeparatedByString:@"+"];
-    //    NSString *crash = _crashStackView.string;
-    //    NSLog(@"%@", _crashStackView.string);
-    NSURL *fileUrl = [NSURL fileURLWithPath:_ipaFileView.string];
+    NSURL *fileUrl = [NSURL fileURLWithPath:_exeFileView.string];
     NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
     if (!fileData) {
         NSAlert *alert = [[NSAlert alloc] init];
@@ -183,7 +168,7 @@
     }
     
     // 获得可执行文件的名称
-    NSString *execName = [_ipaFileView.string componentsSeparatedByString:@"/"].lastObject;
+    NSString *execName = [_exeFileView.string componentsSeparatedByString:@"/"].lastObject;
     
     // 获得此app的崩溃地址
     NSArray *crashInfoLines = [_crashStackView.string componentsSeparatedByString:@"\n"];
@@ -224,13 +209,13 @@
     _resultView.string = @"解析中，请稍候";
     
     __weak typeof(self) weakSelf = self;
-    NSString *inputStack = _ipaFileView.string;
+    NSString *inputFile = _exeFileView.string;
 
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
         NSTask *bladesTask = [[NSTask alloc] init];
         [bladesTask setLaunchPath:path];
-        [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:inputStack], [NSString stringWithString:offsets], nil]];
+        [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:inputFile], [NSString stringWithString:offsets], nil]];
         NSPipe *pipe;
         pipe = [NSPipe pipe];
         [bladesTask setStandardOutput:pipe];
@@ -239,11 +224,6 @@
         [bladesTask launch];
         NSData *data;
         data = [file readDataToEndOfFile];
-        //NSArray *arr = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSString class] fromData:data error:nil];
-        //NSLog(@"results array is %@",arr);
-        //NSString *resultStr = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        //NSLog(@"%@", resultStr);
-        //NSDictionary *resultsDic = [NSKeyedUnarchiver unarchivedObjectOfClass:[NSDictionary class] fromData:data error:nil];
         NSDictionary * resultsDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         [bladesTask waitUntilExit];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -267,9 +247,13 @@
             NSString *offset = infoComps.lastObject;
             if (offset) {
                 NSString* methodName = [resultDic valueForKey:offset];
-                NSString *resultStr = [NSString stringWithFormat:@"%@ %@",infos.firstObject,methodName];
-                NSString *result = [resultStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-                [outputArr addObject:result];
+                if (methodName) {
+                    NSString *resultStr = [NSString stringWithFormat:@"%@ %@",infos.firstObject,methodName];
+                    NSString *result = [resultStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    [outputArr addObject:result];
+                } else {
+                    [outputArr addObject:infoStr];
+                }
             }
         }
     }
