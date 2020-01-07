@@ -56,7 +56,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/a58/Library/Developer/Xcode/DerivedData/SwiftOCTest-crjvocjqbzsyucepvtwmweitrzbh/Build/Products/Debug-iphoneos/SwiftOCTest.app"
+            argument = "/Users/a58/Downloads/osee2unifiedRelease.app"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

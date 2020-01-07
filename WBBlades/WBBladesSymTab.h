@@ -43,6 +43,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,assign)unsigned int strSize;
 
+@property(nonatomic,assign)BOOL withDWARF;
+
+
 
 @end
 

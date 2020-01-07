@@ -92,6 +92,7 @@
         
         class64Info metaClassInfo = {0};
         unsigned long long metaClassInfoOffset = metaClass.data - vm;
+        metaClassInfoOffset = (metaClassInfoOffset / 8) * 8;
         NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
         data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
         [data getBytes:&metaClassInfo length:sizeof(class64Info)];
@@ -104,7 +105,7 @@
         [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
         NSString * className = NSSTRING(buffer);
         free(buffer);
-        
+
         NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
         
         //遍历每个class的method (实例方法)

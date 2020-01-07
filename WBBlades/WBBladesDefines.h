@@ -77,3 +77,7 @@ struct ivar64_t
 #define CONST_DATA_NCLSLIST_SECTION @"__objc_nlclslist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
+
+#define SPECIAL_NUM 0x5614542
+#define SPECIAL_SECTION_TYPE   0x3c
+#define WITHDWARF_SECTION_TYPE   0x0e
