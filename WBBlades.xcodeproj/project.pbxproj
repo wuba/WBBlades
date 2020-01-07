@@ -28,9 +28,12 @@
 		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
 		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
 		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
+		37561F3E23B392F10020CF02 /* CMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* CMD.m */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
 		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
+		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
+		37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1423B9EC05006D814F /* WBBladesTool.mm */; };
 		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
 /* End PBXBuildFile section */
 
@@ -47,7 +50,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		3726270122DC47EE009B6117 /* WBBladesClassDefine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesClassDefine.h; sourceTree = "<group>"; };
+		3726270122DC47EE009B6117 /* WBBladesDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
 		3729357822E1897E00C37C02 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		3729357922E1897E00C37C02 /* inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inttypes.h; sourceTree = "<group>"; };
 		3729357A22E1897E00C37C02 /* SStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SStream.h; sourceTree = "<group>"; };
@@ -102,12 +105,18 @@
 		3733D82C22B4BB15002062FE /* WBBladesObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObject.m; sourceTree = "<group>"; };
 		3733D83122B4ED82002062FE /* WBBladesLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesLinkManager.h; sourceTree = "<group>"; };
 		3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesLinkManager.mm; sourceTree = "<group>"; };
+		37561F3C23B392F10020CF02 /* CMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CMD.h; sourceTree = "<group>"; };
+		37561F3D23B392F10020CF02 /* CMD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CMD.m; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
 		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
 		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
 		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesFileManager.m; sourceTree = "<group>"; };
+		37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+CrashSymbol.h"; sourceTree = "<group>"; };
+		37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
+		37CF3F1323B9EC05006D814F /* WBBladesTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
+		37CF3F1423B9EC05006D814F /* WBBladesTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
 		37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
 		37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -219,10 +228,14 @@
 			children = (
 				3729357722E1897E00C37C02 /* capstone */,
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
+				37561F3C23B392F10020CF02 /* CMD.h */,
+				37561F3D23B392F10020CF02 /* CMD.m */,
 				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
 				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
 				37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */,
 				37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */,
+				37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */,
+				37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */,
 				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
 				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
 				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
@@ -235,7 +248,9 @@
 				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
 				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
 				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
-				3726270122DC47EE009B6117 /* WBBladesClassDefine.h */,
+				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
+				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
+				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
 			);
 			path = WBBlades;
 			sourceTree = "<group>";
@@ -298,6 +313,7 @@
 			files = (
 				372935DA22E18AC100C37C02 /* cs.c in Sources */,
 				372935DB22E18AC100C37C02 /* SStream.c in Sources */,
+				37561F3E23B392F10020CF02 /* CMD.m in Sources */,
 				372935DC22E18AC100C37C02 /* utils.c in Sources */,
 				372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */,
 				372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */,
@@ -310,6 +326,8 @@
 				372935E422E18AC100C37C02 /* AArch64GenRegisterInfo.inc in Sources */,
 				372935E522E18AC100C37C02 /* AArch64GenInstrInfo.inc in Sources */,
 				372935E622E18AC100C37C02 /* AArch64Module.c in Sources */,
+				37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */,
+				37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */,
 				372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */,
 				372935E822E18AC100C37C02 /* MCInst.c in Sources */,
 				372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */,
@@ -441,7 +459,9 @@
 		3794EE8022B3C71300D5DFA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
@@ -449,15 +469,19 @@
 					"-D__STDC_FORMAT_MACROS",
 					"-DCAPSTONE_HAS_ARM64",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		3794EE8122B3C71300D5DFA4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				"DEBUG_INFORMATION_FORMAT[sdk=*]" = "dwarf-with-dsym";
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
@@ -465,7 +489,9 @@
 					"-D__STDC_FORMAT_MACROS",
 					"-DCAPSTONE_HAS_ARM64",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

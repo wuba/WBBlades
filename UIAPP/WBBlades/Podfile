@@ -1,3 +1,0 @@
-target 'WBBlades' do
-    pod 'libxlsxwriter'
-end

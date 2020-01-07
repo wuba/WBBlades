@@ -7,6 +7,7 @@
 //
 
 #import "WBBladesFileManager.h"
+#import "CMD.h"
 
 @implementation WBBladesFileManager
 
@@ -20,6 +21,38 @@
     }
     return fileData;
 }
+
++(NSData *)readArm64FromFile:(NSString *)filePath{
+    
+    //针对ipa及app文件进行路径修正
+    NSString *lastPathComponent = [filePath lastPathComponent];
+    NSArray *tmp = [lastPathComponent componentsSeparatedByString:@"."];
+    if ([tmp count] == 2) {
+        NSString *fileType = [tmp lastObject];
+        if ([fileType isEqualToString:@"app"]){
+            NSString *fileName = [tmp firstObject];
+            filePath = [filePath stringByAppendingPathComponent:fileName];
+        }
+    }
+    removeCopyFile(filePath);
+    
+    copyFile(filePath);
+    
+    thinFile(filePath);
+
+    
+    NSURL * tmpURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@_copy",filePath]];
+    NSData * fileData = [NSMutableData dataWithContentsOfURL:tmpURL
+                                 options:NSDataReadingMappedIfSafe
+                                                       error:NULL];
+    removeCopyFile(filePath);
+    
+    if (!fileData) {
+        NSLog(@"文件读取失败");
+    }
+    return fileData;
+}
+
 
 
 @end

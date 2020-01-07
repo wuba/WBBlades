@@ -7,43 +7,46 @@
 //
 
 #import "WBBladesScanManager.h"
-#include <mach/mach.h>
+#import <mach/mach.h>
 #include <mach/mach_vm.h>
 #include <mach/vm_map.h>
 #include <mach-o/loader.h>
 #include <mach-o/fat.h>
+#import <mach-o/nlist.h>
+#import <objc/runtime.h>
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
 #import "WBBladesLinkManager.h"
-#import <mach-o/nlist.h>
-#import "WBBladesClassDefine.h"
-#import "capstone.h"
-#import <objc/runtime.h>
+#import "WBBladesDefines.h"
 #import "WBBladesFileManager.h"
-
+#import "WBBladesTool.h"
+#import "WBBladesDefines.h"
 
 @implementation WBBladesScanManager
 
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData{
     
     //判断是否为静态库文件
-    if (!fileData || ![self isSupport:fileData]) {
+    if ([fileData length] < sizeof(mach_header) || ![self isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
     
     //获取文件特征值
-    uint32_t  magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
+    mach_header header = *(mach_header*)((mach_header *)[fileData bytes]);
     //如果fileData 为目标文件，目标文件中只加入此目标文件
-    if (magic == MH_CIGAM_64 || magic == MH_MAGIC_64) {
+    if (header.filetype == MH_OBJECT) {
         WBBladesObject *object = [WBBladesObject new];
         NSRange range = NSMakeRange(0, 0);
         //提取Mach-O文件
         WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
         object.objectMachO = macho;
         [objects addObject:object];
+    }else if(header.filetype == MH_DYLIB){
+        //动态库直接返回文件大小
+        return [fileData length];
     }else{
         
         //header
@@ -96,7 +99,7 @@
     NSRange tmpRange = range;
     NSUInteger len = fileData.length - tmpRange.location;
     //为了复用符号表的获取代码,截取二进制
-    NSData *tmpData = [self read_bytes:tmpRange length:len fromFile:fileData];
+    NSData *tmpData = [WBBladesTool read_bytes:tmpRange length:len fromFile:fileData];
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
@@ -156,13 +159,15 @@
                 NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
                 
                 //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
-                if ([segName isEqualToString:@"__TEXT"] ||
-                    [segName isEqualToString:@"__DATA"]) {
+                if ([segName isEqualToString:SEGMENT_TEXT] ||
+                    [segName isEqualToString:SEGMENT_RODATA] ||
+                    [segName isEqualToString:SEGMENT_DATA] ||
+                    [segName isEqualToString:SEGMENT_DATA_CONST]) {
                     objcMachO.size += sectionHeader.size;
                 }
                 
                 //__TEXT的section 做存储，用于虚拟链接
-                if ([segName isEqualToString:@"__TEXT"]) {
+                if ([segName isEqualToString:SEGMENT_TEXT] || [segName isEqualToString:SEGMENT_RODATA]) {
                     
                     //跳转到相应的section
                     unsigned int secOffset = sectionHeader.offset;
@@ -174,14 +179,14 @@
                     switch (sectionHeader.flags & SECTION_TYPE) {
                         case S_CSTRING_LITERALS:{
                             
-                            NSArray *array = [self read_strings:secRange fixlen:sectionHeader.size fromFile:fileData];
+                            NSArray *array = [WBBladesTool read_strings:secRange fixlen:sectionHeader.size fromFile:fileData];
                             [objcMachO.sections setObject:array forKey:sectionName];
                         }
                             break;
                         case S_4BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 4; k++) {
-                                NSData *literals = [self read_bytes:secRange length:4 fromFile:fileData];
+                                NSData *literals = [WBBladesTool read_bytes:secRange length:4 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -193,7 +198,7 @@
                         case S_8BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 8; k++) {
-                                NSData *literals = [self read_bytes:secRange length:8 fromFile:fileData];
+                                NSData *literals = [WBBladesTool read_bytes:secRange length:8 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -204,7 +209,7 @@
                         case S_16BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 16; k++) {
-                                NSData *literals = [self read_bytes:secRange length:16 fromFile:fileData];
+                                NSData *literals = [WBBladesTool read_bytes:secRange length:16 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -214,9 +219,9 @@
                             break;
                         
                         case S_REGULAR:{
-                            if ([sectionName isEqualToString:@"(__TEXT,__ustring)"]) {
+                            if ([sectionName isEqualToString:CHINESE_STRING_SECTION]) {
                                 //获取中文字符串
-                                NSData *data = [self read_bytes:secRange length:sectionHeader.size fromFile:fileData];
+                                NSData *data = [WBBladesTool read_bytes:secRange length:sectionHeader.size fromFile:fileData];
                                 
                                 unsigned short *head = (unsigned short *)[data bytes];
                                 unsigned short *start = head;
@@ -270,7 +275,7 @@
     WBBladesSymTab *symTab = [WBBladesSymTab new];
     
     //获取符号表大小
-    NSData *data = [self read_bytes:range length:4 fromFile:fileData];
+    NSData *data = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     symTab.size = size;
@@ -280,12 +285,12 @@
     unsigned int symbolCount = (symTab.size - sizeof(unsigned int))/8;
     for (int i = 0; i < symbolCount; i++) {
         WBBladesSymbol *symbol = [WBBladesSymbol new];
-        NSData * indexData = [self read_bytes:range length:4 fromFile:fileData];
+        NSData * indexData = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
         unsigned int index = 0;
         [indexData getBytes:&index range:NSMakeRange(0, 4)];
         
         unsigned int offset = 0;
-        NSData *offsetData = [self read_bytes:range length:4 fromFile:fileData];
+        NSData *offsetData = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
         [offsetData getBytes:&offset range:NSMakeRange(0, 4)];
         
         symbol.symbolIndex = index;
@@ -306,12 +311,12 @@
     
     WBBladesStringTab *stringTab = [WBBladesStringTab new];
     //获取字符串表大小
-    NSData *data = [self read_bytes:range length:4 fromFile:fileData];
+    NSData *data = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     
     //获取所有的字符串信息
-    stringTab.strings = [self read_strings:range fixlen:size fromFile:fileData];
+    stringTab.strings = [WBBladesTool read_strings:range fixlen:size fromFile:fileData];
     
     //同理，字符串表长度也不包含自身4字节
     stringTab.range = NSMakeRange(location, size + sizeof(unsigned int));
@@ -326,25 +331,25 @@
     
     WBBladesObjectHeader *header = [[WBBladesObjectHeader alloc] init];
     
-    header.name = [self read_string:range fixlen:16 fromFile:fileData];
-    header.timeStamp = [self read_string:range fixlen:12 fromFile:fileData];
-    header.userID = [self read_string:range fixlen:6 fromFile:fileData];
-    header.groupID = [self read_string:range fixlen:6 fromFile:fileData];
-    header.mode = [self read_string:range fixlen:8 fromFile:fileData];
-    header.size = [self read_string:range fixlen:8 fromFile:fileData];
+    header.name = [WBBladesTool read_string:range fixlen:16 fromFile:fileData];
+    header.timeStamp = [WBBladesTool read_string:range fixlen:12 fromFile:fileData];
+    header.userID = [WBBladesTool read_string:range fixlen:6 fromFile:fileData];
+    header.groupID = [WBBladesTool read_string:range fixlen:6 fromFile:fileData];
+    header.mode = [WBBladesTool read_string:range fixlen:8 fromFile:fileData];
+    header.size = [WBBladesTool read_string:range fixlen:8 fromFile:fileData];
     NSMutableString * padding = [[NSMutableString alloc] initWithCapacity:2];
     
     for(;;){
-        [padding appendString:[self read_string:range fixlen:1 fromFile:fileData]];
+        [padding appendString:[WBBladesTool read_string:range fixlen:1 fromFile:fileData]];
         if (*(CSTRING(padding) + [padding length] - 1) != ' '){
-            [padding appendString:[self read_string:range fixlen:1 fromFile:fileData]];
+            [padding appendString:[WBBladesTool read_string:range fixlen:1 fromFile:fileData]];
             break;
         }
     }
     header.endHeader = padding;
     if (NSEqualRanges([header.name rangeOfString:@"#1/"], NSMakeRange(0,3))){
         uint32_t len = [[header.name substringFromIndex:3] intValue];
-        header.longName = [self read_string:range fixlen:len fromFile:fileData];
+        header.longName = [WBBladesTool read_string:range fixlen:len fromFile:fileData];
     }
     header.range = NSMakeRange(location, NSMaxRange(range) - location);
     return header;
@@ -358,7 +363,6 @@
 }
 
 + (BOOL)isSupport:(NSData *)fileData{
-    
     
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic)
@@ -397,69 +401,5 @@
 }
 
 
-+ (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
-    range = NSMakeRange(NSMaxRange(range),len);
-    NSMutableArray *strings = [NSMutableArray array];
-    
-    unsigned long size = 0;
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
-    [fileData getBytes:buffer range:range];
-    uint8_t *p = buffer;
-    while (size < len) {
-        NSString * str = NSSTRING(p);
-        str = [self replaceEscapeCharsInString:str];
-        if (str) {
-            [strings addObject:str];
-            //            NSLog(@"%@",str);
-            //+1 是为了留出'\0'的位置
-            size = [str length] + size + 1;
-            p = p + [str length] + 1;
-        }
-    }
-    free (buffer);
-    return [strings copy];
-}
-
-+ (NSString *)read_string:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData
-{
-    range = NSMakeRange(NSMaxRange(range),len);
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
-    [fileData getBytes:buffer range:range];
-    NSString * str = NSSTRING(buffer);
-    free (buffer);
-    return [self replaceEscapeCharsInString:str];
-}
-
-+ (NSData *)read_bytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData
-{
-    range = NSMakeRange(NSMaxRange(range),length);
-    uint8_t * buffer = (uint8_t *)malloc(length);
-    [fileData getBytes:buffer range:range];
-    NSData * ret = [NSData dataWithBytes:buffer length:length];
-    free (buffer);
-    return ret;
-}
-
-+ (NSString *) replaceEscapeCharsInString: (NSString *)orig
-{
-    NSUInteger len = [orig length];
-    NSMutableString * str = [[NSMutableString alloc] init];
-    SEL sel = @selector(characterAtIndex:);
-    unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
-    for (NSUInteger i = 0; i < len; i++)
-    {
-        unichar c = charAtIdx(orig, sel, i);
-        switch (c)
-        {
-            default:    [str appendFormat:@"%C",c]; break;
-            case L'\f': [str appendString:@"\\f"]; break; // form feed - new page (byte 0x0c)
-            case L'\n': [str appendString:@"\\n"]; break; // line feed - new line (byte 0x0a)
-            case L'\r': [str appendString:@"\\r"]; break; // carriage return (byte 0x0d)
-            case L'\t': [str appendString:@"\\t"]; break; // horizontal tab (byte 0x09)
-            case L'\v': [str appendString:@"\\v"]; break; // vertical tab (byte 0x0b)
-        }
-    }
-    return str;
-}
-
 @end
+

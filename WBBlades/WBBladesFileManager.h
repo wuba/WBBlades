@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 +(NSData *)readFromFile:(NSString *)filePath;
 
++(NSData *)readArm64FromFile:(NSString *)filePath;
+
 @end
 
 NS_ASSUME_NONNULL_END

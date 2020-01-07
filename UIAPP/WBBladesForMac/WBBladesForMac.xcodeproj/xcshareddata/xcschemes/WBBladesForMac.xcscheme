@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "3794EE7722B3C71300D5DFA4"
-               BuildableName = "WBBlades"
-               BlueprintName = "WBBlades"
-               ReferencedContainer = "container:WBBlades.xcodeproj">
+               BlueprintIdentifier = "373DEFD423AB60FA00B0D4CE"
+               BuildableName = "WBBladesForMac.app"
+               BlueprintName = "WBBladesForMac"
+               ReferencedContainer = "container:WBBladesForMac.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,22 +44,12 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3794EE7722B3C71300D5DFA4"
-            BuildableName = "WBBlades"
-            BlueprintName = "WBBlades"
-            ReferencedContainer = "container:WBBlades.xcodeproj">
+            BlueprintIdentifier = "373DEFD423AB60FA00B0D4CE"
+            BuildableName = "WBBladesForMac.app"
+            BlueprintName = "WBBladesForMac"
+            ReferencedContainer = "container:WBBladesForMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <CommandLineArguments>
-         <CommandLineArgument
-            argument = "2"
-            isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            argument = "/Users/a58/Library/Developer/Xcode/DerivedData/SwiftOCTest-crjvocjqbzsyucepvtwmweitrzbh/Build/Products/Debug-iphoneos/SwiftOCTest.app"
-            isEnabled = "YES">
-         </CommandLineArgument>
-      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -71,10 +61,10 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "3794EE7722B3C71300D5DFA4"
-            BuildableName = "WBBlades"
-            BlueprintName = "WBBlades"
-            ReferencedContainer = "container:WBBlades.xcodeproj">
+            BlueprintIdentifier = "373DEFD423AB60FA00B0D4CE"
+            BuildableName = "WBBladesForMac.app"
+            BlueprintName = "WBBladesForMac"
+            ReferencedContainer = "container:WBBladesForMac.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
