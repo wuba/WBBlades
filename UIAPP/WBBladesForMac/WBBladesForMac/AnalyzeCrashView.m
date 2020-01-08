@@ -178,7 +178,7 @@
         NSString *crashLine = crashInfoLines[i];
         NSMutableArray *compos = [[crashLine componentsSeparatedByString:@" "] mutableCopy];
         [compos removeObject:@""];
-        if (compos.count == 6) {
+        if (compos.count > 2) {
             NSString *appName = compos[1];
             if ([appName isEqualToString:execName]) {
                 NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
@@ -201,6 +201,7 @@
         [alert addButtonWithTitle:@"好的"];
         [alert setMessageText:@"请粘贴崩溃堆栈"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        _startButton.enabled = YES;
         return;
     }
 }

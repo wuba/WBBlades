@@ -7,128 +7,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "57FC3BC3-4DB8-470D-9792-CBB4E2C6B074"
+            uuid = "2EB87569-7983-4D8D-AC4C-31D7CE9C5154"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
+            filePath = "WBBlades/WBBladesScanManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "516"
-            endingLineNumber = "516"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "DDE7A3D8-62AD-4838-8268-2AA38B8881A4"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "57B530F8-FA7E-4ED4-AC73-2FC5D4DDF591"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "525"
-            endingLineNumber = "525"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "F098E1C9-8BA5-45B6-85B4-EE49EBD7B306"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "121"
-            endingLineNumber = "121"
-            landmarkName = "+scanAllClassWithFileData:classes:"
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "+scanObjectMachO:range:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "BBDF77D3-FE77-48F5-97C4-EEF70DBE2E3E"
-            shouldBeEnabled = "No"
+            uuid = "4C0577EF-7E3D-4C1C-833C-12037AF7209A"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
+            filePath = "WBBlades/WBBladesScanManager.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "+scanAllClassWithFileData:classes:"
+            startingLineNumber = "176"
+            endingLineNumber = "176"
+            landmarkName = "+scanObjectMachO:range:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "37FE8096-D179-40B5-80B1-1D0B9EB7742C"
+            uuid = "4EB2FD6D-BE1F-46F6-AD57-C751F9B2F3D2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
+            filePath = "WBBlades/WBBladesFileManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "488"
-            endingLineNumber = "488"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
+            startingLineNumber = "20"
+            endingLineNumber = "20"
+            landmarkName = "+readFromFile:"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "98E411D2-D3BD-4DBB-9F32-66C6E8773DA0"
+            uuid = "22275A9E-17DF-4162-BFF3-86493747F2E0"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
+            filePath = "WBBlades/WBBladesFileManager.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "447"
-            endingLineNumber = "447"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "0D7568CA-A2D6-4EC2-9D4E-6123E616A214"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "281"
-            endingLineNumber = "281"
-            landmarkName = "+scanAllClassWithFileData:classes:"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "+readArm64FromFile:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -29,6 +29,16 @@
 
 +(NSData *)readArm64FromFile:(NSString *)filePath{
     
+    //针对ipa及app文件进行路径修正
+    NSString *lastPathComponent = [filePath lastPathComponent];
+    NSArray *tmp = [lastPathComponent componentsSeparatedByString:@"."];
+    if ([tmp count] == 2) {
+        NSString *fileType = [tmp lastObject];
+        if ([fileType isEqualToString:@"app"]){
+            NSString *fileName = [tmp firstObject];
+            filePath = [filePath stringByAppendingPathComponent:fileName];
+        }
+    }
     removeCopyFile(filePath);
     
     copyFile(filePath);
