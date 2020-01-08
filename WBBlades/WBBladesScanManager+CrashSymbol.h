@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesScanManager (CrashSymbol)
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashPlistPath:(NSString *)crashAddressPath;
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddressPath;
 
 @end
 

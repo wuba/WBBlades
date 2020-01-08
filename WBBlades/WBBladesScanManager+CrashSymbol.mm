@@ -17,8 +17,9 @@
 
 @implementation WBBladesScanManager (CrashSymbol)
 
-+ (void)scanAllClassMethodList:(NSData *)fileData crashPlistPath:(NSString *)crashAddressPath{
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
     
+    NSMutableDictionary *resultsDic = [[NSMutableDictionary alloc] init];
     unsigned long long max = [fileData length];
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
@@ -61,9 +62,9 @@
     unsigned long long vm = classList.addr - classList.offset;
     
     static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-    //获取所有类classlist
-    NSRange range = NSMakeRange(classList.offset, 0);
-    for (int i = 0; i < classList.size / 8 ; i++) {
+//获取所有类classlist
+NSRange range = NSMakeRange(classList.offset, 0);
+for (int i = 0; i < classList.size / 8 ; i++) {
     @autoreleasepool {
         
         unsigned long long classAddress;
@@ -105,9 +106,10 @@
         [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
         NSString * className = NSSTRING(buffer);
         free(buffer);
-
-        NSArray *crashAdress = [NSArray arrayWithContentsOfFile:crashAddressPath];
         
+        //NSArray *crashAddress = [NSArray arrayWithContentsOfFile:crashAddresses];
+        NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
+        //NSLog(@"crash addresses are: %@", crashAddress);
         //遍历每个class的method (实例方法)
         if (methodListOffset > 0 && methodListOffset < max) {
             
@@ -139,11 +141,17 @@
                     unsigned long long tmp;
                     [data getBytes:&tmp length:8];
                     NSLog(@"遍历 -[%@ %@]",className,methodName);
-
-                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    
+                    [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData]) {
+                            //NSLog(@"start scan");
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
@@ -185,10 +193,15 @@
                     [data getBytes:&tmp length:8];
                     
                     NSLog(@"遍历 -[%@ %@]",className,methodName);
-                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData] ) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
                             if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
                                 NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
@@ -197,13 +210,16 @@
                         }
                     }];
                     
-                    }
-                    free(buffer);
                 }
+                free(buffer);
             }
         }
     }
-    NSLog(@"%@",crashSymbolRst);
+}
+NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options:NSJSONWritingPrettyPrinted error:nil];
+NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
+[resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+NSLog(@"%@",crashSymbolRst);
 }
 
 
@@ -213,14 +229,14 @@
         return NO;
     }
     
-     unsigned int asmCode = 0;
+    unsigned int asmCode = 0;
     do {
         
         [fileData getBytes:&asmCode range:NSMakeRange(begin - vb, 4)];
         if (begin == target + vb) {
-               return YES;
+            return YES;
         }
-           begin += 4;
+        begin += 4;
     } while ((asmCode != RET) && (asmCode != B));
     return NO;
 }

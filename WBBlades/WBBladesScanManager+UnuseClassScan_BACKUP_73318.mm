@@ -1,0 +1,716 @@
+//
+//  WBBladesScanManager+UnuseClassScan.m
+//  WBBlades
+//
+//  Created by 邓竹立 on 2019/8/5.
+//  Copyright © 2019 邓竹立. All rights reserved.
+//
+
+#import "WBBladesScanManager+UnuseClassScan.h"
+#include <mach/mach.h>
+#include <mach/mach_vm.h>
+#include <mach/vm_map.h>
+#include <mach-o/loader.h>
+#include <mach-o/fat.h>
+#import <mach-o/nlist.h>
+#import <objc/runtime.h>
+#import "WBBladesTool.h"
+#import "WBBladesObjectHeader.h"
+#import "WBBladesDefines.h"
+#import "capstone.h"
+
+@implementation WBBladesScanManager (UnuseClassScan)
+
+
+static cs_insn *s_cs_insn;
+static section_64 textList = {0};
+
++ (NSSet*)scanStaticLibraryForClassList:(NSData *)fileData{
+    
+    if (!fileData || ![self isSupport:fileData]) {
+        return nil;
+    }
+    
+    NSMutableSet *set = [NSMutableSet set];
+    
+    NSRange range = NSMakeRange(8, 0);
+    WBBladesObjectHeader * symtabHeader = [self scanSymtabHeader:fileData range:range];
+    
+    range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
+    WBBladesSymTab * symTab = [self scanSymbolTab:fileData range:range];
+    
+    range = NSMakeRange(NSMaxRange(symTab.range), 0);
+    WBBladesStringTab * stringTab = [self scanStringTab:fileData range:range];
+    
+    for (NSString *symbol in stringTab.strings) {
+        
+        if ([symbol hasPrefix:CLASS_SYMBOL_PRE] ||
+            [symbol hasPrefix:METACLASS_SYMBOL_PRE]) {
+            NSString * className = [symbol stringByReplacingOccurrencesOfString:CLASS_SYMBOL_PRE withString:@""];
+            className = [className stringByReplacingOccurrencesOfString:METACLASS_SYMBOL_PRE withString:@""];
+            [set addObject:className];
+        }
+    }
+    return [set copy];
+}
+
+
++ (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses{
+    
+    NSLog(@"目标%ld个类",aimClasses.count);
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    
+    section_64 classList = {0};
+    section_64 classrefList= {0};
+    section_64 nlclsList= {0};
+    section_64 cfstringList= {0};
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
+            
+            //遍历查找classlist、selref、classref、nlcls、cfstring section
+            if ([segName isEqualToString:SEGMENT_DATA] ||
+                [segName isEqualToString:SEGMENT_DATA_CONST]) {
+                //遍历所有的section header
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:DATA_CLASSLIST_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_CLASSLIST_SECTION]) {
+                        classList = sectionHeader;
+                    }
+                    if ([secName isEqualToString:DATA_CLASSREF_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_CLASSREF_SECTION]) {
+                        classrefList = sectionHeader;
+                    }
+                    if ([secName isEqualToString:DATA_NCLSLIST_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
+                        nlclsList = sectionHeader;
+                    }
+                    if ([secName isEqualToString:DATA_CSTRING]) {
+                        cfstringList = sectionHeader;
+                    }
+                    currentSecLocation += sizeof(section_64);
+                }
+            }else if ([segName isEqualToString:SEGMENT_TEXT]){
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:TEXT_TEXT_SECTION]) {
+                        textList = sectionHeader;
+                        
+                        //对二进制文件的汇编代码进行反汇编
+                        s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                    }
+                    
+                    currentSecLocation += sizeof(section_64);
+                }
+            }
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    NSMutableSet *classrefSet = [NSMutableSet set];
+    
+    //获取nlclslist
+    classrefSet = [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
+    
+    //获取classref
+    classrefSet = [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
+    //
+    //获取cfstring
+    classrefSet = [self readCStringList:cfstringList set:classrefSet fileData:fileData];
+    
+    //获取所有类classlist
+    NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
+    [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        [classSet removeObject:obj];
+    }];
+    
+    return classSet;
+}
+<<<<<<< HEAD
+
++ (void)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
+    NSMutableDictionary *resultsDic = [[NSMutableDictionary alloc] init];
+    // 读取文件数据大小
+    unsigned long long max = [fileData length];
+    // mach64文件头
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    
+    // 64位架构
+    section_64 classList = {0};
+    // 获取LoadCommand首地址
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    // 遍历所有Load Commands
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
+            
+            //遍历查找classlist、selref、classref、nlcls、cfstring section
+            if ([segName isEqualToString:@"__DATA"]) {
+                //遍历所有的section header
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:@"__objc_classlist__DATA"]) {
+                        classList = sectionHeader;
+                    }
+                    
+                    currentSecLocation += sizeof(section_64);
+                }
+            } else if ([segName isEqualToString:@"__TEXT"]){
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    //
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
+                    
+                    if ([secName isEqualToString:@"__text"]) {
+                        textList = sectionHeader;
+                        s_cs_insn = [self scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                    }
+                    
+                    currentSecLocation += sizeof(section_64);
+                }
+            }
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    unsigned long long vm = classList.addr - classList.offset;
+    static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
+//获取所有类classlist
+NSRange range = NSMakeRange(classList.offset, 0);
+for (int i = 0; i < classList.size / 8 ; i++) {
+    @autoreleasepool {
+        
+        unsigned long long classAddress;
+        NSData *data = [self read_bytes:range length:8 fromFile:fileData];
+        [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+        unsigned long long classOffset = classAddress - vm;
+        
+        class64 targetClass = {0};
+        NSRange targetClassRange = NSMakeRange(classOffset, 0);
+        data = [self read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+        [data getBytes:&targetClass length:sizeof(class64)];
+        
+        class64Info targetClassInfo = {0};
+        unsigned long long targetClassInfoOffset = targetClass.data - vm;
+        NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+        data = [self read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+        [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+        unsigned long long classNameOffset = targetClassInfo.name - vm;
+        
+        
+        class64 metaClass = {0};
+        NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
+        data = [self read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+        [data getBytes:&metaClass length:sizeof(class64)];
+        
+        class64Info metaClassInfo = {0};
+        unsigned long long metaClassInfoOffset = metaClass.data - vm;
+        NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
+        data = [self read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+        [data getBytes:&metaClassInfo length:sizeof(class64Info)];
+        
+        
+        unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
+        unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
+        
+        //类名最大50字节
+        uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+        [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+        NSString * className = NSSTRING(buffer);
+        free(buffer);
+        
+        NSArray *crashAdress = [crashAddresses componentsSeparatedByString:@","];
+      
+        //遍历每个class的method (实例方法)
+        if (methodListOffset < max) {
+            
+            unsigned int methodCount;
+            NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
+            data = [self read_bytes:methodRange length:4 fromFile:fileData];
+            [data getBytes:&methodCount length:4];
+            for (int j = 0; j<methodCount; j++) {
+                
+                //获取方法名
+                methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
+                data = [self read_bytes:methodRange length:8 fromFile:fileData];
+                //NSLog(@"%@", [NSString stringWithFormat:@"%@",data]);
+                unsigned long long methodNameOffset;
+                [data getBytes:&methodNameOffset length:8];
+                methodNameOffset = methodNameOffset - vm;
+=======
++ (NSMutableSet*)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    
+    NSMutableSet *classSet = [NSMutableSet set];
+    unsigned long long vm = classList.addr - classList.offset;
+    unsigned long long max = [fileData length];
+    NSRange  range = NSMakeRange(classList.offset, 0);
+        for (int i = 0; i < classList.size / 8 ; i++) {
+            @autoreleasepool {
+                
+                unsigned long long classAddress;
+                NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+                unsigned long long classOffset = classAddress - vm;
+                
+                //获取类结构体
+                class64 targetClass = {0};
+                NSRange targetClassRange = NSMakeRange(classOffset, 0);
+                data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+                [data getBytes:&targetClass length:sizeof(class64)];
+>>>>>>> 0357afff308c0507a5fec02d85bbe20ce40e377c
+                
+                //获取类信息结构体
+                class64Info targetClassInfo = {0};
+                unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
+                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                
+                unsigned long long classNameOffset = targetClassInfo.name - vm;
+                
+                //获取父类信息
+                if (targetClass.superClass != 0) {
+                    class64 superClass = {0};
+                    NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
+                    data = [WBBladesTool read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                    [data getBytes:&superClass length:sizeof(class64)];
+                    
+                    class64Info superClassInfo = {0};
+                    unsigned long long superClassInfoOffset = superClass.data - vm;
+                    NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
+                    data = [WBBladesTool read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                    [data getBytes:&superClassInfo length:sizeof(class64Info)];
+                    unsigned long long superClassNameOffset = superClassInfo.name - vm;
+                    
+<<<<<<< HEAD
+                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        unsigned long long crash = [(NSString *)obj longLongValue];
+                        if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm]) {
+                            NSLog(@"起始地址:%lld    崩溃地址:%@ \n -[%@ %@ \n]",tmp,obj,className,methodName);
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
+                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
+                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
+                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
+                                [crashSymbolRst setObject:dic forKey:key];
+                            }
+                        }
+                    }];
+=======
+                    //类名最大50字节
+                    uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                    [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, 50)];
+                    NSString * superClassName = NSSTRING(buffer);
+                    free(buffer);
+                    if (superClassName) {
+                        [classrefSet addObject:superClassName];
+                    }
+>>>>>>> 0357afff308c0507a5fec02d85bbe20ce40e377c
+                }
+                
+                //类名最大50字节
+                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                NSString * className = NSSTRING(buffer);
+                free(buffer);
+                
+                //当前类是否在目标类集合中
+                if (aimClasses && ![aimClasses containsObject:className]) {
+                    continue;
+                }
+                [classSet addObject:className];
+                
+<<<<<<< HEAD
+                //方法名最大150字节
+                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                if (methodNameOffset < max) {
+                    
+                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                    NSString * methodName = NSSTRING(buffer);
+                    
+                    methodRange = NSMakeRange(classMethodListOffset+8 +16 + 24 * j, 0);
+                    data = [self read_bytes:methodRange length:8 fromFile:fileData];
+                    
+                    unsigned long long tmp;
+                    [data getBytes:&tmp length:8];
+                    
+                    [crashAdress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        unsigned long long crash = [(NSString *)obj longLongValue];
+                        if ([self scanSELCallerWithAddress:crash begin:tmp vb:vm] ) {
+                            NSLog(@"起始地址:0x%llx    崩溃地址:%@ +[%@ %@]",tmp,obj,className,methodName);
+                            
+                            NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
+                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                            [resultsDic setValue:crashMethod forKey:crashAddress];
+                            
+                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
+                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
+                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
+                                [crashSymbolRst setObject:dic forKey:key];
+                            }
+                        }
+                    }];
+                    
+=======
+                //遍历成员变量
+                unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
+                if (varListOffset > 0 && varListOffset < max) {
+                    unsigned int varCount;
+                    NSRange varRange = NSMakeRange(varListOffset+4, 0);
+                    data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
+                    [data getBytes:&varCount length:4];
+                    for (int j = 0; j<varCount; j++) {
+                        NSRange varRange = NSMakeRange(varListOffset+sizeof(ivar64_list_t) + sizeof(ivar64_t) * j, sizeof(ivar64_t));
+                        ivar64_t var = {};
+                        [fileData getBytes:&var range:varRange];
+                        unsigned long long methodNameOffset = var.type;
+                        methodNameOffset = methodNameOffset - vm;
+                        uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                        if (methodNameOffset > 0 && methodNameOffset < max) {
+                            [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                            NSString * typeName = NSSTRING(buffer);
+                            NSLog(@"type = %@",typeName);
+                            if (typeName) {
+                                typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
+                                typeName = [typeName stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+                                [classrefSet addObject:typeName];
+                            }
+                        }
+                    }
+>>>>>>> 0357afff308c0507a5fec02d85bbe20ce40e377c
+                }
+                free(buffer);
+            }
+        }
+<<<<<<< HEAD
+    }
+}
+NSLog(@"%@",crashSymbolRst);
+
+NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options:NSJSONWritingPrettyPrinted error:nil];
+NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
+[resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+
+}
+
++ (BOOL)scanSELCallerWithAddress:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
+    char * asmStr;
+    do {
+        unsigned long long index = (begin - textList.offset - vb)/4;
+        asmStr = s_cs_insn[index].mnemonic;
+        if (strcmp(".byte",asmStr) == 0) {
+            return NO;
+        }
+        
+        if (begin == target + vb) {
+            return YES;
+        }
+        begin += 4;
+    } while (strcmp("ret",asmStr) != 0);
+    return NO;
+=======
+    return classrefSet;
+}
++ (NSMutableSet*)readCStringList:(section_64)cfstringList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    NSRange range = NSMakeRange(cfstringList.offset, 0);
+    unsigned long long vm = cfstringList.addr - cfstringList.offset;
+    unsigned long long max = [fileData length];
+    for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
+         @autoreleasepool {
+             
+             cfstring64 cfstring;
+             NSData *data = [WBBladesTool read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
+             [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
+             unsigned long long stringOff = cfstring.stringAddress - vm;
+             //方法名最大150字节
+             if (stringOff > 0 && stringOff < max) {
+                 //类名最大50字节
+                 uint8_t * buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
+                 [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
+                 NSString * className = NSSTRING(buffer);
+                 free(buffer);
+                 if (className){
+                     [classrefSet addObject:className];
+                 }
+             }
+         }
+         
+     }
+    return classrefSet;
+}
+
++ (NSMutableSet*)readClsRefList:(section_64)classrefList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    NSRange range = NSMakeRange(classrefList.offset, 0);
+    unsigned long long vm = classrefList.addr - classrefList.offset;
+    unsigned long long max = [fileData length];
+    for (int i = 0; i < classrefList.size / 8; i++) {
+           @autoreleasepool {
+               
+               unsigned long long classAddress;
+               NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+               [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+               classAddress = classAddress - vm;
+               //方法名最大150字节
+               if (classAddress > 0 && classAddress < max) {
+                   
+                   //获取class64结构体
+                   class64 targetClass;
+                   ptrdiff_t off = classAddress;
+                   char * p = (char *)fileData.bytes;
+                   p = p+off;
+                   memcpy(&targetClass, p, sizeof(class64));
+                   
+                   //获取class64info结构体
+                   class64Info targetClassInfo = {0};
+                   unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                   NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                   data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                   [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                   unsigned long long classNameOffset = targetClassInfo.name - vm;
+                   
+                   //类名最大50字节
+                   uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                   [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                   NSString * className = NSSTRING(buffer);
+                   free(buffer);
+                   
+                   if (className) {
+                       WBBladesHelper *helper = [WBBladesHelper new];
+                       helper.className = className;
+                       helper.selName = @"";
+                       helper.offset = range.location;
+                       if (!aimClasses ||  [aimClasses containsObject:className]) {
+                           
+                           //查看是否在别的类中有调用
+                           if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                               [classrefSet addObject:className];
+                           }
+                       }else{
+                           [classrefSet addObject:className];
+                       }
+                   }
+               }
+           }
+       }
+    return classrefSet;
+}
+
++ (NSMutableSet*)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData{
+    //获取nlclslist
+    NSRange range = NSMakeRange(nlclsList.offset, 0);
+    unsigned long long vm = nlclsList.addr - nlclsList.offset;
+    unsigned long long max = [fileData length];
+     for (int i = 0; i < nlclsList.size / 8; i++) {
+         @autoreleasepool {
+           
+             unsigned long long classAddress;
+             NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+             [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+             classAddress = classAddress - vm;
+             //方法名最大150字节
+             if (classAddress > 0 && classAddress < max) {
+                 
+                 class64 targetClass;
+                 [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
+                 
+                 class64Info targetClassInfo = {0};
+                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                 data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                 unsigned long long classNameOffset = targetClassInfo.name - vm;
+                 
+                 //类名最大50字节
+                 uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                 NSString * className = NSSTRING(buffer);
+                 free(buffer);
+                 if (className) {
+                     [classrefSet addObject:className];
+                 }
+             }
+             
+         }
+     }
+    return classrefSet;
+>>>>>>> 0357afff308c0507a5fec02d85bbe20ce40e377c
+}
+
+
++ (BOOL)inClassBlacklistCheck:(char *)className{
+    
+    char *array[] = {(char*)"SD",(char*)"ISD",(char*)"WIM",(char*)"Bugly",(char*)"DI",(char*)"GI",(char*)"IF",(char*)"BM",(char*)"LOTA",(char*)"QQ",(char*)"RSA",(char*)"RCT",(char*)"RTC",(char*)"Weibo",(char*)"Alipay",(char*)"FMD",(char*)"MJ"};
+    for (int i = 0; i<17; i++) {
+        char *str = array[i];
+        if (strstr(className, str) == className) {
+            return YES;
+        }
+    }
+    return NO;
+}
+//
++ (WBBladesSymTabCommand *)symbolTabOffsetWithMachO:(NSData *)fileData{
+    
+    WBBladesSymTabCommand * symTabCommand = objc_getAssociatedObject(fileData, "sym");
+    if (symTabCommand) {
+        return symTabCommand;
+    }
+    //获取mach-o header
+    mach_header_64 mhHeader;
+    NSRange tmpRange = NSMakeRange(0, sizeof(mach_header_64));
+    [fileData getBytes:&mhHeader range:tmpRange];
+    
+    //获取load command
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    
+    //遍历load command
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SYMTAB){//查找字符串表
+            
+            //根据字符串的尾部 确定当前mach-o的尾部
+            symtab_command symtab;
+            [fileData getBytes:&symtab range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
+            //
+            WBBladesSymTabCommand *tmp = [[WBBladesSymTabCommand alloc] init];
+            tmp.cmd = symtab.cmd;
+            tmp.cmdsize = symtab.cmdsize;
+            tmp.symbolOff = symtab.symoff;
+            tmp.strOff = symtab.stroff;
+            tmp.strSize = symtab.strsize;
+            tmp.symbolNum = symtab.nsyms;
+            
+            objc_setAssociatedObject(fileData, "sym", tmp, OBJC_ASSOCIATION_RETAIN);
+            return tmp;
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    return nil;
+}
+
++ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper{
+    
+    unsigned long long vb = 0x100000000;
+    
+    //获取二进制文件符号表
+    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
+    unsigned long long symbolOffset = symCmd.symbolOff;
+    unsigned long long targetAddress = helper.offset;
+    
+    //目标地址
+    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址高位
+    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址低位
+    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //遍历符号表
+    for (int i=0; i<symCmd.symbolNum - 1; i++) {
+        nlist_64 nlist;
+        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+        char * p = (char *)fileData.bytes;
+        p = p+off;
+        memcpy(&nlist, p, sizeof(nlist_64));
+        if (nlist.n_sect == 1 &&
+            nlist.n_type == 0x0e) {
+            
+            char buffer[201];
+            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+            char * p = (char *)fileData.bytes;
+            p = p+off;
+            memcpy(&buffer, p, 200);
+            char * className = strtok(buffer," ");
+            className = strstr(className,"[");
+            if (className) {
+                className = className+1;
+            }else{
+                continue;
+            }
+            if (strcmp(className,[helper.className UTF8String]) == 0) {
+                continue;
+            }
+            
+            //三方黑名单
+            if ([self inClassBlacklistCheck:className]) {
+                continue;
+            }
+            unsigned long long begin = nlist.n_value;
+            
+            //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
+            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vb:vb];
+            if (use) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
++ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
+    char * asmStr;
+    BOOL high = NO;
+    
+    //自前向后遍历函数指令
+    do {
+        unsigned long long index = (begin - textList.offset - vb)/4;
+        char *dataStr = s_cs_insn[index].op_str;
+        asmStr = s_cs_insn[index].mnemonic;
+        if (strcmp(".byte",asmStr) == 0) {
+            return NO;
+        }
+        if (strstr(dataStr, targetStr)) {//直接命中
+            return YES;
+        }else if (strstr(dataStr, targetHighStr)) {//是否先命中高位
+            high = YES;
+        }else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
+            if (high) {
+                return  YES;
+            }
+        }
+        begin += 4;
+    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
+    return NO;
+    
+}
+@end

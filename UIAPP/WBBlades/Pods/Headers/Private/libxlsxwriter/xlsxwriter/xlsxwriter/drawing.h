@@ -1,0 +1,1 @@
+../../../../../libxlsxwriter/include/xlsxwriter/drawing.h
