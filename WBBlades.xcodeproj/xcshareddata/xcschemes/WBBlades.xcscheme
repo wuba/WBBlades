@@ -56,7 +56,11 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/a58/Downloads/osee2unifiedRelease.app"
+            argument = "/Users/a58/Downloads/58tongcheng.app"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "/Users/a58/wb_frameworks/WBRNCustomModulesLib/libWBRNCustomModules.a"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

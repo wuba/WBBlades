@@ -92,10 +92,14 @@ static void scanUnUseClass(int argc, const char * argv[]){
     s_classSet = [NSMutableSet set];
     NSString *podName = @"";
     
+    if (argc < 3) {
+        NSLog(@"参数不足");
+        return;
+    }
     //遍历输入的pod，提取所有pod中的类
-    for (int i = 0; i < argc - 3; i++) {
+    for (int i = 3; i < argc; i++) {
         @autoreleasepool {
-            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];
+            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i]];
             NSLog(@"读取%@所有类",podPath);
             enumPodFiles(podPath);
             NSString * tmp = [podPath lastPathComponent];
