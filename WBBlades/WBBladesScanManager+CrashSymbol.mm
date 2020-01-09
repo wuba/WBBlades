@@ -107,9 +107,7 @@ for (int i = 0; i < classList.size / 8 ; i++) {
         NSString * className = NSSTRING(buffer);
         free(buffer);
         
-        //NSArray *crashAddress = [NSArray arrayWithContentsOfFile:crashAddresses];
         NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
-        //NSLog(@"crash addresses are: %@", crashAddress);
         //遍历每个class的method (实例方法)
         if (methodListOffset > 0 && methodListOffset < max) {
             
