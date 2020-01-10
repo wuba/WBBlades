@@ -22,7 +22,6 @@
 static NSUncaughtExceptionHandler *otherUncaughtExceptionHandler;
 
 static void bladesCrashSymbolExceptionHandler (NSException *exception) {
-    //这里可以取到 NSException 信息
     if (otherUncaughtExceptionHandler && otherUncaughtExceptionHandler != &bladesCrashSymbolExceptionHandler) {
         otherUncaughtExceptionHandler(exception);
     }
@@ -204,34 +203,34 @@ extern "C" {
 NSRange range = NSMakeRange(classList.offset, 0);
 for (int i = 0; i < classList.size / 8 ; i++) {
     unsigned long long classAddress;
-    NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+    NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
     [data getBytes:&classAddress range:NSMakeRange(0, 8)];
     unsigned long long classOffset = classAddress - vm;
     
     class64 targetClass = {0};
     NSRange targetClassRange = NSMakeRange(classOffset, 0);
-    data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+    data = [WBBladesTool readBytes:targetClassRange length:sizeof(class64) fromFile:fileData];
     [data getBytes:&targetClass length:sizeof(class64)];
     
     class64Info targetClassInfo = {0};
     unsigned long long targetClassInfoOffset = targetClass.data - vm;
     targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
     NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-    data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+    data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
     [data getBytes:&targetClassInfo length:sizeof(class64Info)];
     unsigned long long classNameOffset = targetClassInfo.name - vm;
     
     
     class64 metaClass = {0};
     NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-    data = [WBBladesTool read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+    data = [WBBladesTool readBytes:metaClassRange length:sizeof(class64) fromFile:fileData];
     [data getBytes:&metaClass length:sizeof(class64)];
     
     class64Info metaClassInfo = {0};
     unsigned long long metaClassInfoOffset = metaClass.data - vm;
     metaClassInfoOffset = (metaClassInfoOffset / 8) * 8;
     NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-    data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+    data = [WBBladesTool readBytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
     [data getBytes:&metaClassInfo length:sizeof(class64Info)];
     
     unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
@@ -249,13 +248,13 @@ for (int i = 0; i < classList.size / 8 ; i++) {
         
         unsigned int methodCount;
         NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
-        data = [WBBladesTool read_bytes:methodRange length:4 fromFile:fileData];
+        data = [WBBladesTool readBytes:methodRange length:4 fromFile:fileData];
         [data getBytes:&methodCount length:4];
         for (int j = 0; j<methodCount; j++) {
             
             //获取方法名
             methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
-            data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+            data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
             
             unsigned long long methodNameOffset;
             [data getBytes:&methodNameOffset length:8];
@@ -270,7 +269,7 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                 NSString * methodName = NSSTRING(buffer);
                 
                 methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
-                data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+                data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
                 
                 unsigned long long tmp;
                 [data getBytes:&tmp length:8];
@@ -295,13 +294,13 @@ for (int i = 0; i < classList.size / 8 ; i++) {
         
         unsigned int methodCount;
         NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
-        data = [WBBladesTool read_bytes:methodRange length:4 fromFile:fileData];
+        data = [WBBladesTool readBytes:methodRange length:4 fromFile:fileData];
         [data getBytes:&methodCount length:4];
         for (int j = 0; j<methodCount; j++) {
             
             //获取方法名
             methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
-            data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+            data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
             
             unsigned long long methodNameOffset;
             [data getBytes:&methodNameOffset length:8];
@@ -315,7 +314,7 @@ for (int i = 0; i < classList.size / 8 ; i++) {
                 NSString * methodName = NSSTRING(buffer);
                 
                 methodRange = NSMakeRange(classMethodListOffset+8 +16 + 24 * j, 0);
-                data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+                data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
                 
                 unsigned long long tmp;
                 [data getBytes:&tmp length:8];

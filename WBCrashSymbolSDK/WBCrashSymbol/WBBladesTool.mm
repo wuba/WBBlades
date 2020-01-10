@@ -11,9 +11,7 @@
 
 @implementation WBBladesTool
 
-
-
-+ (NSArray *)read_strings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
++ (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),len);
     NSMutableArray *strings = [NSMutableArray array];
     
@@ -36,7 +34,7 @@
     return [strings copy];
 }
 
-+ (NSString *)read_string:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
++ (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),len);
     uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
@@ -45,7 +43,7 @@
     return [self replaceEscapeCharsInString:str];
 }
 
-+ (NSData *)read_bytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData{
++ (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData{
     range = NSMakeRange(NSMaxRange(range),length);
     uint8_t * buffer = (uint8_t *)malloc(length);
     [fileData getBytes:buffer range:range];
