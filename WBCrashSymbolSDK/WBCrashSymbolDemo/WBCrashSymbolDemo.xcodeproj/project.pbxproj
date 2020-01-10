@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3739EB7523C86A7900BA3F83 /* libWBCrashSymbol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */; };
 		37AAEE3B23C5D1CE00B31988 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */; };
 		37AAEE3E23C5D1CE00B31988 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE3D23C5D1CE00B31988 /* SceneDelegate.m */; };
 		37AAEE4123C5D1CE00B31988 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE4023C5D1CE00B31988 /* ViewController.m */; };
@@ -15,10 +16,11 @@
 		37AAEE4923C5D1D100B31988 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 37AAEE4723C5D1D100B31988 /* LaunchScreen.storyboard */; };
 		37AAEE4C23C5D1D100B31988 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE4B23C5D1D100B31988 /* main.m */; };
 		37AAEE5923C5D35400B31988 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AAEE5823C5D35400B31988 /* libstdc++.6.tbd */; };
-		37AAEE6623C6D3D500B31988 /* libWBCrashSymbol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 37AAEE6523C6D3D500B31988 /* libWBCrashSymbol.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWBCrashSymbol.a; sourceTree = "<group>"; };
+		3739EB7D23C86BD800BA3F83 /* WBCrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WBCrashSymbol.h; path = ../../WBCrashSymbol/WBCrashSymbol.h; sourceTree = "<group>"; };
 		37AAEE3623C5D1CE00B31988 /* WBCrashSymbolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBCrashSymbolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37AAEE3923C5D1CE00B31988 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -32,8 +34,6 @@
 		37AAEE4A23C5D1D100B31988 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37AAEE4B23C5D1D100B31988 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		37AAEE5823C5D35400B31988 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
-		37AAEE6523C6D3D500B31988 /* libWBCrashSymbol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWBCrashSymbol.a; sourceTree = "<group>"; };
-		37AAEE6723C6D3DC00B31988 /* WBCrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBCrashSymbol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,7 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37AAEE6623C6D3D500B31988 /* libWBCrashSymbol.a in Frameworks */,
+				3739EB7523C86A7900BA3F83 /* libWBCrashSymbol.a in Frameworks */,
 				37AAEE5923C5D35400B31988 /* libstdc++.6.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,8 +69,8 @@
 		37AAEE3823C5D1CE00B31988 /* WBCrashSymbolDemo */ = {
 			isa = PBXGroup;
 			children = (
-				37AAEE6723C6D3DC00B31988 /* WBCrashSymbol.h */,
-				37AAEE6523C6D3D500B31988 /* libWBCrashSymbol.a */,
+				3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */,
+				3739EB7D23C86BD800BA3F83 /* WBCrashSymbol.h */,
 				37AAEE3923C5D1CE00B31988 /* AppDelegate.h */,
 				37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */,
 				37AAEE3C23C5D1CE00B31988 /* SceneDelegate.h */,

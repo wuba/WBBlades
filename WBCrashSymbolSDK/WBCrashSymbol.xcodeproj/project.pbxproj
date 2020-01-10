@@ -3,13 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		37AAEE0A23C5788700B31988 /* WBCrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE0923C5788700B31988 /* WBCrashSymbol.mm */; platformFilter = ios; };
-		37AAEE0B23C5788700B31988 /* WBCrashSymbol.h in Copy Files */ = {isa = PBXBuildFile; fileRef = 37AAEE0823C5788700B31988 /* WBCrashSymbol.h */; };
-		37AAEE1423C5793800B31988 /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE1223C5793800B31988 /* WBBladesTool.mm */; platformFilter = ios; };
+		3739EB7B23C86BA400BA3F83 /* WBCrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3739EB7623C86BA400BA3F83 /* WBCrashSymbol.mm */; };
+		3739EB7C23C86BA400BA3F83 /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3739EB7923C86BA400BA3F83 /* WBBladesTool.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -19,7 +18,6 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
-				37AAEE0B23C5788700B31988 /* WBCrashSymbol.h in Copy Files */,
 			);
 			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -27,12 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3739EB7623C86BA400BA3F83 /* WBCrashSymbol.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBCrashSymbol.mm; sourceTree = "<group>"; };
+		3739EB7723C86BA400BA3F83 /* WBBladesDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
+		3739EB7823C86BA400BA3F83 /* WBBladesTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
+		3739EB7923C86BA400BA3F83 /* WBBladesTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
+		3739EB7A23C86BA400BA3F83 /* WBCrashSymbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBCrashSymbol.h; sourceTree = "<group>"; };
 		37AAEE0523C5788700B31988 /* libWBCrashSymbol.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWBCrashSymbol.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		37AAEE0823C5788700B31988 /* WBCrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBCrashSymbol.h; sourceTree = "<group>"; };
-		37AAEE0923C5788700B31988 /* WBCrashSymbol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBCrashSymbol.mm; sourceTree = "<group>"; };
-		37AAEE1123C578DB00B31988 /* WBBladesDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
-		37AAEE1223C5793800B31988 /* WBBladesTool.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
-		37AAEE1323C5793800B31988 /* WBBladesTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,11 +63,11 @@
 		37AAEE0723C5788700B31988 /* WBCrashSymbol */ = {
 			isa = PBXGroup;
 			children = (
-				37AAEE0823C5788700B31988 /* WBCrashSymbol.h */,
-				37AAEE0923C5788700B31988 /* WBCrashSymbol.mm */,
-				37AAEE1323C5793800B31988 /* WBBladesTool.h */,
-				37AAEE1223C5793800B31988 /* WBBladesTool.mm */,
-				37AAEE1123C578DB00B31988 /* WBBladesDefines.h */,
+				3739EB7723C86BA400BA3F83 /* WBBladesDefines.h */,
+				3739EB7823C86BA400BA3F83 /* WBBladesTool.h */,
+				3739EB7923C86BA400BA3F83 /* WBBladesTool.mm */,
+				3739EB7A23C86BA400BA3F83 /* WBCrashSymbol.h */,
+				3739EB7623C86BA400BA3F83 /* WBCrashSymbol.mm */,
 			);
 			path = WBCrashSymbol;
 			sourceTree = "<group>";
@@ -131,8 +129,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37AAEE0A23C5788700B31988 /* WBCrashSymbol.mm in Sources */,
-				37AAEE1423C5793800B31988 /* WBBladesTool.mm in Sources */,
+				3739EB7B23C86BA400BA3F83 /* WBCrashSymbol.mm in Sources */,
+				3739EB7C23C86BA400BA3F83 /* WBBladesTool.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,7 +187,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -241,7 +239,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

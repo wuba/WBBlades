@@ -20,7 +20,6 @@
 //清除日志
 + (void)clearCallStackSymbols;
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus

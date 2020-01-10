@@ -101,7 +101,7 @@ extern "C" {
         return;
     }
     
-    NSData *fileData = [NSData dataWithContentsOfFile:fileDataPath];
+    NSData *fileData = [self readMachOFile:fileDataPath];
     
     NSString *fileName = [fileDataPath lastPathComponent]?:@"58tongcheng";
     for (NSInteger i = 0; i < callStackSymbols.count ; i++) {
@@ -342,7 +342,7 @@ for (int i = 0; i < classList.size / 8 ; i++) {
 return crashSymbolRst;
 }
 
-static void * blades_memdup( void *mem, unsigned long long len){
+static void * BladesMemdup( void *mem, unsigned long long len){
     void *dup = malloc(len);
     memcpy(dup, mem, len);
     return dup;
@@ -356,8 +356,8 @@ static void * blades_memdup( void *mem, unsigned long long len){
     
     unsigned int cryptID = 0;
     unsigned long long currentLcLocation = sizeof(mach_header_64);
-    NSRange segmentTextRange;
-    NSRange segmentRoDataRange;
+    NSRange segmentTextRange = {0};
+    NSRange segmentRoDataRange = {0};
     
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
@@ -390,10 +390,10 @@ static void * blades_memdup( void *mem, unsigned long long len){
     
     //AppStore包需要砸壳
     uintptr_t textP = ((uintptr_t)&_mh_execute_header) + segmentTextRange.location;
-    void *text = blades_memdup((void *)textP,segmentTextRange.length);
+    void *text = BladesMemdup((void *)textP,segmentTextRange.length);
     
     uintptr_t roDataP = ((uintptr_t)&_mh_execute_header) + segmentRoDataRange.location;
-    void *roData = blades_memdup((void *)roDataP,segmentRoDataRange.length);
+    void *roData = BladesMemdup((void *)roDataP,segmentRoDataRange.length);
     
     NSMutableData *tmp = [NSMutableData dataWithData:fileData];
     [tmp replaceBytesInRange:segmentTextRange withBytes:text];
@@ -401,12 +401,11 @@ static void * blades_memdup( void *mem, unsigned long long len){
     fileData = [tmp copy];
     
     
-    //    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    //    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
-    //    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
-    //    [fileData writeToFile:documentPath atomically:YES];
-    
-    
+//    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
+//    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
+//    [fileData writeToFile:documentPath atomically:YES];
+//
     return fileData;
 }
 
