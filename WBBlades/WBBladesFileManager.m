@@ -12,14 +12,10 @@
 @implementation WBBladesFileManager
 
 +(NSData *)readFromFile:(NSString *)filePath{
-    //NSLog(@"file path is: %@", filePath);
     NSURL * tmpURL = [NSURL fileURLWithPath:filePath];
-    //NSLog(@"%@", [NSString stringWithFormat:@"%@",tmpURL]);
     NSData * fileData = [NSMutableData dataWithContentsOfURL:tmpURL
                                  options:NSDataReadingMappedIfSafe
                                                        error:NULL];
-    //NSLog(@"%@", fileData);
-    // Get arm64 from fileData?
     if (!fileData) {
         
         NSLog(@"文件读取失败");

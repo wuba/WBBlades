@@ -155,14 +155,14 @@ static section_64 textList = {0};
             @autoreleasepool {
                 
                 unsigned long long classAddress;
-                NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+                NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                 [data getBytes:&classAddress range:NSMakeRange(0, 8)];
                 unsigned long long classOffset = classAddress - vm;
                 
                 //获取类结构体
                 class64 targetClass = {0};
                 NSRange targetClassRange = NSMakeRange(classOffset, 0);
-                data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+                data = [WBBladesTool readBytes:targetClassRange length:sizeof(class64) fromFile:fileData];
                 [data getBytes:&targetClass length:sizeof(class64)];
                 
                 //获取类信息结构体
@@ -170,7 +170,7 @@ static section_64 textList = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
                 targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                 
                 unsigned long long classNameOffset = targetClassInfo.name - vm;
@@ -179,14 +179,14 @@ static section_64 textList = {0};
                 if (targetClass.superClass != 0) {
                     class64 superClass = {0};
                     NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
-                    data = [WBBladesTool read_bytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                    data = [WBBladesTool readBytes:superClassRange length:sizeof(class64) fromFile:fileData];
                     [data getBytes:&superClass length:sizeof(class64)];
                     
                     class64Info superClassInfo = {0};
                     unsigned long long superClassInfoOffset = superClass.data - vm;
                     superClassInfoOffset = (superClassInfoOffset / 8) * 8;
                     NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
-                    data = [WBBladesTool read_bytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                    data = [WBBladesTool readBytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                     [data getBytes:&superClassInfo length:sizeof(class64Info)];
                     unsigned long long superClassNameOffset = superClassInfo.name - vm;
                     
@@ -217,7 +217,7 @@ static section_64 textList = {0};
                 if (varListOffset > 0 && varListOffset < max) {
                     unsigned int varCount;
                     NSRange varRange = NSMakeRange(varListOffset+4, 0);
-                    data = [WBBladesTool read_bytes:varRange length:4 fromFile:fileData];
+                    data = [WBBladesTool readBytes:varRange length:4 fromFile:fileData];
                     [data getBytes:&varCount length:4];
                     for (int j = 0; j<varCount; j++) {
                         NSRange varRange = NSMakeRange(varListOffset+sizeof(ivar64_list_t) + sizeof(ivar64_t) * j, sizeof(ivar64_t));
@@ -249,7 +249,7 @@ static section_64 textList = {0};
          @autoreleasepool {
              
              cfstring64 cfstring;
-             NSData *data = [WBBladesTool read_bytes:range length:sizeof(cfstring64) fromFile:fileData];
+             NSData *data = [WBBladesTool readBytes:range length:sizeof(cfstring64) fromFile:fileData];
              [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
              unsigned long long stringOff = cfstring.stringAddress - vm;
              //方法名最大150字节
@@ -276,7 +276,7 @@ static section_64 textList = {0};
            @autoreleasepool {
                
                unsigned long long classAddress;
-               NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+               NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
                classAddress = classAddress - vm;
                //方法名最大150字节
@@ -294,7 +294,7 @@ static section_64 textList = {0};
                    unsigned long long targetClassInfoOffset = targetClass.data - vm;
                    targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                    NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                   data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                   data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                    [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                    unsigned long long classNameOffset = targetClassInfo.name - vm;
                    
@@ -333,7 +333,7 @@ static section_64 textList = {0};
          @autoreleasepool {
            
              unsigned long long classAddress;
-             NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
+             NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
              [data getBytes:&classAddress range:NSMakeRange(0, 8)];
              classAddress = classAddress - vm;
              //方法名最大150字节
@@ -346,7 +346,7 @@ static section_64 textList = {0};
                  unsigned long long targetClassInfoOffset = targetClass.data - vm;
                  targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                  NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-                 data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                 data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                  [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                  unsigned long long classNameOffset = targetClassInfo.name - vm;
                  
@@ -363,18 +363,6 @@ static section_64 textList = {0};
      }
 }
 
-
-+ (BOOL)inClassBlacklistCheck:(char *)className{
-    
-    char *array[] = {(char*)"SD",(char*)"ISD",(char*)"WIM",(char*)"Bugly",(char*)"DI",(char*)"GI",(char*)"IF",(char*)"BM",(char*)"LOTA",(char*)"QQ",(char*)"RSA",(char*)"RCT",(char*)"RTC",(char*)"Weibo",(char*)"Alipay",(char*)"FMD",(char*)"MJ"};
-    for (int i = 0; i<17; i++) {
-        char *str = array[i];
-        if (strstr(className, str) == className) {
-            return YES;
-        }
-    }
-    return NO;
-}
 //
 + (WBBladesSymTabCommand *)symbolTabOffsetWithMachO:(NSData *)fileData{
     
@@ -460,8 +448,10 @@ static section_64 textList = {0};
         char * p = (char *)fileData.bytes;
         p = p+off;
         memcpy(&nlist, p, sizeof(nlist_64));
+        
+        //https://developer.apple.com/documentation/kernel/nlist_64
         if (nlist.n_sect == 1 &&
-            nlist.n_type == WITHDWARF_SECTION_TYPE) {
+            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
             
             char buffer[201];
             ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
@@ -479,10 +469,6 @@ static section_64 textList = {0};
                 continue;
             }
             
-            //三方黑名单
-            if ([self inClassBlacklistCheck:className]) {
-                continue;
-            }
             unsigned long long begin = nlist.n_value;
             
             //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
@@ -517,7 +503,7 @@ static section_64 textList = {0};
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
+    } while (strcmp("ret",asmStr) != 0 && strcmp("b",asmStr) != 0 );//直到遇到ret指令
     return NO;
     
 }

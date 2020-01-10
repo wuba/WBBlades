@@ -69,7 +69,7 @@ static void scanStaticLibrary(int argc, const char * argv[]){
             NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
             podResult = [NSMutableDictionary dictionary];
             
-            //资源和代码体积f清空
+            //资源和代码体积清空
             resourceSize = 0;
             codeSize = 0;
             
@@ -129,9 +129,9 @@ static void scanUnUseClass(int argc, const char * argv[]){
 
 static void scanCrashSymbol(int argc, const char * argv[]){
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
-    NSString *crashAddressPath = [NSString stringWithFormat:@"%s",argv[3]];
+    NSString *crashAddress = [NSString stringWithFormat:@"%s",argv[3]];
 
-    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddressPath];
+    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
 }
 
 void handleStaticLibrary(NSString *filePath){
@@ -180,7 +180,6 @@ void handleStaticLibraryForClassList(NSString *filePath){
         s_classSet = [[s_classSet setByAddingObjectsFromSet:classSet] mutableCopy];
         //删除临时文件
         removeCopyFile(filePath);
-
     }
 }
 
@@ -211,8 +210,8 @@ static void enumPodFiles(NSString *path){
                 NSString * subPath = nil;
                 for (NSString * str in dirArray) {
                     subPath  = [path stringByAppendingPathComponent:str];
-                    BOOL issubDir = NO;
-                    [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+                    BOOL isSubDir = NO;
+                    [fileManger fileExistsAtPath:subPath isDirectory:&isSubDir];
                     enumPodFiles(subPath);
                 }
             }

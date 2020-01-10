@@ -80,4 +80,4 @@ struct ivar64_t
 
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
-#define WITHDWARF_SECTION_TYPE   0x0e
+#define WITHDWARF_SECTION_TYPE   0x0f

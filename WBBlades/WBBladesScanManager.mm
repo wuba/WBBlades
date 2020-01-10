@@ -99,7 +99,7 @@
     NSRange tmpRange = range;
     NSUInteger len = fileData.length - tmpRange.location;
     //为了复用符号表的获取代码,截取二进制
-    NSData *tmpData = [WBBladesTool read_bytes:tmpRange length:len fromFile:fileData];
+    NSData *tmpData = [WBBladesTool readBytes:tmpRange length:len fromFile:fileData];
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader * objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
     objcHeader.range = NSMakeRange(range.location, objcHeader.range.length);
@@ -179,14 +179,14 @@
                     switch (sectionHeader.flags & SECTION_TYPE) {
                         case S_CSTRING_LITERALS:{
                             
-                            NSArray *array = [WBBladesTool read_strings:secRange fixlen:sectionHeader.size fromFile:fileData];
+                            NSArray *array = [WBBladesTool readStrings:secRange fixlen:sectionHeader.size fromFile:fileData];
                             [objcMachO.sections setObject:array forKey:sectionName];
                         }
                             break;
                         case S_4BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 4; k++) {
-                                NSData *literals = [WBBladesTool read_bytes:secRange length:4 fromFile:fileData];
+                                NSData *literals = [WBBladesTool readBytes:secRange length:4 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -198,7 +198,7 @@
                         case S_8BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 8; k++) {
-                                NSData *literals = [WBBladesTool read_bytes:secRange length:8 fromFile:fileData];
+                                NSData *literals = [WBBladesTool readBytes:secRange length:8 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -209,7 +209,7 @@
                         case S_16BYTE_LITERALS:{
                             NSMutableArray *array = [NSMutableArray array];
                             for (int k = 0; k < sectionHeader.size / 16; k++) {
-                                NSData *literals = [WBBladesTool read_bytes:secRange length:16 fromFile:fileData];
+                                NSData *literals = [WBBladesTool readBytes:secRange length:16 fromFile:fileData];
                                 if (literals) {
                                     [array addObject:literals];
                                 }
@@ -221,7 +221,7 @@
                         case S_REGULAR:{
                             if ([sectionName isEqualToString:CHINESE_STRING_SECTION]) {
                                 //获取中文字符串
-                                NSData *data = [WBBladesTool read_bytes:secRange length:sectionHeader.size fromFile:fileData];
+                                NSData *data = [WBBladesTool readBytes:secRange length:sectionHeader.size fromFile:fileData];
                                 
                                 unsigned short *head = (unsigned short *)[data bytes];
                                 unsigned short *start = head;
@@ -275,7 +275,7 @@
     WBBladesSymTab *symTab = [WBBladesSymTab new];
     
     //获取符号表大小
-    NSData *data = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
+    NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     symTab.size = size;
@@ -285,12 +285,12 @@
     unsigned int symbolCount = (symTab.size - sizeof(unsigned int))/8;
     for (int i = 0; i < symbolCount; i++) {
         WBBladesSymbol *symbol = [WBBladesSymbol new];
-        NSData * indexData = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
+        NSData * indexData = [WBBladesTool readBytes:range length:4 fromFile:fileData];
         unsigned int index = 0;
         [indexData getBytes:&index range:NSMakeRange(0, 4)];
         
         unsigned int offset = 0;
-        NSData *offsetData = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
+        NSData *offsetData = [WBBladesTool readBytes:range length:4 fromFile:fileData];
         [offsetData getBytes:&offset range:NSMakeRange(0, 4)];
         
         symbol.symbolIndex = index;
@@ -311,12 +311,12 @@
     
     WBBladesStringTab *stringTab = [WBBladesStringTab new];
     //获取字符串表大小
-    NSData *data = [WBBladesTool read_bytes:range length:4 fromFile:fileData];
+    NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     
     //获取所有的字符串信息
-    stringTab.strings = [WBBladesTool read_strings:range fixlen:size fromFile:fileData];
+    stringTab.strings = [WBBladesTool readStrings:range fixlen:size fromFile:fileData];
     
     //同理，字符串表长度也不包含自身4字节
     stringTab.range = NSMakeRange(location, size + sizeof(unsigned int));
@@ -331,25 +331,25 @@
     
     WBBladesObjectHeader *header = [[WBBladesObjectHeader alloc] init];
     
-    header.name = [WBBladesTool read_string:range fixlen:16 fromFile:fileData];
-    header.timeStamp = [WBBladesTool read_string:range fixlen:12 fromFile:fileData];
-    header.userID = [WBBladesTool read_string:range fixlen:6 fromFile:fileData];
-    header.groupID = [WBBladesTool read_string:range fixlen:6 fromFile:fileData];
-    header.mode = [WBBladesTool read_string:range fixlen:8 fromFile:fileData];
-    header.size = [WBBladesTool read_string:range fixlen:8 fromFile:fileData];
+    header.name = [WBBladesTool readString:range fixlen:16 fromFile:fileData];
+    header.timeStamp = [WBBladesTool readString:range fixlen:12 fromFile:fileData];
+    header.userID = [WBBladesTool readString:range fixlen:6 fromFile:fileData];
+    header.groupID = [WBBladesTool readString:range fixlen:6 fromFile:fileData];
+    header.mode = [WBBladesTool readString:range fixlen:8 fromFile:fileData];
+    header.size = [WBBladesTool readString:range fixlen:8 fromFile:fileData];
     NSMutableString * padding = [[NSMutableString alloc] initWithCapacity:2];
     
     for(;;){
-        [padding appendString:[WBBladesTool read_string:range fixlen:1 fromFile:fileData]];
+        [padding appendString:[WBBladesTool readString:range fixlen:1 fromFile:fileData]];
         if (*(CSTRING(padding) + [padding length] - 1) != ' '){
-            [padding appendString:[WBBladesTool read_string:range fixlen:1 fromFile:fileData]];
+            [padding appendString:[WBBladesTool readString:range fixlen:1 fromFile:fileData]];
             break;
         }
     }
     header.endHeader = padding;
     if (NSEqualRanges([header.name rangeOfString:@"#1/"], NSMakeRange(0,3))){
         uint32_t len = [[header.name substringFromIndex:3] intValue];
-        header.longName = [WBBladesTool read_string:range fixlen:len fromFile:fileData];
+        header.longName = [WBBladesTool readString:range fixlen:len fromFile:fileData];
     }
     header.range = NSMakeRange(location, NSMaxRange(range) - location);
     return header;

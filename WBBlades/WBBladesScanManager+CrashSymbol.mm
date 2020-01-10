@@ -62,162 +62,162 @@
     unsigned long long vm = classList.addr - classList.offset;
     
     static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-//获取所有类classlist
-NSRange range = NSMakeRange(classList.offset, 0);
-for (int i = 0; i < classList.size / 8 ; i++) {
-    @autoreleasepool {
-        
-        unsigned long long classAddress;
-        NSData *data = [WBBladesTool read_bytes:range length:8 fromFile:fileData];
-        [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-        unsigned long long classOffset = classAddress - vm;
-        
-        class64 targetClass = {0};
-        NSRange targetClassRange = NSMakeRange(classOffset, 0);
-        data = [WBBladesTool read_bytes:targetClassRange length:sizeof(class64) fromFile:fileData];
-        [data getBytes:&targetClass length:sizeof(class64)];
-        
-        class64Info targetClassInfo = {0};
-        unsigned long long targetClassInfoOffset = targetClass.data - vm;
-        targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
-        NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
-        data = [WBBladesTool read_bytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-        [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-        unsigned long long classNameOffset = targetClassInfo.name - vm;
-        
-        
-        class64 metaClass = {0};
-        NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
-        data = [WBBladesTool read_bytes:metaClassRange length:sizeof(class64) fromFile:fileData];
-        [data getBytes:&metaClass length:sizeof(class64)];
-        
-        class64Info metaClassInfo = {0};
-        unsigned long long metaClassInfoOffset = metaClass.data - vm;
-        metaClassInfoOffset = (metaClassInfoOffset / 8) * 8;
-        NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
-        data = [WBBladesTool read_bytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-        [data getBytes:&metaClassInfo length:sizeof(class64Info)];
-        
-        unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
-        unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
-        
-        //类名最大50字节
-        uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-        [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
-        NSString * className = NSSTRING(buffer);
-        free(buffer);
-        
-        NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
-        //遍历每个class的method (实例方法)
-        if (methodListOffset > 0 && methodListOffset < max) {
+    //获取所有类classlist
+    NSRange range = NSMakeRange(classList.offset, 0);
+    for (int i = 0; i < classList.size / 8 ; i++) {
+        @autoreleasepool {
             
-            unsigned int methodCount;
-            NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
-            data = [WBBladesTool read_bytes:methodRange length:4 fromFile:fileData];
-            [data getBytes:&methodCount length:4];
-            for (int j = 0; j<methodCount; j++) {
+            unsigned long long classAddress;
+            NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
+            [data getBytes:&classAddress range:NSMakeRange(0, 8)];
+            unsigned long long classOffset = classAddress - vm;
+            
+            class64 targetClass = {0};
+            NSRange targetClassRange = NSMakeRange(classOffset, 0);
+            data = [WBBladesTool readBytes:targetClassRange length:sizeof(class64) fromFile:fileData];
+            [data getBytes:&targetClass length:sizeof(class64)];
+            
+            class64Info targetClassInfo = {0};
+            unsigned long long targetClassInfoOffset = targetClass.data - vm;
+            targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
+            NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+            data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+            [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+            unsigned long long classNameOffset = targetClassInfo.name - vm;
+            
+            
+            class64 metaClass = {0};
+            NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
+            data = [WBBladesTool readBytes:metaClassRange length:sizeof(class64) fromFile:fileData];
+            [data getBytes:&metaClass length:sizeof(class64)];
+            
+            class64Info metaClassInfo = {0};
+            unsigned long long metaClassInfoOffset = metaClass.data - vm;
+            metaClassInfoOffset = (metaClassInfoOffset / 8) * 8;
+            NSRange metaClassInfoRange = NSMakeRange(metaClassInfoOffset, 0);
+            data = [WBBladesTool readBytes:metaClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+            [data getBytes:&metaClassInfo length:sizeof(class64Info)];
+            
+            unsigned long long methodListOffset = targetClassInfo.baseMethods - vm;
+            unsigned long long classMethodListOffset = metaClassInfo.baseMethods - vm;
+            
+            //类名最大50字节
+            uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
+            [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+            NSString * className = NSSTRING(buffer);
+            free(buffer);
+            
+            NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
+            //遍历每个class的method (实例方法)
+            if (methodListOffset > 0 && methodListOffset < max) {
                 
-                //获取方法名
-                methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
-                data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
-                
-                unsigned long long methodNameOffset;
-                [data getBytes:&methodNameOffset length:8];
-                methodNameOffset = methodNameOffset - vm;
-                
-                //方法名最大150字节
-                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                
-                if (methodNameOffset < max) {
+                unsigned int methodCount;
+                NSRange methodRange = NSMakeRange(methodListOffset+4, 0);
+                data = [WBBladesTool readBytes:methodRange length:4 fromFile:fileData];
+                [data getBytes:&methodCount length:4];
+                for (int j = 0; j<methodCount; j++) {
                     
-                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                    NSString * methodName = NSSTRING(buffer);
+                    //获取方法名
+                    methodRange = NSMakeRange(methodListOffset+8 + 24 * j, 0);
+                    data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
                     
-                    methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
-                    data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+                    unsigned long long methodNameOffset;
+                    [data getBytes:&methodNameOffset length:8];
+                    methodNameOffset = methodNameOffset - vm;
                     
-                    unsigned long long tmp;
-                    [data getBytes:&tmp length:8];
-                    NSLog(@"遍历 -[%@ %@]",className,methodName);
+                    //方法名最大150字节
+                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
                     
-                    [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        unsigned long long crash = [(NSString *)obj longLongValue];
-                        if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData]) {
-                            //NSLog(@"start scan");
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
-                            
-                            NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
-                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
-                            [resultsDic setValue:crashMethod forKey:crashAddress];
-                            
-                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
-                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
-                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
-                                [crashSymbolRst setObject:dic forKey:key];
+                    if (methodNameOffset < max) {
+                        
+                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                        NSString * methodName = NSSTRING(buffer);
+                        
+                        methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
+                        data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
+                        
+                        unsigned long long tmp;
+                        [data getBytes:&tmp length:8];
+                        NSLog(@"遍历 -[%@ %@]",className,methodName);
+                        
+                        [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            unsigned long long crash = [(NSString *)obj longLongValue];
+                            if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData]) {
+                                //NSLog(@"start scan");
+                                NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
+                                
+                                NSString *crashMethod = [NSString stringWithFormat:@"-[%@] %@ \n",className,methodName];
+                                NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                                [resultsDic setValue:crashMethod forKey:crashAddress];
+                                
+                                NSString *key = [NSString stringWithFormat:@"%lld",crash];
+                                if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
+                                    NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"-[%@ %@]",className,methodName]}.mutableCopy;
+                                    [crashSymbolRst setObject:dic forKey:key];
+                                }
                             }
-                        }
-                    }];
+                        }];
+                    }
+                    free(buffer);
                 }
-                free(buffer);
             }
-        }
-        if (classMethodListOffset > 0 && classMethodListOffset < max) {
-            
-            unsigned int methodCount;
-            NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
-            data = [WBBladesTool read_bytes:methodRange length:4 fromFile:fileData];
-            [data getBytes:&methodCount length:4];
-            for (int j = 0; j<methodCount; j++) {
+            if (classMethodListOffset > 0 && classMethodListOffset < max) {
                 
-                //获取方法名
-                methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
-                data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
-                
-                unsigned long long methodNameOffset;
-                [data getBytes:&methodNameOffset length:8];
-                methodNameOffset = methodNameOffset - vm;
-                
-                //方法名最大150字节
-                uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
-                if (methodNameOffset > 0 && methodNameOffset < max) {
+                unsigned int methodCount;
+                NSRange methodRange = NSMakeRange(classMethodListOffset+4, 0);
+                data = [WBBladesTool readBytes:methodRange length:4 fromFile:fileData];
+                [data getBytes:&methodCount length:4];
+                for (int j = 0; j<methodCount; j++) {
                     
-                    [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
-                    NSString * methodName = NSSTRING(buffer);
+                    //获取方法名
+                    methodRange = NSMakeRange(classMethodListOffset+8 + 24 * j, 0);
+                    data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
                     
-                    methodRange = NSMakeRange(classMethodListOffset+8 +16 + 24 * j, 0);
-                    data = [WBBladesTool read_bytes:methodRange length:8 fromFile:fileData];
+                    unsigned long long methodNameOffset;
+                    [data getBytes:&methodNameOffset length:8];
+                    methodNameOffset = methodNameOffset - vm;
                     
-                    unsigned long long tmp;
-                    [data getBytes:&tmp length:8];
-                    
-                    NSLog(@"遍历 -[%@ %@]",className,methodName);
-                    [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                        unsigned long long crash = [(NSString *)obj longLongValue];
-                        if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData] ) {
-                            NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
-                            
-                            NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
-                            NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
-                            [resultsDic setValue:crashMethod forKey:crashAddress];
-                            
-                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
-                            if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
-                                NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
-                                [crashSymbolRst setObject:dic forKey:key];
+                    //方法名最大150字节
+                    uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                    if (methodNameOffset > 0 && methodNameOffset < max) {
+                        
+                        [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                        NSString * methodName = NSSTRING(buffer);
+                        
+                        methodRange = NSMakeRange(classMethodListOffset+8 +16 + 24 * j, 0);
+                        data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
+                        
+                        unsigned long long tmp;
+                        [data getBytes:&tmp length:8];
+                        
+                        NSLog(@"遍历 -[%@ %@]",className,methodName);
+                        [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                            unsigned long long crash = [(NSString *)obj longLongValue];
+                            if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData] ) {
+                                NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
+                                
+                                NSString *crashMethod = [NSString stringWithFormat:@"+[%@] %@ \n",className,methodName];
+                                NSString *crashAddress = [NSString stringWithFormat:@"%@",obj];
+                                [resultsDic setValue:crashMethod forKey:crashAddress];
+                                
+                                NSString *key = [NSString stringWithFormat:@"%lld",crash];
+                                if (!crashSymbolRst[key] || [crashSymbolRst[key][@"begin"] longLongValue] < tmp) {
+                                    NSMutableDictionary *dic = @{@"begin":@(tmp),@"symbol":[NSString stringWithFormat:@"+[%@ %@]",className,methodName]}.mutableCopy;
+                                    [crashSymbolRst setObject:dic forKey:key];
+                                }
                             }
-                        }
-                    }];
-                    
+                        }];
+                        
+                    }
+                    free(buffer);
                 }
-                free(buffer);
             }
         }
     }
-}
-NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options:NSJSONWritingPrettyPrinted error:nil];
-NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
-[resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
-NSLog(@"%@",crashSymbolRst);
+    NSData *resultsData = [NSJSONSerialization dataWithJSONObject:resultsDic options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
+    [resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+    NSLog(@"%@",crashSymbolRst);
 }
 
 
