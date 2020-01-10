@@ -131,7 +131,12 @@ static void scanCrashSymbol(int argc, const char * argv[]){
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     NSString *crashAddress = [NSString stringWithFormat:@"%s",argv[3]];
 
-    [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
+    NSDictionary *result = [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
+    //获取结果文件输出路径
+    NSString * outPutPath = resultFilePath();
+    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesCrash.plist"];
+               
+    [result writeToFile:outPutPath atomically:YES];
 }
 
 void handleStaticLibrary(NSString *filePath){

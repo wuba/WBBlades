@@ -35,6 +35,19 @@ struct class64Info
     unsigned long long  baseProperties;
 };
 
+struct method64_list_t
+{
+  unsigned int  entsize;
+  unsigned int  count;
+};
+
+struct method64_t
+{
+  unsigned long long  name;
+  unsigned long long  types;
+  unsigned long long  imp;
+};
+
 struct ivar64_list_t
 {
   unsigned int  entsize;
@@ -77,7 +90,13 @@ struct ivar64_t
 #define CONST_DATA_NCLSLIST_SECTION @"__objc_nlclslist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
+#define IMP_KEY @"imp"
+#define SYMBOL_KEY @"symbol"
 
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
-#define WITHDWARF_SECTION_TYPE   0x0f
+
+#define CLASSNAME_MAX_LEN 50
+#define METHODNAME_MAX_LEN 150
+
+#define VIRTUAL_MEMORY 0x100000000

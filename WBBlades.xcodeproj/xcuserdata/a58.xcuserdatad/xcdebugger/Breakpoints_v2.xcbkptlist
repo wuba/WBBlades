@@ -39,71 +39,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "2235B3AC-76DD-4C83-BB88-600BDEA56E71"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            condition = "[helper.className isEqualToString:@&quot;AFQueryStringPair&quot;]"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "315"
-            endingLineNumber = "315"
-            landmarkName = "+readClsRefList:aimClasses:set:fileData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B027C65A-8953-4E72-A1DE-E0194BF8AD30"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "496"
-            endingLineNumber = "496"
-            landmarkName = "+scanSymbolTabWithFileData:helper:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1D76EC19-27B9-412F-8ABD-7A2AB84D1380"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "317"
-            endingLineNumber = "317"
-            landmarkName = "+readClsRefList:aimClasses:set:fileData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "60BDD1BE-5382-42D2-8E9A-556896DEFC28"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "307"
-            endingLineNumber = "307"
-            landmarkName = "+readClsRefList:aimClasses:set:fileData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "72DDCA1B-8DBF-4CB5-AA63-8338BEDD5E8E"
             shouldBeEnabled = "No"
             ignoreCount = "0"
@@ -112,9 +47,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "521"
-            endingLineNumber = "521"
-            landmarkName = "+scanSELCallerWithAddress:heigh:low:begin:vb:"
-            landmarkType = "7">
+            endingLineNumber = "521">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -128,9 +61,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "513"
-            endingLineNumber = "513"
-            landmarkName = "+scanSELCallerWithAddress:heigh:low:begin:vb:"
-            landmarkType = "7">
+            endingLineNumber = "513">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

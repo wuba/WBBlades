@@ -72,10 +72,10 @@
     return str;
 }
 
-+ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size vmBase:(unsigned long long)vmAddress{
++ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size {
     
     //获取汇编
-    char * ot_sect = (char *)[fileData bytes] + begin - vmAddress;
+    char * ot_sect = (char *)[fileData bytes] + begin;
     uint64_t ot_addr = begin ;
     csh cs_handle = 0;
     cs_insn *cs_insn = NULL;

@@ -116,7 +116,7 @@ static section_64 textList = {0};
                         textList = sectionHeader;
                         
                         //对二进制文件的汇编代码进行反汇编
-                        s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size vmBase:0];
+                        s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size];
                     }
                     
                     currentSecLocation += sizeof(section_64);
@@ -191,8 +191,8 @@ static section_64 textList = {0};
                     unsigned long long superClassNameOffset = superClassInfo.name - vm;
                     
                     //类名最大50字节
-                    uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                    [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, 50)];
+                    uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                    [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, CLASSNAME_MAX_LEN)];
                     NSString * superClassName = NSSTRING(buffer);
                     free(buffer);
                     if (superClassName) {
@@ -201,8 +201,8 @@ static section_64 textList = {0};
                 }
                 
                 //类名最大50字节
-                uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                 NSString * className = NSSTRING(buffer);
                 free(buffer);
                 
@@ -225,9 +225,9 @@ static section_64 textList = {0};
                         [fileData getBytes:&var range:varRange];
                         unsigned long long methodNameOffset = var.type;
                         methodNameOffset = methodNameOffset - vm;
-                        uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
+                        uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
                         if (methodNameOffset > 0 && methodNameOffset < max) {
-                            [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
+                            [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,METHODNAME_MAX_LEN)];
                             NSString * typeName = NSSTRING(buffer);
                             if (typeName) {
                                 typeName = [typeName stringByReplacingOccurrencesOfString:@"@\"" withString:@""];
@@ -252,9 +252,7 @@ static section_64 textList = {0};
              NSData *data = [WBBladesTool readBytes:range length:sizeof(cfstring64) fromFile:fileData];
              [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
              unsigned long long stringOff = cfstring.stringAddress - vm;
-             //方法名最大150字节
              if (stringOff > 0 && stringOff < max) {
-                 //类名最大50字节
                  uint8_t * buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
                  [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
                  NSString * className = NSSTRING(buffer);
@@ -299,15 +297,14 @@ static section_64 textList = {0};
                    unsigned long long classNameOffset = targetClassInfo.name - vm;
                    
                    //类名最大50字节
-                   uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                   [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                   uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                   [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                    NSString * className = NSSTRING(buffer);
                    free(buffer);
                    
                    if (className) {
                        WBBladesHelper *helper = [WBBladesHelper new];
                        helper.className = className;
-                       helper.selName = @"";
                        helper.offset = range.location;
                        if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
                            
@@ -351,8 +348,8 @@ static section_64 textList = {0};
                  unsigned long long classNameOffset = targetClassInfo.name - vm;
                  
                  //类名最大50字节
-                 uint8_t * buffer = (uint8_t *)malloc(50 + 1); buffer[50] = '\0';
-                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, 50)];
+                 uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                  NSString * className = NSSTRING(buffer);
                  free(buffer);
                  if (className) {
@@ -420,9 +417,7 @@ static section_64 textList = {0};
 }
 
 + (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper{
-    
-    unsigned long long vb = 0x100000000;
-    
+        
     //获取二进制文件符号表
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     unsigned long long symbolOffset = symCmd.symbolOff;
@@ -436,10 +431,10 @@ static section_64 textList = {0};
     char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     
     //目标地址高位
-    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress&0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     
     //目标地址低位
-    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress&0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
         
     //遍历符号表
     for (int i=0; i<symCmd.symbolNum - 1; i++) {
@@ -472,7 +467,7 @@ static section_64 textList = {0};
             unsigned long long begin = nlist.n_value;
             
             //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
-            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vb:vb];
+            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:VIRTUAL_MEMORY];
             if (use) {
                 return YES;
             }
@@ -481,13 +476,13 @@ static section_64 textList = {0};
     return NO;
 }
 
-+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vb:(unsigned long long )vb{
++ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm{
     char * asmStr;
     BOOL high = NO;
     
     //自前向后遍历函数指令
     do {
-        unsigned long long index = (begin - textList.offset - vb)/4;
+        unsigned long long index = (begin - textList.offset - vm)/4;
         char *dataStr = s_cs_insn[index].op_str;
         asmStr = s_cs_insn[index].mnemonic;
         if (strcmp(".byte",asmStr) == 0) {

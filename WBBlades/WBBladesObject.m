@@ -35,7 +35,6 @@
 - (NSString *)description{
     
     NSString *string = [NSString stringWithFormat:@"%@  | ",self.className];
-    string = [string stringByAppendingString:[NSString stringWithFormat:@"%@   | ",self.selName]];
     string = [string stringByAppendingString:[NSString stringWithFormat:@"0x%lX",(unsigned long)self.offset]];
     
     return string;

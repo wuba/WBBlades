@@ -42,8 +42,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property(nonatomic,copy)NSString *className;
 
-@property(nonatomic,copy)NSString *selName;
-
 @property(nonatomic,assign)unsigned long long offset;
 
 @end

@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *) replaceEscapeCharsInString: (NSString *)orig;
 
-+ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size vmBase:(unsigned long long)vmAddress;
++ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size;
 
 @end
 
