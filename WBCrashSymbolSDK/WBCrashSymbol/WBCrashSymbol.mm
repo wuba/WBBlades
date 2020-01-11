@@ -19,28 +19,35 @@
 
 @implementation WBCrashSymbol
 
+//用于保存SDK外，其他代码对异常拦截的函数指针
 static NSUncaughtExceptionHandler *otherUncaughtExceptionHandler;
 
+//进行exception 拦截
 static void bladesCrashSymbolExceptionHandler (NSException *exception) {
+    
+    //如果有其他代码对异常进行拦截则先让他人进行异常处理
     if (otherUncaughtExceptionHandler && otherUncaughtExceptionHandler != &bladesCrashSymbolExceptionHandler) {
         otherUncaughtExceptionHandler(exception);
     }
     
-    //写入文件
+    //获取调用栈和reason，并保存到磁盘
     NSArray *callStackSymbols = exception.callStackSymbols;
     NSMutableArray * callStackWithReason = [NSMutableArray arrayWithArray:callStackSymbols];
     [callStackWithReason insertObject:exception.reason atIndex:0];
     [callStackWithReason writeToFile:[WBCrashSymbol crashCallStackPath] atomically:YES];
 }
 
+//同理，用于保存SDK外，其他代码对signal拦截的函数指针
 static void (*otherSignalHandler)(int a, struct __siginfo * b,void * c);
 
+//进行signal 拦截
 static void bladesCrashSymbolSignalHandler (int sig, struct __siginfo *info,void * c) {
+    //如果有其他代码对signal进行拦截则先让他人进行异常处理
     if (otherSignalHandler && otherSignalHandler != &bladesCrashSymbolSignalHandler) {
         otherSignalHandler(sig,info,c);
     }
     
-    //写入文件
+    //将当前线程堆栈写入文件
     NSArray *callStackSymbols = [NSThread callStackSymbols];
     [callStackSymbols writeToFile:[WBCrashSymbol crashCallStackPath] atomically:YES];
 }
@@ -50,24 +57,27 @@ static void bladesCrashSymbolSignalHandler (int sig, struct __siginfo *info,void
     otherUncaughtExceptionHandler = NSGetUncaughtExceptionHandler();
     NSSetUncaughtExceptionHandler(bladesCrashSymbolExceptionHandler);
     
-    //设置signal拦截
+    //设置signal拦截，此处只拦截了SIGSEGV
     struct sigaction newact,oldact;
     newact.sa_flags = SA_SIGINFO;
     newact.__sigaction_u.__sa_sigaction = bladesCrashSymbolSignalHandler;
     sigaction(SIGSEGV, &newact, &oldact);
     otherSignalHandler = oldact.__sigaction_u.__sa_sigaction;
-    
 }
 
+//用于保存可执行文件的路径
 static NSString *fileDataPath;
 
 extern "C" {
+    
+    //保存可执行文件的路径
     void WBCrashSymbolStoreMachOPath(int argc, char * argv[]){
         fileDataPath = [NSString stringWithFormat:@"%s",argv[0]];
     }
 }
 
 
+//展示log
 + (void)showLog{
     //读取日志
     NSArray *callStackSymbols = [NSArray arrayWithContentsOfFile:[self crashCallStackPath]];
@@ -101,9 +111,13 @@ extern "C" {
         return;
     }
     
+    //读取二进制文件
     NSData *fileData = [self readMachOFile:fileDataPath];
     
+    //获取二进制文件名
     NSString *fileName = [fileDataPath lastPathComponent]?:@"58tongcheng";
+    
+    //遍历堆栈，提取相关崩溃地址
     for (NSInteger i = 0; i < callStackSymbols.count ; i++) {
         NSString *callStack = callStackSymbols[i];
         if ([callStack containsString:fileName]) {
@@ -118,10 +132,12 @@ extern "C" {
         }
     }
     
+    //扫描二进制文件，根据崩溃偏移地址获取符号
     NSDictionary *result = [self scanAllClassMethodList:fileData crashOffsets:crashAddress];
     
     callStackView.text = [NSString stringWithFormat:@"%@\n \n解析后 \n \n",callStackView.text];
     
+    //符号化展示
     for (NSInteger i = 0; i < callStackSymbols.count; i++) {
         NSString *callStack = callStackSymbols[i];
         if ([callStack containsString:fileName]) {
@@ -155,14 +171,20 @@ extern "C" {
     }
 }
 
+//扫描二进制
 + (NSDictionary *)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
     
     unsigned long long max = [fileData length];
+    
+    //获取header信息
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
+    //classlist
     section_64 classList = {0};
     unsigned long long currentLcLocation = sizeof(mach_header_64);
+    
+    //遍历load commands
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
@@ -186,6 +208,8 @@ extern "C" {
                     
                     if ([secName isEqualToString:DATA_CLASSLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_CLASSLIST_SECTION]) {
+                        
+                        //记录classlist
                         classList = sectionHeader;
                     }
                     
@@ -199,19 +223,23 @@ extern "C" {
     unsigned long long vm = classList.addr - classList.offset;
     
     NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-//获取所有类classlist
+    //获取所有类classlist
     NSRange range = NSMakeRange(classList.offset, 0);
     for (int i = 0; i < classList.size / 8 ; i++) {
+        
+        //类地址
         unsigned long long classAddress;
         NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
         [data getBytes:&classAddress range:NSMakeRange(0, 8)];
         unsigned long long classOffset = classAddress - vm;
         
+        //类结构体
         class64 targetClass = {0};
         NSRange targetClassRange = NSMakeRange(classOffset, 0);
         data = [WBBladesTool readBytes:targetClassRange length:sizeof(class64) fromFile:fileData];
         [data getBytes:&targetClass length:sizeof(class64)];
         
+        //详细结构体
         class64Info targetClassInfo = {0};
         unsigned long long targetClassInfoOffset = targetClass.data - vm;
         targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
@@ -220,12 +248,13 @@ extern "C" {
         [data getBytes:&targetClassInfo length:sizeof(class64Info)];
         unsigned long long classNameOffset = targetClassInfo.name - vm;
         
-        
+        //元类
         class64 metaClass = {0};
         NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
         data = [WBBladesTool readBytes:metaClassRange length:sizeof(class64) fromFile:fileData];
         [data getBytes:&metaClass length:sizeof(class64)];
         
+        //元类详细结构体
         class64Info metaClassInfo = {0};
         unsigned long long metaClassInfoOffset = metaClass.data - vm;
         metaClassInfoOffset = (metaClassInfoOffset / 8) * 8;
@@ -243,6 +272,7 @@ extern "C" {
         free(buffer);
         
         NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
+        
         //遍历每个class的method (实例方法)
         if (methodListOffset > 0 && methodListOffset < max) {
             
@@ -263,11 +293,13 @@ extern "C" {
                 //方法名最大150字节
                 uint8_t * buffer = (uint8_t *)malloc(150 + 1); buffer[150] = '\0';
                 
-                if (methodNameOffset < max) {
+                if (methodNameOffset > 0 && methodNameOffset < max) {
                     
+                    //获取方法名
                     [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,150)];
                     NSString * methodName = NSSTRING(buffer);
                     
+                    //获取IMP
                     methodRange = NSMakeRange(methodListOffset+8 +16 + 24 * j, 0);
                     data = [WBBladesTool readBytes:methodRange length:8 fromFile:fileData];
                     
@@ -277,6 +309,8 @@ extern "C" {
                     
                     [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
+                        
+                        //查找该函数指令区间范围内是否有崩溃地址
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData]) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n -[%@ %@]",tmp,crash,className,methodName);
                             NSString *key = [NSString stringWithFormat:@"%lld",crash];
@@ -319,9 +353,11 @@ extern "C" {
                     unsigned long long tmp;
                     [data getBytes:&tmp length:8];
                     
-                    NSLog(@"遍历 -[%@ %@]",className,methodName);
+                    NSLog(@"遍历 +[%@ %@]",className,methodName);
                     [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                         unsigned long long crash = [(NSString *)obj longLongValue];
+                        
+                        //查找该函数指令区间范围内是否有崩溃地址
                         if ([self scanFuncBinaryCode:crash begin:tmp vb:vm fileData:fileData] ) {
                             NSLog(@"起始地址:0x%llx    崩溃地址:0x%llx \n +[%@ %@]",tmp,crash,className,methodName);
                             
@@ -332,7 +368,6 @@ extern "C" {
                             }
                         }
                     }];
-                    
                 }
                 free(buffer);
             }
@@ -349,11 +384,13 @@ static void * BladesMemdup( void *mem, unsigned long long len){
 }
 
 + (NSData *)readMachOFile:(NSString *)path{
-    
+
+    //获取磁盘中的Mach-O
     NSData *fileData = [NSData dataWithContentsOfFile:path];
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
+    //文件是否加密
     unsigned int cryptID = 0;
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     NSRange segmentTextRange = {0};
@@ -365,14 +402,17 @@ static void * BladesMemdup( void *mem, unsigned long long len){
         
         if (cmd->cmd == LC_ENCRYPTION_INFO) {
             
+            //查找加密位
             encryption_info_command segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(encryption_info_command))];
             cryptID = segmentCommand.cryptid;
+            
         }else if (cmd->cmd == LC_SEGMENT_64) {
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
+            //记录TEXT和RODATA 只读段位置
             if ([segName isEqualToString:SEGMENT_TEXT]) {
                 segmentTextRange = NSMakeRange(segmentCommand.fileoff, segmentCommand.filesize);
             }else if ([segName isEqualToString:SEGMENT_RODATA]){
@@ -384,11 +424,12 @@ static void * BladesMemdup( void *mem, unsigned long long len){
         free(cmd);
     }
     
+    //如果是未加密的包，则直接返回二进制
     if (cryptID == 0) {
         return fileData;
     }
     
-    //AppStore包需要砸壳
+    //正式包或者TestFlight包需要砸壳
     uintptr_t textP = ((uintptr_t)&_mh_execute_header) + segmentTextRange.location;
     void *text = BladesMemdup((void *)textP,segmentTextRange.length);
     
@@ -400,31 +441,33 @@ static void * BladesMemdup( void *mem, unsigned long long len){
     [tmp replaceBytesInRange:segmentRoDataRange withBytes:roData];
     fileData = [tmp copy];
     
-    
-    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
-    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
-    [fileData writeToFile:documentPath atomically:YES];
 //
+//    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
+//    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
+//    [fileData writeToFile:documentPath atomically:YES];
+////
     return fileData;
 }
 
 
+//扫描汇编
 + (BOOL)scanFuncBinaryCode:(unsigned long long)target  begin:(unsigned long long)begin  vb:(unsigned long long )vb fileData:(NSData*)fileData{
     
     if (begin > target + vb) {
         return NO;
     }
     
+    //arm64 汇编代码4字节
     unsigned int asmCode = 0;
     do {
-        
+        //获取汇编代码
         [fileData getBytes:&asmCode range:NSMakeRange(begin - vb, 4)];
         if (begin == target + vb) {
             return YES;
         }
         begin += 4;
-    } while ((asmCode != RET) && (asmCode != B));
+    } while (asmCode != RET);
     return NO;
 }
 

@@ -128,7 +128,7 @@
                     //方法名最大150字节
                     uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
                     
-                    if (methodNameOffset < max) {
+                    if (methodNameOffset > 0 && methodNameOffset < max) {
                         
                         [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,METHODNAME_MAX_LEN)];
                         NSString * methodName = NSSTRING(buffer);
