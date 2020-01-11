@@ -173,7 +173,7 @@ extern "C" {
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
-            //遍历查找classlist、classref、nlcls、cfstring section
+            //遍历查找classlist
             if ([segName isEqualToString:SEGMENT_DATA] ||
                 [segName isEqualToString:SEGMENT_DATA_CONST]) {
                 //遍历所有的section header
@@ -401,10 +401,10 @@ static void * BladesMemdup( void *mem, unsigned long long len){
     fileData = [tmp copy];
     
     
-//    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
-//    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
-//    [fileData writeToFile:documentPath atomically:YES];
+    NSString * documentPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    documentPath = [documentPath stringByAppendingPathComponent:@"bin"];
+    documentPath = [documentPath stringByAppendingPathExtension:@"copy"];
+    [fileData writeToFile:documentPath atomically:YES];
 //
     return fileData;
 }

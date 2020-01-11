@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3739EB7523C86A7900BA3F83 /* libWBCrashSymbol.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */; };
 		37AAEE3B23C5D1CE00B31988 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */; };
 		37AAEE3E23C5D1CE00B31988 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE3D23C5D1CE00B31988 /* SceneDelegate.m */; };
 		37AAEE4123C5D1CE00B31988 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 37AAEE4023C5D1CE00B31988 /* ViewController.m */; };
@@ -19,8 +18,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWBCrashSymbol.a; sourceTree = "<group>"; };
-		3739EB7D23C86BD800BA3F83 /* WBCrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WBCrashSymbol.h; path = ../../WBCrashSymbol/WBCrashSymbol.h; sourceTree = "<group>"; };
 		37AAEE3623C5D1CE00B31988 /* WBCrashSymbolDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBCrashSymbolDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		37AAEE3923C5D1CE00B31988 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -41,7 +38,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3739EB7523C86A7900BA3F83 /* libWBCrashSymbol.a in Frameworks */,
 				37AAEE5923C5D35400B31988 /* libstdc++.6.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -69,8 +65,6 @@
 		37AAEE3823C5D1CE00B31988 /* WBCrashSymbolDemo */ = {
 			isa = PBXGroup;
 			children = (
-				3739EB7323C86A7900BA3F83 /* libWBCrashSymbol.a */,
-				3739EB7D23C86BD800BA3F83 /* WBCrashSymbol.h */,
 				37AAEE3923C5D1CE00B31988 /* AppDelegate.h */,
 				37AAEE3A23C5D1CE00B31988 /* AppDelegate.m */,
 				37AAEE3C23C5D1CE00B31988 /* SceneDelegate.h */,
@@ -311,12 +305,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing ChengShiXunTong Information Technology Co.,Ltd. (2YATDD5N9V)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = EJA352Y795;
+				DEVELOPMENT_TEAM = 2YATDD5N9V;
 				INFOPLIST_FILE = WBCrashSymbolDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -326,11 +320,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/WBCrashSymbolDemo",
 				);
-				MARKETING_VERSION = 1;
+				MARKETING_VERSION = 1.1.0;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBCrashSymbolDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = testflight007.test.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = commonProfile_Main;
+				PROVISIONING_PROFILE_SPECIFIER = appstore_testflight007;
 				STRIPFLAGS = "";
 				STRIP_STYLE = all;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,12 +336,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Beijing ChengShiXunTong Information Technology Co.,Ltd. (2YATDD5N9V)";
 				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = YES;
-				CURRENT_PROJECT_VERSION = 2;
+				CURRENT_PROJECT_VERSION = 3;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = EJA352Y795;
+				DEVELOPMENT_TEAM = 2YATDD5N9V;
 				INFOPLIST_FILE = WBCrashSymbolDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -357,11 +351,11 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/WBCrashSymbolDemo",
 				);
-				MARKETING_VERSION = 1;
+				MARKETING_VERSION = 1.1.0;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBCrashSymbolDemo;
+				PRODUCT_BUNDLE_IDENTIFIER = testflight007.test.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = commonProfile_Main;
+				PROVISIONING_PROFILE_SPECIFIER = appstore_testflight007;
 				STRIPFLAGS = "";
 				STRIP_STYLE = all;
 				TARGETED_DEVICE_FAMILY = "1,2";
