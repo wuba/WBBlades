@@ -25,7 +25,7 @@
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
 
-+ (NSSet*)scanStaticLibraryForClassList:(NSData *)fileData{
++ (NSSet*)dumpClassList:(NSData *)fileData{
     
     if (!fileData || ![self isSupport:fileData]) {
         return nil;
@@ -87,18 +87,22 @@ static section_64 textList = {0};
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
+                    //记录classlist
                     if ([secName isEqualToString:DATA_CLASSLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_CLASSLIST_SECTION]) {
                         classList = sectionHeader;
                     }
+                    //记录classref
                     if ([secName isEqualToString:DATA_CLASSREF_SECTION] ||
                         [secName isEqualToString:CONST_DATA_CLASSREF_SECTION]) {
                         classrefList = sectionHeader;
                     }
+                    //记录nclasslist
                     if ([secName isEqualToString:DATA_NCLSLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
                         nlclsList = sectionHeader;
                     }
+                    //记录Cstring
                     if ([secName isEqualToString:DATA_CSTRING]) {
                         cfstringList = sectionHeader;
                     }
@@ -116,7 +120,7 @@ static section_64 textList = {0};
                         textList = sectionHeader;
                         
                         //对二进制文件的汇编代码进行反汇编
-                        s_cs_insn = [WBBladesTool scanAllASMWithfileData:fileData begin:sectionHeader.offset size:sectionHeader.size];
+                        s_cs_insn = [WBBladesTool disassemWithMachOFile:fileData from:sectionHeader.offset length:sectionHeader.size];
                     }
                     
                     currentSecLocation += sizeof(section_64);
@@ -126,6 +130,7 @@ static section_64 textList = {0};
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
+    
     NSMutableSet *classrefSet = [NSMutableSet set];
     
     //获取nlclslist
@@ -309,7 +314,7 @@ static section_64 textList = {0};
                        if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
                            
                            //查看是否在别的类中有调用
-                           if ([self scanSymbolTabWithFileData:fileData helper:helper]) {
+                           if ([self scanSymbolTabWithFileData:fileData helper:helper vm:vm]) {
                                [classrefSet addObject:className];
                            }
                        }else{
@@ -416,7 +421,7 @@ static section_64 textList = {0};
     return nil;
 }
 
-+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper{
++ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm{
         
     //获取二进制文件符号表
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
@@ -467,7 +472,7 @@ static section_64 textList = {0};
             unsigned long long begin = nlist.n_value;
             
             //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
-            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:VIRTUAL_MEMORY];
+            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
             if (use) {
                 return YES;
             }
@@ -498,7 +503,7 @@ static section_64 textList = {0};
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0 && strcmp("b",asmStr) != 0 );//直到遇到ret指令
+    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
     return NO;
     
 }

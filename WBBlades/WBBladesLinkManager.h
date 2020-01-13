@@ -16,8 +16,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (WBBladesLinkManager *)shareInstance;
 
+//整合所有的目标文件
 - (unsigned long long )linkWithObjects:(NSArray<WBBladesObject *>*)objects;
 
+//清除目标文件
 - (void)clearLinker;
 
 @end

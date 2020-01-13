@@ -99,4 +99,3 @@ struct ivar64_t
 #define CLASSNAME_MAX_LEN 50
 #define METHODNAME_MAX_LEN 150
 
-#define VIRTUAL_MEMORY 0x100000000

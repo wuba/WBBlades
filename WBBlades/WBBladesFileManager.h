@@ -12,8 +12,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesFileManager : NSObject
 
+//获取文件
 +(NSData *)readFromFile:(NSString *)filePath;
 
+//获取二进制文件，如果是app则直接读取其中的二进制，并对其做架构拆分
 +(NSData *)readArm64FromFile:(NSString *)filePath;
 
 @end

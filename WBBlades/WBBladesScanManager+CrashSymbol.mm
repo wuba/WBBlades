@@ -17,7 +17,7 @@
 
 @implementation WBBladesScanManager (CrashSymbol)
 
-+ (NSDictionary *)scanAllClassMethodList:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
++ (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
     
     unsigned long long max = [fileData length];
     mach_header_64 mhHeader;
@@ -35,7 +35,7 @@
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
-            //遍历查找classlist、classref、nlcls、cfstring section
+            //遍历查找classlist
             if ([segName isEqualToString:SEGMENT_DATA] ||
                 [segName isEqualToString:SEGMENT_DATA_CONST]) {
                 //遍历所有的section header
@@ -215,7 +215,7 @@
             return YES;
         }
         begin += 4;
-    } while ((asmCode != RET) && (asmCode != B));
+    } while (asmCode != RET);
     return NO;
 }
 

@@ -131,7 +131,7 @@ static void scanCrashSymbol(int argc, const char * argv[]){
     NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
     NSString *crashAddress = [NSString stringWithFormat:@"%s",argv[3]];
 
-    NSDictionary *result = [WBBladesScanManager scanAllClassMethodList:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
+    NSDictionary *result = [WBBladesScanManager symbolizeWithMachOFile:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
     //获取结果文件输出路径
     NSString * outPutPath = resultFilePath();
     outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesCrash.plist"];
@@ -181,7 +181,7 @@ void handleStaticLibraryForClassList(NSString *filePath){
         NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
         NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
         
-        NSSet *classSet = [WBBladesScanManager scanStaticLibraryForClassList:fileData];
+        NSSet *classSet = [WBBladesScanManager dumpClassList:fileData];
         s_classSet = [[s_classSet setByAddingObjectsFromSet:classSet] mutableCopy];
         //删除临时文件
         removeCopyFile(filePath);
@@ -306,6 +306,7 @@ static void enumAllFiles(NSString *path){
     }
 }
 
+//资源类型，如有特殊，请补充
 static BOOL isResource(NSString *type){
     
     if ([type isEqualToString:@"nib"] ||

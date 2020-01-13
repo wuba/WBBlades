@@ -13,15 +13,20 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesTool : NSObject
 
+//读取连续字符串
 + (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData;
 
+//读取单个字符串
 + (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData;
 
+//读取字节
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData;
 
+//字符替换
 + (NSString *) replaceEscapeCharsInString: (NSString *)orig;
 
-+ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size;
+//反汇编
++ (cs_insn * )disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size;
 
 @end
 

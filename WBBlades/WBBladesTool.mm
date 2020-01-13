@@ -72,7 +72,7 @@
     return str;
 }
 
-+ (cs_insn * )scanAllASMWithfileData:(NSData *)fileData  begin:(unsigned long long)begin size:(unsigned long long )size {
++ (cs_insn * )disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size {
     
     //获取汇编
     char * ot_sect = (char *)[fileData bytes] + begin;

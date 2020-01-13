@@ -65,6 +65,10 @@ void thinFile(NSString *filePath){
 
 }
 
+
+/**
+ actool(apple命令行工具)    --filter-for-device-model iPhone7,2（指定设备） --filter-for-device-os-version 13.0（指定系统）  --target-device iphone --minimum-deployment-target 9（指定最小版本） --platform iphoneos（指定操作系统类型）  --compile /Users/a58/Desktop/BottomDlib/BottomDlib/  /Users/a58/Desktop/BottomDlib/BottomDlib/YXUIBase.xcassets （指定编译文件所在路径，如有多个，加空格拼接即可）
+ */
 void compileXcassets(NSString *path){
     NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@",[path stringByDeletingLastPathComponent],path];
     cmd(complieCmd);
