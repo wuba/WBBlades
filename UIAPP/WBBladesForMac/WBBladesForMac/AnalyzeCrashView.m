@@ -266,6 +266,7 @@
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         _startButton.enabled = YES;
         _crashStackView.editable = YES;
+        _importBtn.enabled = YES;
         return;
     }
 }
@@ -304,6 +305,7 @@
 - (void)outputResults:(NSDictionary*)resultDic {
     _startButton.enabled = YES;
     _crashStackView.editable = YES;
+    _importBtn.enabled = YES;
     NSMutableArray *outputArr = [[NSMutableArray alloc] init];
     for (NSString *infoStr in _crashStacks) {
         if (![_usefulCrashStacks containsObject:infoStr]) {
