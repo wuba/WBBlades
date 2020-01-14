@@ -12,6 +12,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AnalyzeCrashView : NSView
 
+/**
+ *  结束
+ */
+-(void)closeWindow:(NSWindow *)window;
+
 @end
 
 NS_ASSUME_NONNULL_END

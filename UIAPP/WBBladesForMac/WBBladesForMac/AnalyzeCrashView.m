@@ -13,10 +13,13 @@
 @property (nonatomic,weak) NSTextView *exeFileView;
 @property (nonatomic,weak) NSTextView *crashStackView;
 @property (nonatomic,weak) NSTextView *resultView;
-@property (nonatomic,copy) NSMutableArray *crashStacks;
-@property (nonatomic,copy) NSMutableArray *usefulCrashStacks;
 @property (nonatomic,weak) NSButton *startButton;
 @property (nonatomic,weak) NSButton *importBtn;
+
+@property (nonatomic,strong) NSMutableArray *crashStacks;
+@property (nonatomic,strong) NSMutableArray *usefulCrashStacks;
+@property (nonatomic,strong) NSTask *bladeTask;
+
 
 @end
 
@@ -281,6 +284,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
         NSTask *bladesTask = [[NSTask alloc] init];
+        weakSelf.bladeTask = bladesTask;
         [bladesTask setLaunchPath:path];
         [bladesTask setArguments:[NSArray arrayWithObjects:@"3", [NSString stringWithString:inputFile], [NSString stringWithString:offsets], nil]];
         NSPipe *pipe;
@@ -295,11 +299,10 @@
         [bladesTask waitUntilExit];
         dispatch_async(dispatch_get_main_queue(), ^{
             [bladesTask terminate];
+            weakSelf.bladeTask = nil;
             [weakSelf outputResults:resultsDic];
         });
     });
-    
- 
 }
 
 - (void)outputResults:(NSDictionary*)resultDic {
@@ -330,6 +333,26 @@
     _resultView.string = [outputer copy];
     [_crashStacks removeAllObjects];
     [_usefulCrashStacks removeAllObjects];
+}
+
+- (void)closeWindow:(NSWindow *)window{
+    if (!self.bladeTask) {
+        [window orderOut:nil];
+        return;
+    }
+    NSAlert *alert = [[NSAlert alloc]init];
+    [alert addButtonWithTitle:@"退出"];
+    [alert addButtonWithTitle:@"取消"];
+    [alert setMessageText:@"崩溃日志正在解析中，是否确定退出？"];
+    [alert setAlertStyle:NSAlertFirstButtonReturn];
+    __weak __typeof(self)weakSelf = self;
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == NSAlertFirstButtonReturn) {
+            [weakSelf.bladeTask terminate];
+            weakSelf.bladeTask = nil;
+            [window orderOut:nil];
+        }
+    }];
 }
 
 #pragma mark Tools

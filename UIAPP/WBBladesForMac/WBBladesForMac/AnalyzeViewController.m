@@ -44,10 +44,9 @@
 }
 
 - (void)closeCurWindow{
-    if ([self.controlView respondsToSelector:@selector(stopAnalyze)]) {
-        [self.controlView performSelector:@selector(stopAnalyze)];
+    if ([self.controlView respondsToSelector:@selector(closeWindow:)]) {
+        [self.controlView performSelector:@selector(closeWindow:) withObject:self.view.window];
     }
-    [self.view.window orderOut:nil];
 }
 
 @end

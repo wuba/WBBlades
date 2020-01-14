@@ -19,9 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 -(instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type;
 
 /**
- *  暂停分析
+ *  结束
  */
--(void)stopAnalyze;
+-(void)closeWindow:(NSWindow *)window;
 
 @end
 

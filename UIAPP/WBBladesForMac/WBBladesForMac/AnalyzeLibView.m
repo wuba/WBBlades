@@ -309,6 +309,12 @@
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
+//结束
+- (void)closeWindow:(NSWindow *)window{
+    [self stopBtnClicked:nil];
+    [window orderOut:nil];
+}
+
 #pragma mark 静态库体积检测
 //静态库体积分析
 - (void)analyzeLibSize{
@@ -422,11 +428,6 @@
         weakSelf.consoleView.string = @"";
         weakSelf.needStop = YES;
     }];
-}
-
-//暂停解析
-- (void)stopAnalyze{
-    [self stopBtnClicked:nil];
 }
 
 @end
