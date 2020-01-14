@@ -33,10 +33,11 @@
     _crashStacks = [[NSMutableArray alloc] init];
     _usefulCrashStacks = [[NSMutableArray alloc] init];
     
-    NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
+    NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 80, 36.0)];
     [self addSubview:exeLabel];
     exeLabel.font = [NSFont systemFontOfSize:14.0];
     exeLabel.stringValue = @"可执行文件路径";
+    exeLabel.alignment = NSTextAlignmentCenter;
     exeLabel.textColor = [NSColor blackColor];
     exeLabel.editable = NO;
     exeLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -54,9 +55,9 @@
     textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     _exeFileView = textView;
     
-    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 125.0, 40.0)];
+    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 105.0, 40.0)];
     [self addSubview:ipaPreviewBtn];
-    ipaPreviewBtn.title = @"选择可执行文件";
+    ipaPreviewBtn.title = @"选择文件";
     ipaPreviewBtn.font = [NSFont systemFontOfSize:14.0];
     ipaPreviewBtn.target = self;
     ipaPreviewBtn.action = @selector(ipaPreviewBtnClicked:);
@@ -72,7 +73,7 @@
     crashOriLabel.bordered = NO;
     crashOriLabel.backgroundColor = [NSColor clearColor];
     
-    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 125.0, 40.0)];
+    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 40.0)];
     [self addSubview:startBtn];
     startBtn.title = @"开始解析";
     startBtn.font = [NSFont systemFontOfSize:14.0];
@@ -121,6 +122,7 @@
     scrollView2.documentView = resultTextView;
     resultTextView.font = [NSFont systemFontOfSize:14.0];
     resultTextView.textColor = [NSColor blackColor];
+    resultTextView.editable = NO;
     _resultView = resultTextView;
 }
 
@@ -157,6 +159,7 @@
     
     _resultView.string = @"";
     _startButton.enabled = NO;
+    _crashStackView.editable = NO;
     NSURL *fileUrl = [NSURL fileURLWithPath:_exeFileView.string];
     NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
     if (!fileData) {
@@ -164,6 +167,8 @@
         [alert addButtonWithTitle:@"好的"];
         [alert setMessageText:@"请选择或拖入一个可执行文件"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        _startButton.enabled = YES;
+        _crashStackView.editable = YES;
         return;
     }
     
@@ -202,6 +207,7 @@
         [alert setMessageText:@"请粘贴崩溃堆栈"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         _startButton.enabled = YES;
+        _crashStackView.editable = YES;
         return;
     }
 }
@@ -238,6 +244,7 @@
 
 - (void)outputResults:(NSDictionary*)resultDic {
     _startButton.enabled = YES;
+    _crashStackView.editable = YES;
     NSMutableArray *outputArr = [[NSMutableArray alloc] init];
     for (NSString *infoStr in _crashStacks) {
         if (![_usefulCrashStacks containsObject:infoStr]) {
