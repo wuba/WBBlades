@@ -129,7 +129,7 @@
     [openPanel setPrompt:@"选择可执行文件"];
     openPanel.allowsMultipleSelection = NO;
     openPanel.canChooseFiles = YES;
-    openPanel.canChooseDirectories = NO;
+    openPanel.canChooseDirectories = YES;
     openPanel.directoryURL = nil;
     [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", nil]];
     __weak __typeof(self) weakself = self;
@@ -247,7 +247,7 @@
             NSArray *infos = [infoStr componentsSeparatedByString:@"0x"];
             NSString *offset = infoComps.lastObject;
             if (offset) {
-                NSString* methodName = [resultDic valueForKey:offset];
+                NSString* methodName = [resultDic valueForKey:offset][@"symbol"];
                 if (methodName) {
                     NSString *resultStr = [NSString stringWithFormat:@"%@ %@",infos.firstObject,methodName];
                     NSString *result = [resultStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];

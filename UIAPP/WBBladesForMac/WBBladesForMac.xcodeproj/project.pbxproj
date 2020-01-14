@@ -12,7 +12,7 @@
 		373DEFDF23AB60FD00B0D4CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFDE23AB60FD00B0D4CE /* Assets.xcassets */; };
 		373DEFE223AB60FD00B0D4CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFE023AB60FD00B0D4CE /* Main.storyboard */; };
 		373DEFE523AB60FD00B0D4CE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 373DEFE423AB60FD00B0D4CE /* main.m */; };
-		373DEFED23AB617500B0D4CE /* WBBlades in Resources */ = {isa = PBXBuildFile; fileRef = 373DEFEC23AB617500B0D4CE /* WBBlades */; };
+		37F8779A23CD5C2300ECFB37 /* WBBlades in Resources */ = {isa = PBXBuildFile; fileRef = 37F8779923CD5C2200ECFB37 /* WBBlades */; };
 		A7D057A923AC9D73005287E1 /* AnalyzeWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */; };
 		A7D057AA23AC9D73005287E1 /* AnalyzeWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7D057A823AC9D73005287E1 /* AnalyzeWindowController.xib */; };
 		A7D057B823ACD2AE005287E1 /* AnalyzeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A7D057B623ACD2AE005287E1 /* AnalyzeViewController.m */; };
@@ -45,7 +45,7 @@
 		373DEFE323AB60FD00B0D4CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		373DEFE423AB60FD00B0D4CE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		373DEFE623AB60FD00B0D4CE /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
-		373DEFEC23AB617500B0D4CE /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
+		37F8779923CD5C2200ECFB37 /* WBBlades */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = WBBlades; sourceTree = "<group>"; };
 		A75205DC23B5DD23005D2F71 /* AnalyzeHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeHeader.h; sourceTree = "<group>"; };
 		A7D057A623AC9D73005287E1 /* AnalyzeWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AnalyzeWindowController.h; sourceTree = "<group>"; };
 		A7D057A723AC9D73005287E1 /* AnalyzeWindowController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AnalyzeWindowController.m; sourceTree = "<group>"; };
@@ -90,7 +90,7 @@
 		373DEFD723AB60FA00B0D4CE /* WBBladesForMac */ = {
 			isa = PBXGroup;
 			children = (
-				373DEFEC23AB617500B0D4CE /* WBBlades */,
+				37F8779923CD5C2200ECFB37 /* WBBlades */,
 				373DEFD823AB60FA00B0D4CE /* AppDelegate.h */,
 				373DEFD923AB60FA00B0D4CE /* AppDelegate.m */,
 				373DEFDB23AB60FA00B0D4CE /* MainViewController.h */,
@@ -180,7 +180,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				373DEFED23AB617500B0D4CE /* WBBlades in Resources */,
+				37F8779A23CD5C2300ECFB37 /* WBBlades in Resources */,
 				373DEFDF23AB60FD00B0D4CE /* Assets.xcassets in Resources */,
 				A7D057AA23AC9D73005287E1 /* AnalyzeWindowController.xib in Resources */,
 				A7D057B923ACD2AE005287E1 /* AnalyzeViewController.xib in Resources */,
