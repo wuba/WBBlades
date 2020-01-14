@@ -36,7 +36,7 @@
     NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 80, 36.0)];
     [self addSubview:exeLabel];
     exeLabel.font = [NSFont systemFontOfSize:14.0];
-    exeLabel.stringValue = @"可执行文件路径";
+    exeLabel.stringValue = @"可执行文件";
     exeLabel.alignment = NSTextAlignmentCenter;
     exeLabel.textColor = [NSColor blackColor];
     exeLabel.editable = NO;
@@ -44,18 +44,25 @@
     exeLabel.bordered = NO;
     exeLabel.backgroundColor = [NSColor clearColor];
     
-    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 434.0, 559.0, 36.0)];
-    [self addSubview:textView];
+    NSScrollView *exeScroll = [[NSScrollView alloc] initWithFrame:NSMakeRect(109.0, 440.0, 559.0, 30.0)];
+    [self addSubview:exeScroll];
+    [exeScroll setBorderType:NSLineBorder];
+    exeScroll.wantsLayer = YES;
+    exeScroll.layer.backgroundColor = [NSColor whiteColor].CGColor;
+    exeScroll.layer.borderWidth = 1.0;
+    exeScroll.layer.cornerRadius = 2.0;
+    exeScroll.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    
+    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(0.0, 0.0, 10000.0, 30.0)];
+    exeScroll.documentView = textView;
+    textView.horizontallyResizable = YES;
+    [textView.textContainer setWidthTracksTextView:NO];
     textView.font = [NSFont systemFontOfSize:14.0];
     textView.textColor = [NSColor blackColor];
     textView.wantsLayer = YES;
-    textView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    textView.layer.borderWidth = 1.0;
-    textView.layer.cornerRadius = 2.0;
-    textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     _exeFileView = textView;
     
-    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 105.0, 40.0)];
+    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 436.0, 105.0, 36.0)];
     [self addSubview:ipaPreviewBtn];
     ipaPreviewBtn.title = @"选择文件";
     ipaPreviewBtn.font = [NSFont systemFontOfSize:14.0];
@@ -63,6 +70,17 @@
     ipaPreviewBtn.action = @selector(ipaPreviewBtnClicked:);
     ipaPreviewBtn.bordered = YES;
     ipaPreviewBtn.bezelStyle = NSBezelStyleRegularSquare;
+    
+    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 409.0, 643.0, 20.0)];
+    [self addSubview:excTipLabel];
+    excTipLabel.alignment = NSTextAlignmentCenter;
+    excTipLabel.font = [NSFont systemFontOfSize:13.0];
+    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件路径，如：\"/Users/a58/Desktop/xxx.app\"或\"/Users/a58/Desktop/xxx\"";
+    excTipLabel.textColor = [NSColor grayColor];
+    excTipLabel.editable = NO;
+    excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
+    excTipLabel.bordered = NO;
+    excTipLabel.backgroundColor = [NSColor clearColor];
     
     NSTextField *crashOriLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 364.0, 434.0, 38.0)];
     [self addSubview:crashOriLabel];
@@ -73,7 +91,7 @@
     crashOriLabel.bordered = NO;
     crashOriLabel.backgroundColor = [NSColor clearColor];
     
-    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 40.0)];
+    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 36.0)];
     [self addSubview:startBtn];
     startBtn.title = @"开始解析";
     startBtn.font = [NSFont systemFontOfSize:14.0];
