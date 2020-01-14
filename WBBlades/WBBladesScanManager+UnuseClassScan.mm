@@ -463,7 +463,7 @@ static section_64 textList = {0};
             if (className) {
                 className = className+1;
             }else{
-                continue;
+                className = buffer;
             }
             if (strcmp(className,[helper.className UTF8String]) == 0) {
                 continue;
