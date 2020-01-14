@@ -7,48 +7,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "72DDCA1B-8DBF-4CB5-AA63-8338BEDD5E8E"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "510"
-            endingLineNumber = "510"
-            landmarkName = "WBBladesScanManager(UnuseClassScan)"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CB566C13-7702-4133-B7BE-CA9E39E20B45"
+            uuid = "F0BF349E-5E2D-4175-8F54-B9E6F8867C39"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "250"
-            endingLineNumber = "250"
-            landmarkName = "+readCStringList:set:fileData:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "7F52BE06-CFC6-4B18-9956-D3381D7ED149"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "+scanAllClassWithFileData:classes:"
+            startingLineNumber = "490"
+            endingLineNumber = "490"
+            landmarkName = "+scanSELCallerWithAddress:heigh:low:begin:vm:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

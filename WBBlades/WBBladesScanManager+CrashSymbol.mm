@@ -176,7 +176,7 @@
                                             
                         unsigned long long imp = method.imp;
                         
-                        NSLog(@"遍历 -[%@ %@]",className,methodName);
+                        NSLog(@"遍历 +[%@ %@]",className,methodName);
                         [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                             unsigned long long crash = [(NSString *)obj longLongValue];
                             if ([self scanFuncBinaryCode:crash begin:imp vm:vm fileData:fileData] ) {
