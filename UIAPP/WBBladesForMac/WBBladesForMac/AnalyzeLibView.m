@@ -250,7 +250,7 @@
     openPanel.canChooseFiles = YES;
     openPanel.canChooseDirectories = NO;
     openPanel.directoryURL = nil;
-    openPanel.allowedFileTypes = @[@"app"];
+    openPanel.allowedFileTypes = @[@"app",@"ipa"];
     
     __weak __typeof(self)weakSelf = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
