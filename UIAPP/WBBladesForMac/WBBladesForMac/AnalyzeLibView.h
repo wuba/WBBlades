@@ -11,20 +11,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class AnalyzeLibView;
-@protocol AnalyzeLibViewProtocol <NSObject>
-
-@required
--(void)analyzeLibView:(AnalyzeLibView *)view;
-
-@end
-
 @interface AnalyzeLibView : NSView
 
-@property (nonatomic, weak) id <AnalyzeLibViewProtocol>delegate;
-
+/**
+ *  根据Type来初始化View
+ */
 -(instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type;
 
+/**
+ *  暂停分析
+ */
 -(void)stopAnalyze;
 
 @end

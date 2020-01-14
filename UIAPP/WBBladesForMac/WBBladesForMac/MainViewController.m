@@ -28,46 +28,29 @@
 //    [self startTask];
 }
 
+//静态库大小分析
 - (IBAction)staticLibSizeClicked:(id)sender {
     NSLog(@"static");
     [self createANewWindow:AnalyzeStaticLibrarySizeType];
 }
 
+//无用类分析
 - (IBAction)unusedClassClicked:(id)sender {
     NSLog(@"unused");
    [self createANewWindow:AnalyzeAppUnusedClassType];
 }
 
+//无符号崩溃日志分析
 - (IBAction)crashAnalyzeClicked:(id)sender {
     NSLog(@"crash");
     [self createANewWindow:AnalyzeAppCrashLogType];
 }
 
+//为了同时可以进行多个任务，每个功能都新建一个Window
 - (void)createANewWindow:(AnalyzeType)type{
     AnalyzeWindowController *wc = [[AnalyzeWindowController alloc]initWithWindowNibName:@"AnalyzeWindowController"];
     wc.type = type;
     [wc.window center];
     [wc.window orderFront:nil];
 }
-
-- (void)startTask{
-    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
-    self.bladesTask = [[NSTask alloc] init];
-    [self.bladesTask setLaunchPath:path];
-
-    [self.bladesTask setArguments:[NSArray arrayWithObjects:@"1", @"/Users/a58/wb_frameworks/WBAPP3rdLib/wb3rdcomponent", nil]];
-    [self.bladesTask launch];
-    
-    //同步执行
-    [self.bladesTask waitUntilExit];
-    NSLog(@"ok");
-    
-//    [self.bladesTask resume]; 恢复
-//    [self.bladesTask terminate]; 终止
-//    [self.bladesTask suspend]；挂起
-}
-
-
-
 @end

@@ -12,20 +12,18 @@
 
 @property (nonatomic, assign) AnalyzeType type;
 
-@property (nonatomic,weak) NSTextView *excView;
-@property (nonatomic,weak) NSTextView *objFilesView;
-@property (nonatomic,weak) NSTextView *outputView;
-@property (nonatomic,weak) NSScrollView *scrollView;
-@property (nonatomic,weak) NSTextView *consoleView;
+@property (nonatomic,weak) NSTextView *excView;//可执行文件输入TextView
+@property (nonatomic,weak) NSTextView *objFilesView;//静态库路径输入TextView
+@property (nonatomic,weak) NSScrollView *scrollView;//输出进度ScrollView
+@property (nonatomic,weak) NSTextView *consoleView;//输出进度TextView
 
-@property (nonatomic,weak) NSButton *startBtn;
-@property (nonatomic,weak) NSButton *stopBtn;
-@property (nonatomic,weak) NSButton *inFinderBtn;
+@property (nonatomic,weak) NSButton *startBtn;//开始分析按钮
+@property (nonatomic,weak) NSButton *stopBtn;//暂停分析按钮
+@property (nonatomic,weak) NSButton *inFinderBtn;//打开结果文件夹按钮
 
-@property (nonatomic,strong)NSMutableArray *taskArray;
-//@property (nonatomic,strong)NSArray *pathArray;
-@property (nonatomic,assign)BOOL needStop;
-@property (nonatomic,strong)dispatch_semaphore_t  sema;
+@property (nonatomic,strong)NSMutableArray *taskArray;//任务列表
+@property (nonatomic,assign)BOOL needStop;//是否被用户中断
+@property (nonatomic,strong)dispatch_semaphore_t  sema;//信号
 
 @end
 
@@ -80,7 +78,7 @@
         NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0, 559.0, 20.0)];
         [self addSubview:excTipLabel];
         excTipLabel.font = [NSFont systemFontOfSize:12.0];
-        excTipLabel.stringValue = @"选择一个App可执行文件，如：\"/Users/a58/Desktop/xxx.app\"";
+        excTipLabel.stringValue = @"(必填)用于检测App中无用类，选择一个App可执行文件路径或ipa路径，如：\"/Users/a58/Desktop/xxx.app\"";
         excTipLabel.textColor = [NSColor grayColor];
         excTipLabel.editable = NO;
         excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -92,16 +90,16 @@
         excBtn.title = @"选择";
         excBtn.font = [NSFont systemFontOfSize:14.0];
         excBtn.target = self;
-        excBtn.action = @selector(excBtnClicked:);
+        excBtn.action = @selector(excuteFilePathBtnClicked:);
         excBtn.bordered = YES;
         excBtn.bezelStyle = NSBezelStyleRegularSquare;
         typeHeight = 53.0;
     }
     
-    NSTextField *pathLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0 - typeHeight, 66, 36.0)];
+    NSTextField *pathLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0 - typeHeight, 80, 36.0)];
     [self addSubview:pathLabel];
     pathLabel.font = [NSFont systemFontOfSize:14.0];
-    pathLabel.stringValue = @"目标路径";
+    pathLabel.stringValue = @"静态库路径";
     pathLabel.textColor = [NSColor blackColor];
     pathLabel.editable = NO;
     pathLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -126,7 +124,11 @@
     NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight, 559.0, 20.0)];
     [self addSubview:pathTipLabel];
     pathTipLabel.font = [NSFont systemFontOfSize:12.0];
-    pathTipLabel.stringValue = @"选择或输入一个或多个目标文件夹，在输入时两个路径间以空格隔开";
+    if(self.type == AnalyzeAppUnusedClassType){//无用类检测的特殊UI
+        pathTipLabel.stringValue = @"(非必填)只获取该静态库的无用类，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+    }else{
+        pathTipLabel.stringValue = @"(必填)获取静态库大小，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+    }
     pathTipLabel.textColor = [NSColor grayColor];
     pathTipLabel.editable = NO;
     pathTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
@@ -138,56 +140,11 @@
     pathBtn.title = @"选择文件夹";
     pathBtn.font = [NSFont systemFontOfSize:14.0];
     pathBtn.target = self;
-    pathBtn.action = @selector(pathBtnClicked:);
+    pathBtn.action = @selector(staticLibPathBtnClicked:);
     pathBtn.bordered = YES;
     pathBtn.bezelStyle = NSBezelStyleRegularSquare;
     
-    NSTextField *outputLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 374.0 - typeHeight, 66, 36.0)];
-    [self addSubview:outputLabel];
-    outputLabel.font = [NSFont systemFontOfSize:14.0];
-    outputLabel.stringValue = @"输出路径";
-    outputLabel.textColor = [NSColor grayColor];
-    outputLabel.editable = NO;
-    outputLabel.bordered = NO;
-    outputLabel.backgroundColor = [NSColor clearColor];
-    
-    NSTextView *outputView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 385.0 - typeHeight, 559.0, 30.0)];
-    [self addSubview:outputView];
-    outputView.font = [NSFont systemFontOfSize:14.0];
-    outputView.textColor = [NSColor grayColor];
-    outputView.wantsLayer = YES;
-    outputView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    outputView.layer.borderWidth = 1.0;
-    outputView.layer.cornerRadius = 2.0;
-    outputView.layer.borderColor = [NSColor lightGrayColor].CGColor;
-    outputView.editable = NO;
-    outputView.horizontallyResizable = NO;
-    outputView.verticallyResizable = NO;
-    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    outputView.string = deskTop;
-    _outputView = outputView;
-    
-    NSTextField *outputTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 360.0 - typeHeight, 559.0, 20.0)];
-    [self addSubview:outputTipLabel];
-    outputTipLabel.font = [NSFont systemFontOfSize:12.0];
-    outputTipLabel.stringValue = @"选择一个结果输出文件夹，结果将保存为plist格式";
-    outputTipLabel.textColor = [NSColor grayColor];
-    outputTipLabel.editable = NO;
-    outputTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
-    outputTipLabel.bordered = NO;
-    outputTipLabel.backgroundColor = [NSColor clearColor];
-    
-    NSButton *outputBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 382.0 - typeHeight, 105.0, 36.0)];
-    [self addSubview:outputBtn];
-    outputBtn.title = @"选择文件夹";
-    outputBtn.font = [NSFont systemFontOfSize:14.0];
-    outputBtn.target = self;
-    outputBtn.action = @selector(outputBtnClicked:);
-    outputBtn.bordered = YES;
-    outputBtn.enabled = NO;
-    outputBtn.bezelStyle = NSBezelStyleRegularSquare;
-    
-    NSTextField *progressLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 320.0 - typeHeight, 66, 36.0)];
+    NSTextField *progressLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 374.0 - typeHeight, 66, 36.0)];
     [self addSubview:progressLabel];
     progressLabel.font = [NSFont systemFontOfSize:14.0];
     progressLabel.stringValue = @"进度：";
@@ -196,7 +153,7 @@
     progressLabel.bordered = NO;
     progressLabel.backgroundColor = [NSColor clearColor];
     
-    NSScrollView *scrollView = [[NSScrollView alloc]initWithFrame:NSMakeRect(30.0, 20.0, 638.0, 300.0 - typeHeight)];
+    NSScrollView *scrollView = [[NSScrollView alloc]initWithFrame:NSMakeRect(30.0, 30.0, 638.0, 344.0 - typeHeight)];
     [self addSubview:scrollView];
     [scrollView setHasVerticalScroller:YES];
     [scrollView setBorderType:NSLineBorder];
@@ -207,14 +164,14 @@
     scrollView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     _scrollView = scrollView;
     
-    NSTextView *consoleView = [[NSTextView alloc]initWithFrame:NSMakeRect(0.0, 0.0, 638.0, 300.0 - typeHeight)];
+    NSTextView *consoleView = [[NSTextView alloc]initWithFrame:NSMakeRect(0.0, 0.0, scrollView.frame.size.width, scrollView.frame.size.height)];
     scrollView.documentView = consoleView;
     consoleView.font = [NSFont systemFontOfSize:14.0];
     consoleView.textColor = [NSColor blackColor];
     consoleView.editable = NO;
     _consoleView = consoleView;
     
-    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 285.0 - typeHeight, 105.0, 36.0)];
+    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 339.0 - typeHeight, 105.0, 36.0)];
     [self addSubview:startBtn];
     startBtn.title = @"开始分析";
     startBtn.font = [NSFont systemFontOfSize:14.0];
@@ -224,7 +181,7 @@
     startBtn.bezelStyle = NSBezelStyleRegularSquare;
     _startBtn = startBtn;
 
-    NSButton *stopBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 222.0 - typeHeight, 105.0, 36.0)];
+    NSButton *stopBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 276.0 - typeHeight, 105.0, 36.0)];
     [self addSubview:stopBtn];
     stopBtn.title = @"暂停分析";
     stopBtn.font = [NSFont systemFontOfSize:14.0];
@@ -235,7 +192,7 @@
     stopBtn.enabled = NO;
     _stopBtn = stopBtn;
     
-    NSButton *inFinderBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 159.0 - typeHeight, 105.0, 36.0)];
+    NSButton *inFinderBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 213.0 - typeHeight, 105.0, 36.0)];
     [self addSubview:inFinderBtn];
     inFinderBtn.title = @"打开文件夹";
     inFinderBtn.font = [NSFont systemFontOfSize:14.0];
@@ -247,8 +204,18 @@
     _inFinderBtn = inFinderBtn;
 }
 
-//目标路径点击事件
-- (void)pathBtnClicked:(id)sender{
+#pragma mark getter
+//信号
+-(dispatch_semaphore_t)sema{
+    if (!_sema) {
+        _sema = dispatch_semaphore_create(1);
+    }
+    return _sema;
+}
+
+#pragma mark 按钮响应事件
+//静态库路径选择点击事件
+- (void)staticLibPathBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"打开"];
     openPanel.allowedFileTypes = nil;
@@ -258,7 +225,6 @@
     
     __weak __typeof(self)weakSelf = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        
         if (returnCode == 1 && [openPanel URLs]) {
             NSMutableString *fileFolders = [NSMutableString stringWithString:@""];
             NSArray *array = [openPanel URLs];
@@ -276,21 +242,22 @@
     }];
 }
 
-//输出路径点击事件
-- (void)outputBtnClicked:(id)sender{
+//无用类检测，选择app可执行文件
+- (void)excuteFilePathBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setPrompt: @"选择文件夹"];
+    [openPanel setPrompt: @"选择app执行文件"];
     openPanel.allowsMultipleSelection = NO;
-    openPanel.canChooseFiles = NO;
-    openPanel.canChooseDirectories = YES;
+    openPanel.canChooseFiles = YES;
+    openPanel.canChooseDirectories = NO;
     openPanel.directoryURL = nil;
+    openPanel.allowedFileTypes = @[@"app",@"ipa"];
     
     __weak __typeof(self)weakSelf = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == 1 && [openPanel URLs]) {
             NSURL *url = [[openPanel URLs] firstObject];
             NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
-            weakSelf.outputView.string = outputPath;
+            weakSelf.excView.string = outputPath;
         }
     }];
 }
@@ -307,7 +274,6 @@
     }else if (self.type == AnalyzeAppUnusedClassType){//无用类检测
         [self analyzeUnusedClass];
     }
-    
 }
 
 //暂停解析点击事件
@@ -328,11 +294,6 @@
     self.consoleView.string = string;
 }
 
-//暂停解析
-- (void)stopAnalyze{
-    [self stopBtnClicked:nil];
-}
-
 //打开文件夹点击事件
 - (void)inFinderBtnClicked:(id)sender{
     NSString *fileName = @"";
@@ -341,25 +302,10 @@
     }else if (self.type == AnalyzeAppUnusedClassType){
         fileName = @"/WBBladesClass.plist";
     }
-    //暂时直接打开桌面
+    //暂时直接打开桌面，并选中结果文件
     NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
-}
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    
-    // Drawing code here.
-}
-
-#pragma mark getter
-//信号
--(dispatch_semaphore_t)sema{
-    if (!_sema) {
-        _sema = dispatch_semaphore_create(1);
-    }
-    return _sema;
 }
 
 #pragma mark 静态库体积检测
@@ -374,7 +320,6 @@
     if(array && array.count == 1){
         array = [self.objFilesView.string componentsSeparatedByString:@" "];
     }
-    //    _pathArray = array;
         
     if (_sema) {//若不是第一次开始，先发送一个信号
         dispatch_semaphore_signal(_sema);
@@ -396,6 +341,7 @@
                     NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
                     NSTask *bladesTask = [[NSTask alloc] init];
                     [bladesTask setLaunchPath:path];
+                    //执行命令参数：type(1) 静态库所在文件夹路径(array[idx])
                     [bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
                     [bladesTask launch];
                     [weakSelf.taskArray addObject:bladesTask];
@@ -430,15 +376,16 @@
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
         return;
-    }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string] || ![self.excView.string hasSuffix:@".app"]){
-        [self stopAnalyzeAlertMessage:@"无法找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
+    }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]){
+        [self stopAnalyzeAlertMessage:@"未找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
         return;
     }
     NSString *string = [self.objFilesView.string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
     NSMutableArray *array = [NSMutableArray arrayWithArray:[string componentsSeparatedByString:@" "]];
     if (!array || array.count == 0) {
-        return;
+        array = [NSMutableArray array];
     }
+    //执行命令参数：type(2) 可执行文件路径(self.excView.string) 静态库路径(/Users/a58/xxx)
     [array insertObjects:@[@"2",self.excView.string] atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, 2)]];
     self.consoleView.string = @"开始解析，请耐心等待";
     __weak __typeof(self)weakSelf = self;
@@ -461,26 +408,6 @@
     });
 }
 
-//无用类检测，选择app可执行文件
-- (void)excBtnClicked:(id)sender{
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setPrompt: @"选择app执行文件"];
-    openPanel.allowsMultipleSelection = NO;
-    openPanel.canChooseFiles = YES;
-    openPanel.canChooseDirectories = NO;
-    openPanel.directoryURL = nil;
-    openPanel.allowedFileTypes = @[@"app"];
-    
-    __weak __typeof(self)weakSelf = self;
-    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
-        if (returnCode == 1 && [openPanel URLs]) {
-            NSURL *url = [[openPanel URLs] firstObject];
-            NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
-            weakSelf.excView.string = outputPath;
-        }
-    }];
-}
-
 #pragma mark Tools
 //无法启动解析的弹框
 - (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName{
@@ -494,6 +421,11 @@
         weakSelf.consoleView.string = @"";
         weakSelf.needStop = YES;
     }];
+}
+
+//暂停解析
+- (void)stopAnalyze{
+    [self stopBtnClicked:nil];
 }
 
 @end
