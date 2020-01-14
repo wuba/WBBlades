@@ -33,35 +33,55 @@
     _crashStacks = [[NSMutableArray alloc] init];
     _usefulCrashStacks = [[NSMutableArray alloc] init];
     
-    NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 70, 36.0)];
+    NSTextField *exeLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 80, 36.0)];
     [self addSubview:exeLabel];
     exeLabel.font = [NSFont systemFontOfSize:14.0];
-    exeLabel.stringValue = @"可执行文件路径";
+    exeLabel.stringValue = @"可执行文件";
+    exeLabel.alignment = NSTextAlignmentCenter;
     exeLabel.textColor = [NSColor blackColor];
     exeLabel.editable = NO;
     exeLabel.bezelStyle = NSBezelStyleTexturedSquare;
     exeLabel.bordered = NO;
     exeLabel.backgroundColor = [NSColor clearColor];
     
-    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(109.0, 434.0, 559.0, 36.0)];
-    [self addSubview:textView];
+    NSScrollView *exeScroll = [[NSScrollView alloc] initWithFrame:NSMakeRect(109.0, 440.0, 559.0, 30.0)];
+    [self addSubview:exeScroll];
+    [exeScroll setBorderType:NSLineBorder];
+    exeScroll.wantsLayer = YES;
+    exeScroll.layer.backgroundColor = [NSColor whiteColor].CGColor;
+    exeScroll.layer.borderWidth = 1.0;
+    exeScroll.layer.cornerRadius = 2.0;
+    exeScroll.layer.borderColor = [NSColor lightGrayColor].CGColor;
+    
+    NSTextView *textView = [[NSTextView alloc]initWithFrame:NSMakeRect(0.0, 0.0, 10000.0, 30.0)];
+    exeScroll.documentView = textView;
+    textView.horizontallyResizable = YES;
+    [textView.textContainer setWidthTracksTextView:NO];
     textView.font = [NSFont systemFontOfSize:14.0];
     textView.textColor = [NSColor blackColor];
     textView.wantsLayer = YES;
-    textView.layer.backgroundColor = [NSColor whiteColor].CGColor;
-    textView.layer.borderWidth = 1.0;
-    textView.layer.cornerRadius = 2.0;
-    textView.layer.borderColor = [NSColor lightGrayColor].CGColor;
     _exeFileView = textView;
     
-    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 432.0, 125.0, 40.0)];
+    NSButton *ipaPreviewBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 436.0, 105.0, 36.0)];
     [self addSubview:ipaPreviewBtn];
-    ipaPreviewBtn.title = @"选择可执行文件";
+    ipaPreviewBtn.title = @"选择文件";
     ipaPreviewBtn.font = [NSFont systemFontOfSize:14.0];
     ipaPreviewBtn.target = self;
     ipaPreviewBtn.action = @selector(ipaPreviewBtnClicked:);
     ipaPreviewBtn.bordered = YES;
     ipaPreviewBtn.bezelStyle = NSBezelStyleRegularSquare;
+    
+    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 399.0, 703.0, 40.0)];
+    excTipLabel.maximumNumberOfLines = 0;
+    [self addSubview:excTipLabel];
+    excTipLabel.alignment = NSTextAlignmentLeft;
+    excTipLabel.font = [NSFont systemFontOfSize:13.0];
+    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件路径，如：\"/Users/a58/Desktop/xxx.app\"或\"/Users/a58/Desktop/xxx\"。文件路径中不要有空格。";
+    excTipLabel.textColor = [NSColor grayColor];
+    excTipLabel.editable = NO;
+    excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
+    excTipLabel.bordered = NO;
+    excTipLabel.backgroundColor = [NSColor clearColor];
     
     NSTextField *crashOriLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 364.0, 434.0, 38.0)];
     [self addSubview:crashOriLabel];
@@ -72,7 +92,7 @@
     crashOriLabel.bordered = NO;
     crashOriLabel.backgroundColor = [NSColor clearColor];
     
-    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 125.0, 40.0)];
+    NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 36.0)];
     [self addSubview:startBtn];
     startBtn.title = @"开始解析";
     startBtn.font = [NSFont systemFontOfSize:14.0];
@@ -121,6 +141,7 @@
     scrollView2.documentView = resultTextView;
     resultTextView.font = [NSFont systemFontOfSize:14.0];
     resultTextView.textColor = [NSColor blackColor];
+    resultTextView.editable = NO;
     _resultView = resultTextView;
 }
 
@@ -131,7 +152,7 @@
     openPanel.canChooseFiles = YES;
     openPanel.canChooseDirectories = YES;
     openPanel.directoryURL = nil;
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", nil]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", @"app", nil]];
     __weak __typeof(self) weakself = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         
@@ -157,13 +178,24 @@
     
     _resultView.string = @"";
     _startButton.enabled = NO;
+    _crashStackView.editable = NO;
     NSURL *fileUrl = [NSURL fileURLWithPath:_exeFileView.string];
+    NSArray *tmp = [_exeFileView.string componentsSeparatedByString:@"."];
+    NSString *fileType = @"";
+    NSString *fileName = @"";
+    if ([tmp count] == 2) {
+        fileType = [tmp lastObject];
+        NSString *filePath = [tmp firstObject];
+        fileName = [filePath componentsSeparatedByString:@"/"].lastObject;
+    }
     NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
-    if (!fileData) {
+    if (!fileData && ![fileType isEqualToString:@"app"]) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert addButtonWithTitle:@"好的"];
         [alert setMessageText:@"请选择或拖入一个可执行文件"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
+        _startButton.enabled = YES;
+        _crashStackView.editable = YES;
         return;
     }
     
@@ -180,7 +212,7 @@
         [compos removeObject:@""];
         if (compos.count > 2) {
             NSString *appName = compos[1];
-            if ([appName isEqualToString:execName]) {
+            if ([appName isEqualToString:execName] || [appName isEqualToString:fileName]) {
                 NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
                 NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
                 NSString *offset = comps.lastObject;
@@ -202,6 +234,7 @@
         [alert setMessageText:@"请粘贴崩溃堆栈"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         _startButton.enabled = YES;
+        _crashStackView.editable = YES;
         return;
     }
 }
@@ -238,6 +271,7 @@
 
 - (void)outputResults:(NSDictionary*)resultDic {
     _startButton.enabled = YES;
+    _crashStackView.editable = YES;
     NSMutableArray *outputArr = [[NSMutableArray alloc] init];
     for (NSString *infoStr in _crashStacks) {
         if (![_usefulCrashStacks containsObject:infoStr]) {

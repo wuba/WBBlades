@@ -32,7 +32,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "213"
             endingLineNumber = "213"
-            landmarkName = "-analyzeCrashFromOffsets:"
+            landmarkName = "-startBtnClicked:"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
