@@ -218,10 +218,11 @@
 - (void)staticLibPathBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"打开"];
-    openPanel.allowedFileTypes = nil;
     openPanel.allowsMultipleSelection = YES;
     openPanel.canChooseDirectories = YES;
+    openPanel.canChooseFiles = YES;
     openPanel.directoryURL = nil;
+    openPanel.allowedFileTypes = @[@"a",@"framework"];
     
     __weak __typeof(self)weakSelf = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {

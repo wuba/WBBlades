@@ -16,6 +16,7 @@
 @property (nonatomic,copy) NSMutableArray *crashStacks;
 @property (nonatomic,copy) NSMutableArray *usefulCrashStacks;
 @property (nonatomic,weak) NSButton *startButton;
+@property (nonatomic,weak) NSButton *importBtn;
 
 @end
 
@@ -71,26 +72,36 @@
     ipaPreviewBtn.bordered = YES;
     ipaPreviewBtn.bezelStyle = NSBezelStyleRegularSquare;
     
-    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 399.0, 703.0, 40.0)];
+    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 399.0, 559.0, 40.0)];
     excTipLabel.maximumNumberOfLines = 0;
     [self addSubview:excTipLabel];
     excTipLabel.alignment = NSTextAlignmentLeft;
     excTipLabel.font = [NSFont systemFontOfSize:13.0];
-    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件路径，如：\"/Users/a58/Desktop/xxx.app\"或\"/Users/a58/Desktop/xxx\"。文件路径中不要有空格。";
+    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件或ipa包文件路径，如：\"/Users/a58/Desktop/xxx.app\"";
     excTipLabel.textColor = [NSColor grayColor];
     excTipLabel.editable = NO;
     excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
     excTipLabel.bordered = NO;
     excTipLabel.backgroundColor = [NSColor clearColor];
     
-    NSTextField *crashOriLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 364.0, 434.0, 38.0)];
+    NSTextField *crashOriLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 364.0, 200.0, 38.0)];
     [self addSubview:crashOriLabel];
     crashOriLabel.font = [NSFont systemFontOfSize:14.0];
-    crashOriLabel.stringValue = @"需要解析的堆栈（只粘贴需要解析的堆栈）";
+    crashOriLabel.stringValue = @"粘贴需要解析的堆栈";
     crashOriLabel.textColor = [NSColor blackColor];
     crashOriLabel.editable = NO;
     crashOriLabel.bordered = NO;
     crashOriLabel.backgroundColor = [NSColor clearColor];
+    
+    NSButton *importBtn = [[NSButton alloc]initWithFrame:NSMakeRect(550.0, 376.0, 120.0, 36.0)];
+    [self addSubview:importBtn];
+    importBtn.title = @"导入崩溃日志";
+    importBtn.font = [NSFont systemFontOfSize:14.0];
+    importBtn.target = self;
+    importBtn.action = @selector(importBtnClicked:);
+    importBtn.bordered = YES;
+    importBtn.bezelStyle = NSBezelStyleRegularSquare;
+    _importBtn = importBtn;
     
     NSButton *startBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 376.0, 105.0, 36.0)];
     [self addSubview:startBtn];
@@ -145,14 +156,15 @@
     _resultView = resultTextView;
 }
 
+#pragma mark 响应事件
 - (void)ipaPreviewBtnClicked:(id)sender{
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt:@"选择可执行文件"];
     openPanel.allowsMultipleSelection = NO;
     openPanel.canChooseFiles = YES;
-    openPanel.canChooseDirectories = YES;
     openPanel.directoryURL = nil;
     [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", @"app", nil]];
+    
     __weak __typeof(self) weakself = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         
@@ -174,11 +186,29 @@
     }];
 }
 
+- (void)importBtnClicked:(id)sender{
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setPrompt:@"选择崩溃日志文件"];
+    openPanel.allowsMultipleSelection = NO;
+    openPanel.canChooseFiles = YES;
+    [openPanel setAllowedFileTypes:@[@"ips",@"crash",@"synced",@"beta",@"txt"]];
+    
+    __weak __typeof(self) weakself = self;
+    [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        if (returnCode == 1 && [openPanel URLs]) {
+            NSURL *url = [[openPanel URLs] firstObject];
+            NSString *logString = [weakself importCrashLogStach:url];
+            weakself.crashStackView.string = logString;
+        }
+    }];
+}
+
 - (void)startBtnClicked:(id)sender{
     
     _resultView.string = @"";
     _startButton.enabled = NO;
     _crashStackView.editable = NO;
+    _importBtn.enabled = NO;
     NSURL *fileUrl = [NSURL fileURLWithPath:_exeFileView.string];
     NSArray *tmp = [_exeFileView.string componentsSeparatedByString:@"."];
     NSString *fileType = @"";
@@ -196,6 +226,7 @@
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         _startButton.enabled = YES;
         _crashStackView.editable = YES;
+        _importBtn.enabled = YES;
         return;
     }
     
@@ -239,6 +270,7 @@
     }
 }
 
+#pragma mark Analyze
 -(void)analyzeCrashFromOffsets:(NSString*)offsets {
     _resultView.string = @"解析中，请稍候";
     
@@ -298,10 +330,90 @@
     [_usefulCrashStacks removeAllObjects];
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
+#pragma mark Tools
+- (NSString *)importCrashLogStach:(NSURL*)url{
+    NSString *dataString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
+    NSArray *lines = [dataString componentsSeparatedByString:@"\n"];
     
-    // Drawing code here.
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *binaryAddress = @"";
+    NSString *backtraceAddress = @"";
+    NSUInteger backtraceIndex = -1;
+    BOOL found = NO;
+    for (NSInteger i = 0; i<lines.count; i++) {
+        NSString *line = lines[i];
+        if ([line hasPrefix:@"Last Exception"]) {//找到第一个Thread
+            found = YES;
+        }else if(found && ([line hasPrefix:@"(0x"] && [lines[i-1]  hasPrefix:@"Last Exception"])){
+            backtraceAddress = line;
+            backtraceIndex = i;
+        }else if(found && ([line hasPrefix:@"Binary"] || [line hasPrefix:@"0x"])){
+            if (i+1 < lines.count) {//Binary Image：的下一行
+                binaryAddress = lines[i+1];
+            }
+            break;
+        }
+        [array addObject:line];
+    }
+    
+    //特殊处理Last Exception Backtrace中包含多个地址的情况
+    if (backtraceAddress && backtraceAddress.length > 0 && binaryAddress && binaryAddress.length >0) {
+        NSArray *addressLines = [self obtainLastExceptionCrashModels:backtraceAddress
+                                                       binaryAddress:binaryAddress];
+        if (addressLines && addressLines.count > 0) {
+            [array replaceObjectAtIndex:backtraceIndex withObject:@""];
+            [array insertObjects:addressLines atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(backtraceIndex, addressLines.count)]];
+        }
+    }
+    
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString *line in array) {
+        [resultString appendString:[NSString stringWithFormat:@"%@\n",line]];
+    }
+    return [resultString copy];
 }
+
+//从Last Exception Backtrace中获取与当前进程的地址，并转为Model
+- (NSArray<NSString*>*)obtainLastExceptionCrashModels:(NSString *)string
+                                           binaryAddress:(NSString*)between{
+    NSMutableArray *array = [NSMutableArray array];
+    
+    NSArray *processArray = [between componentsSeparatedByString:@" "];
+    if (processArray.count < 4) {
+        return nil;
+    }
+    NSString *processStart = [processArray firstObject];//当前进程的起始地址
+    NSInteger startNum = [self numberWithHexString:[processStart stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
+    NSString *processEnd = processArray[2];//当前进程的结束地址
+    NSString *processName = processArray[3];//当前进程名
+    
+    NSString *newString = [string stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    newString = [newString stringByReplacingOccurrencesOfString:@")" withString:@""];
+    NSArray *crashAddresses = [newString componentsSeparatedByString:@" "];//获取所有地址
+    if (crashAddresses && crashAddresses.count > 0) {
+        for (NSInteger i = 0; i<crashAddresses.count; i++) {
+            NSString *string = crashAddresses[i];
+            //当前地址小于结束地址，大于起始地址
+            if (([string compare:processEnd] == NSOrderedAscending) && ([string compare:processStart] == NSOrderedDescending)) {
+                NSInteger stringNum = [self numberWithHexString:[string stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
+                NSInteger offsetNum = stringNum - startNum;
+                NSString *stack = [NSString stringWithFormat:@"%li %@ %lu",i,processName,offsetNum];
+                [array addObject:stack];
+            }else{
+                [array addObject:string];
+            }
+        }
+    }
+    
+    return [array copy];
+}
+
+- (NSInteger)numberWithHexString:(NSString *)hexString{
+    const char *hexChar = [hexString cStringUsingEncoding:NSUTF8StringEncoding];
+    int hexNumber;
+    sscanf(hexChar, "%x", &hexNumber);
+    return (NSInteger)hexNumber;
+}
+
 
 @end
