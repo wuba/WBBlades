@@ -71,11 +71,12 @@
     ipaPreviewBtn.bordered = YES;
     ipaPreviewBtn.bezelStyle = NSBezelStyleRegularSquare;
     
-    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 409.0, 643.0, 20.0)];
+    NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 399.0, 703.0, 40.0)];
+    excTipLabel.maximumNumberOfLines = 0;
     [self addSubview:excTipLabel];
-    excTipLabel.alignment = NSTextAlignmentCenter;
+    excTipLabel.alignment = NSTextAlignmentLeft;
     excTipLabel.font = [NSFont systemFontOfSize:13.0];
-    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件路径，如：\"/Users/a58/Desktop/xxx.app\"或\"/Users/a58/Desktop/xxx\"";
+    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件路径，如：\"/Users/a58/Desktop/xxx.app\"或\"/Users/a58/Desktop/xxx\"。文件路径中不要有空格。";
     excTipLabel.textColor = [NSColor grayColor];
     excTipLabel.editable = NO;
     excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
