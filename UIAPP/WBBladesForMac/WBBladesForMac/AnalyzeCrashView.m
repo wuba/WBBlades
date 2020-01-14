@@ -133,7 +133,7 @@
     openPanel.canChooseFiles = YES;
     openPanel.canChooseDirectories = YES;
     openPanel.directoryURL = nil;
-    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", nil]];
+    [openPanel setAllowedFileTypes:[NSArray arrayWithObjects:@"", @"app", nil]];
     __weak __typeof(self) weakself = self;
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         
@@ -161,8 +161,16 @@
     _startButton.enabled = NO;
     _crashStackView.editable = NO;
     NSURL *fileUrl = [NSURL fileURLWithPath:_exeFileView.string];
+    NSArray *tmp = [_exeFileView.string componentsSeparatedByString:@"."];
+    NSString *fileType = @"";
+    NSString *fileName = @"";
+    if ([tmp count] == 2) {
+        fileType = [tmp lastObject];
+        NSString *filePath = [tmp firstObject];
+        fileName = [filePath componentsSeparatedByString:@"/"].lastObject;
+    }
     NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
-    if (!fileData) {
+    if (!fileData && ![fileType isEqualToString:@"app"]) {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert addButtonWithTitle:@"好的"];
         [alert setMessageText:@"请选择或拖入一个可执行文件"];
@@ -185,7 +193,7 @@
         [compos removeObject:@""];
         if (compos.count > 2) {
             NSString *appName = compos[1];
-            if ([appName isEqualToString:execName]) {
+            if ([appName isEqualToString:execName] || [appName isEqualToString:fileName]) {
                 NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
                 NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
                 NSString *offset = comps.lastObject;
