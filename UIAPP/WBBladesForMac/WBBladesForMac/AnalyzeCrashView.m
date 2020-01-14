@@ -298,6 +298,7 @@
         [bladesTask waitUntilExit];
         dispatch_async(dispatch_get_main_queue(), ^{
             [bladesTask terminate];
+            weakSelf.bladeTask = nil;
             [weakSelf outputResults:resultsDic];
         });
     });
