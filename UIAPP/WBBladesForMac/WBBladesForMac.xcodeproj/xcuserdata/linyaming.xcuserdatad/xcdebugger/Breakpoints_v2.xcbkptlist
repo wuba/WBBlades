@@ -14,8 +14,8 @@
             filePath = "WBBladesForMac/AnalyzeCrashView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "209"
-            endingLineNumber = "209"
+            startingLineNumber = "242"
+            endingLineNumber = "242"
             landmarkName = "-startBtnClicked:"
             landmarkType = "7">
          </BreakpointContent>
@@ -30,8 +30,24 @@
             filePath = "WBBladesForMac/AnalyzeCrashView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "243"
-            endingLineNumber = "243"
+            startingLineNumber = "276"
+            endingLineNumber = "276"
+            landmarkName = "AnalyzeCrashView"
+            landmarkType = "3">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C2638FC6-DD5F-465C-9994-BB39A42B03A2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "WBBladesForMac/AnalyzeCrashView.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "299"
+            endingLineNumber = "299"
             landmarkName = "-analyzeCrashFromOffsets:"
             landmarkType = "7">
          </BreakpointContent>

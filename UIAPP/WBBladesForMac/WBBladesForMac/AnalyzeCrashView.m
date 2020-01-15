@@ -333,6 +333,20 @@
     _resultView.string = [outputer copy];
     [_crashStacks removeAllObjects];
     [_usefulCrashStacks removeAllObjects];
+    
+    NSString *directoryPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSString *outputerPath = [directoryPath stringByAppendingPathComponent:@"WBBladesCrash.txt"];
+    
+    [outputer writeToFile:outputerPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    
+    [self openResultFile];
+}
+
+- (void)openResultFile {
+    NSString *fileName = @"/WBBladesCrash.txt";
+    NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",desktop,fileName]];
+    [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
 - (void)closeWindow:(NSWindow *)window{
