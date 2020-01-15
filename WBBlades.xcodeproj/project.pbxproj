@@ -132,7 +132,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3729357722E1897E00C37C02 /* capstone */ = {
+		3729357722E1897E00C37C02 /* Capstone */ = {
 			isa = PBXGroup;
 			children = (
 				3729357822E1897E00C37C02 /* utils.h */,
@@ -157,7 +157,7 @@
 				372935D822E1897E00C37C02 /* MCInst.c */,
 				372935D922E1897E00C37C02 /* MCRegisterInfo.c */,
 			);
-			path = capstone;
+			path = Capstone;
 			sourceTree = "<group>";
 		};
 		3729358122E1897E00C37C02 /* include */ = {
@@ -226,18 +226,55 @@
 		3794EE7A22B3C71300D5DFA4 /* WBBlades */ = {
 			isa = PBXGroup;
 			children = (
-				3729357722E1897E00C37C02 /* capstone */,
+				37FA62BF23CEFE85008BCBAF /* Model */,
+				37FA62BE23CEFE71008BCBAF /* Tools */,
+				37FA62BD23CEFE5D008BCBAF /* Link */,
+				37FA62BC23CEFDA2008BCBAF /* Scan */,
+				3729357722E1897E00C37C02 /* Capstone */,
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
-				37561F3C23B392F10020CF02 /* CMD.h */,
-				37561F3D23B392F10020CF02 /* CMD.m */,
+				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
+			);
+			path = WBBlades;
+			sourceTree = "<group>";
+		};
+		37FA62BC23CEFDA2008BCBAF /* Scan */ = {
+			isa = PBXGroup;
+			children = (
 				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
 				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
 				37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */,
 				37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */,
 				37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */,
 				37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		37FA62BD23CEFE5D008BCBAF /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
+				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
+			);
+			path = Link;
+			sourceTree = "<group>";
+		};
+		37FA62BE23CEFE71008BCBAF /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				37561F3C23B392F10020CF02 /* CMD.h */,
+				37561F3D23B392F10020CF02 /* CMD.m */,
 				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
 				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
+				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
+				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		37FA62BF23CEFE85008BCBAF /* Model */ = {
+			isa = PBXGroup;
+			children = (
 				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
 				3733D82322B48849002062FE /* WBBladesObjectHeader.m */,
 				3733D82822B4A6D3002062FE /* WBBladesStringTab.h */,
@@ -246,13 +283,8 @@
 				3733D82622B48EC4002062FE /* WBBladesSymTab.m */,
 				3733D82B22B4BB15002062FE /* WBBladesObject.h */,
 				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
-				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
-				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
-				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
-				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
-				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
 			);
-			path = WBBlades;
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
