@@ -420,7 +420,7 @@
             if (([string compare:processEnd] == NSOrderedAscending) && ([string compare:processStart] == NSOrderedDescending)) {
                 NSInteger stringNum = [self numberWithHexString:[string stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
                 NSInteger offsetNum = stringNum - startNum;
-                NSString *stack = [NSString stringWithFormat:@"%li %@ %lu",i,processName,offsetNum];
+                NSString *stack = [NSString stringWithFormat:@"%li %@ + %lu",i,processName,offsetNum];
                 [array addObject:stack];
             }else{
                 [array addObject:string];
