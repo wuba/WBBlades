@@ -75,10 +75,10 @@
         [excView.textContainer setWidthTracksTextView:NO];
         _excView = excView;
         
-        NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0, 559.0, 20.0)];
+        NSTextField *excTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0, 580.0, 20.0)];
         [self addSubview:excTipLabel];
         excTipLabel.font = [NSFont systemFontOfSize:12.0];
-        excTipLabel.stringValue = @"(必填)用于检测App中无用类，选择一个App可执行文件路径或ipa路径，如：\"/Users/a58/Desktop/xxx.app\"";
+        excTipLabel.stringValue = @"(必填)用于检测App中无用类，选择App可执行文件路径或ipa路径，如：\"/Users/a58/Desktop/xxx.app\"";
         excTipLabel.textColor = [NSColor grayColor];
         excTipLabel.editable = NO;
         excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;
