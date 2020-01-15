@@ -242,14 +242,11 @@
     for (NSInteger i = 0; i < crashInfoLines.count; i++) {
         
         NSString *crashLine = crashInfoLines[i];
-        NSMutableArray *compos = [[crashLine componentsSeparatedByString:@" "] mutableCopy];
-        [compos removeObject:@""];
+        NSArray *compos = [crashLine componentsSeparatedByString:@" "];
         if (compos.count > 2) {
             NSString *appName = compos[1];
             if ([appName isEqualToString:execName] || [appName isEqualToString:fileName]) {
-                NSString *lineTrimmingSpace = [crashLine stringByReplacingOccurrencesOfString:@" " withString:@""];
-                NSArray *comps = [lineTrimmingSpace componentsSeparatedByString:@"+"];
-                NSString *offset = comps.lastObject;
+                NSString *offset = compos.lastObject;
                 if(offset.longLongValue) {
                     [crashOffsets addObject:[NSString stringWithString:offset]];
                 }
@@ -314,7 +311,7 @@
         if (![_usefulCrashStacks containsObject:infoStr]) {
             [outputArr addObject:infoStr];
         } else {
-            NSArray *infoComps = [infoStr componentsSeparatedByString:@"+ "];
+            NSArray *infoComps = [infoStr componentsSeparatedByString:@" "];
             NSArray *infos = [infoStr componentsSeparatedByString:@"0x"];
             NSString *offset = infoComps.lastObject;
             if (offset) {
