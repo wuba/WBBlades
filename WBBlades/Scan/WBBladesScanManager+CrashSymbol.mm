@@ -137,7 +137,7 @@
     return crashSymbolRst.copy;
 }
 
-+ (NSDictionary*)scanMethodListResult:(unsigned long long)methodListOffset
++ (NSDictionary *)scanMethodListResult:(unsigned long long)methodListOffset
                             className:(NSString*)className
                                    vm:(unsigned long long)vm
                                  data:(NSData*)data

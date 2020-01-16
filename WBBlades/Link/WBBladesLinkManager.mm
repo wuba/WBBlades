@@ -58,23 +58,18 @@ typedef struct wb_objc_classdata {
 }
 
 - (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects {
-    
     self.linkSize = 0;
     for (WBBladesObject *object in objects) {
-        
         self.linkSize += object.objectMachO.size;
-        
+
         //对section 进行链接
         [object.objectMachO.sections enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull section, BOOL * _Nonnull stop) {
-            
             if (!self.unixData[key]) {
                 self.unixData[key] = [NSMutableSet set];
             }
             
             NSMutableSet *set = self.unixData[key];
-            
             for (id value in section) {
-                
                 int scale = [key isEqualToString:@"(__TEXT,__ustring)"] ? 2 : 1;
                 if ([set containsObject:value]) {
                     self.linkSize -= [value length] * scale;
@@ -83,7 +78,6 @@ typedef struct wb_objc_classdata {
             }
         }];
     }
-    
     return self.linkSize;
 }
 

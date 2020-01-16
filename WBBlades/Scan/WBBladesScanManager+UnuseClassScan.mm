@@ -26,7 +26,7 @@
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
 
-+ (NSSet*)dumpClassList:(NSData *)fileData {
++ (NSSet *)dumpClassList:(NSData *)fileData {
     
     if (!fileData || ![self isSupport:fileData]) {
         return nil;
@@ -150,7 +150,7 @@ static section_64 textList = {0};
     
     return classSet;
 }
-+ (NSMutableSet*)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
++ (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     
     NSMutableSet *classSet = [NSMutableSet set];
     unsigned long long vm = classList.addr - classList.offset;

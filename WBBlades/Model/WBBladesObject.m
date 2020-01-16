@@ -13,7 +13,6 @@
 @end
 
 @implementation WBBladesObject
-
 - (NSString *)description{
     
     NSString *string = [NSString stringWithFormat:@"\nNAME :  %@\n", self.objectHeader.longName];
@@ -28,7 +27,6 @@
 @end
 
 @implementation WBBladesHelper
-
 - (NSString *)description {
     
     NSString *string = [NSString stringWithFormat:@"%@  | ",self.className];

@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses;
 
 //dump 二进制中的所有类
-+ (NSSet*)dumpClassList:(NSData *)fileData;
++ (NSSet *)dumpClassList:(NSData *)fileData;
 
 @end
 

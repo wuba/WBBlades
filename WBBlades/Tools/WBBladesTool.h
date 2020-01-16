@@ -23,10 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData;
 
 //字符替换
-+ (NSString *) replaceEscapeCharsInString: (NSString *)orig;
++ (NSString *)replaceEscapeCharsInString: (NSString *)orig;
 
 //反汇编
-+ (cs_insn * )disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size;
++ (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size;
 
 @end
 
