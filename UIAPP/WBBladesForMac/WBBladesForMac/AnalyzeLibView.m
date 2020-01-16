@@ -21,15 +21,15 @@
 @property (nonatomic,weak) NSButton *stopBtn;//暂停分析按钮
 @property (nonatomic,weak) NSButton *inFinderBtn;//打开结果文件夹按钮
 
-@property (nonatomic,strong)NSMutableArray *taskArray;//任务列表
-@property (nonatomic,assign)BOOL needStop;//是否被用户中断
-@property (nonatomic,strong)dispatch_semaphore_t  sema;//信号
+@property (nonatomic,strong) NSMutableArray *taskArray;//任务列表
+@property (nonatomic,assign) BOOL needStop;//是否被用户中断
+@property (nonatomic,strong) dispatch_semaphore_t  sema;//信号
 
 @end
 
 @implementation AnalyzeLibView
 
-- (instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type{
+- (instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type {
     self = [super initWithFrame:frameRect];
     if (self) {
         _taskArray = [NSMutableArray array];
@@ -41,13 +41,13 @@
     return self;
 }
 
--(void)dealloc{
+-(void)dealloc {
     NSLog(@"dealloc");
 }
 
-- (void)prepareSubview{
+- (void)prepareSubview {
     CGFloat typeHeight = 0;
-    if(self.type == AnalyzeAppUnusedClassType){//无用类检测的特殊UI
+    if(self.type == AnalyzeAppUnusedClassType) {//无用类检测的特殊UI
         NSTextField *execLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(25.0, 428.0, 80, 36.0)];
         [self addSubview:execLabel];
         execLabel.font = [NSFont systemFontOfSize:14.0];
@@ -124,9 +124,9 @@
     NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight, 559.0, 20.0)];
     [self addSubview:pathTipLabel];
     pathTipLabel.font = [NSFont systemFontOfSize:12.0];
-    if(self.type == AnalyzeAppUnusedClassType){//无用类检测的特殊UI
+    if (self.type == AnalyzeAppUnusedClassType) {//无用类检测的特殊UI
         pathTipLabel.stringValue = @"(非必填)只获取该静态库的无用类，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
-    }else{
+    } else {
         pathTipLabel.stringValue = @"(必填)获取静态库大小，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
     }
     pathTipLabel.textColor = [NSColor grayColor];
@@ -180,7 +180,7 @@
     startBtn.bordered = YES;
     startBtn.bezelStyle = NSBezelStyleRegularSquare;
     _startBtn = startBtn;
-
+    
     NSButton *stopBtn = [[NSButton alloc]initWithFrame:NSMakeRect(693.0, 276.0 - typeHeight, 105.0, 36.0)];
     [self addSubview:stopBtn];
     stopBtn.title = @"暂停分析";
@@ -206,7 +206,7 @@
 
 #pragma mark getter
 //信号
--(dispatch_semaphore_t)sema{
+- (dispatch_semaphore_t)sema {
     if (!_sema) {
         _sema = dispatch_semaphore_create(1);
     }
@@ -215,7 +215,7 @@
 
 #pragma mark 按钮响应事件
 //静态库路径选择点击事件
-- (void)staticLibPathBtnClicked:(id)sender{
+- (void)staticLibPathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"打开"];
     openPanel.allowsMultipleSelection = YES;
@@ -244,7 +244,7 @@
 }
 
 //无用类检测，选择app可执行文件
-- (void)excuteFilePathBtnClicked:(id)sender{
+- (void)excuteFilePathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"选择app执行文件"];
     openPanel.allowsMultipleSelection = NO;
@@ -264,7 +264,7 @@
 }
 
 //开始解析点击事件
-- (void)startBtnClicked:(id)sender{
+- (void)startBtnClicked:(id)sender {
     _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
     _consoleView.string = @"";
@@ -272,13 +272,13 @@
     
     if (self.type == AnalyzeStaticLibrarySizeType) {//静态库体积分析
         [self analyzeLibSize];
-    }else if (self.type == AnalyzeAppUnusedClassType){//无用类检测
+    } else if (self.type == AnalyzeAppUnusedClassType) {//无用类检测
         [self analyzeUnusedClass];
     }
 }
 
 //暂停解析点击事件
-- (void)stopBtnClicked:(id)sender{
+- (void)stopBtnClicked:(id)sender {
     self.needStop = YES;
     _startBtn.enabled = YES;
     _stopBtn.enabled = NO;
@@ -296,11 +296,11 @@
 }
 
 //打开文件夹点击事件
-- (void)inFinderBtnClicked:(id)sender{
+- (void)inFinderBtnClicked:(id)sender {
     NSString *fileName = @"";
     if (self.type == AnalyzeStaticLibrarySizeType) {
         fileName = @"/WBBladesResult.plist";
-    }else if (self.type == AnalyzeAppUnusedClassType){
+    } else if (self.type == AnalyzeAppUnusedClassType) {
         fileName = @"/WBBladesClass.plist";
     }
     //暂时直接打开桌面，并选中结果文件
@@ -310,24 +310,24 @@
 }
 
 //结束
-- (void)closeWindow:(NSWindow *)window{
+- (void)closeWindow:(NSWindow *)window {
     [self stopBtnClicked:nil];
     [window orderOut:nil];
 }
 
 #pragma mark 静态库体积检测
 //静态库体积分析
-- (void)analyzeLibSize{
+- (void)analyzeLibSize {
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
         return;
     }
     
     NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
-    if(array && array.count == 1){
+    if (array && array.count == 1) {
         array = [self.objFilesView.string componentsSeparatedByString:@" "];
     }
-        
+    
     if (_sema) {//若不是第一次开始，先发送一个信号
         dispatch_semaphore_signal(_sema);
     }
@@ -353,7 +353,7 @@
                     [bladesTask launch];
                     [weakSelf.taskArray addObject:bladesTask];
                     [bladesTask waitUntilExit];//同步执行
-                        
+                    
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [bladesTask terminate];
                         if (weakSelf && !weakSelf.needStop) {
@@ -379,11 +379,11 @@
 
 #pragma mark 无用类检测
 //无用类检测
-- (void)analyzeUnusedClass{
+- (void)analyzeUnusedClass {
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
         return;
-    }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]){
+    } else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]) {
         [self stopAnalyzeAlertMessage:@"未找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
         return;
     }
@@ -417,7 +417,7 @@
 
 #pragma mark Tools
 //无法启动解析的弹框
-- (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName{
+- (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
     NSAlert *alert = [[NSAlert alloc]init];
     [alert addButtonWithTitle:btnName];
     [alert setMessageText:msg];

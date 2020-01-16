@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  结束
  */
--(void)closeWindow:(NSWindow *)window;
+- (void)closeWindow:(NSWindow *)window;
 
 @end
 
