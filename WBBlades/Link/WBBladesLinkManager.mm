@@ -7,11 +7,12 @@
 //
 
 #import "WBBladesLinkManager.h"
+#import <mach-o/nlist.h>
+
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
-#import <mach-o/nlist.h>
 
 #define SYMBOL_TABLE @"symbol_tab"
 #define STRING_TABLE @"string_tab"

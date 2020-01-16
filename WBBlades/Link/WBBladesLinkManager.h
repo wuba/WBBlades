@@ -13,7 +13,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class WBBladesObject;
 @interface WBBladesLinkManager : NSObject
 
-
 + (WBBladesLinkManager *)shareInstance;
 
 //整合所有的目标文件

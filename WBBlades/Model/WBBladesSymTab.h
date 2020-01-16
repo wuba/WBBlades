@@ -10,7 +10,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface WBBladesSymbol : NSObject
 
 @property(nonatomic,assign)unsigned int symbolIndex;
@@ -44,8 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic,assign)unsigned int strSize;
 
 @property(nonatomic,assign)BOOL withDWARF;
-
-
 
 @end
 

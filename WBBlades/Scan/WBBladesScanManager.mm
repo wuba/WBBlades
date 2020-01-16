@@ -8,12 +8,13 @@
 
 #import "WBBladesScanManager.h"
 #import <mach/mach.h>
-#include <mach/mach_vm.h>
-#include <mach/vm_map.h>
-#include <mach-o/loader.h>
-#include <mach-o/fat.h>
+#import <mach/mach_vm.h>
+#import <mach/vm_map.h>
+#import <mach-o/loader.h>
+#import <mach-o/fat.h>
 #import <mach-o/nlist.h>
 #import <objc/runtime.h>
+
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"

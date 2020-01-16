@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @interface WBBladesStringTab : NSObject
 
 @property(nonatomic,assign)unsigned int size;

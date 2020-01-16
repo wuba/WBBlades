@@ -8,7 +8,6 @@
 
 #import "CMD.h"
 
-
 static const char *cmd(NSString *cmd){
     
     NSTask *task = [[NSTask alloc] init];

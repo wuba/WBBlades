@@ -11,15 +11,13 @@
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesScanManager : NSObject
 
 //扫描静态库
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData;
-
-//检测文件是否支持分析
-+ (BOOL)isSupport:(NSData *)fileData;
 
 //扫描符号表头
 + (WBBladesObjectHeader *)scanSymtabHeader:(NSData *)fileData range:(NSRange )range;
@@ -32,6 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 //扫描目标文件
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range;
+
+//检测文件是否支持分析
++ (BOOL)isSupport:(NSData *)fileData;
 
 //字节对齐（8字节）
 + (NSRange)rangeAlign:(NSRange)range;

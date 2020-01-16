@@ -14,6 +14,12 @@
 #import "WBBladesScanManager+CrashSymbol.h"
 #import "CMD.h"
 
+typedef NS_ENUM(NSInteger, WBBladesType) {
+    WBBladesTypeStaticLibSize    = 1,
+    WBBladesTypeUnusedClass      = 2,
+    WBBladesTypeCrashLog         = 3,
+};
+
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
 static void enumPodFiles(NSString *path);
@@ -32,14 +38,15 @@ int main(int argc, const char * argv[]) {
     @autoreleasepool {
         //静态库体积分析参数 1 + 路径
         //无用类扫描 2 + APP可执行文件路径 + pod 静态库 + pod 静态库
-        NSString *type = [NSString stringWithFormat:@"%s",argv[1]];
-        if ([type isEqualToString:@"1"]) {
+        //crash日志解析 3 + APP可执行文件路径 + 崩溃偏移地址（以逗号为分割）
+        NSInteger type = [[NSString stringWithFormat:@"%s",argv[1]] integerValue];
+        if (type == WBBladesTypeStaticLibSize) {
             //进行静态库体积分析
             scanStaticLibrary(argc, argv);
-        }else if ([type isEqualToString:@"2"]){
+        }else if (type == WBBladesTypeUnusedClass){
             //进行无用类检测
             scanUnUseClass(argc, argv);
-        }else if([type isEqualToString:@"3"]){
+        }else if(type == WBBladesTypeCrashLog){
             //进行crash日志解析
             scanCrashSymbol(argc, argv);
         }
@@ -197,110 +204,97 @@ static void enumPodFiles(NSString *path){
     BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
     NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
     
-    if (isExist && !symbolicLink) {
-        if (isDir) {
-            
-            if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
-                
-                return;
-            }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"product"] ||
-                      [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
-                      ){
-                //忽略文档、demo、git 目录
-                return;
-            }else{
-                NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
-                NSString * subPath = nil;
-                for (NSString * str in dirArray) {
-                    subPath  = [path stringByAppendingPathComponent:str];
-                    BOOL isSubDir = NO;
-                    [fileManger fileExistsAtPath:subPath isDirectory:&isSubDir];
-                    enumPodFiles(subPath);
-                }
-            }
+    if(!isExist || symbolicLink){
+        return;
+    }
+    
+    NSString *lastPathComponent = [path lastPathComponent];
+    if (isDir) {
+        if ([lastPathComponent hasSuffix:@"xcassets"] ||
+            [lastPathComponent hasSuffix:@"git"] ||
+            [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
+            [[lastPathComponent lowercaseString] isEqualToString:@"product"] ||
+            [[lastPathComponent lowercaseString] isEqualToString:@"document"]) {
+            //ignore resources,git,demo,product,document
+            return;
         }else{
-            NSString *fileName = [path lastPathComponent];
-            
-            //判断是否为资源
-            NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
-            NSString *fileType = [array lastObject];
-            if (isResource(fileType)) {
-                
-            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
-                handleStaticLibraryForClassList(path);
-            }else{//大概率是编译产生的中间文件
+            NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+            NSString * subPath = nil;
+            for (NSString * str in dirArray) {
+                subPath  = [path stringByAppendingPathComponent:str];
+                BOOL isSubDir = NO;
+                [fileManger fileExistsAtPath:subPath isDirectory:&isSubDir];
+                enumPodFiles(subPath);
             }
+        }
+    }else{
+        //判断是否为资源
+        NSArray *array = [[lastPathComponent lowercaseString] componentsSeparatedByString:@"."];
+        NSString *fileType = [array lastObject];
+        if (isResource(fileType)) {
+            
+        }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
+            handleStaticLibraryForClassList(path);
+        }else{//大概率是编译产生的中间文件
         }
     }
 }
 
 static void enumAllFiles(NSString *path){
     @autoreleasepool {
-        
         //遍历单一pod
         NSFileManager * fileManger = [NSFileManager defaultManager];
         BOOL isDir = NO;
         BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
         NSString *symbolicLink = [fileManger destinationOfSymbolicLinkAtPath:path error:NULL];
         
-        //如果不是软连接
-        if (isExist && !symbolicLink) {
-            
-            //如果是路径
-            if (isDir) {
-                
-                //如果是xcassets资源
-                if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"xcassets"]) {
+        if (!isExist || symbolicLink) {//如果不存在或是软连接
+            return;
+        }
+        
+        NSString *lastPathComponent = [path lastPathComponent];
+        if (isDir) {//如果是路径
+            if ([lastPathComponent hasSuffix:@"xcassets"]) {//如果是xcassets资源
+                //进行xcassets 编译
+                compileXcassets(path);
                     
-                    //进行xcassets 编译
-                    compileXcassets(path);
+                //获取编译后的.car文件的大小并统计
+                NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
+                NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
+                resourceSize += [fileData length];
                     
-                    //获取编译后的.car文件的大小并统计
-                    NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
-                    NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
-                    resourceSize += [fileData length];
-                    
-                    //删除编译后的.car文件
-                    removeFile(path);
-                }else if ([[[[path lastPathComponent] componentsSeparatedByString:@"."] lastObject] isEqualToString:@"git"] ||
-                          [[[path lastPathComponent] lowercaseString] isEqualToString:@"demo"] ||
-                          [[[path lastPathComponent] lowercaseString] isEqualToString:@"document"]
-                          ){
-                    //忽略文档、demo、git 目录
-                    return;
-                }else{
-                    
-                    NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
-                    NSString * subPath = nil;
-                    //递归遍历当前文件夹内所有文件
-                    for (NSString * str in dirArray) {
-                        subPath  = [path stringByAppendingPathComponent:str];
-                        BOOL issubDir = NO;
-                        [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
-                        enumAllFiles(subPath);
-                    }
-                }
+                //删除编译后的.car文件
+                removeFile(path);
+            }else if ([lastPathComponent hasSuffix:@"git"] ||
+                      [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
+                      [[lastPathComponent lowercaseString] isEqualToString:@"document"]){
+                //ignore git,demo,document
+                return;
             }else{
-                //获取资源文件后缀名
-                NSString *fileName = [path lastPathComponent];
-                
-                //判断是否为资源
-                NSArray *array = [[fileName lowercaseString] componentsSeparatedByString:@"."];
-                NSString *fileType = [array lastObject];
-                
-                //只统计在资源列表内的资源
-                if (isResource(fileType)) {
-                    //统计资源文件大小
-                    NSData *fileData = [WBBladesFileManager  readFromFile:path];
-//                    NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
-                    resourceSize += [fileData length];
-                    
-                }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
-                    handleStaticLibrary(path);
-                }else{//大概率是编译产生的中间文件
+                NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
+                NSString * subPath = nil;
+                //递归遍历当前文件夹内所有文件
+                for (NSString * str in dirArray) {
+                    subPath  = [path stringByAppendingPathComponent:str];
+                    BOOL issubDir = NO;
+                    [fileManger fileExistsAtPath:subPath isDirectory:&issubDir];
+                    enumAllFiles(subPath);
                 }
+            }
+        }else{
+            //判断是否为资源
+            NSArray *array = [[lastPathComponent lowercaseString] componentsSeparatedByString:@"."];
+            NSString *fileType = [array lastObject];
+                
+            //只统计在资源列表内的资源
+            if (isResource(fileType)) {
+                //统计资源文件大小
+                NSData *fileData = [WBBladesFileManager  readFromFile:path];
+//               NSLog(@"资源 %@大小：%lu 字节",fileName,[fileData length]);
+                resourceSize += [fileData length];
+            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//静态库文件
+                handleStaticLibrary(path);
+            }else{//大概率是编译产生的中间文件
             }
         }
     }

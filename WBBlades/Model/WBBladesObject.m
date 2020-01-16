@@ -8,7 +8,6 @@
 
 #import "WBBladesObject.h"
 
-
 @implementation WBBladesObjectMachO
 
 @end
@@ -25,8 +24,6 @@
 
     return string;
 }
-
-
 
 @end
 

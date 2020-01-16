@@ -244,8 +244,7 @@
         NSString *crashLine = crashInfoLines[i];
         NSArray *compos = [crashLine componentsSeparatedByString:@" "];
         if (compos.count > 2) {
-            NSString *appName = compos[1];
-            if ([appName isEqualToString:execName] || [appName isEqualToString:fileName]) {
+            if ([crashLine containsString:execName] || [crashLine containsString:fileName]) {
                 NSString *offset = compos.lastObject;
                 if(offset.longLongValue) {
                     [crashOffsets addObject:[NSString stringWithString:offset]];
