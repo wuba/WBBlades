@@ -53,6 +53,7 @@ int main(int argc, const char *argv[]) {
     }
 }
 
+#pragma mark Scan Function
 static void scanStaticLibrary(int argc, const char * argv[]) {
     
     //参数1 为个数，参数2 为pod 路径列表
@@ -144,6 +145,7 @@ static void scanCrashSymbol(int argc, const char * argv[]) {
     [result writeToFile:outPutPath atomically:YES];
 }
 
+#pragma mark Handle
 void handleStaticLibrary(NSString *filePath) {
     //获取静态库名字
     NSString *name = [filePath lastPathComponent];
@@ -193,7 +195,7 @@ void handleStaticLibraryForClassList(NSString *filePath) {
     }
 }
 
-
+#pragma mark Enumurate Files
 static void enumPodFiles(NSString *path) {
     
     //遍历单一pod
@@ -298,6 +300,7 @@ static void enumAllFiles(NSString *path) {
     }
 }
 
+#pragma mark Tools
 //资源类型，如有特殊，请补充
 static BOOL isResource(NSString *type) {
     

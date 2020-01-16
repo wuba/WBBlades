@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 //扫描目标文件
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range;
 
-//检测文件是否支持分析
-+ (BOOL)isSupport:(NSData *)fileData;
-
 //字节对齐（8字节）
 + (NSRange)rangeAlign:(NSRange)range;
+
+//检测文件是否支持分析
++ (BOOL)isSupport:(NSData *)fileData;
 
 @end
 

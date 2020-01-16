@@ -25,17 +25,6 @@ static const char *cmd(NSString *cmd) {
     return [data bytes];
 }
 
-void colorPrint(NSString *info) {
-    
-    NSTask *task = [[NSTask alloc] init];
-    [task setLaunchPath: @"/bin/bash"];
-    NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
-    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
-    [task setArguments: arguments];
-    
-    [task launch];
-}
-
 void stripFile(NSString *filePath) {
     //去除bitcode信息
     NSLog(@"正在去除bitcode中间码...");
@@ -47,11 +36,6 @@ void stripFile(NSString *filePath) {
     cmd(stripCmd);
 }
 
-void removeCopyFile(NSString *filePath) {
-    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
-    cmd(rmCmd);
-}
-
 void copyFile(NSString *filePath) {
     NSString *cpCmd = [NSString stringWithFormat:@"cp  -f %@ %@_copy",filePath,filePath];
     cmd(cpCmd);
@@ -60,7 +44,16 @@ void copyFile(NSString *filePath) {
 void thinFile(NSString *filePath) {
     NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
     cmd(thinCmd);
+}
 
+void removeFile(NSString *filePath) {
+    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@", filePath];
+    cmd(rmCmd);
+}
+
+void removeCopyFile(NSString *filePath) {
+    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
+    cmd(rmCmd);
 }
 
 /**
@@ -71,7 +64,14 @@ void compileXcassets(NSString *path) {
     cmd(complieCmd);
 }
 
-void removeFile(NSString *filePath) {
-    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@", filePath];
-    cmd(rmCmd);
+#pragma mark Tools
+void colorPrint(NSString *info) {
+    
+    NSTask *task = [[NSTask alloc] init];
+    [task setLaunchPath: @"/bin/bash"];
+    NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
+    NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
+    [task setArguments: arguments];
+    
+    [task launch];
 }

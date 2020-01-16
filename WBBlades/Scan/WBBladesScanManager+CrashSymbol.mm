@@ -19,7 +19,6 @@
 @implementation WBBladesScanManager (CrashSymbol)
 
 + (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSString *)crashAddresses {
-    
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
@@ -235,10 +234,10 @@
 }
 
 + (BOOL)scanFuncBinaryCode:(unsigned long long)target  begin:(unsigned long long)begin  vm:(unsigned long long )vm fileData:(NSData*)fileData {
-    
     if (begin > target + vm) {
         return NO;
     }
+    
     unsigned int asmCode = 0;
     do {
         [fileData getBytes:&asmCode range:NSMakeRange(begin - vm, 4)];

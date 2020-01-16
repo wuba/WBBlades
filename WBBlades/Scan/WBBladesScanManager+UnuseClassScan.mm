@@ -55,6 +55,7 @@ static section_64 textList = {0};
     return [set copy];
 }
 
+#pragma mark Scan
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
     
     NSLog(@"目标%ld个类",aimClasses.count);
@@ -150,8 +151,96 @@ static section_64 textList = {0};
     
     return classSet;
 }
-+ (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
+
++ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
+        
+    //获取二进制文件符号表
+    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
+    unsigned long long symbolOffset = symCmd.symbolOff;
+    unsigned long long targetAddress = helper.offset;
     
+    if (!symCmd.withDWARF) {
+        return YES;
+    }
+    
+    //目标地址
+    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址高位
+    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+    
+    //目标地址低位
+    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+        
+    //遍历符号表
+    for (int i=0; i < symCmd.symbolNum - 1; i++) {
+        nlist_64 nlist;
+        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+        char *p = (char *)fileData.bytes;
+        p = p + off;
+        memcpy(&nlist, p, sizeof(nlist_64));
+        
+        //https://developer.apple.com/documentation/kernel/nlist_64
+        if (nlist.n_sect == 1 &&
+            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
+            
+            char buffer[201];
+            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+            char * p = (char *)fileData.bytes;
+            p = p+off;
+            memcpy(&buffer, p, 200);
+            char * className = strtok(buffer," ");
+            className = strstr(className,"[");
+            if (className) {
+                className = className+1;
+            } else {
+                className = buffer;
+            }
+            if (strcmp(className,[helper.className UTF8String]) == 0) {
+                continue;
+            }
+            
+            unsigned long long begin = nlist.n_value;
+            
+            //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
+            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
+            if (use) {
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
++ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
+    char *asmStr;
+    BOOL high = NO;
+    
+    //自前向后遍历函数指令
+    do {
+        unsigned long long index = (begin - textList.offset - vm) / 4;
+        char *dataStr = s_cs_insn[index].op_str;
+        asmStr = s_cs_insn[index].mnemonic;
+        if (strcmp(".byte",asmStr) == 0) {
+            return NO;
+        }
+        if (strstr(dataStr, targetStr)) {//直接命中
+            return YES;
+        } else if (strstr(dataStr, targetHighStr)) {//是否先命中高位
+            high = YES;
+        } else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
+            if (high) {
+                return  YES;
+            }
+        }
+        begin += 4;
+    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
+    return NO;
+    
+}
+
+#pragma mark Read
++ (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSMutableSet *classSet = [NSMutableSet set];
     unsigned long long vm = classList.addr - classList.offset;
     unsigned long long max = [fileData length];
@@ -246,6 +335,7 @@ static section_64 textList = {0};
         }
     return classSet;
 }
+
 + (void)readCStringList:(section_64)cfstringList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(cfstringList.offset, 0);
     unsigned long long vm = cfstringList.addr - cfstringList.offset;
@@ -267,7 +357,6 @@ static section_64 textList = {0};
                  }
              }
          }
-         
      }
 }
 
@@ -421,90 +510,5 @@ static section_64 textList = {0};
     return nil;
 }
 
-+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
-        
-    //获取二进制文件符号表
-    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
-    unsigned long long symbolOffset = symCmd.symbolOff;
-    unsigned long long targetAddress = helper.offset;
-    
-    if (!symCmd.withDWARF) {
-        return YES;
-    }
-    
-    //目标地址
-    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    //目标地址高位
-    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    //目标地址低位
-    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-        
-    //遍历符号表
-    for (int i=0; i < symCmd.symbolNum - 1; i++) {
-        nlist_64 nlist;
-        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
-        char *p = (char *)fileData.bytes;
-        p = p + off;
-        memcpy(&nlist, p, sizeof(nlist_64));
-        
-        //https://developer.apple.com/documentation/kernel/nlist_64
-        if (nlist.n_sect == 1 &&
-            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
-            
-            char buffer[201];
-            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
-            char * p = (char *)fileData.bytes;
-            p = p+off;
-            memcpy(&buffer, p, 200);
-            char * className = strtok(buffer," ");
-            className = strstr(className,"[");
-            if (className) {
-                className = className+1;
-            } else {
-                className = buffer;
-            }
-            if (strcmp(className,[helper.className UTF8String]) == 0) {
-                continue;
-            }
-            
-            unsigned long long begin = nlist.n_value;
-            
-            //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
-            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
-            if (use) {
-                return YES;
-            }
-        }
-    }
-    return NO;
-}
 
-+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
-    char *asmStr;
-    BOOL high = NO;
-    
-    //自前向后遍历函数指令
-    do {
-        unsigned long long index = (begin - textList.offset - vm) / 4;
-        char *dataStr = s_cs_insn[index].op_str;
-        asmStr = s_cs_insn[index].mnemonic;
-        if (strcmp(".byte",asmStr) == 0) {
-            return NO;
-        }
-        if (strstr(dataStr, targetStr)) {//直接命中
-            return YES;
-        } else if (strstr(dataStr, targetHighStr)) {//是否先命中高位
-            high = YES;
-        } else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
-            if (high) {
-                return  YES;
-            }
-        }
-        begin += 4;
-    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
-    return NO;
-    
-}
 @end

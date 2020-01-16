@@ -356,6 +356,7 @@
     return header;
 }
 
+#pragma mark Tools
 //字节对齐
 + (NSRange)rangeAlign:(NSRange)range {
     unsigned long long location = NSMaxRange(range);
