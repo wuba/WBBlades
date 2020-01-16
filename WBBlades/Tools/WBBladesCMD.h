@@ -1,5 +1,5 @@
 //
-//  CMD.h
+//  WBBladesCMD.h
 //  WBBlades
 //
 //  Created by 邓竹立 on 2019/12/25.
@@ -10,6 +10,7 @@
 
 
 //在控制台彩色打印
+
 void colorPrint(NSString *info);
 
 //剥离符号表

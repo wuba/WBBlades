@@ -7,7 +7,7 @@
 //
 
 #import "WBBladesFileManager.h"
-#import "CMD.h"
+#import "WBBladesCMD.h"
 
 @implementation WBBladesFileManager
 

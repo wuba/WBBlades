@@ -12,7 +12,7 @@
 #import "WBBladesLinkManager.h"
 #import "WBBladesScanManager+UnuseClassScan.h"
 #import "WBBladesScanManager+CrashSymbol.h"
-#import "CMD.h"
+#import "WBBladesCMD.h"
 
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
