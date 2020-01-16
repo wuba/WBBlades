@@ -59,8 +59,7 @@
     for (NSUInteger i = 0; i < len; i++)
     {
         unichar c = charAtIdx(orig, sel, i);
-        switch (c)
-        {
+        switch (c) {
             default:    [str appendFormat:@"%C",c]; break;
             case L'\f': [str appendString:@"\\f"]; break; // form feed - new page (byte 0x0c)
             case L'\n': [str appendString:@"\\n"]; break; // line feed - new line (byte 0x0a)

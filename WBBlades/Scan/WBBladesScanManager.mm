@@ -365,8 +365,7 @@
 + (BOOL)isSupport:(NSData *)fileData {
     
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
-    switch (magic)
-    {
+    switch (magic) {
         case FAT_MAGIC: //胖二进制文件
         case FAT_CIGAM:
         {
@@ -399,7 +398,6 @@
     }
     return NO;
 }
-
 
 @end
 
