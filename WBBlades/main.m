@@ -61,7 +61,7 @@ static void scanStaticLibrary(int argc, const char * argv[]) {
             NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];//each pods' path
             NSLog(@"Pod 路径：%@", podPath);
             
-            NSString *podName = [podPath lastPathComponent];//pod name
+            NSString *podName = [podPath lastPathComponent];//pod's name
             
             NSString *outPutPath = resultFilePath();//result output path
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
