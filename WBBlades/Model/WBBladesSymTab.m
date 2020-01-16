@@ -8,10 +8,10 @@
 
 #import "WBBladesSymTab.h"
 
-
 @implementation WBBladesSymbol
 
 @end
+
 @implementation WBBladesSymTab
 
 @end

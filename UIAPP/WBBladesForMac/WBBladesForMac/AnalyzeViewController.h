@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AnalyzeViewController : NSViewController
 
-@property(nonatomic, assign) AnalyzeType type;
+@property (nonatomic, assign) AnalyzeType type;
 
 @end
 

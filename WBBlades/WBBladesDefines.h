@@ -37,21 +37,21 @@ struct class64Info
 
 struct method64_list_t
 {
-  unsigned int  entsize;
-  unsigned int  count;
+  unsigned int entsize;
+  unsigned int count;
 };
 
 struct method64_t
 {
-  unsigned long long  name;
-  unsigned long long  types;
-  unsigned long long  imp;
+  unsigned long long name;
+  unsigned long long types;
+  unsigned long long imp;
 };
 
 struct ivar64_list_t
 {
-  unsigned int  entsize;
-  unsigned int  count;
+  unsigned int entsize;
+  unsigned int count;
 };
 
 struct ivar64_t

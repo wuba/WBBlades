@@ -7,11 +7,12 @@
 //
 
 #import "WBBladesLinkManager.h"
+#import <mach-o/nlist.h>
+
 #import "WBBladesObjectHeader.h"
 #import "WBBladesSymTab.h"
 #import "WBBladesStringTab.h"
 #import "WBBladesObject.h"
-#import <mach-o/nlist.h>
 
 #define SYMBOL_TABLE @"symbol_tab"
 #define STRING_TABLE @"string_tab"
@@ -35,11 +36,11 @@ typedef struct wb_objc_classdata {
 
 @interface WBBladesLinkManager ()
 
-@property(nonatomic,strong) NSMutableDictionary<NSString *,NSMutableSet*> *unixData;
+@property (nonatomic, strong) NSMutableDictionary<NSString *,NSMutableSet*> *unixData;
 
-@property(nonatomic,assign)unsigned long long linkSize;
+@property (nonatomic, assign) unsigned long long linkSize;
 
-@property(nonatomic,strong) NSMutableSet *abandonStringSet;
+@property (nonatomic, strong) NSMutableSet *abandonStringSet;
 
 @end
 
@@ -56,26 +57,20 @@ typedef struct wb_objc_classdata {
     return linker;
 }
 
-- (unsigned long long )linkWithObjects:(NSArray<WBBladesObject *>*)objects{
-    
+- (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects {
     self.linkSize = 0;
     for (WBBladesObject *object in objects) {
-        
-
         self.linkSize += object.objectMachO.size;
-        
+
         //对section 进行链接
         [object.objectMachO.sections enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull section, BOOL * _Nonnull stop) {
-            
             if (!self.unixData[key]) {
                 self.unixData[key] = [NSMutableSet set];
             }
             
             NSMutableSet *set = self.unixData[key];
-            
             for (id value in section) {
-                
-                int scale = [key isEqualToString:@"(__TEXT,__ustring)"]?2:1;
+                int scale = [key isEqualToString:@"(__TEXT,__ustring)"] ? 2 : 1;
                 if ([set containsObject:value]) {
                     self.linkSize -= [value length] * scale;
                 }
@@ -83,11 +78,10 @@ typedef struct wb_objc_classdata {
             }
         }];
     }
-    
     return self.linkSize;
 }
 
-- (void)clearLinker{
+- (void)clearLinker {
     self.unixData = nil;
     self.unixData = [NSMutableDictionary dictionary];
     self.linkSize = 0;

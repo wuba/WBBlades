@@ -16,12 +16,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  根据Type来初始化View
  */
--(instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type;
+- (instancetype)initWithFrame:(NSRect)frameRect type:(AnalyzeType)type;
 
 /**
  *  结束
  */
--(void)closeWindow:(NSWindow *)window;
+- (void)closeWindow:(NSWindow *)window;
 
 @end
 

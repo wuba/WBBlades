@@ -10,42 +10,39 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-
 @interface WBBladesSymbol : NSObject
 
-@property(nonatomic,assign)unsigned int symbolIndex;
+@property (nonatomic, assign) unsigned int symbolIndex;
 
-@property(nonatomic,assign)unsigned int offset;
+@property (nonatomic, assign) unsigned int offset;
 
 @end
 
 @interface WBBladesSymTab : NSObject
 
-@property(nonatomic,assign)unsigned int size;
+@property (nonatomic, assign) unsigned int size;
 
-@property(nonatomic,strong)NSArray<WBBladesSymbol*>* symbols;
+@property (nonatomic, strong) NSArray<WBBladesSymbol*> *symbols;
 
-@property(nonatomic,assign)NSRange range;
+@property (nonatomic, assign) NSRange range;
 
 @end
 
 @interface WBBladesSymTabCommand : NSObject
 
-@property(nonatomic,assign)unsigned int cmd;
+@property (nonatomic, assign) unsigned int cmd;
 
-@property(nonatomic,assign)unsigned int cmdsize;
+@property (nonatomic, assign) unsigned int cmdsize;
 
-@property(nonatomic,assign)unsigned int symbolOff;
+@property (nonatomic, assign) unsigned int symbolOff;
 
-@property(nonatomic,assign)unsigned int symbolNum;
+@property (nonatomic, assign) unsigned int symbolNum;
 
-@property(nonatomic,assign)unsigned int strOff;
+@property (nonatomic, assign) unsigned int strOff;
 
-@property(nonatomic,assign)unsigned int strSize;
+@property (nonatomic, assign) unsigned int strSize;
 
-@property(nonatomic,assign)BOOL withDWARF;
-
-
+@property (nonatomic, assign) BOOL withDWARF;
 
 @end
 
