@@ -10,16 +10,16 @@
 #import "WBBladesDefines.h"
 
 @implementation WBBladesTool
-+ (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
-    range = NSMakeRange(NSMaxRange(range),len);
++ (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
+    range = NSMakeRange(NSMaxRange(range), len);
     NSMutableArray *strings = [NSMutableArray array];
     
     unsigned long size = 0;
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
+    uint8_t *buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
     uint8_t *p = buffer;
     while (size < len) {
-        NSString * str = NSSTRING(p);
+        NSString *str = NSSTRING(p);
         str = [self replaceEscapeCharsInString:str];
         if (str) {
             [strings addObject:str];
@@ -33,27 +33,27 @@
     return [strings copy];
 }
 
-+ (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData{
-    range = NSMakeRange(NSMaxRange(range),len);
-    uint8_t * buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
++ (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
+    range = NSMakeRange(NSMaxRange(range), len);
+    uint8_t *buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
-    NSString * str = NSSTRING(buffer);
+    NSString *str = NSSTRING(buffer);
     free (buffer);
     return [self replaceEscapeCharsInString:str];
 }
 
-+ (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData{
-    range = NSMakeRange(NSMaxRange(range),length);
-    uint8_t * buffer = (uint8_t *)malloc(length);
++ (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData {
+    range = NSMakeRange(NSMaxRange(range), length);
+    uint8_t *buffer = (uint8_t *)malloc(length);
     [fileData getBytes:buffer range:range];
-    NSData * ret = [NSData dataWithBytes:buffer length:length];
+    NSData *ret = [NSData dataWithBytes:buffer length:length];
     free (buffer);
     return ret;
 }
 
-+ (NSString *) replaceEscapeCharsInString: (NSString *)orig{
++ (NSString *)replaceEscapeCharsInString:(NSString *)orig {
     NSUInteger len = [orig length];
-    NSMutableString * str = [[NSMutableString alloc] init];
+    NSMutableString *str = [[NSMutableString alloc] init];
     SEL sel = @selector(characterAtIndex:);
     unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
     for (NSUInteger i = 0; i < len; i++)
@@ -75,12 +75,12 @@
 + (cs_insn * )disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size {
     
     //获取汇编
-    char * ot_sect = (char *)[fileData bytes] + begin;
-    uint64_t ot_addr = begin ;
+    char *ot_sect = (char *)[fileData bytes] + begin;
+    uint64_t ot_addr = begin;
     csh cs_handle = 0;
     cs_insn *cs_insn = NULL;
     cs_err cserr;
-    if ((cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ){
+    if ((cserr = cs_open(CS_ARCH_ARM64, CS_MODE_ARM, &cs_handle)) != CS_ERR_OK ) {
         NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
         return NULL;
     }
