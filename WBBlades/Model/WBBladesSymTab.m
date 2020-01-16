@@ -12,6 +12,7 @@
 @implementation WBBladesSymbol
 
 @end
+
 @implementation WBBladesSymTab
 
 @end
