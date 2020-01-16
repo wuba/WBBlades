@@ -36,11 +36,11 @@ typedef struct wb_objc_classdata {
 
 @interface WBBladesLinkManager ()
 
-@property(nonatomic,strong) NSMutableDictionary<NSString *,NSMutableSet*> *unixData;
+@property (nonatomic, strong) NSMutableDictionary<NSString *,NSMutableSet*> *unixData;
 
-@property(nonatomic,assign)unsigned long long linkSize;
+@property (nonatomic, assign) unsigned long long linkSize;
 
-@property(nonatomic,strong) NSMutableSet *abandonStringSet;
+@property (nonatomic, strong) NSMutableSet *abandonStringSet;
 
 @end
 
@@ -57,12 +57,11 @@ typedef struct wb_objc_classdata {
     return linker;
 }
 
-- (unsigned long long )linkWithObjects:(NSArray<WBBladesObject *>*)objects{
+- (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects {
     
     self.linkSize = 0;
     for (WBBladesObject *object in objects) {
         
-
         self.linkSize += object.objectMachO.size;
         
         //对section 进行链接
@@ -76,7 +75,7 @@ typedef struct wb_objc_classdata {
             
             for (id value in section) {
                 
-                int scale = [key isEqualToString:@"(__TEXT,__ustring)"]?2:1;
+                int scale = [key isEqualToString:@"(__TEXT,__ustring)"] ? 2 : 1;
                 if ([set containsObject:value]) {
                     self.linkSize -= [value length] * scale;
                 }
@@ -88,7 +87,7 @@ typedef struct wb_objc_classdata {
     return self.linkSize;
 }
 
-- (void)clearLinker{
+- (void)clearLinker {
     self.unixData = nil;
     self.unixData = [NSMutableDictionary dictionary];
     self.linkSize = 0;

@@ -12,9 +12,9 @@
 
 @interface MainViewController ()
 
-@property(nonatomic,strong)IBOutlet NSButton *staticLibBtn;
-@property(nonatomic,strong)IBOutlet NSButton *unusedClassBtn;
-@property(nonatomic,strong)IBOutlet NSButton *crashAnalyzeBtn;
+@property (nonatomic, strong) IBOutlet NSButton *staticLibBtn;
+@property (nonatomic, strong) IBOutlet NSButton *unusedClassBtn;
+@property (nonatomic, strong) IBOutlet NSButton *crashAnalyzeBtn;
 
 @property(nonatomic,strong)NSTask *bladesTask;
 
@@ -24,8 +24,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-//    [self startTask];
+    
+    //    [self startTask];
 }
 
 //静态库大小分析
@@ -37,7 +37,7 @@
 //无用类分析
 - (IBAction)unusedClassClicked:(id)sender {
     NSLog(@"unused");
-   [self createANewWindow:AnalyzeAppUnusedClassType];
+    [self createANewWindow:AnalyzeAppUnusedClassType];
 }
 
 //无符号崩溃日志分析
@@ -47,7 +47,7 @@
 }
 
 //为了同时可以进行多个任务，每个功能都新建一个Window
-- (void)createANewWindow:(AnalyzeType)type{
+- (void)createANewWindow:(AnalyzeType)type {
     AnalyzeWindowController *wc = [[AnalyzeWindowController alloc]initWithWindowNibName:@"AnalyzeWindowController"];
     wc.type = type;
     [wc.window center];

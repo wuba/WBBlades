@@ -25,7 +25,7 @@
     [self.view addSubview:self.controlView];
 }
 
--(NSView *)controlView{
+- (NSView *)controlView {
     if (!_controlView) {
         if (self.type == AnalyzeAppCrashLogType) {//崩溃日志
             _controlView = [[AnalyzeCrashView alloc]initWithFrame:self.view.frame];
@@ -36,14 +36,14 @@
     return _controlView;
 }
 
-- (void)viewDidLayout{
+- (void)viewDidLayout {
     [super viewDidLayout];
     NSButton *closeButton = [self.view.window standardWindowButton:NSWindowCloseButton];
     [closeButton setTarget:self];
     [closeButton setAction:@selector(closeCurWindow)];
 }
 
-- (void)closeCurWindow{
+- (void)closeCurWindow {
     if ([self.controlView respondsToSelector:@selector(closeWindow:)]) {
         [self.controlView performSelector:@selector(closeWindow:) withObject:self.view.window];
     }

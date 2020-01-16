@@ -18,7 +18,7 @@
 
 @implementation WBBladesScanManager (CrashSymbol)
 
-+ (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSString *)crashAddresses{
++ (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSString *)crashAddresses {
     
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
@@ -110,7 +110,7 @@
             [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
             NSString * className = NSSTRING(buffer);
             free(buffer);
-            
+
             NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
             //遍历每个class的method (实例方法)
             if (methodListOffset > 0 && methodListOffset < max) {
@@ -234,7 +234,8 @@
     return crashSymbolRst.copy;
 }
 
-+ (BOOL)scanFuncBinaryCode:(unsigned long long)target  begin:(unsigned long long)begin  vm:(unsigned long long )vm fileData:(NSData*)fileData{
++ (BOOL)scanFuncBinaryCode:(unsigned long long)target  begin:(unsigned long long)begin  vm:(unsigned long long )vm fileData:(NSData*)fileData {
+    
     if (begin > target + vm) {
         return NO;
     }

@@ -10,11 +10,11 @@
 
 @interface WBBladesStringTab : NSObject
 
-@property(nonatomic,assign)unsigned int size;
+@property (nonatomic, assign) unsigned int size;
 
-@property(nonatomic,strong)NSArray<NSString *> *strings;
+@property (nonatomic, strong) NSArray<NSString *> *strings;
 
-@property(nonatomic,assign)NSRange range;
+@property (nonatomic, assign) NSRange range;
 
 @end
 

@@ -20,12 +20,11 @@
 @property (nonatomic,strong) NSMutableArray *usefulCrashStacks;
 @property (nonatomic,strong) NSTask *bladeTask;
 
-
 @end
 
 @implementation AnalyzeCrashView
 
-- (instancetype)initWithFrame:(NSRect)frameRect{
+- (instancetype)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
         [self prepareSubview];
@@ -33,7 +32,7 @@
     return self;
 }
 
-- (void)prepareSubview{
+- (void)prepareSubview {
     _crashStacks = [[NSMutableArray alloc] init];
     _usefulCrashStacks = [[NSMutableArray alloc] init];
     
@@ -160,7 +159,7 @@
 }
 
 #pragma mark 响应事件
-- (void)ipaPreviewBtnClicked:(id)sender{
+- (void)ipaPreviewBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt:@"选择可执行文件"];
     openPanel.allowsMultipleSelection = NO;
@@ -189,7 +188,7 @@
     }];
 }
 
-- (void)importBtnClicked:(id)sender{
+- (void)importBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt:@"选择崩溃日志文件"];
     openPanel.allowsMultipleSelection = NO;
@@ -206,7 +205,7 @@
     }];
 }
 
-- (void)startBtnClicked:(id)sender{
+- (void)startBtnClicked:(id)sender {
     
     _resultView.string = @"";
     _startButton.enabled = NO;
@@ -246,7 +245,7 @@
         if (compos.count > 2) {
             if ([crashLine containsString:execName] || [crashLine containsString:fileName]) {
                 NSString *offset = compos.lastObject;
-                if(offset.longLongValue) {
+                if (offset.longLongValue) {
                     [crashOffsets addObject:[NSString stringWithString:offset]];
                 }
                 [_usefulCrashStacks addObject:crashLine];
@@ -271,12 +270,12 @@
 }
 
 #pragma mark Analyze
--(void)analyzeCrashFromOffsets:(NSString*)offsets {
+- (void)analyzeCrashFromOffsets:(NSString*)offsets {
     _resultView.string = @"解析中，请稍候";
     
     __weak typeof(self) weakSelf = self;
     NSString *inputFile = _exeFileView.string;
-
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
         NSTask *bladesTask = [[NSTask alloc] init];
@@ -325,6 +324,7 @@
             }
         }
     }
+    
     NSString *outputer = [outputArr componentsJoinedByString:@"\n"];
     _resultView.string = [outputer copy];
     [_crashStacks removeAllObjects];
@@ -341,11 +341,11 @@
 - (void)openResultFile {
     NSString *fileName = @"/WBBladesCrash.txt";
     NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",desktop,fileName]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@", desktop, fileName]];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
-- (void)closeWindow:(NSWindow *)window{
+- (void)closeWindow:(NSWindow *)window {
     if (!self.bladeTask) {
         [window orderOut:nil];
         return;
@@ -366,7 +366,7 @@
 }
 
 #pragma mark Tools
-- (NSString *)importCrashLogStach:(NSURL*)url{
+- (NSString *)importCrashLogStach:(NSURL*)url {
     NSString *dataString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
     NSArray *lines = [dataString componentsSeparatedByString:@"\n"];
     
@@ -410,7 +410,7 @@
 
 //从Last Exception Backtrace中获取与当前进程的地址，并转为Model
 - (NSArray<NSString*>*)obtainLastExceptionCrashModels:(NSString *)string
-                                           binaryAddress:(NSString*)between{
+                                        binaryAddress:(NSString*)between {
     NSMutableArray *array = [NSMutableArray array];
     
     NSArray *processArray = [between componentsSeparatedByString:@" "];
@@ -434,7 +434,7 @@
                 NSInteger offsetNum = stringNum - startNum;
                 NSString *stack = [NSString stringWithFormat:@"%li %@ %lu",i,processName,offsetNum];
                 [array addObject:stack];
-            }else{
+            } else {
                 [array addObject:string];
             }
         }
@@ -443,12 +443,11 @@
     return [array copy];
 }
 
-- (NSInteger)numberWithHexString:(NSString *)hexString{
+- (NSInteger)numberWithHexString:(NSString *)hexString {
     const char *hexChar = [hexString cStringUsingEncoding:NSUTF8StringEncoding];
     int hexNumber;
     sscanf(hexChar, "%x", &hexNumber);
     return (NSInteger)hexNumber;
 }
-
 
 @end
