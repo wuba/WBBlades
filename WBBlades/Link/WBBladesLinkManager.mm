@@ -89,5 +89,4 @@ typedef struct wb_objc_classdata {
     self.abandonStringSet = [NSMutableSet set];
 }
 
-
 @end

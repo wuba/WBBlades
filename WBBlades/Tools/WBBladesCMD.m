@@ -8,6 +8,7 @@
 
 #import "WBBladesCMD.h"
 
+// Execute command in console.
 static const char *cmd(NSString *cmd) {
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
@@ -16,22 +17,20 @@ static const char *cmd(NSString *cmd) {
     NSPipe *pipe = [NSPipe pipe];
     [task setStandardOutput: pipe];
     
-    // 开始task
-    NSFileHandle *file = [pipe fileHandleForReading];
+    NSFileHandle *file = [pipe fileHandleForReading];  // Start task
     [task launch];
     
-    // 获取运行结果
-    NSData *data = [file readDataToEndOfFile];
+    NSData *data = [file readDataToEndOfFile];    // Get execution results.
     return [data bytes];
 }
 
 void stripFile(NSString *filePath) {
-    //去除bitcode信息
-    NSLog(@"正在去除bitcode中间码...");
+
+    NSLog(@"正在去除bitcode中间码...");    // Remove bitcode information.
     NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
     cmd(bitcodeCmd);
-    //剥离符号表
-    NSLog(@"正在剥离符号表...");
+    
+    NSLog(@"正在剥离符号表..."); // Strip symbol table.
     NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x -S %@_copy",filePath];
     cmd(stripCmd);
 }
@@ -57,7 +56,7 @@ void removeCopyFile(NSString *filePath) {
 }
 
 /**
- actool(apple命令行工具)    --filter-for-device-model iPhone7,2（指定设备） --filter-for-device-os-version 13.0（指定系统）  --target-device iphone --minimum-deployment-target 9（指定最小版本） --platform iphoneos（指定操作系统类型）  --compile /Users/a58/Desktop/BottomDlib/BottomDlib/  /Users/a58/Desktop/BottomDlib/BottomDlib/YXUIBase.xcassets （指定编译文件所在路径，如有多个，加空格拼接即可）
+ actool(apple command line tool)    --filter-for-device-model iPhone7,2（Specify the device） --filter-for-device-os-version 13.0（Specify the system）  --target-device iphone --minimum-deployment-target 9（Specify the minimum version） --platform iphoneos（Specify operation system type）  --compile /Users/a58/Desktop/BottomDlib/BottomDlib/  /Users/a58/Desktop/BottomDlib/BottomDlib/YXUIBase.xcassets （Specify the path where the compiled files are located. If there are multiple paths, concatenate them with spaces.）
  */
 void compileXcassets(NSString *path) {
     NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@", [path stringByDeletingLastPathComponent],path];

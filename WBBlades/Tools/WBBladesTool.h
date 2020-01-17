@@ -13,19 +13,34 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesTool : NSObject
 
-//读取连续字符串
+/**
+ * Return an array contains continuous strings from the file data.
+ * See method implementation for details.
+ */
 + (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData;
 
-//读取单个字符串
+/**
+ * Return a single string from the file data.
+ * @param range Indicate the start location of the buffer storing the string.
+ * @param len The actural size of the buffer.
+ * @param fileData The file data to be read from.
+ * @return The string in the file data start at the end of the range whose size is len.
+ */
 + (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData;
 
-//读取字节
+/**
+ * Return bytes data from the file data.
+ */
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData;
 
-//字符替换
-+ (NSString *)replaceEscapeCharsInString: (NSString *)orig;
+/**
+ * Replace the escape characters in the input string.
+ */
++ (NSString *)replaceEscapeCharsInString:(NSString *)orig;
 
-//反汇编
+/**
+ * disassembly
+ */
 + (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size;
 
 @end

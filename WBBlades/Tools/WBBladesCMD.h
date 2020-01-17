@@ -8,24 +8,39 @@
 
 #import <Foundation/Foundation.h>
 
-//剥离符号表
+/**
+ * Input file path, strip the symbol table.
+ */
 void stripFile(NSString *filePath);
 
-//对文件进行拷贝
+/**
+ * Input file path, copy the file.
+ */
 void copyFile(NSString *filePath);
 
-//架构剥离，保留目标架构：arm64
+/**
+ * Input file path, strip multiple architectures and keep the arm64 architecture.
+ */
 void thinFile(NSString *filePath);
 
-//删除文件
+/**
+ * Remove the file.
+ */
 void removeFile(NSString *filePath);
-
-//删除拷贝文件
+ 
+/**
+ * Remove the copied file.
+ */
 void removeCopyFile(NSString *filePath);
-
-//对xcassert资源进行编译
+ 
+/**
+ * Compile xcassert resources.
+ */
 void compileXcassets(NSString *path);
 
-//在控制台彩色打印
+/**
+ * Color printing to console.
+ * @param info Information to be printed.
+ */
 void colorPrint(NSString *info);
 

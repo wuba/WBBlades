@@ -10,7 +10,15 @@
 #import "WBBladesDefines.h"
 
 @implementation WBBladesTool
+
+/**
+ * @param range Indicate the start location of the buffer.
+ * @param len The actural size of the buffer.
+ * @param fileData The file data to be read.
+ * @return The array contains the strings read from the file data.
+ */
 + (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
+    
     range = NSMakeRange(NSMaxRange(range), len);
     NSMutableArray *strings = [NSMutableArray array];
     
@@ -18,13 +26,13 @@
     uint8_t *buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
     uint8_t *p = buffer;
+    
     while (size < len) {
         NSString *str = NSSTRING(p);
         str = [self replaceEscapeCharsInString:str];
         if (str) {
             [strings addObject:str];
-            //            NSLog(@"%@",str);
-            //+1 是为了留出'\0'的位置
+            // +1 to leave a space for '\0'
             size = [str length] + size + 1;
             p = p + [str length] + 1;
         }
@@ -73,7 +81,7 @@
 
 + (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size {
     
-    //获取汇编
+    // Get compilation.
     char *ot_sect = (char *)[fileData bytes] + begin;
     uint64_t ot_addr = begin;
     csh cs_handle = 0;
@@ -83,12 +91,12 @@
         NSLog(@"Failed to initialize Capstone: %d, %s.", cserr, cs_strerror(cs_errno(cs_handle)));
         return NULL;
     }
-    //设置解析模式
+    // Set the parsing mode.
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
     //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
     
-    //进行反汇编
+    // Disassemble
     size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, size, ot_addr, 0, &cs_insn);
     if (disasm_count < 1 ) {
         NSLog(@"汇编指令解析不符合预期！");

@@ -24,7 +24,7 @@
 
 + (NSData *)readArm64FromFile:(NSString *)filePath {
     
-    //对app文件进行路径修正
+    // Path correction for the app file.
     NSString *lastPathComponent = [filePath lastPathComponent];
     NSArray *tmp = [lastPathComponent componentsSeparatedByString:@"."];
     if ([tmp count] == 2) {
@@ -35,14 +35,11 @@
         }
     }
     
-    //移除拷贝文件
     removeCopyFile(filePath);
     
-    //备份文件
     copyFile(filePath);
     
-    //剔除非arm64架构
-    thinFile(filePath);
+    thinFile(filePath);    // Remove architectures which are not arm64.
     
     NSURL *tmpURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@_copy", filePath]];
     NSData *fileData = [NSMutableData dataWithContentsOfURL:tmpURL
