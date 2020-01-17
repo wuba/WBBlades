@@ -13,12 +13,20 @@ NS_ASSUME_NONNULL_BEGIN
 @class WBBladesObject;
 @interface WBBladesLinkManager : NSObject
 
+/**
+ * Get the instance.
+ * @return The Singleton.
+ */
 + (WBBladesLinkManager *)shareInstance;
 
-//整合所有的目标文件
+/**
+ * Integrate all target objects and return the linked size.
+ */
 - (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects;
 
-//清除目标文件
+/**
+ * Clear the link manager share instance.
+ */
 - (void)clearLinker;
 
 @end
