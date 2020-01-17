@@ -26,6 +26,7 @@
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
 
+//dump binary file's classes
 + (NSSet *)dumpClassList:(NSData *)fileData {
     
     if (!fileData || ![self isSupport:fileData]) {
@@ -56,6 +57,7 @@ static section_64 textList = {0};
 }
 
 #pragma mark Scan
+//scan specified file to find unused classes
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
     
     NSLog(@"目标%ld个类",aimClasses.count);
@@ -77,10 +79,10 @@ static section_64 textList = {0};
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
-            //遍历查找classlist、selref、classref、nlcls、cfstring section
+            //enumerate classlist、selref、classref、nlcls、cfstring section
             if ([segName isEqualToString:SEGMENT_DATA] ||
                 [segName isEqualToString:SEGMENT_DATA_CONST]) {
-                //遍历所有的section header
+                //enumerate section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     
@@ -88,22 +90,22 @@ static section_64 textList = {0};
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
                     
-                    //记录classlist
+                    //note classlist
                     if ([secName isEqualToString:DATA_CLASSLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_CLASSLIST_SECTION]) {
                         classList = sectionHeader;
                     }
-                    //记录classref
+                    //note classref
                     if ([secName isEqualToString:DATA_CLASSREF_SECTION] ||
                         [secName isEqualToString:CONST_DATA_CLASSREF_SECTION]) {
                         classrefList = sectionHeader;
                     }
-                    //记录nclasslist
+                    //note nclasslist
                     if ([secName isEqualToString:DATA_NCLSLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
                         nlclsList = sectionHeader;
                     }
-                    //记录Cstring
+                    //note Cstring
                     if ([secName isEqualToString:DATA_CSTRING]) {
                         cfstringList = sectionHeader;
                     }
@@ -120,7 +122,7 @@ static section_64 textList = {0};
                     if ([secName isEqualToString:TEXT_TEXT_SECTION]) {
                         textList = sectionHeader;
                         
-                        //对二进制文件的汇编代码进行反汇编
+                        //Disassemble the assembly code of the binary
                         s_cs_insn = [WBBladesTool disassemWithMachOFile:fileData from:sectionHeader.offset length:sectionHeader.size];
                     }
                     
@@ -134,16 +136,16 @@ static section_64 textList = {0};
     
     NSMutableSet *classrefSet = [NSMutableSet set];
     
-    //获取nlclslist
+    //read nlclslist
      [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
     
-    //获取classref
+    //read classref
     [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
     
-    //获取cfstring
+    //read cfstring
     [self readCStringList:cfstringList set:classrefSet fileData:fileData];
     
-    //获取所有类classlist
+    //read classlist
     NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
@@ -154,7 +156,7 @@ static section_64 textList = {0};
 
 + (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
         
-    //获取二进制文件符号表
+    //binary files's symbol table
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     unsigned long long symbolOffset = symCmd.symbolOff;
     unsigned long long targetAddress = helper.offset;
@@ -163,16 +165,16 @@ static section_64 textList = {0};
         return YES;
     }
     
-    //目标地址
+    //target address
     char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     
-    //目标地址高位
+    //target high address
     char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
     
-    //目标地址低位
+    //Target low address
     char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
         
-    //遍历符号表
+    //enumerate symbol table
     for (int i=0; i < symCmd.symbolNum - 1; i++) {
         nlist_64 nlist;
         ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
@@ -202,7 +204,8 @@ static section_64 textList = {0};
             
             unsigned long long begin = nlist.n_value;
             
-            //给定函数指令起点，开始遍历是否存在类地址的调用，如果存在这认为在该函数中有使用此类
+            //set the starting point of a function instruction, start enumerating to see if a class address exists
+            //if true, you can assume that this class is used in this function
             BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
             if (use) {
                 return YES;
@@ -216,7 +219,7 @@ static section_64 textList = {0};
     char *asmStr;
     BOOL high = NO;
     
-    //自前向后遍历函数指令
+    //enumerate function instruction
     do {
         unsigned long long index = (begin - textList.offset - vm) / 4;
         char *dataStr = s_cs_insn[index].op_str;
@@ -224,17 +227,17 @@ static section_64 textList = {0};
         if (strcmp(".byte",asmStr) == 0) {
             return NO;
         }
-        if (strstr(dataStr, targetStr)) {//直接命中
+        if (strstr(dataStr, targetStr)) {//hit
             return YES;
-        } else if (strstr(dataStr, targetHighStr)) {//是否先命中高位
+        } else if (strstr(dataStr, targetHighStr)) {//hit high address
             high = YES;
-        } else if (strstr(dataStr, targetLowStr)) {//是否在命中了高位后，命中了低12位
+        } else if (strstr(dataStr, targetLowStr)) {//after hit high address,hit low address
             if (high) {
                 return  YES;
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0 );//直到遇到ret指令
+    } while (strcmp("ret",asmStr) != 0 );//result
     return NO;
     
 }
@@ -253,13 +256,13 @@ static section_64 textList = {0};
                 [data getBytes:&classAddress range:NSMakeRange(0, 8)];
                 unsigned long long classOffset = classAddress - vm;
                 
-                //获取类结构体
+                //class struct
                 class64 targetClass = {0};
                 NSRange targetClassRange = NSMakeRange(classOffset, 0);
                 data = [WBBladesTool readBytes:targetClassRange length:sizeof(class64) fromFile:fileData];
                 [data getBytes:&targetClass length:sizeof(class64)];
                 
-                //获取类信息结构体
+                //class info struct
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
                 targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
@@ -269,7 +272,7 @@ static section_64 textList = {0};
                 
                 unsigned long long classNameOffset = targetClassInfo.name - vm;
                 
-                //获取父类信息
+                //superclass info
                 if (targetClass.superClass != 0) {
                     class64 superClass = {0};
                     NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
@@ -284,7 +287,7 @@ static section_64 textList = {0};
                     [data getBytes:&superClassInfo length:sizeof(class64Info)];
                     unsigned long long superClassNameOffset = superClassInfo.name - vm;
                     
-                    //类名最大50字节
+                    //class name 50 bytes maximum
                     uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
                     [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, CLASSNAME_MAX_LEN)];
                     NSString * superClassName = NSSTRING(buffer);
@@ -294,19 +297,19 @@ static section_64 textList = {0};
                     }
                 }
                 
-                //类名最大50字节
+                //class name 50 bytes maximum
                 uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
                 [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                 NSString * className = NSSTRING(buffer);
                 free(buffer);
                 
-                //当前类是否在目标类集合中
+                //judge Whether the current class is in the target class collection
                 if ([aimClasses count]>0 && ![aimClasses containsObject:className]) {
                     continue;
                 }
                 [classSet addObject:className];
                 
-                //遍历成员变量
+                //enumerate member variables
                 unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
                 if (varListOffset > 0 && varListOffset < max) {
                     unsigned int varCount;
@@ -371,17 +374,17 @@ static section_64 textList = {0};
                NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
                classAddress = classAddress - vm;
-               //方法名最大150字节
+               //method name 150 bytes maximum
                if (classAddress > 0 && classAddress < max) {
                    
-                   //获取class64结构体
+                   //class64 struct
                    class64 targetClass;
                    ptrdiff_t off = classAddress;
                    char *p = (char *)fileData.bytes;
                    p = p+off;
                    memcpy(&targetClass, p, sizeof(class64));
                    
-                   //获取class64info结构体
+                   //class64info struct
                    class64Info targetClassInfo = {0};
                    unsigned long long targetClassInfoOffset = targetClass.data - vm;
                    targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
@@ -390,7 +393,7 @@ static section_64 textList = {0};
                    [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                    unsigned long long classNameOffset = targetClassInfo.name - vm;
                    
-                   //类名最大50字节
+                   //class name 50 bytes maximum
                    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
                    [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                    NSString *className = NSSTRING(buffer);
@@ -402,7 +405,7 @@ static section_64 textList = {0};
                        helper.offset = range.location;
                        if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
                            
-                           //查看是否在别的类中有调用
+                           //other class is calling current class
                            if ([self scanSymbolTabWithFileData:fileData helper:helper vm:vm]) {
                                [classrefSet addObject:className];
                            }
@@ -416,7 +419,7 @@ static section_64 textList = {0};
 }
 
 + (void)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
-    //获取nlclslist
+    //nlclslist
     NSRange range = NSMakeRange(nlclsList.offset, 0);
     unsigned long long vm = nlclsList.addr - nlclsList.offset;
     unsigned long long max = [fileData length];
@@ -427,7 +430,7 @@ static section_64 textList = {0};
              NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
              [data getBytes:&classAddress range:NSMakeRange(0, 8)];
              classAddress = classAddress - vm;
-             //方法名最大150字节
+             //method name 150 bytes maximum
              if (classAddress > 0 && classAddress < max) {
                  
                  class64 targetClass;
@@ -441,7 +444,7 @@ static section_64 textList = {0};
                  [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                  unsigned long long classNameOffset = targetClassInfo.name - vm;
                  
-                 //类名最大50字节
+                 //class name 50 bytes maximum
                  uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
                  [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
                  NSString *className = NSSTRING(buffer);
@@ -461,23 +464,23 @@ static section_64 textList = {0};
     if (symTabCommand) {
         return symTabCommand;
     }
-    //获取mach-o header
+    //mach-o header
     mach_header_64 mhHeader;
     NSRange tmpRange = NSMakeRange(0, sizeof(mach_header_64));
     [fileData getBytes:&mhHeader range:tmpRange];
     
-    //获取load command
+    //load command
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     
-    //遍历load command
+    //enumerate load command
     for (int i = 0; i < mhHeader.ncmds; i++) {
         
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
         
-        if (cmd->cmd == LC_SYMTAB) {//查找字符串表
+        if (cmd->cmd == LC_SYMTAB) {//find string table
             
-            //根据字符串的尾部 确定当前mach-o的尾部
+            //get the tail of the current mach-o based on the tail of the string
             symtab_command symtab;
             [fileData getBytes:&symtab range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
             //
@@ -489,7 +492,7 @@ static section_64 textList = {0};
             symtabModel.strSize = symtab.strsize;
             symtabModel.symbolNum = symtab.nsyms;
             symtabModel.withDWARF = YES;
-            //判断是否为剥离符号表的文件
+            //judge whether the file is a divested symbol table
             if (symtabModel.symbolNum > 0) {
                 nlist_64 nlist;
                 ptrdiff_t off = symtabModel.symbolOff;

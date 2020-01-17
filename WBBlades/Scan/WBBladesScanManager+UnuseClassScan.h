@@ -13,13 +13,16 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WBBladesScanManager (UnuseClassScan)
 
 /*
- * 在指定文件中扫描指定的目标类集合。
- * fileData：二进制文件
- * aimClasses：在二进制的哪些类中查找无用类
+ * scan specified file to find unused classes
+ * @param fileData binary data
+ * @param aimClasses specified class
  */
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses;
 
-//dump 二进制中的所有类
+/*
+* dump binary file's classes
+* @param fileData binary data
+*/
 + (NSSet *)dumpClassList:(NSData *)fileData;
 
 @end

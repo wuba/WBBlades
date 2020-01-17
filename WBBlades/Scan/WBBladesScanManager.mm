@@ -26,45 +26,44 @@
 #import "WBBladesDefines.h"
 
 @implementation WBBladesScanManager
-
+//scan static library size
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData {
     
-    //判断是否为静态库文件
+    //judge whether it is a static library
     if ([fileData length] < sizeof(mach_header) || ![self isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
     
-    //获取文件特征值
+    //Get the file eigenvalue
     mach_header header = *(mach_header*)((mach_header *)[fileData bytes]);
-    //如果fileData 为目标文件，目标文件中只加入此目标文件
-    if (header.filetype == MH_OBJECT) {
+    
+    if (header.filetype == MH_OBJECT) {//it is a object file
         WBBladesObject *object = [WBBladesObject new];
         NSRange range = NSMakeRange(0, 0);
-        //提取Mach-O文件
+        
+        //create mach-O file
         WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
         object.objectMachO = macho;
         [objects addObject:object];
-    } else if (header.filetype == MH_DYLIB) {
-        //动态库直接返回文件大小
+    } else if (header.filetype == MH_DYLIB) {//it is a dynamic library
         return [fileData length];
     } else {
-        
-        //header
+        //symbol table header
         NSRange range = NSMakeRange(8, 0);
         WBBladesObjectHeader *symtabHeader = [self scanSymtabHeader:fileData range:range];
         
-        //符号表
+        //symbol table
         range = NSMakeRange(NSMaxRange(symtabHeader.range), 0);
         WBBladesSymTab *symTab = [self scanSymbolTab:fileData range:range];
         
-        //字符串表
+        //string table
         range = NSMakeRange(NSMaxRange(symTab.range), 0);
         WBBladesStringTab *stringTab = [self scanStringTab:fileData range:range];
         
         range = NSMakeRange(NSMaxRange(stringTab.range), 0);
         
-        //循环扫描静态库中所有的目标文件
+        //scan all of the object files
         while (range.location < fileData.length) {
             @autoreleasepool {
                 WBBladesObject *object = [self scanObject:fileData range:range];
@@ -75,20 +74,22 @@
         }
     }
     
-    //对所有的目标文件进行虚拟链接
+    //virtual linking all of the object files
     unsigned long long linkSize = [[WBBladesLinkManager shareInstance] linkWithObjects:objects];
     return linkSize;
 }
 
+//scan object file and return model
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range {
     range = [self rangeAlign:range];
     
-    //扫描头
+    //scan header
     WBBladesObject *object = [WBBladesObject  new];
     object.objectHeader = [self scanObjectHeader:fileData range:range];
     
     range = NSMakeRange(NSMaxRange(object.objectHeader.range), 0);
-    //扫描Mach-O
+    
+    //scan mach=o file
     WBBladesObjectMachO *machO = [self scanObjectMachO:fileData range:range];
     object.objectMachO = machO;
     object.range = NSMakeRange(object.objectHeader.range.location, NSMaxRange(machO.range) - object.objectHeader.range.location);
@@ -99,7 +100,7 @@
     
     NSRange tmpRange = range;
     NSUInteger len = fileData.length - tmpRange.location;
-    //为了复用符号表的获取代码,截取二进制
+    //reuse symbol table code,intercepting binary
     NSData *tmpData = [WBBladesTool readBytes:tmpRange length:len fromFile:fileData];
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader *objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
@@ -109,13 +110,14 @@
 
 + (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange)range {
     
-    //字节对齐
+    //use eight-byte alignment
     range = [self rangeAlign:range];
     
-    //记录__TEXT 和 __DATA的大小
+    //note __TEXT's size, __DATA's size
     WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
     objcMachO.sections = [NSMutableDictionary dictionary];
-    //64位 mach-o 文件的magic number == 0XFEEDFACF
+    
+    //64 bit mach-o file's magic number == 0XFEEDFACF
     unsigned int magicNum = 0;
     NSRange tmpRange = NSMakeRange(range.location, 4);
     [fileData getBytes:&magicNum range:tmpRange];
@@ -124,42 +126,42 @@
         exit(0);
     }
     
-    //获取mach-o header
+    //mach-o header
     mach_header_64 mhHeader;
     tmpRange = NSMakeRange(range.location, sizeof(mach_header_64));
     [fileData getBytes:&mhHeader range:tmpRange];
     unsigned long long mhHeaderLocation = range.location;
     unsigned long long stringTabEnd = mhHeaderLocation;
     
-    //获取load command
+    //load command
     unsigned long long lcLocation = range.location + sizeof(mach_header_64);
     unsigned long long currentLcLocation = lcLocation;
     
-    //遍历load command
+    //enumerate load command
     for (int i = 0; i < mhHeader.ncmds; i++) {
         
-        //获取load command数据
+        //load command data
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
         
-        //如果load command为 segment类型则进行文本段和数据段的提取
+        //if load command is a segment type,extract data and text
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             
-            //重新以segment_command_64结构体类型来获取command数据
-            segment_command_64 segmentCommand;
+            //command data
+            segment_command_64 segmentCommand;//struct
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             
             unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
             
-            //遍历所有的section header
+            //enumerate section header
             for (int j = 0; j < segmentCommand.nsects; j++) {
                 
-                //获取segment_command后的每个secton信息
+                //each section header's data
                 section_64 sectionHeader;
                 [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                 NSString *segName = [[NSString alloc] initWithUTF8String:sectionHeader.segname];
                 
-                //获取section 信息，__TEXT 和 __DATA的大小统计到应用中
+                //__TEXT size + __DATA size + __DATA_CONST size + __RODATA size
                 if ([segName isEqualToString:SEGMENT_TEXT] ||
                     [segName isEqualToString:SEGMENT_RODATA] ||
                     [segName isEqualToString:SEGMENT_DATA] ||
@@ -167,16 +169,16 @@
                     objcMachO.size += sectionHeader.size;
                 }
                 
-                //__TEXT的section 做存储，用于虚拟链接
+                //save for virtual linking
                 if ([segName isEqualToString:SEGMENT_TEXT] || [segName isEqualToString:SEGMENT_RODATA]) {
                     
-                    //跳转到相应的section
+                    //jump to corresponding section
                     unsigned int secOffset = sectionHeader.offset;
                     unsigned long long secLocation = mhHeaderLocation + secOffset;
                     NSString *sectionName = [NSString stringWithFormat:@"(%@,%s)",segName,sectionHeader.sectname];
                     NSRange secRange = NSMakeRange(secLocation, 0);
                     
-                    //根据section数据类型获取section 内容
+                    //get the section content based on the section data type
                     switch (sectionHeader.flags & SECTION_TYPE) {
                         case S_CSTRING_LITERALS: {
                             
@@ -221,7 +223,7 @@
                             
                         case S_REGULAR: {
                             if ([sectionName isEqualToString:CHINESE_STRING_SECTION]) {
-                                //获取中文字符串
+                                //chinese string
                                 NSData *data = [WBBladesTool readBytes:secRange length:sectionHeader.size fromFile:fileData];
                                 
                                 unsigned short *head = (unsigned short *)[data bytes];
@@ -251,9 +253,9 @@
                 
                 currentSecLocation += sizeof(section_64);
             }
-        } else if (cmd->cmd == LC_SYMTAB) {//查找字符串表
-            
-            //根据字符串的尾部 确定当前mach-o的尾部
+        } else if (cmd->cmd == LC_SYMTAB) {//fining string table
+        
+            //get end of mach-o file based on end of string
             symtab_command symtabCommand;
             [fileData getBytes:&symtabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
             stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
@@ -269,19 +271,19 @@
     return objcMachO;
 }
 
-//扫描符号表
+//scan symbol table and return model
 + (WBBladesSymTab *)scanSymbolTab:(NSData *)fileData range:(NSRange)range {
     range = [self rangeAlign:range];
     unsigned long long location = range.location;
     WBBladesSymTab *symTab = [WBBladesSymTab new];
     
-    //获取符号表大小
+    //symbol table size
     NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     symTab.size = size;
     
-    //获取符号表
+    //symbol table
     NSMutableArray *symbols = [NSMutableArray array];
     unsigned int symbolCount = (symTab.size - sizeof(unsigned int)) / 8;
     for (int i = 0; i < symbolCount; i++) {
@@ -300,31 +302,31 @@
         [symbols addObject:symbol];
     }
     symTab.symbols = [symbols copy];
-    symTab.range = NSMakeRange(location, size + sizeof(unsigned int));//size 不包括自身的4字节，所以需要 + 4
+    symTab.range = NSMakeRange(location, size + sizeof(unsigned int));//this size does not include the size of the self,plus 4 bytes
     return symTab;
 }
 
-//扫描字符串表
+//scan string table and return model
 + (WBBladesStringTab *)scanStringTab:(NSData *)fileData range:(NSRange) range {
     
-    //字符串表不存在字节对齐
+    //string table can be regardless of byte alignment
     unsigned long long location = range.location;
     
     WBBladesStringTab *stringTab = [WBBladesStringTab new];
-    //获取字符串表大小
+
+    //string table size
     NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
     unsigned int size = 0;
     [data getBytes:&size range:NSMakeRange(0, 4)];
     
-    //获取所有的字符串信息
     stringTab.strings = [WBBladesTool readStrings:range fixlen:size fromFile:fileData];
     
-    //同理，字符串表长度也不包含自身4字节
+    //this size does not include the size of the self,plus 4 bytes
     stringTab.range = NSMakeRange(location, size + sizeof(unsigned int));
     return stringTab;
 }
 
-//扫描符号表头
+//scan symbol table header and return model
 + (WBBladesObjectHeader *)scanSymtabHeader:(NSData *)fileData range:(NSRange )range{
     
     range = [self rangeAlign:range];
@@ -357,39 +359,40 @@
 }
 
 #pragma mark Tools
-//字节对齐
+//use eight-bytes alignment
 + (NSRange)rangeAlign:(NSRange)range {
     unsigned long long location = NSMaxRange(range);
     location = 8 * ceil(location / 8.0);
     return NSMakeRange(location, range.length);
 }
 
+//judge whether the file is supported
 + (BOOL)isSupport:(NSData *)fileData {
     
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic) {
-        case FAT_MAGIC: //胖二进制文件
+        case FAT_MAGIC: //fat binary file
         case FAT_CIGAM:
         {
             NSLog(@"fat binary");
         } break;
             
-        case MH_MAGIC: //32位mach-o
+        case MH_MAGIC: //32 bit mach-o
         case MH_CIGAM:
         {
             NSLog(@"32位 mach-o");
         } break;
             
-        case MH_MAGIC_64://64位mach-o
+        case MH_MAGIC_64://64 bit mach-o
         case MH_CIGAM_64:
         {
-            //存在一个静态库为单目标文件的情况
+            //a single object
             NSLog(@"64位 mach-o");
             return YES;
         } break;
         default:
         {
-            //静态库文件的特征
+            //it is a static library
             if (*(uint64_t*)((uint8_t *)[fileData bytes]) == *(uint64_t*)"!<arch>\n") {
                 //                NSLog(@"符合单架构静态库特征");
                 return YES;
