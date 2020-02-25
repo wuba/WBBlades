@@ -18,15 +18,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3D6E455C-2326-48B7-B297-C09586BFF1AB"
+            uuid = "D2094F30-BCA4-48A2-B322-7A6586E17D3A"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WBBladesForMac/AnalyzeCrashView.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "246"
-            endingLineNumber = "246"
+            startingLineNumber = "236"
+            endingLineNumber = "236"
             landmarkName = "-startBtnClicked:"
             landmarkType = "7">
          </BreakpointContent>

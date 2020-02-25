@@ -171,18 +171,9 @@
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         
         if (returnCode == 1 && [openPanel URLs]) {
-            NSMutableString *fileFolders = [NSMutableString stringWithString:@""];
-            NSArray *array = [openPanel URLs];
-            for (NSInteger i = 0; i < array.count; i++) {
-                NSURL *url = array[i];
-                NSString *urlString = [url.absoluteString substringFromIndex:7];
-                NSString *string = @",";
-                if (i == array.count - 1) {
-                    string = @"";
-                }
-                [fileFolders appendFormat:@"%@%@",urlString,string];
-            }
-            weakself.exeFileView.string = [fileFolders copy];
+            NSURL *url = [[openPanel URLs] firstObject];
+            NSString *filePath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
+            weakself.exeFileView.string = [filePath stringByRemovingPercentEncoding];
             //weakself.ipaFileView.editable = NO;
         }
     }];
@@ -207,6 +198,8 @@
 
 - (void)startBtnClicked:(id)sender {
     
+    [_crashStacks removeAllObjects];
+    
     _resultView.string = @"";
     _startButton.enabled = NO;
     _crashStackView.editable = NO;
@@ -222,13 +215,10 @@
     }
     NSData *fileData = [NSMutableData dataWithContentsOfURL:fileUrl];
     if (!fileData && ![fileType isEqualToString:@"app"]) {
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert addButtonWithTitle:@"好的"];
-        [alert setMessageText:@"请选择或拖入一个可执行文件"];
-        [alert beginSheetModalForWindow:self.window completionHandler:nil];
-        _startButton.enabled = YES;
-        _crashStackView.editable = YES;
-        _importBtn.enabled = YES;
+        [self stopAnalyzeAlertMessage:@"请选择或拖入一个可执行文件" btnName:@"好的"];
+        return;
+    }else if ([self.exeFileView.string containsString:@" "]|| [self includeChinese:self.exeFileView.string]){
+        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
     
@@ -448,6 +438,31 @@
     int hexNumber;
     sscanf(hexChar, "%x", &hexNumber);
     return (NSInteger)hexNumber;
+}
+
+//无法启动解析的弹框
+- (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
+    NSAlert *alert = [[NSAlert alloc]init];
+    [alert addButtonWithTitle:btnName];
+    [alert setMessageText:msg];
+    __weak __typeof(self)weakSelf = self;
+    [alert beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
+        weakSelf.startButton.enabled = YES;
+        weakSelf.crashStackView.editable = YES;
+        weakSelf.importBtn.enabled = YES;
+    }];
+}
+
+- (BOOL)includeChinese:(NSString *)string
+{
+    for(int i=0; i< [string length];i++)
+    {
+        int a = [string characterAtIndex:i];
+        if( a >0x4e00&& a <0x9fff){
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end

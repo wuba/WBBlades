@@ -258,7 +258,7 @@
         if (returnCode == 1 && [openPanel URLs]) {
             NSURL *url = [[openPanel URLs] firstObject];
             NSString *outputPath = [NSString stringWithFormat:@"%@",[url.absoluteString substringFromIndex:7]];
-            weakSelf.excView.string = outputPath;
+            weakSelf.excView.string = [outputPath stringByRemovingPercentEncoding];
         }
     }];
 }
@@ -320,6 +320,9 @@
 - (void)analyzeLibSize {
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
+        return;
+    }else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
+        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
     
@@ -383,8 +386,11 @@
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
         return;
-    } else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]) {
+    }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]) {
         [self stopAnalyzeAlertMessage:@"未找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
+        return;
+    }else if ([self.excView.string containsString:@" "]|| [self includeChinese:self.excView.string]){
+        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
     NSString *string = [self.objFilesView.string stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
@@ -428,6 +434,18 @@
         weakSelf.consoleView.string = @"";
         weakSelf.needStop = YES;
     }];
+}
+
+- (BOOL)includeChinese:(NSString *)string
+{
+    for(int i=0; i< [string length];i++)
+    {
+        int a = [string characterAtIndex:i];
+        if( a >0x4e00&& a <0x9fff){
+            return YES;
+        }
+    }
+    return NO;
 }
 
 @end
