@@ -323,20 +323,22 @@
     NSString *directoryPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setDateFormat:@"yyyy_MM_dd_HH_mm_ss"];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Beijing"]];
     NSDate *date = [NSDate date];
     NSString *currentTimeString = [dateFormatter stringFromDate:date];
     
-    NSString *outputerPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"WBBladesCrash%@.txt",currentTimeString]];
+    NSString *outputerPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"WBBladesCrash_%@.txt",currentTimeString]];
     
     [outputer writeToFile:outputerPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
-    [self openResultFile:outputerPath];
+    [self openResultFile:currentTimeString];
 }
 
-- (void)openResultFile:(NSString *)outputPath{
-    NSURL *url = [NSURL URLWithString:outputPath];
+- (void)openResultFile:(NSString *)currentTimeString{
+    NSString *fileName = [NSString stringWithFormat:@"/WBBladesCrash_%@.txt",currentTimeString];
+    NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@", desktop, fileName]];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
