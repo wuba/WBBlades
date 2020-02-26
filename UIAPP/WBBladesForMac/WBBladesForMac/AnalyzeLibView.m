@@ -45,6 +45,9 @@
     NSLog(@"dealloc");
 }
 
+/**
+ * 初始化视图
+ */
 - (void)prepareSubview {
     CGFloat typeHeight = 0;
     if(self.type == AnalyzeAppUnusedClassType) {//无用类检测的特殊UI
@@ -205,7 +208,9 @@
 }
 
 #pragma mark getter
-//信号
+/**
+* 信号
+*/
 - (dispatch_semaphore_t)sema {
     if (!_sema) {
         _sema = dispatch_semaphore_create(1);
@@ -214,7 +219,9 @@
 }
 
 #pragma mark 按钮响应事件
-//静态库路径选择点击事件
+/**
+ * 静态库大小检测，选择静态库路径
+ */
 - (void)staticLibPathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"打开"];
@@ -243,7 +250,9 @@
     }];
 }
 
-//无用类检测，选择app可执行文件
+/**
+* 无用类检测，选择app可执行文件
+*/
 - (void)excuteFilePathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"选择app执行文件"];
@@ -263,7 +272,9 @@
     }];
 }
 
-//开始解析点击事件
+/**
+* 开始解析点击事件
+*/
 - (void)startBtnClicked:(id)sender {
     _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
@@ -277,7 +288,9 @@
     }
 }
 
-//暂停解析点击事件
+/**
+* 暂停解析点击事件
+*/
 - (void)stopBtnClicked:(id)sender {
     self.needStop = YES;
     _startBtn.enabled = YES;
@@ -295,7 +308,9 @@
     self.consoleView.string = string;
 }
 
-//打开文件夹点击事件
+/**
+* 打开文件夹点击事件
+*/
 - (void)inFinderBtnClicked:(id)sender {
     NSString *fileName = @"";
     if (self.type == AnalyzeStaticLibrarySizeType) {
@@ -309,14 +324,18 @@
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
-//结束
+/**
+* 关闭窗口
+*/
 - (void)closeWindow:(NSWindow *)window {
     [self stopBtnClicked:nil];
     [window orderOut:nil];
 }
 
 #pragma mark 静态库体积检测
-//静态库体积分析
+/**
+* 静态库体积检测功能
+*/
 - (void)analyzeLibSize {
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
@@ -381,7 +400,9 @@
 }
 
 #pragma mark 无用类检测
-//无用类检测
+/**
+* 无用类检测功能
+*/
 - (void)analyzeUnusedClass {
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
@@ -422,7 +443,9 @@
 }
 
 #pragma mark Tools
-//无法启动解析的弹框
+/**
+* 错误弹框
+*/
 - (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
     NSAlert *alert = [[NSAlert alloc]init];
     [alert addButtonWithTitle:btnName];
@@ -436,6 +459,9 @@
     }];
 }
 
+/**
+* 判断是否包含中文
+*/
 - (BOOL)includeChinese:(NSString *)string
 {
     for(int i=0; i< [string length];i++)

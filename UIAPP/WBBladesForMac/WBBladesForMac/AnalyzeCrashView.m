@@ -10,15 +10,15 @@
 
 @interface AnalyzeCrashView()
 
-@property (nonatomic,weak) NSTextView *exeFileView;
-@property (nonatomic,weak) NSTextView *crashStackView;
-@property (nonatomic,weak) NSTextView *resultView;
-@property (nonatomic,weak) NSButton *startButton;
-@property (nonatomic,weak) NSButton *importBtn;
+@property (nonatomic,weak) NSTextView *exeFileView;//可执行文件输入TextView
+@property (nonatomic,weak) NSTextView *crashStackView;//崩溃堆栈TextView
+@property (nonatomic,weak) NSTextView *resultView;//输出结果TextView
+@property (nonatomic,weak) NSButton *startButton;//开始分析按钮
+@property (nonatomic,weak) NSButton *importBtn;//导入日志文件
 
-@property (nonatomic,strong) NSMutableArray *crashStacks;
-@property (nonatomic,strong) NSMutableArray *usefulCrashStacks;
-@property (nonatomic,strong) NSTask *bladeTask;
+@property (nonatomic,strong) NSMutableArray *crashStacks;//所有堆栈信息
+@property (nonatomic,strong) NSMutableArray *usefulCrashStacks;//需要解析的堆栈
+@property (nonatomic,strong) NSTask *bladeTask;//任务
 
 @end
 
@@ -32,6 +32,9 @@
     return self;
 }
 
+/**
+* 初始化视图
+*/
 - (void)prepareSubview {
     _crashStacks = [[NSMutableArray alloc] init];
     _usefulCrashStacks = [[NSMutableArray alloc] init];
@@ -159,6 +162,9 @@
 }
 
 #pragma mark 响应事件
+/**
+* 选择出现崩溃的app可执行文件
+*/
 - (void)ipaPreviewBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt:@"选择可执行文件"];
@@ -179,6 +185,9 @@
     }];
 }
 
+/**
+* 选择崩溃日志
+*/
 - (void)importBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt:@"选择崩溃日志文件"];
@@ -190,12 +199,15 @@
     [openPanel beginSheetModalForWindow:self.window completionHandler:^(NSModalResponse returnCode) {
         if (returnCode == 1 && [openPanel URLs]) {
             NSURL *url = [[openPanel URLs] firstObject];
-            NSString *logString = [weakself importCrashLogStach:url];
+            NSString *logString = [weakself importCrashLogStack:url];
             weakself.crashStackView.string = logString;
         }
     }];
 }
 
+/**
+* 开始解析
+*/
 - (void)startBtnClicked:(id)sender {
     
     [_crashStacks removeAllObjects];
@@ -260,6 +272,9 @@
 }
 
 #pragma mark Analyze
+/**
+* 根据偏移地址解析
+*/
 - (void)analyzeCrashFromOffsets:(NSString*)offsets {
     _resultView.string = @"解析中，请稍候";
     
@@ -290,6 +305,9 @@
     });
 }
 
+/**
+* 崩溃解析结果
+*/
 - (void)outputResults:(NSDictionary*)resultDic {
     _startButton.enabled = YES;
     _crashStackView.editable = YES;
@@ -335,6 +353,9 @@
     [self openResultFile:currentTimeString];
 }
 
+/**
+* 打开崩溃解析结果文件
+*/
 - (void)openResultFile:(NSString *)currentTimeString{
     NSString *fileName = [NSString stringWithFormat:@"/WBBladesCrash_%@.txt",currentTimeString];
     NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
@@ -342,6 +363,9 @@
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 
+/**
+* 关闭窗口
+*/
 - (void)closeWindow:(NSWindow *)window {
     if (!self.bladeTask) {
         [window orderOut:nil];
@@ -363,7 +387,10 @@
 }
 
 #pragma mark Tools
-- (NSString *)importCrashLogStach:(NSURL*)url {
+/**
+* 获取崩溃堆栈
+*/
+- (NSString *)importCrashLogStack:(NSURL*)url {
     NSString *dataString = [NSString stringWithContentsOfURL:url encoding:NSUTF8StringEncoding error:NULL];
     NSArray *lines = [dataString componentsSeparatedByString:@"\n"];
     
@@ -405,7 +432,9 @@
     return [resultString copy];
 }
 
-//从Last Exception Backtrace中获取与当前进程的地址，并转为Model
+/**
+* 从Last Exception Backtrace中获取与当前进程的地址，并转为Model
+*/
 - (NSArray<NSString*>*)obtainLastExceptionCrashModels:(NSString *)string
                                         binaryAddress:(NSString*)between {
     NSMutableArray *array = [NSMutableArray array];
@@ -440,6 +469,9 @@
     return [array copy];
 }
 
+/**
+* 十六进制字符串转数字
+*/
 - (NSInteger)numberWithHexString:(NSString *)hexString {
     const char *hexChar = [hexString cStringUsingEncoding:NSUTF8StringEncoding];
     int hexNumber;
@@ -447,7 +479,9 @@
     return (NSInteger)hexNumber;
 }
 
-//无法启动解析的弹框
+/**
+* 错误弹框
+*/
 - (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
     NSAlert *alert = [[NSAlert alloc]init];
     [alert addButtonWithTitle:btnName];
@@ -460,6 +494,9 @@
     }];
 }
 
+/**
+* 判断是否包含中文
+*/
 - (BOOL)includeChinese:(NSString *)string
 {
     for(int i=0; i< [string length];i++)
