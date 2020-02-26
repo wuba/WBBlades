@@ -15,6 +15,7 @@
 @property (nonatomic, strong) IBOutlet NSButton *staticLibBtn;
 @property (nonatomic, strong) IBOutlet NSButton *unusedClassBtn;
 @property (nonatomic, strong) IBOutlet NSButton *crashAnalyzeBtn;
+@property (weak) IBOutlet NSImageView *logoView;
 
 @property(nonatomic,strong)NSTask *bladesTask;
 
@@ -26,6 +27,15 @@
     [super viewDidLoad];
     
     //    [self startTask];
+    [self prepareView];
+}
+
+- (void)prepareView{
+    self.logoView.wantsLayer = YES;
+    self.logoView.layer.cornerRadius = 20.0;
+    self.logoView.layer.masksToBounds = YES;
+    self.logoView.layer.borderColor = [NSColor whiteColor].CGColor;
+    self.logoView.layer.borderWidth = 3.0;
 }
 
 //静态库大小分析

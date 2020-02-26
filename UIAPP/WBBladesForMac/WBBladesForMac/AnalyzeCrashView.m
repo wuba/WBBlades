@@ -250,7 +250,7 @@
     } else {
         NSAlert *alert = [[NSAlert alloc] init];
         [alert addButtonWithTitle:@"好的"];
-        [alert setMessageText:@"请粘贴崩溃堆栈"];
+        [alert setMessageText:@"请粘贴App对应的崩溃堆栈"];
         [alert beginSheetModalForWindow:self.window completionHandler:nil];
         _startButton.enabled = YES;
         _crashStackView.editable = YES;
@@ -321,17 +321,22 @@
     [_usefulCrashStacks removeAllObjects];
     
     NSString *directoryPath = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSString *outputerPath = [directoryPath stringByAppendingPathComponent:@"WBBladesCrash.txt"];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"Asia/Beijing"]];
+    NSDate *date = [NSDate date];
+    NSString *currentTimeString = [dateFormatter stringFromDate:date];
+    
+    NSString *outputerPath = [directoryPath stringByAppendingPathComponent:[NSString stringWithFormat:@"WBBladesCrash%@.txt",currentTimeString]];
     
     [outputer writeToFile:outputerPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     
-    [self openResultFile];
+    [self openResultFile:outputerPath];
 }
 
-- (void)openResultFile {
-    NSString *fileName = @"/WBBladesCrash.txt";
-    NSString *desktop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@", desktop, fileName]];
+- (void)openResultFile:(NSString *)outputPath{
+    NSURL *url = [NSURL URLWithString:outputPath];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
 

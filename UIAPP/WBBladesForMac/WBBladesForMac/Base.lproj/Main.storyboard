@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -751,6 +752,20 @@
                                     <action selector="unusedClassClicked:" target="XfG-lQ-9wD" id="hL4-OS-Piv"/>
                                 </connections>
                             </button>
+                            <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rJb-05-j9Q">
+                                <rect key="frame" x="205" y="264" width="120" height="120"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="icon" id="ezk-C2-3bj"/>
+                            </imageView>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RxT-tK-dmi">
+                                <rect key="frame" x="404" y="309" width="217" height="30"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="WBBlade检测工具" id="zj6-tW-Q8r">
+                                    <font key="font" metaFont="system" size="26"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstItem="PtN-fD-Ufz" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="45" id="F1X-wB-XYb"/>
@@ -763,17 +778,19 @@
                     </view>
                     <connections>
                         <outlet property="crashAnalyzeBtn" destination="jTL-mg-3br" id="RCw-J4-8gl"/>
+                        <outlet property="logoView" destination="rJb-05-j9Q" id="oBY-QY-k5f"/>
                         <outlet property="staticLibBtn" destination="PtN-fD-Ufz" id="Bqo-Gz-pxg"/>
                         <outlet property="unusedClassBtn" destination="Vut-4i-RaD" id="AFf-lp-TlU"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75" y="1000"/>
+            <point key="canvasLocation" x="74.5" y="1000"/>
         </scene>
     </scenes>
     <resources>
         <image name="crash_analyze" width="48" height="50"/>
+        <image name="icon" width="279.5" height="275.5"/>
         <image name="static_lib_size" width="50" height="57"/>
         <image name="unused_class" width="48" height="60"/>
     </resources>
