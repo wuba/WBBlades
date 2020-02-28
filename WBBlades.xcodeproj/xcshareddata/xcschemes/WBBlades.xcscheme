@@ -52,11 +52,15 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "2"
+            argument = "3"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "/Users/a58/Desktop/Demo/WBBladesDemoApp.app"
+            argument = "/Users/a58/WBBlades/README/test_need/WBBladesDemoApp.app"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "22880"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
