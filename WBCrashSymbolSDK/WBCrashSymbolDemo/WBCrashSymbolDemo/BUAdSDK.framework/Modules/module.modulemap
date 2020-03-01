@@ -1,0 +1,6 @@
+framework module BUAdSDK {
+  umbrella header "BUAdSDK.h"
+
+  export *
+  module * { export * }
+}

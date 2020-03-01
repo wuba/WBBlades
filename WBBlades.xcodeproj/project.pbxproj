@@ -7,7 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		372935DA22E18AC100C37C02 /* cs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358022E1897E00C37C02 /* cs.c */; };
+		372935DB22E18AC100C37C02 /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358F22E1897E00C37C02 /* SStream.c */; };
+		372935DC22E18AC100C37C02 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729359022E1897E00C37C02 /* utils.c */; };
+		372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */; };
+		372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935CC22E1897E00C37C02 /* AArch64Mapping.c */; };
+		372935DF22E18AC100C37C02 /* AArch64GenDisassemblerTables.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */; };
+		372935E022E18AC100C37C02 /* AArch64GenSubtargetInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */; };
+		372935E122E18AC100C37C02 /* AArch64Disassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935CF22E1897E00C37C02 /* AArch64Disassembler.c */; };
+		372935E222E18AC100C37C02 /* AArch64InstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D022E1897E00C37C02 /* AArch64InstPrinter.c */; };
+		372935E322E18AC100C37C02 /* AArch64BaseInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D122E1897E00C37C02 /* AArch64BaseInfo.c */; };
+		372935E422E18AC100C37C02 /* AArch64GenRegisterInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */; };
+		372935E522E18AC100C37C02 /* AArch64GenInstrInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */; };
+		372935E622E18AC100C37C02 /* AArch64Module.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D522E1897E00C37C02 /* AArch64Module.c */; };
+		372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D622E1897E00C37C02 /* MCInstrDesc.c */; };
+		372935E822E18AC100C37C02 /* MCInst.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D822E1897E00C37C02 /* MCInst.c */; };
+		372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D922E1897E00C37C02 /* MCRegisterInfo.c */; };
+		3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82322B48849002062FE /* WBBladesObjectHeader.m */; };
+		3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82622B48EC4002062FE /* WBBladesSymTab.m */; };
+		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
+		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
+		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
+		37561F3E23B392F10020CF02 /* WBBladesCMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.m */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
+		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
+		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
+		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
+		37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1423B9EC05006D814F /* WBBladesTool.mm */; };
+		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,9 +50,75 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3726270122DC47EE009B6117 /* WBBladesDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
+		3729357822E1897E00C37C02 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		3729357922E1897E00C37C02 /* inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inttypes.h; sourceTree = "<group>"; };
+		3729357A22E1897E00C37C02 /* SStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SStream.h; sourceTree = "<group>"; };
+		3729357B22E1897E00C37C02 /* myinttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myinttypes.h; sourceTree = "<group>"; };
+		3729357C22E1897E00C37C02 /* MathExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathExtras.h; sourceTree = "<group>"; };
+		3729357D22E1897E00C37C02 /* LEB128.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEB128.h; sourceTree = "<group>"; };
+		3729357E22E1897E00C37C02 /* MCFixedLenDisassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCFixedLenDisassembler.h; sourceTree = "<group>"; };
+		3729357F22E1897E00C37C02 /* cs_priv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cs_priv.h; sourceTree = "<group>"; };
+		3729358022E1897E00C37C02 /* cs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cs.c; sourceTree = "<group>"; };
+		3729358222E1897E00C37C02 /* capstone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = capstone.h; sourceTree = "<group>"; };
+		3729358322E1897E00C37C02 /* mips.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mips.h; sourceTree = "<group>"; };
+		3729358422E1897E00C37C02 /* sparc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sparc.h; sourceTree = "<group>"; };
+		3729358522E1897E00C37C02 /* systemz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = systemz.h; sourceTree = "<group>"; };
+		3729358622E1897E00C37C02 /* arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arm.h; sourceTree = "<group>"; };
+		3729358722E1897E00C37C02 /* x86.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x86.h; sourceTree = "<group>"; };
+		3729358822E1897E00C37C02 /* ppc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ppc.h; sourceTree = "<group>"; };
+		3729358922E1897E00C37C02 /* arm64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arm64.h; sourceTree = "<group>"; };
+		3729358A22E1897E00C37C02 /* xcore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xcore.h; sourceTree = "<group>"; };
+		3729358B22E1897E00C37C02 /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		3729358C22E1897E00C37C02 /* MCInstrDesc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCInstrDesc.h; sourceTree = "<group>"; };
+		3729358D22E1897E00C37C02 /* MCRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCRegisterInfo.h; sourceTree = "<group>"; };
+		3729358E22E1897E00C37C02 /* MCInst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCInst.h; sourceTree = "<group>"; };
+		3729358F22E1897E00C37C02 /* SStream.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SStream.c; sourceTree = "<group>"; };
+		3729359022E1897E00C37C02 /* utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
+		3729359122E1897E00C37C02 /* MCDisassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCDisassembler.h; sourceTree = "<group>"; };
+		372935C722E1897E00C37C02 /* AArch64Disassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64Disassembler.h; sourceTree = "<group>"; };
+		372935C822E1897E00C37C02 /* AArch64BaseInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64BaseInfo.h; sourceTree = "<group>"; };
+		372935C922E1897E00C37C02 /* AArch64AddressingModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64AddressingModes.h; sourceTree = "<group>"; };
+		372935CA22E1897E00C37C02 /* AArch64InstPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64InstPrinter.h; sourceTree = "<group>"; };
+		372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenAsmWriter.inc; sourceTree = "<group>"; };
+		372935CC22E1897E00C37C02 /* AArch64Mapping.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Mapping.c; sourceTree = "<group>"; };
+		372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenDisassemblerTables.inc; sourceTree = "<group>"; };
+		372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenSubtargetInfo.inc; sourceTree = "<group>"; };
+		372935CF22E1897E00C37C02 /* AArch64Disassembler.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Disassembler.c; sourceTree = "<group>"; };
+		372935D022E1897E00C37C02 /* AArch64InstPrinter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64InstPrinter.c; sourceTree = "<group>"; };
+		372935D122E1897E00C37C02 /* AArch64BaseInfo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64BaseInfo.c; sourceTree = "<group>"; };
+		372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenRegisterInfo.inc; sourceTree = "<group>"; };
+		372935D322E1897E00C37C02 /* AArch64Mapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64Mapping.h; sourceTree = "<group>"; };
+		372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenInstrInfo.inc; sourceTree = "<group>"; };
+		372935D522E1897E00C37C02 /* AArch64Module.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Module.c; sourceTree = "<group>"; };
+		372935D622E1897E00C37C02 /* MCInstrDesc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCInstrDesc.c; sourceTree = "<group>"; };
+		372935D722E1897E00C37C02 /* osxkernel_inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = osxkernel_inttypes.h; sourceTree = "<group>"; };
+		372935D822E1897E00C37C02 /* MCInst.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCInst.c; sourceTree = "<group>"; };
+		372935D922E1897E00C37C02 /* MCRegisterInfo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCRegisterInfo.c; sourceTree = "<group>"; };
+		3733D82222B48849002062FE /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObjectHeader.h; sourceTree = "<group>"; };
+		3733D82322B48849002062FE /* WBBladesObjectHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObjectHeader.m; sourceTree = "<group>"; };
+		3733D82522B48EC4002062FE /* WBBladesSymTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesSymTab.h; sourceTree = "<group>"; };
+		3733D82622B48EC4002062FE /* WBBladesSymTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesSymTab.m; sourceTree = "<group>"; };
+		3733D82822B4A6D3002062FE /* WBBladesStringTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesStringTab.h; sourceTree = "<group>"; };
+		3733D82922B4A6D3002062FE /* WBBladesStringTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesStringTab.m; sourceTree = "<group>"; };
+		3733D82B22B4BB15002062FE /* WBBladesObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObject.h; sourceTree = "<group>"; };
+		3733D82C22B4BB15002062FE /* WBBladesObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObject.m; sourceTree = "<group>"; };
+		3733D83122B4ED82002062FE /* WBBladesLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesLinkManager.h; sourceTree = "<group>"; };
+		3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesLinkManager.mm; sourceTree = "<group>"; };
+		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
+		37561F3D23B392F10020CF02 /* WBBladesCMD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesCMD.m; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		37F4C63723546B6600346CEF /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
+		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
+		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
+		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesFileManager.m; sourceTree = "<group>"; };
+		37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+CrashSymbol.h"; sourceTree = "<group>"; };
+		37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
+		37CF3F1323B9EC05006D814F /* WBBladesTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
+		37CF3F1423B9EC05006D814F /* WBBladesTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
+		37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
+		37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +132,81 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3729357722E1897E00C37C02 /* Capstone */ = {
+			isa = PBXGroup;
+			children = (
+				3729357822E1897E00C37C02 /* utils.h */,
+				3729357922E1897E00C37C02 /* inttypes.h */,
+				3729357A22E1897E00C37C02 /* SStream.h */,
+				3729357B22E1897E00C37C02 /* myinttypes.h */,
+				3729357C22E1897E00C37C02 /* MathExtras.h */,
+				3729357D22E1897E00C37C02 /* LEB128.h */,
+				3729357E22E1897E00C37C02 /* MCFixedLenDisassembler.h */,
+				3729357F22E1897E00C37C02 /* cs_priv.h */,
+				3729358022E1897E00C37C02 /* cs.c */,
+				3729358122E1897E00C37C02 /* include */,
+				3729358C22E1897E00C37C02 /* MCInstrDesc.h */,
+				3729358D22E1897E00C37C02 /* MCRegisterInfo.h */,
+				3729358E22E1897E00C37C02 /* MCInst.h */,
+				3729358F22E1897E00C37C02 /* SStream.c */,
+				3729359022E1897E00C37C02 /* utils.c */,
+				3729359122E1897E00C37C02 /* MCDisassembler.h */,
+				3729359222E1897E00C37C02 /* arch */,
+				372935D622E1897E00C37C02 /* MCInstrDesc.c */,
+				372935D722E1897E00C37C02 /* osxkernel_inttypes.h */,
+				372935D822E1897E00C37C02 /* MCInst.c */,
+				372935D922E1897E00C37C02 /* MCRegisterInfo.c */,
+			);
+			path = Capstone;
+			sourceTree = "<group>";
+		};
+		3729358122E1897E00C37C02 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				3729358222E1897E00C37C02 /* capstone.h */,
+				3729358322E1897E00C37C02 /* mips.h */,
+				3729358422E1897E00C37C02 /* sparc.h */,
+				3729358522E1897E00C37C02 /* systemz.h */,
+				3729358622E1897E00C37C02 /* arm.h */,
+				3729358722E1897E00C37C02 /* x86.h */,
+				3729358822E1897E00C37C02 /* ppc.h */,
+				3729358922E1897E00C37C02 /* arm64.h */,
+				3729358A22E1897E00C37C02 /* xcore.h */,
+				3729358B22E1897E00C37C02 /* platform.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		3729359222E1897E00C37C02 /* arch */ = {
+			isa = PBXGroup;
+			children = (
+				372935C622E1897E00C37C02 /* AArch64 */,
+			);
+			path = arch;
+			sourceTree = "<group>";
+		};
+		372935C622E1897E00C37C02 /* AArch64 */ = {
+			isa = PBXGroup;
+			children = (
+				372935C722E1897E00C37C02 /* AArch64Disassembler.h */,
+				372935C822E1897E00C37C02 /* AArch64BaseInfo.h */,
+				372935C922E1897E00C37C02 /* AArch64AddressingModes.h */,
+				372935CA22E1897E00C37C02 /* AArch64InstPrinter.h */,
+				372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */,
+				372935CC22E1897E00C37C02 /* AArch64Mapping.c */,
+				372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */,
+				372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */,
+				372935CF22E1897E00C37C02 /* AArch64Disassembler.c */,
+				372935D022E1897E00C37C02 /* AArch64InstPrinter.c */,
+				372935D122E1897E00C37C02 /* AArch64BaseInfo.c */,
+				372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */,
+				372935D322E1897E00C37C02 /* AArch64Mapping.h */,
+				372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */,
+				372935D522E1897E00C37C02 /* AArch64Module.c */,
+			);
+			path = AArch64;
+			sourceTree = "<group>";
+		};
 		3794EE6F22B3C71300D5DFA4 = {
 			isa = PBXGroup;
 			children = (
@@ -58,10 +226,65 @@
 		3794EE7A22B3C71300D5DFA4 /* WBBlades */ = {
 			isa = PBXGroup;
 			children = (
+				37FA62BF23CEFE85008BCBAF /* Model */,
+				37FA62BE23CEFE71008BCBAF /* Tools */,
+				37FA62BD23CEFE5D008BCBAF /* Link */,
+				37FA62BC23CEFDA2008BCBAF /* Scan */,
+				3729357722E1897E00C37C02 /* Capstone */,
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
-				37F4C63723546B6600346CEF /* README.md */,
+				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
 			);
 			path = WBBlades;
+			sourceTree = "<group>";
+		};
+		37FA62BC23CEFDA2008BCBAF /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
+				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
+				37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */,
+				37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */,
+				37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */,
+				37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */,
+			);
+			path = Scan;
+			sourceTree = "<group>";
+		};
+		37FA62BD23CEFE5D008BCBAF /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
+				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
+			);
+			path = Link;
+			sourceTree = "<group>";
+		};
+		37FA62BE23CEFE71008BCBAF /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				37561F3C23B392F10020CF02 /* WBBladesCMD.h */,
+				37561F3D23B392F10020CF02 /* WBBladesCMD.m */,
+				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
+				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
+				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
+				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		37FA62BF23CEFE85008BCBAF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
+				3733D82322B48849002062FE /* WBBladesObjectHeader.m */,
+				3733D82822B4A6D3002062FE /* WBBladesStringTab.h */,
+				3733D82922B4A6D3002062FE /* WBBladesStringTab.m */,
+				3733D82522B48EC4002062FE /* WBBladesSymTab.h */,
+				3733D82622B48EC4002062FE /* WBBladesSymTab.m */,
+				3733D82B22B4BB15002062FE /* WBBladesObject.h */,
+				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -120,6 +343,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				372935DA22E18AC100C37C02 /* cs.c in Sources */,
+				372935DB22E18AC100C37C02 /* SStream.c in Sources */,
+				37561F3E23B392F10020CF02 /* WBBladesCMD.m in Sources */,
+				372935DC22E18AC100C37C02 /* utils.c in Sources */,
+				372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */,
+				372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */,
+				37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */,
+				372935DF22E18AC100C37C02 /* AArch64GenDisassemblerTables.inc in Sources */,
+				372935E022E18AC100C37C02 /* AArch64GenSubtargetInfo.inc in Sources */,
+				372935E122E18AC100C37C02 /* AArch64Disassembler.c in Sources */,
+				372935E222E18AC100C37C02 /* AArch64InstPrinter.c in Sources */,
+				372935E322E18AC100C37C02 /* AArch64BaseInfo.c in Sources */,
+				372935E422E18AC100C37C02 /* AArch64GenRegisterInfo.inc in Sources */,
+				372935E522E18AC100C37C02 /* AArch64GenInstrInfo.inc in Sources */,
+				372935E622E18AC100C37C02 /* AArch64Module.c in Sources */,
+				37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */,
+				37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */,
+				372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */,
+				372935E822E18AC100C37C02 /* MCInst.c in Sources */,
+				372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */,
+				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
+				3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */,
+				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */,
+				3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */,
+				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
+				3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */,
+				3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */,
 				3794EE7C22B3C71300D5DFA4 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -241,18 +491,39 @@
 		3794EE8022B3C71300D5DFA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
+				OTHER_CFLAGS = (
+					"-D__STDC_CONSTANT_MACROS",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_FORMAT_MACROS",
+					"-DCAPSTONE_HAS_ARM64",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
 		3794EE8122B3C71300D5DFA4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
+				OTHER_CFLAGS = (
+					"-D__STDC_CONSTANT_MACROS",
+					"-D__STDC_LIMIT_MACROS",
+					"-D__STDC_FORMAT_MACROS",
+					"-DCAPSTONE_HAS_ARM64",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};
