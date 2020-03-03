@@ -103,9 +103,7 @@ static void scanUnusedClass(int argc, const char * argv[]) {
             NSLog(@"读取%@所有类", podPath);
             enumPodFiles(podPath);
             NSString *tmp = [podPath lastPathComponent];
-            if (i != 0) {
-                tmp = [@"+" stringByAppendingString:tmp];
-            }
+            tmp = [@" " stringByAppendingString:tmp];
             podName = [podName stringByAppendingString:tmp];
         }
     }
