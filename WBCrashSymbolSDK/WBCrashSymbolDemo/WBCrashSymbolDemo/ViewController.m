@@ -7,7 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "WBCrashSymbol.h"
 
 @interface ViewController ()
 
@@ -27,13 +26,10 @@
     NSLog(@"%@",array[3]);
 }
 - (IBAction)showLog:(id)sender {
-    [WBCrashSymbol showLog];
 }
 - (IBAction)symbolize:(id)sender {
-    [WBCrashSymbol trySymbolizeLog];
 }
 - (IBAction)clearLog:(id)sender {
-    [WBCrashSymbol clearCallStackSymbols];
 }
 
 @end
