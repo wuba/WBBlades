@@ -300,6 +300,9 @@ static BOOL isResource(NSString *type) {//resource type
         [type isEqualToString:@"html"] ||
         [type isEqualToString:@"aiff"] ||
         [type isEqualToString:@"ttf"] ||
+        [type isEqualToString:@"rs"] ||
+        [type isEqualToString:@"sty"] ||
+        [type isEqualToString:@"cfg"] ||
         [type isEqualToString:@"strings"]) {
         return YES;
     }
