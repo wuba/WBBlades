@@ -82,7 +82,7 @@
     [self addSubview:excTipLabel];
     excTipLabel.alignment = NSTextAlignmentLeft;
     excTipLabel.font = [NSFont systemFontOfSize:13.0];
-    excTipLabel.stringValue = @"(必填)请选择一个App可执行文件或ipa包文件路径，如：\"/Users/a58/Desktop/xxx.app\"";
+    excTipLabel.stringValue = @"(必填)请选择或拖入一个App可执行文件或ipa包文件路径，如：\"/Users/a58/Desktop/xxx.app\"";
     excTipLabel.textColor = [NSColor grayColor];
     excTipLabel.editable = NO;
     excTipLabel.bezelStyle = NSBezelStyleTexturedSquare;

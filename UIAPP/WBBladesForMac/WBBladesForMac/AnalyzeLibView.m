@@ -124,13 +124,15 @@
     textScroll.documentView = textView;
     _objFilesView = textView;
     
-    NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight, 559.0, 20.0)];
+    NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight - 20, 559.0, 40.0)];
     [self addSubview:pathTipLabel];
     pathTipLabel.font = [NSFont systemFontOfSize:12.0];
     if (self.type == AnalyzeAppUnusedClassType) {//无用类检测的特殊UI
-        pathTipLabel.stringValue = @"(非必填)只获取该静态库的无用类，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.stringValue = @"(非必填)获取该app中特定静态库(.a或.framework)的无用类。可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.maximumNumberOfLines = 0;
+        
     } else {
-        pathTipLabel.stringValue = @"(必填)获取静态库大小，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.stringValue = @"选择或拖入一个或多个静态库（.a或.framework)或其所在的目标文件夹，路径间以空格隔开。";
     }
     pathTipLabel.textColor = [NSColor grayColor];
     pathTipLabel.editable = NO;
@@ -389,6 +391,8 @@
                                 weakSelf.startBtn.enabled = YES;
                                 weakSelf.stopBtn.enabled = NO;
                                 weakSelf.inFinderBtn.enabled = YES;
+                                
+                                
                             }
                             dispatch_semaphore_signal(weakSelf.sema);
                         }
