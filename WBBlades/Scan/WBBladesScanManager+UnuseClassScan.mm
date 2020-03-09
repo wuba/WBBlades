@@ -218,7 +218,9 @@ static section_64 textList = {0};
 + (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
     char *asmStr;
     BOOL high = NO;
-    
+    if (begin < (textList.offset + vm)) {
+        return NO;
+    }
     //enumerate function instruction
     do {
         unsigned long long index = (begin - textList.offset - vm) / 4;
