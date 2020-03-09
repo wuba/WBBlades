@@ -334,10 +334,15 @@
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
         return;
-    }else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
+    } else if (![self filePathValid:self.objFilesView.string] || [self includeChinese:self.objFilesView.string]) {
         [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
+    
+//    else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
+//        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
+//        return;
+//    }
     
     NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     if (array && array.count == 1) {
@@ -493,6 +498,23 @@
     NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
     NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
     return url;
+}
+
+/**
+ * 检测文件路径是否有效
+ */
+- (BOOL)filePathValid:(NSString *)filePath {
+    NSArray *files = [filePath componentsSeparatedByString:@" "];
+    __block BOOL isValid = YES;
+    [files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+        NSString *file = (NSString *)obj;
+        NSString *filePathWithoutSpace = [file stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePathWithoutSpace]) {
+            isValid = NO;
+            *stop = YES;
+        };
+    }];
+    return isValid;
 }
 
 @end

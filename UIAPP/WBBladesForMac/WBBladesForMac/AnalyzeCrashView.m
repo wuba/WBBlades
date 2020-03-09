@@ -229,7 +229,7 @@
     if (!fileData && ![fileType isEqualToString:@"app"]) {
         [self stopAnalyzeAlertMessage:@"请选择或拖入一个可执行文件" btnName:@"好的"];
         return;
-    }else if ([self.exeFileView.string containsString:@" "]|| [self includeChinese:self.exeFileView.string]){
+    }else if ([self.exeFileView.string containsString:@" "] || [self includeChinese:self.exeFileView.string]){
         [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
