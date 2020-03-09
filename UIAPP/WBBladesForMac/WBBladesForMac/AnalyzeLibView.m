@@ -211,8 +211,8 @@
 
 #pragma mark getter
 /**
-* 信号
-*/
+ * 信号
+ */
 - (dispatch_semaphore_t)sema {
     if (!_sema) {
         _sema = dispatch_semaphore_create(1);
@@ -253,8 +253,8 @@
 }
 
 /**
-* 无用类检测，选择app可执行文件
-*/
+ * 无用类检测，选择app可执行文件
+ */
 - (void)excuteFilePathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"选择app执行文件"];
@@ -275,8 +275,8 @@
 }
 
 /**
-* 开始解析点击事件
-*/
+ * 开始解析点击事件
+ */
 - (void)startBtnClicked:(id)sender {
     _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
@@ -291,8 +291,8 @@
 }
 
 /**
-* 暂停解析点击事件
-*/
+ * 暂停解析点击事件
+ */
 - (void)stopBtnClicked:(id)sender {
     self.needStop = YES;
     _startBtn.enabled = YES;
@@ -311,24 +311,16 @@
 }
 
 /**
-* 打开文件夹点击事件
-*/
+ * 打开文件夹点击事件
+ */
 - (void)inFinderBtnClicked:(id)sender {
-    NSString *fileName = @"";
-    if (self.type == AnalyzeStaticLibrarySizeType) {
-        fileName = @"/WBBladesResult.plist";
-    } else if (self.type == AnalyzeAppUnusedClassType) {
-        fileName = @"/WBBladesClass.plist";
-    }
-    //暂时直接打开桌面，并选中结果文件
-    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
+    NSURL *url = [self resultFileUrl];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
 /**
-* 关闭窗口
-*/
+ * 关闭窗口
+ */
 - (void)closeWindow:(NSWindow *)window {
     [self stopBtnClicked:nil];
     [window orderOut:nil];
@@ -336,8 +328,8 @@
 
 #pragma mark 静态库体积检测
 /**
-* 静态库体积检测功能
-*/
+ * 静态库体积检测功能
+ */
 - (void)analyzeLibSize {
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
@@ -392,7 +384,7 @@
                                 weakSelf.stopBtn.enabled = NO;
                                 weakSelf.inFinderBtn.enabled = YES;
                                 
-                                
+                                [self openResultFile];
                             }
                             dispatch_semaphore_signal(weakSelf.sema);
                         }
@@ -405,8 +397,8 @@
 
 #pragma mark 无用类检测
 /**
-* 无用类检测功能
-*/
+ * 无用类检测功能
+ */
 - (void)analyzeUnusedClass {
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
@@ -441,6 +433,7 @@
                 weakSelf.startBtn.enabled = YES;
                 weakSelf.stopBtn.enabled = NO;
                 weakSelf.inFinderBtn.enabled = YES;
+                [self openResultFile];
             }
         });
     });
@@ -448,8 +441,8 @@
 
 #pragma mark Tools
 /**
-* 错误弹框
-*/
+ * 错误弹框
+ */
 - (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
     NSAlert *alert = [[NSAlert alloc]init];
     [alert addButtonWithTitle:btnName];
@@ -464,8 +457,8 @@
 }
 
 /**
-* 判断是否包含中文
-*/
+ * 判断是否包含中文
+ */
 - (BOOL)includeChinese:(NSString *)string
 {
     for(int i=0; i< [string length];i++)
@@ -476,6 +469,30 @@
         }
     }
     return NO;
+}
+
+/**
+ * 打开解析结果文件
+ */
+- (void)openResultFile {
+    NSURL *url = [self resultFileUrl];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+/**
+ * 存放解析结果的文件路径
+ */
+- (NSURL *)resultFileUrl {
+    NSString *fileName = @"";
+    if (self.type == AnalyzeStaticLibrarySizeType) {
+        fileName = @"/WBBladesResult.plist";
+    } else if (self.type == AnalyzeAppUnusedClassType) {
+        fileName = @"/WBBladesClass.plist";
+    }
+    
+    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
+    return url;
 }
 
 @end
