@@ -18,10 +18,10 @@
    
    
 ## 优势
-* **体积分析 VS link map**
+* **体积分析 VS linkmap**
 
 主流的体积分析方案是通过linkmap文件分析，本方案与linkmap文件分析相比，使用较为简单，无需编译链接即可分析统计。
-准确性：分析结果与link map十分接近，偏差在10%以内。
+准确性：分析结果与linkmap十分接近，偏差在10%以内。
 
 * **无用类检测 VS otool+Mach-O**
 
@@ -70,7 +70,13 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
    	
    * 使用命令行
    
-   选择需要检测的可执行文件（.ipa或.app），检测所用的APP最好是Xcode本地打出来的Debug包；如果只需要检测部分静态库，则选择或拖入一个或多个目标静态库或其文件夹，路径间以空格隔开。点击“开始分析”按钮进行分析，分析结果会保存在*桌面/WBBladesClass.plist*文件中。点击“打开文件夹”，查看分析结果。
+   在拖入的WBBlades文件路径后面加空格，输入数字1，空格，拖入需要解析的静态库路径，路径间同样以空格隔开。
+
+    输入参数示例：
+    
+    ```~/Build/Products/Debug/WBBlades 1 ~/libAudio.a ~/    libHouseBusiness.a ```
+    
+   按回车进行解析，解析结果会保存在*~/Desktop/WBBladesResult.plist*文件中。
    
 2. **无用类检测**：
 	* 使用Mac应用
