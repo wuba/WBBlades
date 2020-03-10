@@ -124,13 +124,15 @@
     textScroll.documentView = textView;
     _objFilesView = textView;
     
-    NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight, 559.0, 20.0)];
+    NSTextField *pathTipLabel = [[NSTextField alloc]initWithFrame:NSMakeRect(109.0, 415.0 - typeHeight - 20, 559.0, 40.0)];
     [self addSubview:pathTipLabel];
     pathTipLabel.font = [NSFont systemFontOfSize:12.0];
     if (self.type == AnalyzeAppUnusedClassType) {//无用类检测的特殊UI
-        pathTipLabel.stringValue = @"(非必填)只获取该静态库的无用类，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.stringValue = @"(非必填)获取该app中特定静态库(.a或.framework)的无用类。可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.maximumNumberOfLines = 0;
+        
     } else {
-        pathTipLabel.stringValue = @"(必填)获取静态库大小，可选一个或多个静态库所在的目标文件夹，路径间以空格隔开。";
+        pathTipLabel.stringValue = @"选择或拖入一个或多个静态库（.a或.framework)或其所在的目标文件夹，路径间以空格隔开。";
     }
     pathTipLabel.textColor = [NSColor grayColor];
     pathTipLabel.editable = NO;
@@ -209,8 +211,8 @@
 
 #pragma mark getter
 /**
-* 信号
-*/
+ * 信号
+ */
 - (dispatch_semaphore_t)sema {
     if (!_sema) {
         _sema = dispatch_semaphore_create(1);
@@ -251,8 +253,8 @@
 }
 
 /**
-* 无用类检测，选择app可执行文件
-*/
+ * 无用类检测，选择app可执行文件
+ */
 - (void)excuteFilePathBtnClicked:(id)sender {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setPrompt: @"选择app执行文件"];
@@ -273,8 +275,8 @@
 }
 
 /**
-* 开始解析点击事件
-*/
+ * 开始解析点击事件
+ */
 - (void)startBtnClicked:(id)sender {
     _startBtn.enabled = NO;
     _stopBtn.enabled = YES;
@@ -289,8 +291,8 @@
 }
 
 /**
-* 暂停解析点击事件
-*/
+ * 暂停解析点击事件
+ */
 - (void)stopBtnClicked:(id)sender {
     self.needStop = YES;
     _startBtn.enabled = YES;
@@ -309,24 +311,16 @@
 }
 
 /**
-* 打开文件夹点击事件
-*/
+ * 打开文件夹点击事件
+ */
 - (void)inFinderBtnClicked:(id)sender {
-    NSString *fileName = @"";
-    if (self.type == AnalyzeStaticLibrarySizeType) {
-        fileName = @"/WBBladesResult.plist";
-    } else if (self.type == AnalyzeAppUnusedClassType) {
-        fileName = @"/WBBladesClass.plist";
-    }
-    //暂时直接打开桌面，并选中结果文件
-    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
+    NSURL *url = [self resultFileUrl];
     [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:@[url]];
 }
 
 /**
-* 关闭窗口
-*/
+ * 关闭窗口
+ */
 - (void)closeWindow:(NSWindow *)window {
     [self stopBtnClicked:nil];
     [window orderOut:nil];
@@ -334,28 +328,43 @@
 
 #pragma mark 静态库体积检测
 /**
-* 静态库体积检测功能
-*/
+ * 静态库体积检测功能
+ */
 - (void)analyzeLibSize {
     if (self.objFilesView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入目标路径，不能为空！" btnName:@"好的"];
         return;
-    }else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
+    } else if (![self filePathValid:self.objFilesView.string] || [self includeChinese:self.objFilesView.string]) {
         [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
     
-    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+//    else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
+//        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
+//        return;
+//    }
+    
+    NSArray *lines = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+    __block NSMutableArray *array = [[NSMutableArray alloc] init];
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+        NSString *string = (NSString *)obj;
+        NSArray *separateStrings = [string componentsSeparatedByString:@" "];
+        [array addObjectsFromArray:separateStrings];
+    }];
+    //NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     if (array && array.count == 1) {
-        array = [self.objFilesView.string componentsSeparatedByString:@" "];
+        array = (NSMutableArray *)[self.objFilesView.string componentsSeparatedByString:@" "];
     }
     
-    if (_sema) {//若不是第一次开始，先发送一个信号
-        dispatch_semaphore_signal(_sema);
+    if (_sema) {//若不是第一次开始，信号置为nil
+        _sema = nil;
     }
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    
     __weak __typeof(self)weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        for (NSInteger idx = 0; idx<array.count; idx++) {
+    dispatch_async(queue, ^{
+        for (NSInteger idx = 0; idx < array.count; idx++) {
             dispatch_semaphore_wait(weakSelf.sema, DISPATCH_TIME_FOREVER);
             if (weakSelf.needStop) {
                 break;
@@ -366,12 +375,13 @@
                     string = [NSString stringWithFormat:@"%@\n正在遍历 %@",string,array[idx]];
                     weakSelf.consoleView.string = string;
                 }
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_async(queue, ^{
                     NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
                     NSTask *bladesTask = [[NSTask alloc] init];
                     [bladesTask setLaunchPath:path];
                     //执行命令参数：type(1) 静态库所在文件夹路径(array[idx])
                     [bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
+                    NSLog(@"the index is: %ld", idx);
                     [bladesTask launch];
                     [weakSelf.taskArray addObject:bladesTask];
                     [bladesTask waitUntilExit];//同步执行
@@ -389,6 +399,8 @@
                                 weakSelf.startBtn.enabled = YES;
                                 weakSelf.stopBtn.enabled = NO;
                                 weakSelf.inFinderBtn.enabled = YES;
+                                
+                                [self openResultFile];
                             }
                             dispatch_semaphore_signal(weakSelf.sema);
                         }
@@ -401,8 +413,8 @@
 
 #pragma mark 无用类检测
 /**
-* 无用类检测功能
-*/
+ * 无用类检测功能
+ */
 - (void)analyzeUnusedClass {
     if (self.excView.string.length == 0) {
         [self stopAnalyzeAlertMessage:@"请输入App执行文件，不能为空!" btnName:@"好的"];
@@ -410,7 +422,7 @@
     }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]) {
         [self stopAnalyzeAlertMessage:@"未找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
         return;
-    }else if ([self.excView.string containsString:@" "]|| [self includeChinese:self.excView.string]){
+    }else if (![self filePathValid:self.excView.string]|| [self includeChinese:self.excView.string]){
         [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
@@ -437,6 +449,7 @@
                 weakSelf.startBtn.enabled = YES;
                 weakSelf.stopBtn.enabled = NO;
                 weakSelf.inFinderBtn.enabled = YES;
+                [self openResultFile];
             }
         });
     });
@@ -444,8 +457,8 @@
 
 #pragma mark Tools
 /**
-* 错误弹框
-*/
+ * 错误弹框
+ */
 - (void)stopAnalyzeAlertMessage:(NSString*)msg btnName:(NSString *)btnName {
     NSAlert *alert = [[NSAlert alloc]init];
     [alert addButtonWithTitle:btnName];
@@ -460,8 +473,8 @@
 }
 
 /**
-* 判断是否包含中文
-*/
+ * 判断是否包含中文
+ */
 - (BOOL)includeChinese:(NSString *)string
 {
     for(int i=0; i< [string length];i++)
@@ -472,6 +485,51 @@
         }
     }
     return NO;
+}
+
+/**
+ * 打开解析结果文件
+ */
+- (void)openResultFile {
+    NSURL *url = [self resultFileUrl];
+    [[NSWorkspace sharedWorkspace] openURL:url];
+}
+
+/**
+ * 存放解析结果的文件路径
+ */
+- (NSURL *)resultFileUrl {
+    NSString *fileName = @"";
+    if (self.type == AnalyzeStaticLibrarySizeType) {
+        fileName = @"/WBBladesResult.plist";
+    } else if (self.type == AnalyzeAppUnusedClassType) {
+        fileName = @"/WBBladesClass.plist";
+    }
+    
+    NSString *deskTop = [NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES) firstObject];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"file://%@%@",deskTop,fileName]];
+    return url;
+}
+
+/**
+ * 检测文件路径是否有效
+ */
+- (BOOL)filePathValid:(NSString *)filePath {
+    NSArray *lines = [filePath componentsSeparatedByString:@" "];
+    NSMutableArray *files = [NSMutableArray array];
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+        NSString *string = (NSString *)obj;
+        NSArray *separaStrings = [string componentsSeparatedByString:@" "];
+        [files addObjectsFromArray:separaStrings];
+    }];
+    
+    for (NSString *path in files) {
+        NSString *filePathWithoutSpace = [path stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:filePathWithoutSpace]) {
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end
