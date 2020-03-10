@@ -364,7 +364,7 @@
     
     __weak __typeof(self)weakSelf = self;
     dispatch_async(queue, ^{
-        for (NSInteger idx = 0; idx<array.count; idx++) {
+        for (NSInteger idx = 0; idx < array.count; idx++) {
             dispatch_semaphore_wait(weakSelf.sema, DISPATCH_TIME_FOREVER);
             if (weakSelf.needStop) {
                 break;
@@ -381,6 +381,7 @@
                     [bladesTask setLaunchPath:path];
                     //执行命令参数：type(1) 静态库所在文件夹路径(array[idx])
                     [bladesTask setArguments:[NSArray arrayWithObjects:@"1", array[idx], nil]];
+                    NSLog(@"the index is: %ld", idx);
                     [bladesTask launch];
                     [weakSelf.taskArray addObject:bladesTask];
                     [bladesTask waitUntilExit];//同步执行
@@ -515,22 +516,20 @@
  */
 - (BOOL)filePathValid:(NSString *)filePath {
     NSArray *lines = [filePath componentsSeparatedByString:@" "];
-    NSMutableArray *files;
+    NSMutableArray *files = [NSMutableArray array];
     [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSString *string = (NSString *)obj;
         NSArray *separaStrings = [string componentsSeparatedByString:@" "];
         [files addObjectsFromArray:separaStrings];
     }];
-    __block BOOL isValid = YES;
-    [files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
-        NSString *file = (NSString *)obj;
-        NSString *filePathWithoutSpace = [file stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    for (NSString *path in files) {
+        NSString *filePathWithoutSpace = [path stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
         if (![[NSFileManager defaultManager] fileExistsAtPath:filePathWithoutSpace]) {
-            isValid = NO;
-            *stop = YES;
-        };
-    }];
-    return isValid;
+            return NO;
+        }
+    }
+    return YES;
 }
 
 @end
