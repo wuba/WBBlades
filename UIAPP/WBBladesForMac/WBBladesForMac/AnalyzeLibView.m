@@ -344,9 +344,16 @@
 //        return;
 //    }
     
-    NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+    NSArray *lines = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+    __block NSMutableArray *array = [[NSMutableArray alloc] init];
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+        NSString *string = (NSString *)obj;
+        NSArray *separateStrings = [string componentsSeparatedByString:@" "];
+        [array addObjectsFromArray:separateStrings];
+    }];
+    //NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     if (array && array.count == 1) {
-        array = [self.objFilesView.string componentsSeparatedByString:@" "];
+        array = (NSMutableArray *)[self.objFilesView.string componentsSeparatedByString:@" "];
     }
     
     if (_sema) {//若不是第一次开始，先发送一个信号
@@ -504,7 +511,13 @@
  * 检测文件路径是否有效
  */
 - (BOOL)filePathValid:(NSString *)filePath {
-    NSArray *files = [filePath componentsSeparatedByString:@" "];
+    NSArray *lines = [filePath componentsSeparatedByString:@" "];
+    NSMutableArray *files;
+    [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
+        NSString *string = (NSString *)obj;
+        NSArray *separaStrings = [string componentsSeparatedByString:@" "];
+        [files addObjectsFromArray:separaStrings];
+    }];
     __block BOOL isValid = YES;
     [files enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSString *file = (NSString *)obj;
