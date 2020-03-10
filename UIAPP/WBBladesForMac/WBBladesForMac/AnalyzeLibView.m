@@ -356,8 +356,8 @@
         array = (NSMutableArray *)[self.objFilesView.string componentsSeparatedByString:@" "];
     }
     
-    if (_sema) {//若不是第一次开始，先发送一个信号
-        dispatch_semaphore_signal(_sema);
+    if (_sema) {//若不是第一次开始，信号置为nil
+        _sema = nil;
     }
     
     dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
