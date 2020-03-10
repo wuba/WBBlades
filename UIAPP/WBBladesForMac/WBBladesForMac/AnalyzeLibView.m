@@ -359,8 +359,11 @@
     if (_sema) {//若不是第一次开始，先发送一个信号
         dispatch_semaphore_signal(_sema);
     }
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(0, 0);
+    
     __weak __typeof(self)weakSelf = self;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+    dispatch_async(queue, ^{
         for (NSInteger idx = 0; idx<array.count; idx++) {
             dispatch_semaphore_wait(weakSelf.sema, DISPATCH_TIME_FOREVER);
             if (weakSelf.needStop) {
@@ -372,7 +375,7 @@
                     string = [NSString stringWithFormat:@"%@\n正在遍历 %@",string,array[idx]];
                     weakSelf.consoleView.string = string;
                 }
-                dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_async(queue, ^{
                     NSString *path = [[NSBundle mainBundle] pathForResource:@"WBBlades" ofType:@""];
                     NSTask *bladesTask = [[NSTask alloc] init];
                     [bladesTask setLaunchPath:path];
