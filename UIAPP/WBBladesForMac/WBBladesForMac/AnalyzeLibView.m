@@ -515,7 +515,7 @@
  * 检测文件路径是否有效
  */
 - (BOOL)filePathValid:(NSString *)filePath {
-    NSArray *lines = [filePath componentsSeparatedByString:@" "];
+    NSArray *lines = [filePath componentsSeparatedByString:@"\n"];
     NSMutableArray *files = [NSMutableArray array];
     [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSString *string = (NSString *)obj;
