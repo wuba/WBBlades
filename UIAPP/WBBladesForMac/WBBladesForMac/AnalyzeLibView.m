@@ -298,7 +298,9 @@
     _startBtn.enabled = YES;
     _stopBtn.enabled = NO;
     _inFinderBtn.enabled = NO;
-    dispatch_semaphore_signal(_sema);
+    if (_sema) {
+        dispatch_semaphore_signal(_sema);
+    }
     if (self.taskArray && self.taskArray.count >0) {
         for (NSTask *task in self.taskArray) {
             [task terminate];
