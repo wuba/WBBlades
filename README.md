@@ -1,5 +1,9 @@
 # 项目及功能介绍xxxx
 # 基于Mach-O解析与反汇编技术的应用——WBBlades
+基于mach-o技术的，一种简单高效的针对多pod的代码所占大小检测、无用类检测和无符号崩溃日志检测
+（WBBlades:Based on mach-o technology, a simple and efficient code size detection, useless class detection and unsigned crash log detection for multi pod）
+
+
 ## 特性
 * 支持快速检测SDK的接入体积，输入路径即可分析出该路径下的静态库体积、资源体积以及总体积，无需编译链接过程；
 *	无用类检测支持对类的继承、动态调用、自身类调用、属性及成员变量的识别；
