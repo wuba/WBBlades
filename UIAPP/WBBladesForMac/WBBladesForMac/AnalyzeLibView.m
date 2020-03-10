@@ -421,7 +421,7 @@
     }else if (![[NSFileManager defaultManager] fileExistsAtPath:self.excView.string]) {
         [self stopAnalyzeAlertMessage:@"未找到有效的可执行文件，请输入正确的可执行文件！" btnName:@"好的"];
         return;
-    }else if ([self.excView.string containsString:@" "]|| [self includeChinese:self.excView.string]){
+    }else if (![self filePathValid:self.excView.string]|| [self includeChinese:self.excView.string]){
         [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
         return;
     }
