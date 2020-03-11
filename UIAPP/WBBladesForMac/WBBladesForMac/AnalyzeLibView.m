@@ -298,7 +298,9 @@
     _startBtn.enabled = YES;
     _stopBtn.enabled = NO;
     _inFinderBtn.enabled = NO;
-    dispatch_semaphore_signal(self.sema);
+    if (_sema) {
+        dispatch_semaphore_signal(_sema);
+    }
     if (self.taskArray && self.taskArray.count >0) {
         for (NSTask *task in self.taskArray) {
             [task terminate];
@@ -339,11 +341,6 @@
         return;
     }
     
-//    else if ([self.objFilesView.string containsString:@" "]|| [self includeChinese:self.objFilesView.string]){
-//        [self stopAnalyzeAlertMessage:@"路径中不能包含中文或空格！" btnName:@"好的"];
-//        return;
-//    }
-    
     NSArray *lines = [self.objFilesView.string componentsSeparatedByString:@"\n"];
     __block NSMutableArray *array = [[NSMutableArray alloc] init];
     [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
@@ -351,12 +348,13 @@
         NSArray *separateStrings = [string componentsSeparatedByString:@" "];
         [array addObjectsFromArray:separateStrings];
     }];
-    //NSArray *array = [self.objFilesView.string componentsSeparatedByString:@"\n"];
+
     if (array && array.count == 1) {
         array = (NSMutableArray *)[self.objFilesView.string componentsSeparatedByString:@" "];
     }
     
     if (_sema) {//若不是第一次开始，信号置为nil
+        dispatch_semaphore_signal(_sema);
         _sema = nil;
     }
     
@@ -515,7 +513,7 @@
  * 检测文件路径是否有效
  */
 - (BOOL)filePathValid:(NSString *)filePath {
-    NSArray *lines = [filePath componentsSeparatedByString:@" "];
+    NSArray *lines = [filePath componentsSeparatedByString:@"\n"];
     NSMutableArray *files = [NSMutableArray array];
     [lines enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL * stop) {
         NSString *string = (NSString *)obj;
