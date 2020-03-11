@@ -245,11 +245,12 @@ static void enumAllFiles(NSString *path) {
                 compileXcassets(path);//compile xcassets
                     
                 //compile '.car' type files to calculate size
-                NSData *fileData = [WBBladesFileManager  readFromFile:[NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]]];
+                NSString *assetsCarPath = [NSString stringWithFormat:@"%@/Assets.car",[path stringByDeletingLastPathComponent]];
+                NSData *fileData = [WBBladesFileManager  readFromFile:assetsCarPath];
                 NSLog(@"资源编译后 %@大小：%lu 字节",[path lastPathComponent],[fileData length]);
                 resourceSize += [fileData length];
                     
-                removeFile(path);//remove file
+                removeFile(assetsCarPath);//remove file
             }else if ([lastPathComponent hasSuffix:@"git"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"document"]){
