@@ -133,7 +133,7 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
 	（5）Release版APP：WBBladesDemoApp.app打出来的Release版APP，体积分析结果的参照物。
 
 ## 如何贡献&反馈问题
-我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。http://igit.58corp.com/dengzhuli/WBBlades
+我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
 
 ## 致谢
 我们在无用类检测中使用了capstone，通过反汇编来识别函数指令中类的调用情况。同时我们也对capstone做了部分修改，如果开发者想使用capstone引擎，建议从重新下载全新的capstone代码。最后感谢capstone为我们提供了非常优秀的反汇编能力。
