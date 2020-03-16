@@ -63,7 +63,6 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
 注意：使用工具时，物料（如APP、静态库、ips等）的路径不能出现空格或中文。
    
 1. **静态库体积分析**：
-
    
    * 使用Mac应用
 
@@ -73,9 +72,11 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
    
    在拖入的WBBlades文件路径后面加空格，输入数字1，空格，拖入需要解析的静态库路径，路径间同样以空格隔开。
 
-    输入参数示例：
+   输入参数示例：
     
-    ```~/Build/Products/Debug/WBBlades 1 ~/libAudio.a ~/    libHouseBusiness.a ```
+    ```
+    ~/Build/Products/Debug/WBBlades 1 ~/libAudio.a ~/    libHouseBusiness.a 
+    ```
     
    按回车进行解析，解析结果会保存在*~/Desktop/WBBladesResult.plist*文件中。
    
@@ -119,7 +120,7 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
 邓竹立，彭飞，朴惠姝，曾庆隆，林雅明
 
 ## Running samples
-1.运行代码。
+1. 运行代码。
 2. demo 所需物料在“TestNeed“文件夹下，主要包括：
 
 	（1）WBBladesDemoApp.app ：需要被分析的程序。
@@ -137,3 +138,5 @@ WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文
 
 ## 致谢
 我们在无用类检测中使用了capstone，通过反汇编来识别函数指令中类的调用情况。同时我们也对capstone做了部分修改，如果开发者想使用capstone引擎，建议从重新下载全新的capstone代码。最后感谢capstone为我们提供了非常优秀的反汇编能力。
+
+GitHub地址：[https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
