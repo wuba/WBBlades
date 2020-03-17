@@ -1,4 +1,5 @@
-*.mm linguist-language=C++
-*.c linguist-language=C
+*.mm linguist-language=objective-c
+*.c linguist-language=objective-c
 *.m linguist-language=objective-c
-*.swift linguist-language=swift
+*.xcodeproj linguist-language=objective-c
+*.h linguist-language=objective-c
