@@ -1,7 +1,7 @@
 # 项目及功能介绍xxxx
 # 基于Mach-O解析与反汇编技术的应用——WBBlades
 基于mach-o技术的，一种简单高效的针对多pod的代码所占大小检测、无用类检测和无符号崩溃日志检测
-（WBBlades:Based on mach-o technology, a simple and efficient code size detection, useless class detection and unsigned crash log detection for multi pod）
+（WBBlades:Based on mach-o technology, a simple and efficient code size detection, useless class detection and unsigned crash log detection for multi pods）
 
 
 ## 特性
