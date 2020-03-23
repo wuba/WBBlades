@@ -1,4 +1,9 @@
 
-*.h linguist-language=objective-c
-*.m linguist-language=objective-c
-*.mm linguist-language=objective-c
+*.h linguist-language=Objective-C
+*.m linguist-language=Objective-C
+*.mm linguist-language=Objective-C
+*.c linguist-language=Objective-C
+*.cpp linguist-language=Objective-C
+*.js linguist-language=Objective-C
+*.xml linguist-language=Objective-C
+*.app linguist-language=Objective-C
