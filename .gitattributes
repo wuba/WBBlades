@@ -7,3 +7,12 @@
 *.js linguist-language=Objective-C
 *.xml linguist-language=Objective-C
 *.app linguist-language=Objective-C
+*.a linguist-language=Objective-C
+*.plist linguist-language=Objective-C
+*.md linguist-language=Objective-C
+*.ips linguist-language=Objective-C
+*.xcodeproj linguist-language=Objective-C
+*.inc linguist-language=Objective-C
+*.xcworkspace linguist-language=Objective-C
+*.pbxproj linguist-language=Objective-C
+*.xcscheme linguist-language=Objective-C
