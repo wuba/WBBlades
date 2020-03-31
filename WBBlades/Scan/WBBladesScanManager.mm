@@ -46,7 +46,7 @@
         WBBladesObjectMachO *macho = [self scanObjectMachO:fileData range:range];
         object.objectMachO = macho;
         [objects addObject:object];
-    } else if (header.filetype == MH_DYLIB) {//it is a dynamic library
+    } else if (header.filetype == MH_DYLIB || header.filetype == MH_EXECUTE) {//it is a dynamic library or  executable file
         return [fileData length];
     } else {
         //symbol table header
