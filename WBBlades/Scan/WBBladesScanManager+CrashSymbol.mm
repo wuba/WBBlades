@@ -196,7 +196,7 @@
     
     NSRange methodRange = NSMakeRange(classMethodListOffset, 0);
     data = [WBBladesTool readBytes:methodRange length:sizeof(method64_list_t) fromFile:fileData];
-    [data getBytes:&methodList length:4];
+    [data getBytes:&methodList length:sizeof(method64_list_t)];
     
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
     for (int j = 0; j<methodList.count; j++) {
@@ -207,7 +207,7 @@
         data = [WBBladesTool readBytes:methodRange length:sizeof(method64_t) fromFile:fileData];
         
         [data getBytes:&method length:sizeof(method64_t)];
-        unsigned long long methodNameOffset = method.imp - vm;
+        unsigned long long methodNameOffset = method.name - vm;
         
         //方法名最大150字节
         uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
