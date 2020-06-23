@@ -60,13 +60,16 @@ static section_64 textList = {0};
 //scan specified file to find unused classes
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
     
-    NSLog(@"目标%ld个类",aimClasses.count);
+    if (aimClasses.count != 0) {
+        NSLog(@"在给定的%ld个类中搜索",aimClasses.count);
+    }
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
     section_64 classList = {0};
     section_64 classrefList= {0};
     section_64 nlclsList= {0};
+    section_64 nlcatList= {0};
     section_64 cfstringList= {0};
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
@@ -105,6 +108,11 @@ static section_64 textList = {0};
                         [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
                         nlclsList = sectionHeader;
                     }
+                    //note nclasslist
+                    if ([secName isEqualToString:DATA_NCATLIST_SECTION] ||
+                        [secName isEqualToString:CONST_DATA_NCATLIST_SECTION]) {
+                        nlcatList = sectionHeader;
+                    }
                     //note Cstring
                     if ([secName isEqualToString:DATA_CSTRING]) {
                         cfstringList = sectionHeader;
@@ -138,6 +146,9 @@ static section_64 textList = {0};
     
     //read nlclslist
      [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
+    
+    //read nlcatlist
+    [self readNLCatList:nlcatList set:classrefSet fileData:fileData];
     
     //read classref
     [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
@@ -221,6 +232,7 @@ static section_64 textList = {0};
     if (begin < (textList.offset + vm)) {
         return NO;
     }
+    unsigned long long maxText = textList.offset + vm + textList.size;
     //enumerate function instruction
     do {
         unsigned long long index = (begin - textList.offset - vm) / 4;
@@ -239,7 +251,7 @@ static section_64 textList = {0};
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0 );//result
+    } while (strcmp("ret",asmStr) != 0 && (begin <= maxText));//result
     return NO;
     
 }
@@ -418,6 +430,47 @@ static section_64 textList = {0};
                }
            }
        }
+}
+
++ (void)readNLCatList:(section_64)nlcatList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
+    NSRange range = NSMakeRange(nlcatList.offset, 0);
+    unsigned long long vm = nlcatList.addr - nlcatList.offset;
+    unsigned long long max = [fileData length];
+    for (int i = 0; i < nlcatList.size / 8; i++) {
+        @autoreleasepool {
+    
+            unsigned long long catAddress;
+            NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
+            [data getBytes:&catAddress range:NSMakeRange(0, 8)];
+            catAddress = catAddress - vm;
+            //method name 150 bytes maximum
+            if (catAddress > 0 && catAddress < max) {
+                
+                category64 targetCategory;
+                [fileData getBytes:&targetCategory range:NSMakeRange(catAddress,sizeof(category64))];
+                    
+                 class64 targetClass;
+                [fileData getBytes:&targetClass range:NSMakeRange(targetCategory.cls - vm,sizeof(class64))];
+                                
+                class64Info targetClassInfo = {0};
+                unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
+                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
+                data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
+                unsigned long long classNameOffset = targetClassInfo.name - vm;
+                                
+                //class name 50 bytes maximum
+                uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(classNameOffset, CLASSNAME_MAX_LEN)];
+                NSString *className = NSSTRING(buffer);
+                free(buffer);
+                if (className) {
+                    [classrefSet addObject:className];
+                }
+            }
+        }
+    }
 }
 
 + (void)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {

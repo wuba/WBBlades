@@ -62,6 +62,15 @@ struct ivar64_t
   unsigned int alignment;
   unsigned int size;
 };
+struct category64
+{
+    unsigned long long name;
+    unsigned long long cls;
+    unsigned long long instanceMethods;
+    unsigned long long classMethods;
+    unsigned long long instanceProperties;
+    
+};
 
 
 //指令定义
@@ -88,6 +97,8 @@ struct ivar64_t
 #define CONST_DATA_CLASSREF_SECTION @"__objc_classrefs__DATA_CONST"
 #define DATA_NCLSLIST_SECTION @"__objc_nlclslist__DATA"
 #define CONST_DATA_NCLSLIST_SECTION @"__objc_nlclslist__DATA_CONST"
+#define DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA"
+#define CONST_DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
 #define IMP_KEY @"imp"
