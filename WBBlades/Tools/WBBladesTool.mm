@@ -8,6 +8,7 @@
 
 #import "WBBladesTool.h"
 #import "WBBladesDefines.h"
+#import <mach-o/loader.h>
 
 @implementation WBBladesTool
 
@@ -48,6 +49,60 @@
     NSString *str = NSSTRING(buffer);
     free (buffer);
     return [self replaceEscapeCharsInString:str];
+}
+
++ (NSString *)readString:(NSRange &)range fromFile:(NSData*)fileData{
+    range.location = NSMaxRange(range);
+    NSString * str = NSSTRING((uint8_t *)[fileData bytes] + range.location);
+    range.length = [str length] + 1;
+    return [self replaceEscapeCharsInString:str];
+}
+
++ (int64_t)readSLEB128:(NSRange &)range fromFile:(NSData *)fileData{
+    range.location = NSMaxRange(range);
+    uint8_t * p = (uint8_t *)[fileData bytes] + range.location, *start = p;
+    
+    int64_t result = 0;
+    int bit = 0;
+    uint8_t byte;
+    
+    do {
+        byte = *p++;
+        result |= ((byte & 0x7f) << bit);
+        bit += 7;
+    } while (byte & 0x80);
+    
+    // sign extend negative numbers
+    if ( (byte & 0x40) != 0 )
+    {
+        result |= (-1LL) << bit;
+    }
+    
+    range.length = (p - start);
+    return result;
+}
+
++ (uint64_t)readULEB128:(NSRange &)range fromFile:(NSData *)fileData{
+    range.location = NSMaxRange(range);
+    uint8_t * p = (uint8_t *)[fileData bytes] + range.location, *start = p;
+    
+    uint64_t result = 0;
+    int bit = 0;
+    
+    do {
+        uint64_t slice = *p & 0x7f;
+        
+        if (bit >= 64 || slice << bit >> bit != slice)
+            [NSException raise:@"uleb128 error" format:@"uleb128 too big"];
+        else {
+            result |= (slice << bit);
+            bit += 7;
+        }
+    }
+    while (*p++ & 0x80);
+    
+    range.length = (p - start);
+    return result;
 }
 
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData {
@@ -103,6 +158,166 @@
         return NULL;
     }
     return cs_insn;
+}
+
++ (unsigned long long )getSegmentWithIndex:(int)index fromFile:(NSData *)fileData{
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    if (index >= mhHeader.ncmds || index < 0) {
+        return 0;
+    }
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            if (index == i) {
+                
+                free(cmd);
+                return segmentCommand.vmaddr;
+            }
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    return 0;
+}
+
++ (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData{
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    dyld_info_command dyldInfoCmd;
+    
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_DYLD_INFO ||
+            cmd->cmd == LC_DYLD_INFO_ONLY) {
+            dyld_info_command segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(dyld_info_command))];
+            dyldInfoCmd = segmentCommand;
+            
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    NSMutableDictionary *allBindInfoDic = [NSMutableDictionary dictionary];
+    NSDictionary *bindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.bind_off size:dyldInfoCmd.bind_size isLazyBind:NO fromFile:fileData];
+    NSDictionary *weakBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.weak_bind_off size:dyldInfoCmd.weak_bind_size isLazyBind:NO fromFile:fileData];
+    NSDictionary *lazyBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.lazy_bind_off size:dyldInfoCmd.lazy_bind_size isLazyBind:YES fromFile:fileData];
+    [allBindInfoDic addEntriesFromDictionary:bindInfoDic];
+    [allBindInfoDic addEntriesFromDictionary:weakBindInfoDic];
+    [allBindInfoDic addEntriesFromDictionary:lazyBindInfoDic];
+    return allBindInfoDic.copy;
+}
+
+
++ (NSDictionary *)dynamicBindingInfoWithOffset:(unsigned long long)offset size:(unsigned long long)size isLazyBind:(BOOL)isLazyBind fromFile:(NSData *)fileData{
+    
+    NSMutableDictionary *bindInfoDic = [NSMutableDictionary dictionary];
+    //code from macoview
+    uint8_t byte;
+    BOOL end = NO;
+    unsigned long long address = 0;
+    NSString *symbolName = @"";
+    unsigned long long dylibIndex = 0;
+    NSRange range = NSMakeRange(offset, 0);
+    while (!end && range.location < offset + size) {
+        @autoreleasepool {
+            range.location = NSMaxRange(range);
+            range.length = 1;
+            [fileData getBytes:&byte range:range];
+            
+            uint8_t opcode = byte & BIND_OPCODE_MASK;
+            uint8_t immediate = byte & BIND_IMMEDIATE_MASK;
+            
+            switch (opcode) {
+                case BIND_OPCODE_DONE:{
+                    end = isLazyBind?NO:YES;
+                    break;
+                }
+                case BIND_OPCODE_SET_SYMBOL_TRAILING_FLAGS_IMM:{
+                    symbolName = [self readString:range fromFile:fileData];
+                    break;
+                }
+                case BIND_OPCODE_SET_SEGMENT_AND_OFFSET_ULEB:{
+                    uint32_t segmentIndex = immediate;
+                    unsigned long long val = [self readULEB128:range fromFile:fileData];
+                    address =  [self getSegmentWithIndex:segmentIndex fromFile:fileData] + val;
+                    break;
+                }
+                case BIND_OPCODE_ADD_ADDR_ULEB:{
+                    unsigned long long val = [self readULEB128:range fromFile:fileData];
+                    address += val;
+                    break;
+                }
+                case BIND_OPCODE_DO_BIND:{
+                    [bindInfoDic setObject:symbolName forKey:@(address)];
+                    address += 8;
+                    break;
+                }
+                case BIND_OPCODE_DO_BIND_ADD_ADDR_ULEB:{
+                    unsigned long long val = [self readULEB128:range fromFile:fileData];
+                    [bindInfoDic setObject:symbolName forKey:@(address)];
+
+                    address += 8 + val;
+                    break;
+                }
+                case BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED:{
+                    uint32_t scale = immediate;
+                    [bindInfoDic setObject:symbolName forKey:@(address)];
+
+                    address += 8 + scale * 8;
+                    break;
+                }
+                case BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB:{
+                    unsigned long long count = [self readULEB128:range fromFile:fileData];
+                    unsigned long long skip = [self readULEB128:range fromFile:fileData];
+                    for (unsigned long long index = 0; index < count; index++){
+                        [bindInfoDic setObject:symbolName forKey:@(address)];
+
+                        address += 8 + skip;
+                    }
+                    break;
+                }
+                case BIND_OPCODE_SET_DYLIB_ORDINAL_IMM:{
+                    dylibIndex = immediate;
+                    break;
+                }
+                case BIND_OPCODE_SET_DYLIB_ORDINAL_ULEB:{
+                    dylibIndex = [self readULEB128:range fromFile:fileData];
+                    break;
+                }
+                case BIND_OPCODE_SET_DYLIB_SPECIAL_IMM:{
+                    if (immediate == 0){
+                        dylibIndex = 0;
+                    }else{
+                        int8_t signExtended = immediate | BIND_OPCODE_MASK;
+                        dylibIndex = signExtended;
+                    }
+                    break;
+                }
+                case BIND_OPCODE_SET_TYPE_IMM:{
+                    //bind type
+                    break;
+                }
+                case BIND_OPCODE_SET_ADDEND_SLEB:{
+                    //addend
+                    [self readULEB128:range fromFile:fileData];
+                    break;
+                }
+                default:
+                    [NSException raise:@"Bind info" format:@"Unknown opcode (%u %u)",
+                     ((uint32_t)-1 & opcode), ((uint32_t)-1 & immediate)];
+            }
+        }
+    }
+    return bindInfoDic;
 }
 
 @end

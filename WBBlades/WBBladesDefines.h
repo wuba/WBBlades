@@ -110,3 +110,20 @@ struct category64
 #define CLASSNAME_MAX_LEN 50
 #define METHODNAME_MAX_LEN 150
 
+#define BIND_OPCODE_MASK                    0xF0
+#define BIND_IMMEDIATE_MASK                    0x0F
+
+#define BIND_OPCODE_DONE                    0x00
+#define BIND_OPCODE_SET_DYLIB_ORDINAL_IMM            0x10
+#define BIND_OPCODE_SET_DYLIB_ORDINAL_ULEB            0x20
+#define BIND_OPCODE_SET_DYLIB_SPECIAL_IMM            0x30
+#define BIND_OPCODE_SET_SYMBOL_TRAILING_FLAGS_IMM        0x40
+#define BIND_OPCODE_SET_TYPE_IMM                0x50
+#define BIND_OPCODE_SET_ADDEND_SLEB                0x60
+#define BIND_OPCODE_SET_SEGMENT_AND_OFFSET_ULEB            0x70
+#define BIND_OPCODE_ADD_ADDR_ULEB                0x80
+#define BIND_OPCODE_DO_BIND                    0x90
+#define BIND_OPCODE_DO_BIND_ADD_ADDR_ULEB            0xA0
+#define BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED            0xB0
+#define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
+

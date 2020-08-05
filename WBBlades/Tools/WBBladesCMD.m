@@ -41,8 +41,12 @@ void copyFile(NSString *filePath) {
 }
 
 void thinFile(NSString *filePath) {
-    NSString *thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
-    cmd(thinCmd);
+    NSString *thinCmd = [NSString stringWithFormat:@"lipo -archs %@_copy",filePath];
+    NSArray *archs = [[NSString stringWithFormat:@"%s",cmd(thinCmd)] componentsSeparatedByString:@" "];
+    if (archs.count > 1) {
+        thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
+        cmd(thinCmd);
+    }
 }
 
 void removeFile(NSString *filePath) {

@@ -41,7 +41,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * disassembly
  */
-+ (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size;
++ (cs_insn *)disassemWithMachOFile:(NSData *)fileData from:(unsigned long long)begin length:(unsigned long long )size;
+
+/**
+* bind info
+*/
++ (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData;
 
 @end
 

@@ -108,7 +108,7 @@ static section_64 textList = {0};
                         [secName isEqualToString:CONST_DATA_NCLSLIST_SECTION]) {
                         nlclsList = sectionHeader;
                     }
-                    //note nclasslist
+                    //note ncatlist
                     if ([secName isEqualToString:DATA_NCATLIST_SECTION] ||
                         [secName isEqualToString:CONST_DATA_NCATLIST_SECTION]) {
                         nlcatList = sectionHeader;
@@ -448,8 +448,12 @@ static section_64 textList = {0};
                 
                 category64 targetCategory;
                 [fileData getBytes:&targetCategory range:NSMakeRange(catAddress,sizeof(category64))];
-                    
-                 class64 targetClass;
+                
+                //like UIViewController(MyCategory) +load
+                if (targetCategory.cls == 0) {
+                    continue;
+                }
+                class64 targetClass;
                 [fileData getBytes:&targetClass range:NSMakeRange(targetCategory.cls - vm,sizeof(class64))];
                                 
                 class64Info targetClassInfo = {0};
