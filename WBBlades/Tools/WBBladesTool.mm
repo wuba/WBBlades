@@ -308,7 +308,7 @@
                 }
                 case BIND_OPCODE_SET_ADDEND_SLEB:{
                     //addend
-                    [self readULEB128:range fromFile:fileData];
+                    [self readSLEB128:range fromFile:fileData];
                     break;
                 }
                 default:
