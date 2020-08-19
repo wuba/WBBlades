@@ -9,7 +9,7 @@
 #import "WBBladesCMD.h"
 
 // Execute command in console.
-static const char *cmd(NSString *cmd) {
+static NSData * cmd(NSString *cmd) {
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
     NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
@@ -21,7 +21,7 @@ static const char *cmd(NSString *cmd) {
     [task launch];
     
     NSData *data = [file readDataToEndOfFile];    // Get execution results.
-    return [data bytes];
+    return data;
 }
 
 void stripFile(NSString *filePath) {
@@ -42,7 +42,7 @@ void copyFile(NSString *filePath) {
 
 void thinFile(NSString *filePath) {
     NSString *thinCmd = [NSString stringWithFormat:@"lipo -archs %@_copy",filePath];
-    NSArray *archs = [[NSString stringWithFormat:@"%s",cmd(thinCmd)] componentsSeparatedByString:@" "];
+    NSArray *archs = [[[NSString alloc] initWithData:cmd(thinCmd) encoding:NSUTF8StringEncoding] componentsSeparatedByString:@" "];
     if (archs.count > 1) {
         thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
         cmd(thinCmd);

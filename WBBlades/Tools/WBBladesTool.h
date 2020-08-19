@@ -48,6 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData;
 
+/**
+* convert address from vm to offset
+*/
++ (unsigned long long)getOffsetFromVmAddress:(unsigned long long )address fileData:(NSData *)fileData;
+
 @end
 
 NS_ASSUME_NONNULL_END
