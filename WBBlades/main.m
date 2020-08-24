@@ -145,7 +145,7 @@ void handleStaticLibrary(NSString *filePath) {
     
     removeCopyFile(filePath);//remove file
     copyFile(filePath);//copy file
-    
+    stripFile(filePath);//strip file
     thinFile(filePath);//arm64 file
     
     //read mach-o file and calculate size

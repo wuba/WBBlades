@@ -95,7 +95,7 @@
             NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
             data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
             [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-            unsigned long long classNameOffset = targetClassInfo.name - vm;
+            unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];//targetClassInfo.name - vm;
             
             class64 metaClass = {0};
             NSRange metaClassRange = NSMakeRange(targetClass.isa - vm, 0);
@@ -152,7 +152,7 @@
            data = [WBBladesTool readBytes:targetCategoryRange length:sizeof(category64) fromFile:fileData];
            [data getBytes:&targetCategory length:sizeof(category64)];
            
-           unsigned long long categoryNameOffset = targetCategory.name - vm;
+           unsigned long long categoryNameOffset = [WBBladesTool getOffsetFromVmAddress:targetCategory.name fileData:fileData];//targetCategory.name - vm;
            
            //category name 50 bytes maximum
            uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -176,7 +176,7 @@
                NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-               unsigned long long classNameOffset = targetClassInfo.name - vm;
+               unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];//targetClassInfo.name - vm;
                
                //class name 50 bytes maximum
                buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -233,8 +233,8 @@
         
         method64_t method;
         [data getBytes:&method length:sizeof(method64_t)];
-        unsigned long long methodNameOffset = method.name - vm;
-        
+        unsigned long long methodNameOffset = [WBBladesTool getOffsetFromVmAddress:method.name fileData:fileData];//method.name;
+                
         //方法名最大150字节
         uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
         if (methodNameOffset > 0 && methodNameOffset < max) {
@@ -280,14 +280,13 @@
         data = [WBBladesTool readBytes:methodRange length:sizeof(method64_t) fromFile:fileData];
         
         [data getBytes:&method length:sizeof(method64_t)];
-        unsigned long long methodNameOffset = method.name - vm;
+        unsigned long long methodNameOffset = [WBBladesTool getOffsetFromVmAddress:method.name fileData:fileData];//method.name - vm - 0x4c000;
         
         //方法名最大150字节
         uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
         if (methodNameOffset > 0 && methodNameOffset < max) {
             [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,METHODNAME_MAX_LEN)];
             NSString * methodName = NSSTRING(buffer);
-                                
             unsigned long long imp = method.imp;
             NSLog(@"遍历 +[%@ %@]",className,methodName);
             [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
