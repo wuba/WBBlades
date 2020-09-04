@@ -197,6 +197,7 @@ static void enumPodFiles(NSString *path) {
         if ([lastPathComponent hasSuffix:@"xcassets"] ||
             [lastPathComponent hasSuffix:@"git"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
+            [[lastPathComponent lowercaseString] isEqualToString:@"dsym"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"product"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"document"]) {
             //ignore resources,git,demo,product,document
