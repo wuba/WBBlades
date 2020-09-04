@@ -45,6 +45,7 @@ void thinFile(NSString *filePath) {
     NSArray *archs = [[[NSString alloc] initWithData:cmd(thinCmd) encoding:NSUTF8StringEncoding] componentsSeparatedByString:@" "];
     if (archs.count > 1) {
         thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
+        NSLog(@"正在提取arm64架构"); // Strip symbol table.
         cmd(thinCmd);
     }
 }

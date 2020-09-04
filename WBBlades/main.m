@@ -14,12 +14,6 @@
 #import "WBBladesScanManager+CrashSymbol.h"
 #import "WBBladesCMD.h"
 
-typedef NS_ENUM(NSInteger, WBBladesType) {
-    WBBladesTypeStaticLibSize    = 1,
-    WBBladesTypeUnusedClass      = 2,
-    WBBladesTypeCrashLog         = 3,
-};
-
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
 static void enumPodFiles(NSString *path);
@@ -36,18 +30,21 @@ static NSString *resultFilePath(void);
 
 int main(int argc, const char *argv[]) {
     @autoreleasepool {
-        NSInteger type = [[NSString stringWithFormat:@"%s",argv[1]] integerValue];
-        if (type == WBBladesTypeStaticLibSize) {
-            //1 + static lib path
+        
+        NSString *staticLibSizeStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"size"];
+        NSString *unusedClassStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
+        NSString *crashLogStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"symbol"];
+
+        if (staticLibSizeStr.length > 0) {
             scanStaticLibrary(argc, argv);//scan static library size
-            
-        }else if (type == WBBladesTypeUnusedClass){
-            //2 + APP executable file + static lib path1 + static lib path2 ...
+        }else if (unusedClassStr.length > 0){
             scanUnusedClass(argc, argv);//scan unused class
-            
-        }else if(type == WBBladesTypeCrashLog){
-            //3 + APP executable file + crash offset1,crash offset2...
+        }else if (crashLogStr.length > 0){
             scanCrashSymbol(argc, argv);//crash log symbolicate
+        }else{
+            NSLog(@"分析静态库的体积：WBBlades -size xxx.a xxx.framework ....");
+            NSLog(@"分析无用类的体积：WBBlades -unused xxx.app -from xxx.a xxx.a ....(-from 标识只分析以下静态库中的无用类，不加此参数默认为APP中全部类)");
+            NSLog(@"日志符号化：WBBlades -symbol xxx.app -offsets 1234,5678,91011");
         }
     }
 }
@@ -89,25 +86,25 @@ static void scanStaticLibrary(int argc, const char * argv[]) {
 
 static void scanUnusedClass(int argc, const char * argv[]) {
     s_classSet = [NSMutableSet set];
-    NSString *podName = @"";
     
-    if (argc < 3) {//at least three params
-        NSLog(@"参数不足");
-        return;
-    }
-
-    //enumerate all pods and all classes
-    for (int i = 3; i < argc; i++) {
-        @autoreleasepool {
-            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i]];
-            NSLog(@"读取%@所有类", podPath);
-            enumPodFiles(podPath);
-            NSString *tmp = [podPath lastPathComponent];
-            tmp = [@" " stringByAppendingString:tmp];
-            podName = [podName stringByAppendingString:tmp];
+    NSString *selectLibs = [[NSUserDefaults standardUserDefaults] stringForKey:@"from"];
+    
+    NSString *podName = @"";
+    if (selectLibs.length > 0) {
+        //enumerate all libs and all classes 
+        for (int i = 4; i < argc; i++) {
+            @autoreleasepool {
+                NSString *podPath = [NSString stringWithFormat:@"%s",argv[i]];
+                NSLog(@"读取%@所有类", podPath);
+                enumPodFiles(podPath);
+                NSString *tmp = [podPath lastPathComponent];
+                tmp = [@" " stringByAppendingString:tmp];
+                podName = [podName stringByAppendingString:tmp];
+            }
         }
     }
-    NSString *appPath = [NSString stringWithFormat:@"%s",argv[2]];
+    
+    NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
     
     //read binary files, scan all pods and classes to find unused classes
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
@@ -126,8 +123,8 @@ static void scanUnusedClass(int argc, const char * argv[]) {
 }
 
 static void scanCrashSymbol(int argc, const char * argv[]) {
-    NSString *appPath = [NSString stringWithFormat:@"%s", argv[2]];
-    NSString *crashAddress = [NSString stringWithFormat:@"%s", argv[3]];
+    NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"symbol"];
+    NSString *crashAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"offsets"];
     
     NSDictionary *result = [WBBladesScanManager symbolizeWithMachOFile:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
     
@@ -145,8 +142,8 @@ void handleStaticLibrary(NSString *filePath) {
     
     removeCopyFile(filePath);//remove file
     copyFile(filePath);//copy file
-    stripFile(filePath);//strip file
     thinFile(filePath);//arm64 file
+    stripFile(filePath);//strip file
     
     //read mach-o file and calculate size
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
