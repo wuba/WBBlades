@@ -30,7 +30,7 @@
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData {
     
     //judge whether it is a static library
-    if ([fileData length] < sizeof(mach_header) || ![self isSupport:fileData]) {
+    if ([fileData length] < sizeof(mach_header) || ![WBBladesTool isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
@@ -364,44 +364,6 @@
     unsigned long long location = NSMaxRange(range);
     location = 8 * ceil(location / 8.0);
     return NSMakeRange(location, range.length);
-}
-
-//judge whether the file is supported
-+ (BOOL)isSupport:(NSData *)fileData {
-    
-    uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
-    switch (magic) {
-        case FAT_MAGIC: //fat binary file
-        case FAT_CIGAM:
-        {
-            NSLog(@"fat binary");
-        } break;
-            
-        case MH_MAGIC: //32 bit mach-o
-        case MH_CIGAM:
-        {
-            NSLog(@"32位 mach-o");
-        } break;
-            
-        case MH_MAGIC_64://64 bit mach-o
-        case MH_CIGAM_64:
-        {
-            //a single object
-            NSLog(@"64位 mach-o");
-            return YES;
-        } break;
-        default:
-        {
-            //it is a static library
-            if (*(uint64_t*)((uint8_t *)[fileData bytes]) == *(uint64_t*)"!<arch>\n") {
-                //                NSLog(@"符合单架构静态库特征");
-                return YES;
-            } else {
-                NSLog(@"非Mach-O文件");
-            }
-        }
-    }
-    return NO;
 }
 
 @end

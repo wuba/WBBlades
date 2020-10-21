@@ -56,12 +56,6 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (NSRange)rangeAlign:(NSRange)range;
 
-/**
-*  judge whether the file is supported
-*  @param fileData binary data
-*/
-+ (BOOL)isSupport:(NSData *)fileData;
-
 @end
 
 NS_ASSUME_NONNULL_END

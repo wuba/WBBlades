@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
+#ifdef    __cplusplus
+extern "C" {
+#endif
+
 /**
  * Input file path, strip the symbol table.
  */
@@ -27,12 +31,12 @@ void thinFile(NSString *filePath);
  * Remove the file.
  */
 void removeFile(NSString *filePath);
- 
+
 /**
  * Remove the copied file.
  */
 void removeCopyFile(NSString *filePath);
- 
+
 /**
  * Compile xcassert resources.
  */
@@ -44,3 +48,6 @@ void compileXcassets(NSString *path);
  */
 void colorPrint(NSString *info);
 
+#ifdef    __cplusplus
+}
+#endif

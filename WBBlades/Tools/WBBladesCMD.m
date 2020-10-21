@@ -7,7 +7,8 @@
 //
 
 #import "WBBladesCMD.h"
-
+#import <mach-o/fat.h>
+#import "WBBladesTool.h"
 // Execute command in console.
 static NSData * cmd(NSString *cmd) {
     NSTask *task = [[NSTask alloc] init];
@@ -26,6 +27,13 @@ static NSData * cmd(NSString *cmd) {
 
 void stripFile(NSString *filePath) {
 
+    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+    if (fileData.length < sizeof(uint32_t) ) {
+        return;
+    }
+    if (![WBBladesTool isMachO:fileData]) {
+        return;
+    }
     NSLog(@"正在去除bitcode中间码...");    // Remove bitcode information.
     NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
     cmd(bitcodeCmd);
@@ -36,11 +44,21 @@ void stripFile(NSString *filePath) {
 }
 
 void copyFile(NSString *filePath) {
-    NSString *cpCmd = [NSString stringWithFormat:@"cp  -f %@ %@_copy",filePath,filePath];
+    NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
     cmd(cpCmd);
 }
 
 void thinFile(NSString *filePath) {
+    
+    NSData *fileData = [NSData dataWithContentsOfFile:filePath];
+    if (fileData.length < sizeof(uint32_t) ) {
+        return;
+    }
+    uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
+    if (magic != FAT_MAGIC && magic != FAT_CIGAM) {
+        return;
+    }
+
     NSString *thinCmd = [NSString stringWithFormat:@"lipo -archs %@_copy",filePath];
     NSArray *archs = [[[NSString alloc] initWithData:cmd(thinCmd) encoding:NSUTF8StringEncoding] componentsSeparatedByString:@" "];
     if (archs.count > 1) {

@@ -16,12 +16,12 @@
 
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
-static void enumPodFiles(NSString *path);
+static void enumLibFiles(NSString *path);
 
 static unsigned long long resourceSize = 0;
 static unsigned long long codeSize = 0;
 
-static NSDictionary *podResult;
+static NSDictionary *sizeResult;
 static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnusedClass(int argc, const char * argv[]);
@@ -55,30 +55,30 @@ static void scanStaticLibrary(int argc, const char * argv[]) {
     //param1:type  params2:libs' path list
     for (int i = 0; i < argc - 2; i++) {
         @autoreleasepool {
-            NSString *podPath = [NSString stringWithFormat:@"%s",argv[i+2]];//each pods' path
-            NSLog(@"Pod 路径：%@", podPath);
+            NSString *libPath = [NSString stringWithFormat:@"%s",argv[i+2]];//each libs' path
+            NSLog(@"分析路径：%@", libPath);
             
-            NSString *podName = [podPath lastPathComponent];//pod's name
+            NSString *libName = [libPath lastPathComponent];//lib's name
             
             NSString *outPutPath = resultFilePath();//result output path
             outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesResult.plist"];
             
             NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];//last result
             NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
-            podResult = [NSMutableDictionary dictionary];
+            sizeResult = [NSMutableDictionary dictionary];
             
             resourceSize = 0;//empty the resources' size
             codeSize = 0;//empty the codes' size
             
-            enumAllFiles(podPath);//enumerate all pods' files
+            enumAllFiles(libPath);//enumerate all libs' files
             
-            //color prints each pod's resources' size and code's sizes
+            //color prints each lib's resources' size and code's sizes
             colorPrint([NSString stringWithFormat:@"codeSize = %llu KB\n resourceSize = %llu KB", codeSize/1024,resourceSize/1024]);
             
             //write results to file
-            [podResult setValue:[NSString stringWithFormat:@"%.2f MB",resourceSize/1024.0/1024] forKey:@"resource"];
-            [podResult setValue:[NSString stringWithFormat:@"%.2f MB", (codeSize + resourceSize) / 1024.0 / 1024] forKey:@"total"];
-            [resultData setValue:podResult forKey:podName];
+            [sizeResult setValue:[NSString stringWithFormat:@"%.2f MB",resourceSize/1024.0/1024] forKey:@"resource"];
+            [sizeResult setValue:[NSString stringWithFormat:@"%.2f MB", (codeSize + resourceSize) / 1024.0 / 1024] forKey:@"total"];
+            [resultData setValue:sizeResult forKey:libName];
             [resultData writeToFile:outPutPath atomically:YES];
         }
     }
@@ -89,24 +89,24 @@ static void scanUnusedClass(int argc, const char * argv[]) {
     
     NSString *selectLibs = [[NSUserDefaults standardUserDefaults] stringForKey:@"from"];
     
-    NSString *podName = @"";
+    NSString *libName = @"";
     if (selectLibs.length > 0) {
         //enumerate all libs and all classes 
         for (int i = 4; i < argc; i++) {
             @autoreleasepool {
-                NSString *podPath = [NSString stringWithFormat:@"%s",argv[i]];
-                NSLog(@"读取%@所有类", podPath);
-                enumPodFiles(podPath);
-                NSString *tmp = [podPath lastPathComponent];
+                NSString *libPath = [NSString stringWithFormat:@"%s",argv[i]];
+                NSLog(@"读取%@所有类", libPath);
+                enumLibFiles(libPath);
+                NSString *tmp = [libPath lastPathComponent];
                 tmp = [@" " stringByAppendingString:tmp];
-                podName = [podName stringByAppendingString:tmp];
+                libName = [libName stringByAppendingString:tmp];
             }
         }
     }
     
     NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
     
-    //read binary files, scan all pods and classes to find unused classes
+    //read binary files, scan all libs and classes to find unused classes
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     
     //write results to file
@@ -118,7 +118,7 @@ static void scanUnusedClass(int argc, const char * argv[]) {
     [classset enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classes addObject:obj];
     }];
-    [resultData setObject:classes forKey:podName];
+    [resultData setObject:classes forKey:libName];
     [resultData writeToFile:outPutPath atomically:YES];
 }
 
@@ -142,12 +142,13 @@ void handleStaticLibrary(NSString *filePath) {
     
     removeCopyFile(filePath);//remove file
     copyFile(filePath);//copy file
+    
     thinFile(filePath);//arm64 file
     stripFile(filePath);//strip file
     
     //read mach-o file and calculate size
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
-    NSData *fileData = [WBBladesFileManager  readFromFile:copyPath];
+    NSData *fileData = [WBBladesFileManager readFromFile:copyPath];
     unsigned long long size = [WBBladesScanManager scanStaticLibrary:fileData];
     NSLog(@"%@ 大小为 %.2f MB", name, (size) / 1024.0 / 1024.0);
     codeSize += size;
@@ -155,7 +156,7 @@ void handleStaticLibrary(NSString *filePath) {
     removeCopyFile(filePath);//remove tmp file
     colorPrint([NSString stringWithFormat:@"%@ 链接后大小 %llu 字节", name, size]);
     if (size > 0) {
-        [podResult setValue:[NSString stringWithFormat:@"%.2f MB",size / 1024.0 / 1024] forKey:name];
+        [sizeResult setValue:[NSString stringWithFormat:@"%.2f MB",size / 1024.0 / 1024] forKey:name];
     }
 }
 
@@ -180,9 +181,9 @@ void handleStaticLibraryForClassList(NSString *filePath) {
 }
 
 #pragma mark Enumerate Files
-static void enumPodFiles(NSString *path) {
+static void enumLibFiles(NSString *path) {
     
-    //enumerate each pod
+    //enumerate each lib
     NSFileManager *fileManger = [NSFileManager defaultManager];
     BOOL isDir = NO;
     BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
@@ -196,8 +197,8 @@ static void enumPodFiles(NSString *path) {
     if (isDir) {
         if ([lastPathComponent hasSuffix:@"xcassets"] ||
             [lastPathComponent hasSuffix:@"git"] ||
+            [[lastPathComponent lowercaseString] hasSuffix:@"dsym"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
-            [[lastPathComponent lowercaseString] isEqualToString:@"dsym"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"product"] ||
             [[lastPathComponent lowercaseString] isEqualToString:@"document"]) {
             //ignore resources,git,demo,product,document
@@ -209,7 +210,7 @@ static void enumPodFiles(NSString *path) {
                 subPath  = [path stringByAppendingPathComponent:str];
                 BOOL isSubDir = NO;
                 [fileManger fileExistsAtPath:subPath isDirectory:&isSubDir];
-                enumPodFiles(subPath);
+                enumLibFiles(subPath);
             }
         }
     }else{
@@ -227,7 +228,7 @@ static void enumPodFiles(NSString *path) {
 
 static void enumAllFiles(NSString *path) {
     @autoreleasepool {
-        //enumerate each pod
+        //enumerate each lib
         NSFileManager * fileManger = [NSFileManager defaultManager];
         BOOL isDir = NO;
         BOOL isExist = [fileManger fileExistsAtPath:path isDirectory:&isDir];
@@ -250,6 +251,7 @@ static void enumAllFiles(NSString *path) {
                     
                 removeFile(assetsCarPath);//remove file
             }else if ([lastPathComponent hasSuffix:@"git"] ||
+                      [[lastPathComponent lowercaseString] hasSuffix:@"dsym"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"document"]){
                 //ignore git,demo,document

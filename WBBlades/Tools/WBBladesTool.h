@@ -13,6 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesTool : NSObject
 
+#ifdef __cplusplus
 /**
  * Return an array contains continuous strings from the file data.
  * See method implementation for details.
@@ -32,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Return bytes data from the file data.
  */
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData;
+#endif //__cplusplus
 
 /**
  * Replace the escape characters in the input string.
@@ -52,6 +54,16 @@ NS_ASSUME_NONNULL_BEGIN
 * convert address from vm to offset
 */
 + (unsigned long long)getOffsetFromVmAddress:(unsigned long long )address fileData:(NSData *)fileData;
+
+/**
+*  support 64bit  Mach-O file
+*/
++ (BOOL)isSupport:(NSData *)fileData;
+
+/**
+*  is  Mach-O file
+*/
++ (BOOL)isMachO:(NSData *)fileData;
 
 @end
 

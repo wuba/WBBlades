@@ -29,7 +29,7 @@ static section_64 textList = {0};
 //dump binary file's classes
 + (NSSet *)dumpClassList:(NSData *)fileData {
     
-    if (!fileData || ![self isSupport:fileData]) {
+    if (!fileData || ![WBBladesTool isSupport:fileData]) {
         return nil;
     }
     
