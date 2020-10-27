@@ -1,15 +1,16 @@
 
-# 基于Mach-O解析与反汇编技术的应用——WBBlades
-基于mach-o技术的，一种简单高效的针对多pod的代码所占大小检测、无用类检测和无符号崩溃日志检测
-（WBBlades:Based on mach-o technology, a simple and efficient code size detection, useless class detection and unsigned crash log detection for multi pods）
+# WBBlades：基于Mach-O的体积分析、无用类检测、崩溃解析工具
+
+一款基于mach-o技术，针对多pods，简单高效地进行<strong>代码体积检测、无用类检测和无符号崩溃日志解析</strong>的工具。
+
+（WBBlades: Based on mach-o technology, a simple and efficient code size detection, unused class detection and unsigned crash log parser for multi-pods.）
 
 
 ## 特性
 * 支持快速检测SDK的接入体积，输入路径即可分析出该路径下的静态库体积、资源体积以及总体积，无需编译链接过程；
-*	无用类检测支持对类的继承、动态调用、自身类调用、属性及成员变量的识别；
-*	在没有符号表的情况下，可以通过二进制文件的解析实现OC代码的日志符号化；
-*	使用简单，工具可视化；
-*	易扩展、易推广，具备可在终端上独立运行能力，可通过脚本调用、传参。
+*    无用类检测支持对类的继承、动态调用、自身类调用、属性及成员变量的识别；
+*    在没有符号表的情况下，可以通过二进制文件的解析实现OC代码的日志符号化；
+*    易扩展、易推广，具备可在终端上独立运行能力，可通过脚本调用、传参。
 
 ## 背景
    随着公司业务不断扩展，APP体积也随之增大，APP包瘦身逐渐成为我们的重要任务；同时，APP崩溃问题也是我们关注的重点。为了解决现存问题，优化APP性能，我们基于Mach-O解析与反汇编技术，产出了WBBlades工具集——静态库体积分析工具，工程无用类检测工具，以及无符号崩溃解析工具。
@@ -40,74 +41,47 @@
 
 耗时问题：由于WBBlades需要遍历大量指令，因此我们提供了圈选功能，开发者可以查看某几个SDK或某几个Pod的无用类，从而减少耗时。
 
-* **日志解析工具**
-
-WBBlades的日志解析不依赖任何符号表，只需要相应的二进制文件可以实现日志解析。即使二进制文件已经剥离了符号表，WBBlades也可以完成日志的符号化。目前WBBlades仅支持OC语言及部分Swift语言的日志符号化，C/C++以及block的堆栈暂时无法恢复符号。
-
-
 ## 环境安装
    * Mac
    * Xcode
 
 ## 使用
-我们提供了两种使用方式，一种是直接使用我们提供的Mac应用；另一种是通过命令行工具，有利于接入自动化流程中。开发者可以根据自身情况选择性使用。
+<i>注意：使用工具时，物料（如APP、静态库、ips等）的路径不能出现空格或中文。</i>
 
-* 使用Mac应用：
+下载源码，打开并运行WBBlades.xcodeproj。找到Products-WBBlades，将其拖入命令行。
 
-	将源码下载到本地，进入UIAPP文件夹，进入WBBladesForMac，打开WBBladesForMac.xcodeproj并运行。
+*  <strong>静态库体积分析</strong>
 
-* 通过终端调用：
+	在拖入的WBBlades文件路径后面加空格，输入-size，空格，拖入需要解析的静态库路径，路径间同样以空格隔开。
 
-	下载源码，打开并运行WBBlades.xcodeproj。找到Products-WBBlades，将其拖入命令行。
+	输入参数示例：
 
-注意：使用工具时，物料（如APP、静态库、ips等）的路径不能出现空格或中文。
-   
-1. **静态库体积分析**：
-   
-   * 使用Mac应用
+	```WBBlades -size xxx.a xxx.framework ....```
+	
+	按回车进行解析，解析结果会保存在 <i>~/Desktop/WBBladesResult.plist</i> 文件中。
+	
+* <strong>无用类检测</strong>
 
-   选择或拖入一个或多个路径，路径为目标静态库或其所在文件夹，不同路径间以空格隔开，路径中不可出现空格。点击“开始分析”按钮进行分析，分析结果会保存在*桌面/WBBladesResult.plist*文件中。点击“打开文件夹”，查看分析结果。
-   	
-   * 使用命令行
-   
-   在拖入的WBBlades文件路径后面加空格，输入数字1，空格，拖入需要解析的静态库路径，路径间同样以空格隔开。
+	在刚刚拖入的WBBlades文件路径后面加空格，输入-unused，空格，拖入需要解析的app文件路径——最好是Xcode本地打出来的Debug包；如果只需要检测部分静态库，则输入-from，拖入需要解析的静态库路径，可以拖入一个到多个，将只检测这些静态库下的类的使用情况。
 
-   输入参数示例：
-    
-    ```
-    ~/Build/Products/Debug/WBBlades 1 ~/libAudio.a ~/    libHouseBusiness.a 
-    ```
-    
-   按回车进行解析，解析结果会保存在*~/Desktop/WBBladesResult.plist*文件中。
-   
-2. **无用类检测**：
-	* 使用Mac应用
-   
-   选择需要检测的可执行文件（.ipa或.app），检测所用的APP最好是Xcode本地打出来的Debug包；如果只需要检测部分静态库，则选择或拖入一个或多个目标静态库或其文件夹，路径间以空格隔开。点击“开始分析”按钮进行分析，分析结果会保存在*桌面/WBBladesClass.plist*文件中。点击“打开文件夹”，查看分析结果。
+	输入参数示例：
+	
+	```WBBlades -unused xxx.app -from xxx.a xxx.a ....```
+	
+	(-from 标识只分析以下静态库中的无用类，不加此参数默认为APP中全部类)
+	
+	按回车进行解析，解析结果会保存在 <i>~/Desktop/WBBladesClass.plist</i> 文件中。
+	
+* <strong>无符号崩溃解析</strong>
 
-   * 使用命令行
-   
-   在在刚刚拖入的WBBlades文件路径后面加空格，输入数字2，空格，拖入需要解析的app文件路径——最好是Xcode本地打出来的Debug包；如果只需要检测部分静态库，则拖入需要解析的静态库路径，可以拖入一个到多个，将只检测这些静态库下的类的使用情况；各参数间以空格隔开。
-   
-   输入参数示例：
-   ```
-	~/Build/Products/Debug/WBBlades 2 ~/58tongcheng.app ~/	libAudio.a ~/libHouseBusiness.a 
-	```
-按回车进行解析，解析结果会保存在*~/Desktop/WBBladesClass.plist*文件中。
-
-3. **无符号崩溃解析**：
-	* 使用Mac应用
-   
-   选择或拖入崩溃的.app文件或其中的可执行文件；准备崩溃日志，崩溃日志可从手机设置——隐私——分析与改进——分析数据——yourAppName-xxxx-xx-xx-xxxxxx.ips中得到；将崩溃堆栈粘贴入文本框，点击“开始解析”，解析完毕后会自动打开结果文件WBBladesCrash.txt，解析结果会显示在下方文本框。
-       
-  * 使用命令行
-   
-   在刚刚拖入的WBBlades文件路径后面加空格，输入数字3，空格，拖入需要解析的可执行文件（只能输入一个可执行文件），空格，输入崩溃日志的偏移地址组成的字符串，偏移地址间以英文“,“间隔，中间没有空格。    
-输入参数示例：
-
-   ```~/Build/Products/Debug/WBBlades 3 ~/58tongcheng.app 112811,112711472,112720588,79286148,79296948```
-
-   按回车进行解析，解析结果会保存在*桌面/WBBladesCrash.plist*文件中。
+	在刚刚拖入的WBBlades文件路径后面加空格，输入-symbol，空格，拖入需要解析的可执行文件（只能输入一个可执行文件），输入-offsets，输入崩溃日志的偏移地址组成的字符串，偏移地址间以英文“,“间隔，中间没有空格。
+	
+	输入参数示例： 
+	
+	```WBBlades -symbol xxx.app -offsets 1234,5678,91011```
+	
+	按回车进行解析，解析结果会保存在桌面 <i>~/Desktop/WBBladesCrash.plist</i> 文件中。
+	
    
 ## 后期规划
 
