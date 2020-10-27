@@ -127,3 +127,147 @@ struct category64
 #define BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED            0xB0
 #define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
 
+
+/**
+ 从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
+ */
+
+//__TEXT.__swift5_protos
+struct ProtocolDescriptor{
+    uint32  Flags;
+    int     Parent;
+    int     Name;
+    uint32  NumRequirementsInSignature;
+    uint32  NumRequirements;
+    int     AssociatedTypeNames;
+};
+
+//__TEXT.__swift5_proto
+struct ProtocolConformanceDescriptor{
+    int     ProtocolDescriptor;
+    int     NominalTypeDescriptor;
+    int     ProtocolWitnessTable;
+    uint32  ConformanceFlags;
+};
+
+//__TEXT.__swift5_types
+struct EnumDescriptor{
+    uint32  Flags;
+    int     Parent;
+    int     Name;
+    int     AccessFunction;
+    int     FieldDescriptor;
+    uint32  NumPayloadCasesAndPayloadSizeOffset;
+    uint32  NumEmptyCases;
+};
+
+struct StructDescriptor{
+    uint32 Flags;
+    int    Parent;
+    int    Name;
+    int    AccessFunction;
+    int    FieldDescriptor;
+    uint32 NumFields;
+    uint32 FieldOffsetVectorOffset;
+};
+
+struct ClassDescriptor{
+    uint32  Flags;
+    int     Parent;
+    int     Name;
+    int     AccessFunction;
+    int     FieldDescriptor;
+    int     SuperclassType;
+    uint32  MetadataNegativeSizeInWords;
+    uint32  MetadataPositiveSizeInWords;
+    uint32  NumImmediateMembers;
+    uint32  NumFields;
+};
+
+//__TEXT.__swift5_fieldmd
+struct FieldRecord{
+    uint32  Flags;
+    int     MangledTypeName;
+    int     FieldName;
+};
+
+struct FieldDescriptor{
+    int          MangledTypeName;
+    int          Superclass;
+    uint16       Kind;
+    uint16       FieldRecordSize;
+    uint32       NumFields;
+    FieldRecord* FieldRecords;
+};
+
+//__TEXT.__swift5_assocty
+struct AssociatedTypeRecord{
+    int     Name;
+    int     SubstitutedTypeName;
+};
+
+struct AssociatedTypeDescriptor{
+    int                    ConformingTypeName;
+    int                    ProtocolTypeName;
+    uint32                 NumAssociatedTypes;
+    uint32                 AssociatedTypeRecordSize;
+    AssociatedTypeRecord*  AssociatedTypeRecords;
+};
+
+//__TEXT.__swift5_builtin
+struct BuiltinTypeDescriptor{
+    int                 TypeName;
+    uint32              Size;
+    uint32              AlignmentAndFlags;
+    uint32              Stride;
+    uint32              NumExtraInhabitants;
+};
+
+//__TEXT.__swift5_capture
+struct CaptureTypeRecord{
+    int     MangledTypeName;
+};
+
+struct MetadataSourceRecord{
+    int     MangledTypeName;
+    int     MangledMetadataSource;
+};
+
+struct CaptureDescriptor{
+    uint32                NumCaptureTypes;
+    uint32                NumMetadataSources;
+    uint32                NumBindings;
+    CaptureTypeRecord*    CaptureTypeRecords;
+    MetadataSourceRecord* MetadataSourceRecords;
+};
+
+//__TEXT.__swift5_replace
+struct Replacement{
+    int     ReplacedFunctionKey;
+    int     NewFunction;
+    int     Replacement;
+    uint32  Flags;
+};
+
+struct ReplacementScope{
+    uint32  Flags;
+    uint32  NumReplacements;
+};
+
+struct AutomaticReplacements{
+    uint32  Flags;
+    uint32  NumReplacements;
+    int     Replacements;
+};
+
+//__TEXT.__swift5_replac2
+struct Replacement2{
+    int     Original;
+    int     Replacement;
+};
+
+struct AutomaticReplacementsSome{
+    uint32       Flags;
+    uint32       NumReplacements;
+    Replacement* Replacements;
+};
