@@ -286,6 +286,7 @@ static void enumAllFiles(NSString *path) {
 #pragma mark Tools
 static BOOL isResource(NSString *type) {//resource type
     if ([type isEqualToString:@"nib"] ||
+        [type isEqualToString:@"zip"] ||
         [type isEqualToString:@"plist"] ||
         [type isEqualToString:@"png"] ||
         [type isEqualToString:@"jpg"] ||
