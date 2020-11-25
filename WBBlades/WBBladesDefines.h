@@ -82,6 +82,7 @@ struct category64
 #define SEGMENT_RODATA @"__RODATA"
 #define SEGMENT_DATA @"__DATA"
 #define SEGMENT_DATA_CONST @"__DATA_CONST"
+#define SEGMENT_LINKEDIT @"__LINKEDIT"
 
 //符号表前缀定义
 #define CLASS_SYMBOL_PRE @"_OBJC_CLASS_$_"
@@ -101,6 +102,7 @@ struct category64
 #define CONST_DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
+#define TEXT_SWIFT5_TYPES @"__swift5_types"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
 
@@ -127,6 +129,12 @@ struct category64
 #define BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED            0xB0
 #define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
 
+typedef NS_ENUM(NSInteger, SwiftKind) {
+    SwiftKindUnknown        = 0,     // Unknown
+    SwiftKindClass          = 1,    // Class
+    SwiftKindStruct         = 2,    // Struct
+    SwiftKindEnum           = 3     // Enum
+};
 
 /**
  从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
@@ -270,4 +278,51 @@ struct AutomaticReplacementsSome{
     uint32       Flags;
     uint32       NumReplacements;
     Replacement* Replacements;
+};
+
+struct SwiftType {
+    uint32_t Flag;
+    uint32_t parent;
+};
+
+struct SwiftMethod {
+    uint32_t Kind;
+    uint32_t Offset;
+};
+
+//没有Vtable 的话使用此结构体会错误
+struct SwiftClassType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    int32_t  SuperclassType;
+    uint32_t MetadataNegativeSizeInWords;
+    uint32_t MetadataPositiveSizeInWords;
+    uint32_t NumImmediateMembers;
+    uint32_t NumFields;
+    uint32_t Unknow1;
+    uint32_t Unknow2;
+    uint32_t NumMethods;
+};
+
+struct SwiftStructType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    uint32   NumFields;
+    uint32   FieldOffsetVectorOffset;
+};
+
+struct SwiftEnumType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    uint32   NumPayloadCasesAndPayloadSizeOffset;
+    uint32   NumEmptyCases;
 };
