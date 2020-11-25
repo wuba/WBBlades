@@ -18,7 +18,154 @@
 
 @implementation WBBladesScanManager (CrashSymbol)
 
-+ (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSString *)crashAddresses {
+static NSMutableArray *_crashStacks = [NSMutableArray array];
+static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
++ (NSArray *)obtainAllCrashOffsets:(NSString *)crashLogPath appPath:(NSString *)appPath{
+    if (!crashLogPath) {
+        return nil;
+    }
+    
+    NSString *lastPathComponent = [appPath lastPathComponent];
+    NSArray *tmp = [lastPathComponent componentsSeparatedByString:@"."];
+    NSString *execName = @"";
+    if ([tmp count] == 2) {
+        NSString *fileType = [tmp lastObject];
+        if ([fileType isEqualToString:@"app"]) {
+            execName = [tmp firstObject];
+        }
+    }
+    
+    NSString *fileString = [self importCrashLogStack:crashLogPath];
+    // 获得此app的崩溃地址
+    NSArray *crashInfoLines = [fileString componentsSeparatedByString:@"\n"];
+    NSMutableArray *crashOffsets = [[NSMutableArray alloc] init];
+    for (NSInteger i = 0; i < crashInfoLines.count; i++) {
+        
+        NSString *crashLine = crashInfoLines[i];
+        NSArray *compos = [crashLine componentsSeparatedByString:@" "];
+        if (compos.count > 2) {
+            if ([crashLine containsString:execName]) {
+                NSString *offset = compos.lastObject;
+                if (offset.longLongValue) {
+                    [crashOffsets addObject:[NSString stringWithString:offset]];
+                }
+                [_usefulCrashLine addObject:crashLine];
+            }
+        }
+        [_crashStacks addObject:crashLine];
+    }
+    return crashOffsets;
+}
+
++ (NSString *)importCrashLogStack:(NSString *)logPath {
+    NSString *dataString = [[NSString alloc]initWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:nil];
+    NSArray *lines = [dataString componentsSeparatedByString:@"\n"];
+    
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *binaryAddress = @"";
+    NSString *backtraceAddress = @"";
+    NSUInteger backtraceIndex = -1;
+    BOOL found = NO;
+    for (NSInteger i = 0; i<lines.count; i++) {
+        NSString *line = lines[i];
+        if ([line hasPrefix:@"Last Exception"]) {//找到第一个Thread
+            found = YES;
+        }else if(found && ([line hasPrefix:@"(0x"] && [lines[i-1]  hasPrefix:@"Last Exception"])){
+            backtraceAddress = line;
+            backtraceIndex = i;
+        }else if(found && ([line hasPrefix:@"Binary"] || [line hasPrefix:@"0x"])){
+            if (i+1 < lines.count) {//Binary Image：的下一行
+                binaryAddress = lines[i+1];
+            }
+            break;
+        }
+        [array addObject:line];
+    }
+    
+    //特殊处理Last Exception Backtrace中包含多个地址的情况
+    if (backtraceAddress && backtraceAddress.length > 0 && binaryAddress && binaryAddress.length >0) {
+        NSArray *addressLines = [self obtainLastExceptionCrashModels:backtraceAddress
+                                                       binaryAddress:binaryAddress];
+        if (addressLines && addressLines.count > 0) {
+            [array replaceObjectAtIndex:backtraceIndex withObject:@""];
+            [array insertObjects:addressLines atIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(backtraceIndex, addressLines.count)]];
+        }
+    }
+    
+    NSMutableString *resultString = [NSMutableString string];
+    for (NSString *line in array) {
+        [resultString appendString:[NSString stringWithFormat:@"%@\n",line]];
+    }
+    return [resultString copy];
+}
+
+/**
+* 从Last Exception Backtrace中获取与当前进程的地址，并转为Model
+*/
++ (NSArray<NSString*>*)obtainLastExceptionCrashModels:(NSString *)string
+                                        binaryAddress:(NSString*)between {
+    NSMutableArray *array = [NSMutableArray array];
+    
+    NSArray *processArray = [between componentsSeparatedByString:@" "];
+    if (processArray.count < 4) {
+        return nil;
+    }
+    NSString *processStart = [processArray firstObject];//当前进程的起始地址
+    NSInteger startNum = [self numberWithHexString:[processStart stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
+    NSString *processEnd = processArray[2];//当前进程的结束地址
+    NSString *processName = processArray[3];//当前进程名
+    
+    NSString *newString = [string stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    newString = [newString stringByReplacingOccurrencesOfString:@")" withString:@""];
+    NSArray *crashAddresses = [newString componentsSeparatedByString:@" "];//获取所有地址
+    if (crashAddresses && crashAddresses.count > 0) {
+        for (NSInteger i = 0; i<crashAddresses.count; i++) {
+            NSString *string = crashAddresses[i];
+            //当前地址小于结束地址，大于起始地址
+            if (([string compare:processEnd] == NSOrderedAscending) && ([string compare:processStart] == NSOrderedDescending)) {
+                NSInteger stringNum = [self numberWithHexString:[string stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
+                NSInteger offsetNum = stringNum - startNum;
+                NSString *stack = [NSString stringWithFormat:@"%li %@ %lu",i,processName,offsetNum];
+                [array addObject:stack];
+            } else {
+                [array addObject:string];
+            }
+        }
+    }
+    
+    return [array copy];
+}
+
++ (NSString *)obtainOutputLogWithResult:(NSDictionary *)result{
+    NSMutableArray *outputArr = [[NSMutableArray alloc] init];
+    for (NSString *infoStr in _crashStacks) {
+        if (![_usefulCrashLine containsObject:infoStr]) {
+            [outputArr addObject:infoStr];
+        } else {
+            NSArray *infoComps = [infoStr componentsSeparatedByString:@" "];
+            NSArray *infos = [infoStr componentsSeparatedByString:@"0x"];
+            NSString *offset = infoComps.lastObject;
+            if (offset) {
+                NSString* methodName = [result valueForKey:offset][@"symbol"];
+                if (methodName) {
+                    NSString *resultStr = [NSString stringWithFormat:@"%@ %@",infos.firstObject,methodName];
+                    NSString *result = [resultStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                    [outputArr addObject:result];
+                } else {
+                    [outputArr addObject:infoStr];
+                }
+            }
+        }
+    }
+    
+    [_crashStacks removeAllObjects];
+    [_usefulCrashLine removeAllObjects];
+    NSString *outputLog = [outputArr componentsJoinedByString:@"\n"];
+    return outputLog;
+}
+
+#pragma mark symbolize
++ (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSArray *)crashAddresses {
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
@@ -68,12 +215,11 @@
     return crashSymbolRst;
 }
 
-+ (NSDictionary *)scanCrashSymbolResult:(section_64)classList catlist:(section_64)ncatlist fileData:(NSData*)fileData crashOffsets:(NSString *)crashAddresses{
++ (NSDictionary *)scanCrashSymbolResult:(section_64)classList catlist:(section_64)ncatlist fileData:(NSData*)fileData crashOffsets:(NSArray *)crashAddress{
     unsigned long long max = [fileData length];
     unsigned long long vm = classList.addr - classList.offset;
     
     static NSMutableDictionary *crashSymbolRst = @{}.mutableCopy;
-    NSArray *crashAddress = [crashAddresses componentsSeparatedByString:@","];
 
     //获取所有类classlist
     NSRange range = NSMakeRange(classList.offset, 0);
@@ -319,6 +465,17 @@
         begin += 4;
     } while (asmCode != RET);
     return NO;
+}
+
+#pragma mark Tools
+/**
+* 十六进制字符串转数字
+*/
++ (NSInteger)numberWithHexString:(NSString *)hexString {
+    const char *hexChar = [hexString cStringUsingEncoding:NSUTF8StringEncoding];
+    int hexNumber;
+    sscanf(hexChar, "%x", &hexNumber);
+    return (NSInteger)hexNumber;
 }
 
 @end
