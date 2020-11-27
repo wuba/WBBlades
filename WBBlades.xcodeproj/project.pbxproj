@@ -28,7 +28,7 @@
 		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
 		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
 		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
-		37561F3E23B392F10020CF02 /* WBBladesCMD.m in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.m */; };
+		37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.mm */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
 		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
@@ -106,7 +106,7 @@
 		3733D83122B4ED82002062FE /* WBBladesLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesLinkManager.h; sourceTree = "<group>"; };
 		3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesLinkManager.mm; sourceTree = "<group>"; };
 		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
-		37561F3D23B392F10020CF02 /* WBBladesCMD.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesCMD.m; sourceTree = "<group>"; };
+		37561F3D23B392F10020CF02 /* WBBladesCMD.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesCMD.mm; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				37561F3C23B392F10020CF02 /* WBBladesCMD.h */,
-				37561F3D23B392F10020CF02 /* WBBladesCMD.m */,
+				37561F3D23B392F10020CF02 /* WBBladesCMD.mm */,
 				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
 				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
 				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
@@ -345,7 +345,7 @@
 			files = (
 				372935DA22E18AC100C37C02 /* cs.c in Sources */,
 				372935DB22E18AC100C37C02 /* SStream.c in Sources */,
-				37561F3E23B392F10020CF02 /* WBBladesCMD.m in Sources */,
+				37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */,
 				372935DC22E18AC100C37C02 /* utils.c in Sources */,
 				372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */,
 				372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */,

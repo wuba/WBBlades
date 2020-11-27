@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WBBladesDefines.h"
 #import "capstone.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -64,6 +65,21 @@ NS_ASSUME_NONNULL_BEGIN
 *  is  Mach-O file
 */
 + (BOOL)isMachO:(NSData *)fileData;
+
+/**
+* check swift Type
+*/
++ (SwiftKind)getSwiftType:(SwiftType)type;
+
+/**
+* check swift  method Type
+*/
++ (SwiftMethodKind)getSwiftMethodType:(SwiftMethod)method;
+
+/**
+* get swift type name
+*/
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData;
 
 @end
 
