@@ -612,9 +612,9 @@ static section_64 textList = {0};
         data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
         [data getBytes:&swiftType range:NSMakeRange(0, sizeof(SwiftType))];
     
-        SwiftKind kindType = [self getSwiftType:swiftType];
+        SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindClass) {
-            NSString *className = [self getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+            NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
             NSLog(@"swift ClassName %@",className);
             
             SwiftClassType classType = {0};
@@ -643,8 +643,8 @@ static section_64 textList = {0};
                 data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
                 [data getBytes:&swiftSuperType range:NSMakeRange(0, sizeof(SwiftType))];
                 
-                if ([self getSwiftType:swiftSuperType] == SwiftKindClass) {
-                    NSString *superClassName = [self getSwiftTypeNameWithSwiftType:swiftSuperType Offset:superClassContent fileData:fileData];
+                if ([WBBladesTool getSwiftType:swiftSuperType] == SwiftKindClass) {
+                    NSString *superClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftSuperType Offset:superClassContent fileData:fileData];
                     NSLog(@"swift %@'s parent is %@",className,superClassName);
                     [swiftUsedTypeSet addObject:superClassName];
                 }
@@ -665,7 +665,7 @@ static section_64 textList = {0};
             //保存所有ClassName和Method
             [typeDict setValue:methodArray forKeyPath:className];
         }else if(kindType == SwiftKindStruct){
-            NSString *structName = [self getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+            NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
             NSLog(@"swift StructName %@",structName);
             
             SwiftStructType structType = {0};
@@ -676,7 +676,7 @@ static section_64 textList = {0};
             //读属性
             [self readTypeMember:typeOffset field:structType.FieldDescriptor swiftUsedTypeSet:swiftUsedTypeSet fileData:fileData];
         }else if(kindType == SwiftKindEnum){
-            NSString *enumName = [self getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+            NSString *enumName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
             NSLog(@"swift EnumName %@",enumName);
         }
         location += sizeof(uint32_t);
@@ -721,7 +721,7 @@ static section_64 textList = {0};
                     NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
                     [data getBytes:&memberType length:sizeof(SwiftType)];
                     
-                    NSString *memTypeName = [self getSwiftTypeNameWithSwiftType:memberType Offset:memberTypeOffset fileData:fileData];
+                    NSString *memTypeName = [WBBladesTool getSwiftTypeNameWithSwiftType:memberType Offset:memberTypeOffset fileData:fileData];
                     
                     if (memTypeName && memTypeName.length > 0) {
                         [swiftUsedTypeSet addObject:memTypeName];
@@ -779,62 +779,6 @@ static section_64 textList = {0};
             }
         }
     }
-}
-
-#pragma mark Swift Tool
-+ (SwiftKind)getSwiftType:(SwiftType)type{
-    //取低两位地址判断是Class，Struct，Enum
-    if ((type.Flag&0xff) == 0x50) {
-        return SwiftKindClass;
-    }else if((type.Flag&0xff) == 0x51){
-        return SwiftKindStruct;
-    }else if((type.Flag&0xff) == 0x52){
-        return SwiftKindEnum;
-    }
-    return SwiftKindUnknown;
-}
-
-+ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData{
-
-    SwiftKind kindType = [self getSwiftType:type];
-    
-    uintptr_t typeNameOffset = 0;
-    if (kindType == SwiftKindClass) {
-        SwiftClassType classType = {0};
-        NSRange range = NSMakeRange(offset, 0);
-        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
-        [data getBytes:&classType length:sizeof(SwiftClassType)];
-        
-        typeNameOffset = classType.Name;
-    }else if(kindType == SwiftKindStruct){
-        SwiftStructType structType = {0};
-        NSRange range = NSMakeRange(offset, 0);
-        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
-        [data getBytes:&structType length:sizeof(SwiftStructType)];
-        
-        typeNameOffset = structType.Name;
-    }else if(kindType == SwiftKindEnum){
-        SwiftEnumType enumType = {0};
-        NSRange range = NSMakeRange(offset, 0);
-        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftEnumType) fromFile:fileData];
-        [data getBytes:&enumType length:sizeof(SwiftEnumType)];
-        
-        typeNameOffset = enumType.Name;
-    }else{
-        
-    }
-    
-    uintptr_t  nameOffset = offset + 8 + typeNameOffset;
-    
-    if (nameOffset > fileData.length) {
-        return @"";
-    }
-    
-    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
-    [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
-    NSString *typeName = NSSTRING(buffer);
-    free(buffer);
-    return typeName;
 }
 
 @end

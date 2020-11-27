@@ -136,6 +136,16 @@ typedef NS_ENUM(NSInteger, SwiftKind) {
     SwiftKindEnum           = 3     // Enum
 };
 
+typedef NS_ENUM(NSInteger, SwiftMethodKind) {
+    SwiftMethodKindUnknown            = 0,     // Unknown
+    SwiftMethodKindGetter             = 1,     // get
+    SwiftMethodKindSetter             = 2,     // set
+    SwiftMethodKindModify             = 3,     // modify
+    SwiftMethodKindClassFunc          = 4,     // class function
+    SwiftMethodKindInstanceFunc       = 5,     // instance function
+    SwiftMethodKindInitial            = 6
+};
+
 /**
  从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
  */

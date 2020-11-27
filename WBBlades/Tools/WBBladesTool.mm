@@ -413,4 +413,122 @@
     return NO;
 }
 
++ (SwiftKind)getSwiftType:(SwiftType)type{
+    //取低两位地址判断是Class，Struct，Enum
+    if ((type.Flag&0xff) == 0x50) {
+        NSString *string = [self convertBinarySystemFromDecimalSystem:type.Flag];
+        if (string.length == 32 && [[string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {//有VTable
+            return SwiftKindClass;
+        }else if (string.length == 31 && [[string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]){//有override
+            return SwiftKindClass;
+        }
+    }else if((type.Flag&0xff) == 0x51){
+        return SwiftKindStruct;
+    }else if((type.Flag&0xff) == 0x52){
+        return SwiftKindEnum;
+    }
+    return SwiftKindUnknown;
+}
+
++ (SwiftMethodKind)getSwiftMethodType:(SwiftMethod)method{
+    SwiftMethodKind kind = SwiftMethodKindUnknown;
+    switch (method.Kind) {
+        case 0x12:
+            kind = SwiftMethodKindGetter;
+            break;
+        case 0x13:
+            kind = SwiftMethodKindSetter;
+            break;
+        case 0x14:
+            kind = SwiftMethodKindModify;
+            break;
+        case 0x00:
+            kind = SwiftMethodKindClassFunc;
+            break;
+        case 0x10:
+            kind = SwiftMethodKindInstanceFunc;
+            break;
+        case 0x01:
+            kind = SwiftMethodKindInitial;
+            break;
+        default:
+            break;
+    }
+    return kind;
+}
+
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData{
+    SwiftKind kindType = [WBBladesTool getSwiftType:type];
+    
+    uintptr_t typeNameOffset = 0;
+    if (kindType == SwiftKindClass) {
+        SwiftClassType classType = {0};
+        NSRange range = NSMakeRange(offset, 0);
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
+        [data getBytes:&classType length:sizeof(SwiftClassType)];
+        
+        typeNameOffset = classType.Name;
+    }else if(kindType == SwiftKindStruct){
+        SwiftStructType structType = {0};
+        NSRange range = NSMakeRange(offset, 0);
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
+        [data getBytes:&structType length:sizeof(SwiftStructType)];
+        
+        typeNameOffset = structType.Name;
+    }else if(kindType == SwiftKindEnum){
+        SwiftEnumType enumType = {0};
+        NSRange range = NSMakeRange(offset, 0);
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftEnumType) fromFile:fileData];
+        [data getBytes:&enumType length:sizeof(SwiftEnumType)];
+        
+        typeNameOffset = enumType.Name;
+    }else{
+        
+    }
+    
+    uintptr_t  nameOffset = offset + 8 + typeNameOffset;
+    
+    if (nameOffset > fileData.length) {
+        return @"";
+    }
+    
+    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+    [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
+    NSString *typeName = NSSTRING(buffer);
+    free(buffer);
+    return typeName;
+}
+
+#pragma mark 十进制转二进制
++ (NSString *)convertBinarySystemFromDecimalSystem:(uint32_t)decimal{
+    NSInteger num = decimal;
+    NSInteger remainder = 0;      //余数
+    NSInteger divisor = 0;        //除数
+    
+    NSString * prepare = @"";
+    
+    while (true){
+        
+        remainder = num%2;
+        divisor = num/2;
+        num = divisor;
+        prepare = [prepare stringByAppendingFormat:@"%ld",remainder];
+        
+        if (divisor == 0){
+            
+            break;
+        }
+    }
+    
+    NSString * result = @"";
+    
+    for (NSInteger i = prepare.length - 1; i >= 0; i --){
+        
+        result = [result stringByAppendingFormat:@"%@",
+                  [prepare substringWithRange:NSMakeRange(i , 1)]];
+    }
+    
+    return result;
+}
+
 @end
