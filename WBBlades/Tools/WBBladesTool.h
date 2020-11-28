@@ -72,9 +72,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (SwiftKind)getSwiftType:(SwiftType)type;
 
 /**
-* check swift  method Type
+* check swift  method Kind
 */
-+ (SwiftMethodKind)getSwiftMethodType:(SwiftMethod)method;
++ (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method;
+
++ (SwiftMethodType)getSwiftMethodType:(SwiftMethod)method;
 
 /**
 * get swift type name

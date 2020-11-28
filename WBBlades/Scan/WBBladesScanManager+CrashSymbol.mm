@@ -412,7 +412,8 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
             FieldRecord record = {0};
             NSInteger memSqu = 0;
             
-            if ((swiftType.Flag>>24) != 0x40) {
+            ////////////待修改
+            if ((swiftType.Flag>>24) != 0x40) {////////////待修改
                 for (int j = 0; j < methodNum; j++) {
                     [methodArray addObject:@(methodLocation)];
                     SwiftMethod method = {0};
@@ -420,7 +421,7 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
                     data = [WBBladesTool readBytes:range length:sizeof(SwiftMethod) fromFile:fileData];
                     [data getBytes:&method length:sizeof(SwiftClassType)];
                     
-                    SwiftMethodKind methodKind = [WBBladesTool getSwiftMethodType:method];
+                    SwiftMethodKind methodKind = [WBBladesTool getSwiftMethodKind:method];
                     if (methodKind == SwiftMethodKindGetter && memSqu < memCount) {
                         range = NSMakeRange(memberOffset + memSqu*sizeof(FieldRecord), 0);
                         data = [WBBladesTool readBytes:range length:sizeof(FieldRecord) fromFile:fileData];
@@ -428,22 +429,20 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
                         memSqu++;
                     }
                     
-                    if (methodKind != SwiftMethodKindUnknown) {
-                        NSString *methodName = [self swiftMethodKind:methodKind memberOffset:memberOffset member:record squ:j memSqu:memSqu fileData:fileData];
-                        uintptr_t imp = methodLocation + 4 + method.Offset;
-                        NSLog(@"%@.%@",className,methodName);
+                    NSString *methodName = [self swiftMethod:method memberOffset:memberOffset member:record squ:j memSqu:memSqu fileData:fileData];
+                    uintptr_t imp = methodLocation + 4 + method.Offset;
+                    NSLog(@"%@.%@",className,methodName);
                         
-                        [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                            unsigned long long crash = [(NSString *)obj longLongValue];
-                            if ([self scanFuncBinaryCode:crash begin:imp vm:vm fileData:fileData]) {
-                                NSString *key = [NSString stringWithFormat:@"%lld",crash];
-                                if (!crashSymbolRst[key] || [crashSymbolRst[key][IMP_KEY] longLongValue] < imp) {
-                                    NSMutableDictionary *dic = @{IMP_KEY:@(imp),SYMBOL_KEY:[NSString stringWithFormat:@"%@.%@",className,methodName]}.mutableCopy;
-                                    [crashSymbolRst setObject:dic forKey:key];
-                                }
+                    [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                        unsigned long long crash = [(NSString *)obj longLongValue];
+                        if ([self scanFuncBinaryCode:crash begin:imp vm:vm fileData:fileData]) {
+                            NSString *key = [NSString stringWithFormat:@"%lld",crash];
+                            if (!crashSymbolRst[key] || [crashSymbolRst[key][IMP_KEY] longLongValue] < imp) {
+                                NSMutableDictionary *dic = @{IMP_KEY:@(imp),SYMBOL_KEY:[NSString stringWithFormat:@"%@.%@",className,methodName]}.mutableCopy;
+                                [crashSymbolRst setObject:dic forKey:key];
                             }
-                        }];
-                    }
+                        }
+                    }];
                     methodLocation += sizeof(SwiftMethod);
                 }
             }
@@ -565,16 +564,32 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
     return NO;
 }
 
-+ (NSString *)swiftMethodKind:(SwiftMethodKind)kind memberOffset:(uintptr_t)memberOffset member:(FieldRecord)member squ:(NSInteger)squ memSqu:(NSInteger)memSqu fileData:(NSData *)fileData{
++ (NSString *)swiftMethod:(SwiftMethod)method memberOffset:(uintptr_t)memberOffset member:(FieldRecord)member squ:(NSInteger)squ memSqu:(NSInteger)memSqu fileData:(NSData *)fileData{
+    SwiftMethodKind kind = [WBBladesTool getSwiftMethodKind:method];
+    SwiftMethodType type = [WBBladesTool getSwiftMethodType:method];
+    
     NSString *methodName = @"";
     NSString *memName = @"";
-    if (kind == SwiftMethodKindGetter || kind == SwiftMethodKindSetter|| kind == SwiftMethodKindModify) {
+    if (kind == SwiftMethodKindGetter || kind == SwiftMethodKindSetter || kind == SwiftMethodKindModify) {
         uintptr_t memNameOffset = memberOffset + (memSqu-1)*sizeof(FieldRecord) + 4*2 + member.FieldName;
         uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
         [fileData getBytes:buffer range:NSMakeRange(memNameOffset, CLASSNAME_MAX_LEN)];
         memName = NSSTRING(buffer);
     }
+    
     switch (kind) {
+        case SwiftMethodKindMethod:
+            if (type == SwiftMethodTypeKind) {
+                methodName = [NSString stringWithFormat:@"第%lu个函数，他是一个类方法",squ-memSqu*3+1];
+            }else if(type == SwiftMethodTypeInstance){
+                methodName = [NSString stringWithFormat:@"第%lu个函数，他是一个实例方法",squ-memSqu*3+1];
+            }else if(type == SwiftMethodTypeDynamic){
+                methodName = [NSString stringWithFormat:@"第%lu个函数，他是一个dynamic方法",squ-memSqu*3+1];
+            }
+            break;
+        case SwiftMethodKindInit:
+            methodName = @"init";
+            break;
         case SwiftMethodKindGetter:
             methodName = [NSString stringWithFormat:@"%@.getter",memName];
             break;
@@ -583,15 +598,6 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
             break;
         case SwiftMethodKindModify:
             methodName = [NSString stringWithFormat:@"%@.modify",memName];
-            break;
-        case SwiftMethodKindClassFunc:
-            methodName = [NSString stringWithFormat:@"第%lu个函数，他是一个类方法",squ-memSqu*3+1];
-            break;
-        case SwiftMethodKindInstanceFunc:
-            methodName = [NSString stringWithFormat:@"第%lu个函数，他是一个实例方法",squ-memSqu*3+1];
-            break;
-        case SwiftMethodKindInitial:
-            methodName = @"init";
             break;
         default:
             break;

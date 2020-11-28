@@ -414,47 +414,35 @@
 }
 
 + (SwiftKind)getSwiftType:(SwiftType)type{
-    //取低两位地址判断是Class，Struct，Enum
-    if ((type.Flag&0xff) == 0x50) {
-        NSString *string = [self convertBinarySystemFromDecimalSystem:type.Flag];
-        if (string.length == 32 && [[string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]) {//有VTable
-            return SwiftKindClass;
-        }else if (string.length == 31 && [[string substringWithRange:NSMakeRange(0, 1)] isEqualToString:@"1"]){//有override
+    //读低五位判断类型
+    if ((type.Flag&0x1f) == SwiftKindClass) {
+        //有VTable,有Override,有VTable,Override
+        if (type.Flag >> 16 == 0x8000 || type.Flag >> 16 == 0x4000 || type.Flag >> 16 == 0xC000) {
             return SwiftKindClass;
         }
-    }else if((type.Flag&0xff) == 0x51){
+    }else if((type.Flag&0x1f) == SwiftKindStruct){
         return SwiftKindStruct;
-    }else if((type.Flag&0xff) == 0x52){
+    }else if((type.Flag&0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
     }
     return SwiftKindUnknown;
 }
 
-+ (SwiftMethodKind)getSwiftMethodType:(SwiftMethod)method{
-    SwiftMethodKind kind = SwiftMethodKindUnknown;
-    switch (method.Kind) {
-        case 0x12:
-            kind = SwiftMethodKindGetter;
-            break;
-        case 0x13:
-            kind = SwiftMethodKindSetter;
-            break;
-        case 0x14:
-            kind = SwiftMethodKindModify;
-            break;
-        case 0x00:
-            kind = SwiftMethodKindClassFunc;
-            break;
-        case 0x10:
-            kind = SwiftMethodKindInstanceFunc;
-            break;
-        case 0x01:
-            kind = SwiftMethodKindInitial;
-            break;
-        default:
-            break;
-    }
++ (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method{
+    SwiftMethodKind kind = (SwiftMethodKind)(method.Flag&SwiftMethodTypeKind);
     return kind;
+}
+
++ (SwiftMethodType)getSwiftMethodType:(SwiftMethod)method{
+    SwiftMethodType type = SwiftMethodTypeKind;
+    if ((method.Flag&SwiftMethodTypeInstance) == SwiftMethodTypeInstance) {
+        type = SwiftMethodTypeInstance;
+    }else if ((method.Flag&SwiftMethodTypeDynamic) == SwiftMethodTypeDynamic){
+        type = SwiftMethodTypeDynamic;
+    }else if ((method.Flag&SwiftMethodTypeExtraDiscriminator) == SwiftMethodTypeExtraDiscriminator){
+        type = SwiftMethodTypeExtraDiscriminator;
+    }
+    return type;
 }
 
 + (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData{
@@ -499,36 +487,5 @@
     return typeName;
 }
 
-#pragma mark 十进制转二进制
-+ (NSString *)convertBinarySystemFromDecimalSystem:(uint32_t)decimal{
-    NSInteger num = decimal;
-    NSInteger remainder = 0;      //余数
-    NSInteger divisor = 0;        //除数
-    
-    NSString * prepare = @"";
-    
-    while (true){
-        
-        remainder = num%2;
-        divisor = num/2;
-        num = divisor;
-        prepare = [prepare stringByAppendingFormat:@"%ld",remainder];
-        
-        if (divisor == 0){
-            
-            break;
-        }
-    }
-    
-    NSString * result = @"";
-    
-    for (NSInteger i = prepare.length - 1; i >= 0; i --){
-        
-        result = [result stringByAppendingFormat:@"%@",
-                  [prepare substringWithRange:NSMakeRange(i , 1)]];
-    }
-    
-    return result;
-}
 
 @end

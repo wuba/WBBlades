@@ -131,19 +131,26 @@ struct category64
 
 typedef NS_ENUM(NSInteger, SwiftKind) {
     SwiftKindUnknown        = 0,     // Unknown
-    SwiftKindClass          = 1,    // Class
-    SwiftKindStruct         = 2,    // Struct
-    SwiftKindEnum           = 3     // Enum
+    SwiftKindClass          = 16,    // Class
+    SwiftKindStruct         = 17,    // Struct
+    SwiftKindEnum           = 18     // Enum
 };
 
 typedef NS_ENUM(NSInteger, SwiftMethodKind) {
-    SwiftMethodKindUnknown            = 0,     // Unknown
-    SwiftMethodKindGetter             = 1,     // get
-    SwiftMethodKindSetter             = 2,     // set
-    SwiftMethodKindModify             = 3,     // modify
-    SwiftMethodKindClassFunc          = 4,     // class function
-    SwiftMethodKindInstanceFunc       = 5,     // instance function
-    SwiftMethodKindInitial            = 6
+    SwiftMethodKindMethod             = 0,     // method
+    SwiftMethodKindInit               = 1,     //init
+    SwiftMethodKindGetter             = 2,     // get
+    SwiftMethodKindSetter             = 3,     // set
+    SwiftMethodKindModify             = 4,     // modify
+    SwiftMethodKindRead               = 5,     // read
+};
+
+typedef NS_ENUM(NSInteger, SwiftMethodType) {
+    SwiftMethodTypeKind                         = 0x0F,
+    SwiftMethodTypeInstance                     = 0x10,
+    SwiftMethodTypeDynamic                      = 0x20,
+    SwiftMethodTypeExtraDiscriminatorShift      = 16,
+    SwiftMethodTypeExtraDiscriminator           = 0xFFFF0000,
 };
 
 /**
