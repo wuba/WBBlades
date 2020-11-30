@@ -416,8 +416,8 @@
 + (SwiftKind)getSwiftType:(SwiftType)type{
     //读低五位判断类型
     if ((type.Flag&0x1f) == SwiftKindClass) {
-        //有VTable,有Override,有VTable,Override
-        if (type.Flag >> 16 == 0x8000 || type.Flag >> 16 == 0x4000 || type.Flag >> 16 == 0xC000) {
+        //有VTable,有Override,有VTable,Override 第32位或第31位是否为1
+        if (((type.Flag&0x80000000) == 0x80000000) || ((type.Flag&0x40000000) == 0x40000000)) {
             return SwiftKindClass;
         }
     }else if((type.Flag&0x1f) == SwiftKindStruct){
