@@ -12,9 +12,11 @@
 #import <mach/vm_map.h>
 #import <mach-o/loader.h>
 #import <mach-o/fat.h>
+#import <mach-o/nlist.h>
 
 #import "WBBladesTool.h"
 #import "WBBladesDefines.h"
+#import "WBBladesCMD.h"
 
 @implementation WBBladesScanManager (CrashSymbol)
 
@@ -122,7 +124,7 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
         for (NSInteger i = 0; i<crashAddresses.count; i++) {
             NSString *string = crashAddresses[i];
             //当前地址小于结束地址，大于起始地址
-            if (([string compare:processEnd] == NSOrderedAscending) && ([string compare:processStart] == NSOrderedDescending)) {
+            if (([string integerValue] < [processEnd integerValue]) && ([string integerValue] > [processStart integerValue])) {
                 NSInteger stringNum = [self numberWithHexString:[string stringByReplacingOccurrencesOfString:@"0x" withString:@""]];
                 NSInteger offsetNum = stringNum - startNum;
                 NSString *stack = [NSString stringWithFormat:@"%li %@ %lu",i,processName,offsetNum];
@@ -166,12 +168,15 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
 
 #pragma mark symbolize
 + (NSDictionary *)symbolizeWithMachOFile:(NSData *)fileData crashOffsets:(NSArray *)crashAddresses {
+
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
     section_64 classList = {0};
     section_64 nlcatList = {0};
     section_64 swift5Types = {0};
+    symtab_command symTabCommand = {0};
+    segment_command_64 linkEdit = {0};
     
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
@@ -215,10 +220,21 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
                     }
                     currentSecLocation += sizeof(section_64);
                 }
+            }else if([segName isEqualToString:SEGMENT_LINKEDIT]){
+                linkEdit = segmentCommand;
             }
+        }else if(cmd->cmd == LC_SYMTAB){
+            [fileData getBytes:&symTabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
+            
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
+    }
+    
+    if ([self hasDWARF:symTabCommand fileData:fileData]) {
+        uintptr_t linkBase = linkEdit.vmaddr - linkEdit.fileoff;
+        NSDictionary *result = [self scanCrashSymbolResultWithSymbolTable:symTabCommand linkBase:linkBase fileData:fileData crashOffsets:crashAddresses];
+        return result;
     }
     
     NSDictionary *crashSymbolRst = [self scanCrashSymbolResult:classList catlist:nlcatList swift5Type:swift5Types fileData:fileData crashOffsets:crashAddresses];
@@ -226,6 +242,64 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
     NSData *resultsData = [NSJSONSerialization dataWithJSONObject:crashSymbolRst options:NSJSONWritingPrettyPrinted error:nil];
     NSString *resultsJson = [[NSString alloc] initWithData:resultsData encoding:NSUTF8StringEncoding];
     [resultsJson writeToFile:@"/dev/stdout" atomically:NO encoding:NSUTF8StringEncoding error:nil];
+    return crashSymbolRst;
+}
+
++ (NSDictionary *)scanCrashSymbolResultWithSymbolTable:(symtab_command)symTabCommand linkBase:(uintptr_t)linkBase fileData:(NSData *)fileData crashOffsets:(NSArray *)crashAddresses{
+    NSRange range = NSMakeRange(8, 0);
+    range = NSMakeRange(symTabCommand.symoff, 0);
+    NSDictionary *symbols = [self scanExcutableSymbolTab:fileData range:range commandCount:symTabCommand.nsyms];
+    
+    NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
+    if (symbols && symbols.allKeys.count > 0) {
+        //针对崩溃堆栈偏移地址进行排序
+        NSArray *crashAddress = [crashAddresses sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+            if ([obj1 integerValue] > [obj2 integerValue]) {
+                 return NSOrderedDescending;
+            }else if ([obj1 integerValue] == [obj2 integerValue]){
+                return NSOrderedSame;
+            }
+            return NSOrderedAscending;
+        }];
+        
+        NSInteger index = 0;
+        NSString *addr = crashAddress[index];
+        
+        //针对symbol做排序
+        NSArray *orderedSymbols = [symbols.allKeys sortedArrayUsingComparator:^NSComparisonResult(NSString *obj1, NSString *obj2) {
+            if ([obj1 integerValue] > [obj2 integerValue]) {
+                 return NSOrderedDescending;
+            }else if ([obj1 integerValue] == [obj2 integerValue]){
+                return NSOrderedSame;
+            }
+            return NSOrderedAscending;
+        }];
+        
+        for (NSInteger j = 1; j<orderedSymbols.count; j++) {
+            NSString *symbolKey = orderedSymbols[j];
+            
+            if ([symbolKey integerValue] > linkBase && (([symbolKey integerValue] - linkBase) > [addr integerValue])) {
+                NSString *lastSymbolKey = orderedSymbols[j-1];
+                
+                uintptr_t stringOffset = symTabCommand.stroff + [symbols[lastSymbolKey] integerValue];
+                uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                [fileData getBytes:buffer range:NSMakeRange(stringOffset, CLASSNAME_MAX_LEN)];
+                NSString *symbolName = NSSTRING(buffer);
+
+                NSString *orgName = swiftDemangle(symbolName);
+                NSMutableDictionary *dic = @{IMP_KEY:lastSymbolKey,SYMBOL_KEY:[NSString stringWithFormat:@"%@",orgName]}.mutableCopy;
+                [crashSymbolRst setObject:dic forKey:addr];
+                if (index < crashAddress.count - 1) {
+                    index++;
+                    addr = crashAddress[index];
+                }else{
+                    break;
+                }
+            }
+        }
+        
+    }
+    
     return crashSymbolRst;
 }
 
@@ -365,14 +439,13 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
                                                                  crashAddress:crashAddress];
                [crashSymbolRst addEntriesFromDictionary:classMethodRst];
            }
-                      
        }
     }
     
     //Scan Swift
     range = NSMakeRange(swift5Types.offset, 0);
     NSUInteger location = 0;
-    uintptr_t linkBase = vm;
+    uintptr_t linkBase = swift5Types.addr - swift5Types.offset;
     for (int i = 0; i < swift5Types.size / 4 ; i++) {
         uintptr_t offset = swift5Types.addr + location - linkBase;
         
@@ -574,7 +647,7 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
             }];
             methodLocation += sizeof(SwiftMethod);
         }
-        if (methodNum > 0 && !hasInit) {//手动获取
+        if (methodNum > 0 && !hasInit) {//手动获取init
             [methodArray addObject:@(methodLocation)];
             NSDictionary *dict = [self scanSwiftClassInitMethodSymbol:methodLocation className:className vm:vm fileData:fileData crashAdderss:crashAddress];
             [crashSymbolRst addEntriesFromDictionary:dict];
@@ -655,6 +728,38 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
 }
 
 #pragma mark Tools
++ (BOOL)hasDWARF:(symtab_command)symTabCommand fileData:(NSData *)fileData{
+    BOOL has = YES;
+    if (symTabCommand.nsyms > 0) {
+        nlist_64 nlist;
+        ptrdiff_t off = symTabCommand.symoff;
+        char * p = (char *)fileData.bytes;
+        p = p+off;
+        memcpy(&nlist, p, sizeof(nlist_64));
+        if (nlist.n_type == SPECIAL_SECTION_TYPE && nlist.n_sect == N_UNDF && nlist.n_value == SPECIAL_NUM) {
+            has = NO;
+        }
+    }
+    return has;
+}
++ (NSDictionary *)scanExcutableSymbolTab:(NSData *)fileData range:(NSRange)range commandCount:(uint32_t)commandCount{
+    range = [self rangeAlign:range];
+    
+    NSMutableDictionary *textSymbols = [NSMutableDictionary dictionary];
+    for (int i = 0; i < commandCount; i++) {
+        nlist_64 symbol = {0};
+        NSData *symbolData = [WBBladesTool readBytes:range length:sizeof(nlist_64) fromFile:fileData];
+        [symbolData getBytes:&symbol range:NSMakeRange(0, sizeof(nlist_64))];
+        
+        if (symbol.n_sect == 0x01) {//__TEXT,__text
+            NSString *key = [NSString stringWithFormat:@"%llu",symbol.n_value];
+            [textSymbols setValue:@(symbol.n_un.n_strx) forKey:key];
+        }
+    }
+
+    return textSymbols;
+}
+
 /**
 * 十六进制字符串转数字
 */

@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) unsigned int size;
 
-@property (nonatomic, strong) NSArray<WBBladesSymbol*> *symbols;
+@property (nonatomic, strong) NSArray <WBBladesSymbol *>*symbols;
 
 @property (nonatomic, assign) NSRange range;
 

@@ -48,6 +48,8 @@ void compileXcassets(NSString *path);
  */
 void colorPrint(NSString *info);
 
+NSString *swiftDemangle(NSString *swiftName);
+
 #ifdef    __cplusplus
 }
 #endif
