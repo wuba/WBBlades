@@ -190,10 +190,15 @@ struct SwiftMethod {
 };
 
 //OverrideTable结构如下，紧随VTable后4字节为OverrideTable数量，再其后为此结构数组
+//struct SwiftOverrideMethod {
+//    struct SwiftClassType *OverrideClass;
+//    struct SwiftMethod *OverrideMethod;
+//    struct SwiftMethod *Method;
+//};
 struct SwiftOverrideMethod {
-    struct SwiftClassType *OverrideClass;
-    struct SwiftMethod *OverrideMethod;
-    struct SwiftMethod *Method;
+    uint32_t OverrideClass;
+    uint32_t OverrideMethod;
+    uint32_t Method;
 };
 
 /**
