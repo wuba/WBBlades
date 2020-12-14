@@ -127,13 +127,13 @@ static void scanCrashSymbol(int argc, const char * argv[]) {
     NSString *crashLogPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"logPath"];
     
     //从崩溃日志中获取所有与该进程相关的偏移地址
-    NSArray *crashAddress = [WBBladesScanManager obtainAllCrashOffsets:crashLogPath appPath:appPath];
+    NSArray *crashAddress = [WBBladesFileManager obtainAllCrashOffsets:crashLogPath appPath:appPath];
     
     //获取解析结果
     NSDictionary *result = [WBBladesScanManager symbolizeWithMachOFile:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
     
     //生成崩溃解析后的完整日志
-    NSString *outputLog = [WBBladesScanManager obtainOutputLogWithResult:result];
+    NSString *outputLog = [WBBladesFileManager obtainOutputLogWithResult:result];
     
     //write results to file
     NSString *outPutPath = resultFilePath();

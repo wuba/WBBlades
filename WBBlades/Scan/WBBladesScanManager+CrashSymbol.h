@@ -11,18 +11,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesScanManager (CrashSymbol)
-/*
- * 将指定的偏移地址符号化
- * crashLogPath:崩溃日志原文件路径
- * appPath:可执行文件路径
- */
-+ (NSArray *)obtainAllCrashOffsets:(NSString *)crashLogPath appPath:(NSString *)appPath;
-
-/*
- * 将指定的偏移地址符号化
- * result:结果数据
- */
-+ (NSString *)obtainOutputLogWithResult:(NSDictionary *)result;
 
 /*
  * 将指定的偏移地址符号化
