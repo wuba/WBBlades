@@ -286,7 +286,7 @@ static NSMutableArray *_usefulCrashLine = [NSMutableArray array];
                 [fileData getBytes:buffer range:NSMakeRange(stringOffset, CLASSNAME_MAX_LEN)];
                 NSString *symbolName = NSSTRING(buffer);
 
-                NSString *orgName = swiftDemangle(symbolName);
+                NSString *orgName = [WBBladesTool getDemangleName:symbolName];
                 NSMutableDictionary *dic = @{IMP_KEY:lastSymbolKey,SYMBOL_KEY:[NSString stringWithFormat:@"%@",orgName]}.mutableCopy;
                 [crashSymbolRst setObject:dic forKey:addr];
                 if (index < crashAddress.count - 1) {

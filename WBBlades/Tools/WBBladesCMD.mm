@@ -97,21 +97,3 @@ void colorPrint(NSString *info) {
     
     [task launch];
 }
-
-NSString *swiftDemangle(NSString *swiftName){
-    NSString *swiftOrgNames = @"";
-    if ([swiftName hasPrefix:@"_$"]) {
-        swiftOrgNames = [swiftName stringByReplacingCharactersInRange:NSMakeRange(0, 2) withString:@""];
-    }else if ([swiftName hasPrefix:@"$"]){
-        swiftOrgNames = [swiftName stringByReplacingCharactersInRange:NSMakeRange(0, 1) withString:@""];
-    }
-    
-    if (swiftOrgNames && swiftOrgNames.length > 0) {
-        NSString *swiftCmd = [NSString stringWithFormat:@"xcrun swift-demangle %@",swiftOrgNames];
-        NSData *data = cmd(swiftCmd);
-        NSString *orgString = [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
-        
-        return [[orgString componentsSeparatedByString:@"--->"] lastObject];
-    }
-    return swiftName;
-}

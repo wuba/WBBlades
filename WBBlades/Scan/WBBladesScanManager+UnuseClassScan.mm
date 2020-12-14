@@ -16,7 +16,6 @@
 #import <mach-o/ldsyms.h>
 #import <mach-o/getsect.h>
 #import <objc/runtime.h>
-
 #import "WBBladesTool.h"
 #import "WBBladesObjectHeader.h"
 #import "WBBladesDefines.h"
@@ -167,15 +166,27 @@ static section_64 textList = {0};
     
     //read classlist - OBJC
     NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
+    
+    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *className = (NSString *)obj;
+        if ([className hasPrefix:@"_TtC"]) {
+            NSString *demangleName = [WBBladesTool getDemangleName:className];
+            if ([classrefSet containsObject:demangleName]) {
+                [classrefSet addObject:className];
+            }
+        }
+    }];
+        
+    
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         [classSet removeObject:obj];
     }];
     
-    NSMutableSet *swiftUsedTypeSet = [NSMutableSet set];
-    NSMutableDictionary *swiftTypeListDict = [self readSwift5TypeList:swift5Types linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
-
-    [self readUsedSwift5TypeDict:swiftTypeListDict linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
-    
+//    NSMutableSet *swiftUsedTypeSet = [NSMutableSet set];
+//    NSMutableDictionary *swiftTypeListDict = [self readSwift5TypeList:swift5Types linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
+//
+//    [self readUsedSwift5TypeDict:swiftTypeListDict linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
+    NSLog(@"%@",classSet);
     return classSet;
 }
 
@@ -332,7 +343,7 @@ static section_64 textList = {0};
                 free(buffer);
                 
                 //judge Whether the current class is in the target class collection
-                if (([aimClasses count]>0 && ![aimClasses containsObject:className]) || [className hasPrefix:@"_TtC"]) {
+                if (([aimClasses count]>0 && ![aimClasses containsObject:className])) {
                     continue;
                 }
                 
@@ -587,199 +598,199 @@ static section_64 textList = {0};
     return nil;
 }
 
-#pragma mark Swift
-+ (NSMutableDictionary *)readSwift5TypeList:(section_64)swift5types linkEdit:(segment_command_64)linkEdit set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
-    NSMutableDictionary *typeDict = [NSMutableDictionary dictionary];
-    
-    //计算linkBase
-    uintptr_t linkBase = linkEdit.vmaddr - linkEdit.fileoff;
-    NSUInteger textTypesSize = swift5types.size;
-    
-    NSUInteger location = 0;
-    for (int i = 0; i < textTypesSize / sizeof(UInt32); i++) {
-        
-        uintptr_t offset = swift5types.addr + location - linkBase;
-        
-        NSRange range = NSMakeRange(offset, 0);
-        uintptr_t content = 0;
-        NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
-        [data getBytes:&content range:NSMakeRange(0, 4)];
-        
-        uintptr_t typeOffset = content + offset - linkBase;
-        
-        SwiftType swiftType = {0};
-        range = NSMakeRange(typeOffset, 0);
-        data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
-        [data getBytes:&swiftType range:NSMakeRange(0, sizeof(SwiftType))];
-    
-        SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
-        if (kindType == SwiftKindClass) {
-            NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
-            NSLog(@"swift ClassName %@",className);
-            
-            SwiftClassType classType = {0};
-            NSRange range = NSMakeRange(typeOffset, 0);
-            NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
-            [data getBytes:&classType length:sizeof(SwiftClassType)];
-            
-            //SuperClass
-            uintptr_t fieldOffset = typeOffset + 4*4 + classType.FieldDescriptor;
-                
-            FieldDescriptor fieldDes = {0};
-            range = NSMakeRange(fieldOffset, 0);
-            data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
-            [data getBytes:&fieldDes length:sizeof(FieldDescriptor)];
-                
-            if(fieldDes.Superclass != 0){//有Parent
-                uintptr_t superClassOffset = fieldOffset + 4 + fieldDes.Superclass;
-                range = NSMakeRange(superClassOffset+1, 0);
-                uintptr_t typeRef = 0;
-                data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
-                [data getBytes:&typeRef length:4];
-           
-                uintptr_t superClassContent = superClassOffset + 1 + typeRef;
-                SwiftType swiftSuperType= {0};
-                range = NSMakeRange(superClassContent, 0);
-                data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
-                [data getBytes:&swiftSuperType range:NSMakeRange(0, sizeof(SwiftType))];
-                
-                if ([WBBladesTool getSwiftType:swiftSuperType] == SwiftKindClass) {
-                    NSString *superClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftSuperType Offset:superClassContent fileData:fileData];
-                    NSLog(@"swift %@'s parent is %@",className,superClassName);
-                    [swiftUsedTypeSet addObject:superClassName];
-                }
-            }
-            
-            //读属性
-            [self readTypeMember:typeOffset field:classType.FieldDescriptor swiftUsedTypeSet:swiftUsedTypeSet fileData:fileData];
-            
-            uintptr_t methodLocation = typeOffset + sizeof(SwiftClassType);
-            UInt32 methodNum = classType.NumMethods;
-            NSMutableArray *methodArray = [NSMutableArray array];
-            for (int j = 0; j < methodNum; j++) {
-                [methodArray addObject:@(methodLocation)];
-                methodLocation += sizeof(SwiftMethod);
-            }
-            NSLog(@"swift %lu functions",methodArray.count);
-            
-            //保存所有ClassName和Method
-            [typeDict setValue:methodArray forKeyPath:className];
-        }else if(kindType == SwiftKindStruct){
-            NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
-            NSLog(@"swift StructName %@",structName);
-            
-            SwiftStructType structType = {0};
-            NSRange range = NSMakeRange(typeOffset, 0);
-            NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
-            [data getBytes:&structType length:sizeof(SwiftStructType)];
-            
-            //读属性
-            [self readTypeMember:typeOffset field:structType.FieldDescriptor swiftUsedTypeSet:swiftUsedTypeSet fileData:fileData];
-        }else if(kindType == SwiftKindEnum){
-            NSString *enumName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
-            NSLog(@"swift EnumName %@",enumName);
-        }
-        location += sizeof(uint32_t);
-    }
-    return typeDict;
-}
+//#pragma mark Swift
+//+ (NSMutableDictionary *)readSwift5TypeList:(section_64)swift5types linkEdit:(segment_command_64)linkEdit set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
+//    NSMutableDictionary *typeDict = [NSMutableDictionary dictionary];
+//
+//    //计算linkBase
+//    uintptr_t linkBase = linkEdit.vmaddr - linkEdit.fileoff;
+//    NSUInteger textTypesSize = swift5types.size;
+//
+//    NSUInteger location = 0;
+//    for (int i = 0; i < textTypesSize / sizeof(UInt32); i++) {
+//
+//        uintptr_t offset = swift5types.addr + location - linkBase;
+//
+//        NSRange range = NSMakeRange(offset, 0);
+//        uintptr_t content = 0;
+//        NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
+//        [data getBytes:&content range:NSMakeRange(0, 4)];
+//
+//        uintptr_t typeOffset = content + offset - linkBase;
+//
+//        SwiftType swiftType = {0};
+//        range = NSMakeRange(typeOffset, 0);
+//        data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
+//        [data getBytes:&swiftType range:NSMakeRange(0, sizeof(SwiftType))];
+//
+//        SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
+//        if (kindType == SwiftKindClass) {
+//            NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+//            NSLog(@"swift ClassName %@",className);
+//
+//            SwiftClassType classType = {0};
+//            NSRange range = NSMakeRange(typeOffset, 0);
+//            NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
+//            [data getBytes:&classType length:sizeof(SwiftClassType)];
+//
+//            //SuperClass
+//            uintptr_t fieldOffset = typeOffset + 4*4 + classType.FieldDescriptor;
+//
+//            FieldDescriptor fieldDes = {0};
+//            range = NSMakeRange(fieldOffset, 0);
+//            data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
+//            [data getBytes:&fieldDes length:sizeof(FieldDescriptor)];
+//
+//            if(fieldDes.Superclass != 0){//有Parent
+//                uintptr_t superClassOffset = fieldOffset + 4 + fieldDes.Superclass;
+//                range = NSMakeRange(superClassOffset+1, 0);
+//                uintptr_t typeRef = 0;
+//                data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
+//                [data getBytes:&typeRef length:4];
+//
+//                uintptr_t superClassContent = superClassOffset + 1 + typeRef;
+//                SwiftType swiftSuperType= {0};
+//                range = NSMakeRange(superClassContent, 0);
+//                data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
+//                [data getBytes:&swiftSuperType range:NSMakeRange(0, sizeof(SwiftType))];
+//
+//                if ([WBBladesTool getSwiftType:swiftSuperType] == SwiftKindClass) {
+//                    NSString *superClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftSuperType Offset:superClassContent fileData:fileData];
+//                    NSLog(@"swift %@'s parent is %@",className,superClassName);
+//                    [swiftUsedTypeSet addObject:superClassName];
+//                }
+//            }
+//
+//            //读属性
+//            [self readTypeMember:typeOffset field:classType.FieldDescriptor swiftUsedTypeSet:swiftUsedTypeSet fileData:fileData];
+//
+//            uintptr_t methodLocation = typeOffset + sizeof(SwiftClassType);
+//            UInt32 methodNum = classType.NumMethods;
+//            NSMutableArray *methodArray = [NSMutableArray array];
+//            for (int j = 0; j < methodNum; j++) {
+//                [methodArray addObject:@(methodLocation)];
+//                methodLocation += sizeof(SwiftMethod);
+//            }
+//            NSLog(@"swift %lu functions",methodArray.count);
+//
+//            //保存所有ClassName和Method
+//            [typeDict setValue:methodArray forKeyPath:className];
+//        }else if(kindType == SwiftKindStruct){
+//            NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+//            NSLog(@"swift StructName %@",structName);
+//
+//            SwiftStructType structType = {0};
+//            NSRange range = NSMakeRange(typeOffset, 0);
+//            NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
+//            [data getBytes:&structType length:sizeof(SwiftStructType)];
+//
+//            //读属性
+//            [self readTypeMember:typeOffset field:structType.FieldDescriptor swiftUsedTypeSet:swiftUsedTypeSet fileData:fileData];
+//        }else if(kindType == SwiftKindEnum){
+//            NSString *enumName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+//            NSLog(@"swift EnumName %@",enumName);
+//        }
+//        location += sizeof(uint32_t);
+//    }
+//    return typeDict;
+//}
 
-+ (void)readTypeMember:(uintptr_t)typeOffset field:(uintptr_t)fieldDescriptor swiftUsedTypeSet:(NSMutableSet*)swiftUsedTypeSet fileData:(NSData *)fileData{
-    uintptr_t fieldOffset = typeOffset + 4*4 + fieldDescriptor;
-    FieldDescriptor field = {0};
-    NSRange range = NSMakeRange(fieldOffset, 0);
-    NSData *data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
-    [data getBytes:&field length:sizeof(FieldDescriptor)];
-    
-    NSInteger memCount = field.NumFields;
-    NSLog(@"swift type has %lu members",memCount);
-    if (memCount > 0) {
-        uintptr_t memberOffset = fieldOffset + 4*4 ;
-        for (NSInteger k = 0; k < memCount; k++) {
-            range = NSMakeRange(memberOffset, 0);
-            FieldRecord record = {0};
-            data = [WBBladesTool readBytes:range length:sizeof(FieldRecord) fromFile:fileData];
-            [data getBytes:&record length:sizeof(FieldRecord)];
-            
-            uintptr_t memTypeOffset = memberOffset + 4 + record.MangledTypeName;
-            uintptr_t types = 0;
-            range = NSMakeRange(memTypeOffset, 0);
-            data = [WBBladesTool readBytes:range length:1 fromFile:fileData];
-            [data getBytes:&types length:sizeof(FieldRecord)];
-            if(types == 0x1){//Swift Member
-                memTypeOffset += 1;
-                
-                range = NSMakeRange(memTypeOffset, 0);
-                uintptr_t typeNameOffset = 0;
-                data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
-                [data getBytes:&typeNameOffset length:4];
-                
-                uintptr_t memberTypeOffset = memTypeOffset + typeNameOffset;
-                if (memberTypeOffset < fileData.length) {
-                    SwiftType memberType = {0};
-                    NSRange range = NSMakeRange(memberTypeOffset, 0);
-                    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
-                    [data getBytes:&memberType length:sizeof(SwiftType)];
-                    
-                    NSString *memTypeName = [WBBladesTool getSwiftTypeNameWithSwiftType:memberType Offset:memberTypeOffset fileData:fileData];
-                    
-                    if (memTypeName && memTypeName.length > 0) {
-                        [swiftUsedTypeSet addObject:memTypeName];
-                        NSLog(@"swift used type %@",memTypeName);
-                    }
-                }
-            }else{//OC Member
-//                memTypeOffset += 4;
-                range = NSMakeRange(memTypeOffset, 0);
-                uintptr_t typeNameOffset = 0;
-                data = [WBBladesTool readBytes:range length:1 fromFile:fileData];
-                [data getBytes:&typeNameOffset length:1];
-                if (typeNameOffset != 0x1) {
-                    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
-                    [fileData getBytes:buffer range:NSMakeRange(memTypeOffset, CLASSNAME_MAX_LEN)];
-                    NSString *memTypeName = NSSTRING(buffer);
-                    
-//                    char *nameString = (char  *)string;
-//                    NSString *memTypeName = [NSString stringWithCString:nameString encoding:NSUTF8StringEncoding];
-                    NSLog(@"swift used type %@",memTypeName);
-                }
-            }
-            
-            
-
-            memberOffset += sizeof(FieldRecord);
-        }
-    }
-}
-
-+ (void)readUsedSwift5TypeDict:(NSMutableDictionary *)swiftTypeDict linkEdit:(segment_command_64)linkEdit set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
-    
-    //计算linkBase
-    uintptr_t linkBase = linkEdit.vmaddr - linkEdit.fileoff;
-    NSArray *swiftTypeList = swiftTypeDict.allKeys;
-    
-    if (swiftTypeList && swiftTypeList.count > 0) {
-        for (NSInteger i = 0; i<swiftTypeList.count; i++) {
-            NSString *swiftTypeName = swiftTypeList[i];
-            NSArray *swiftMethod = swiftTypeDict[swiftTypeName];
-            for (id method in swiftMethod) {
-                uintptr_t swiftMethod = [method longValue];
-                for (NSInteger j = 0; j<swiftTypeList.count; j++) {
-                    NSString *swiftFindingClass = swiftTypeList[j];
-                    if ([swiftUsedTypeSet containsObject:swiftFindingClass]) {
-                        continue;
-                    }
-                    WBBladesHelper *helper = [WBBladesHelper new];
-                    helper.className = swiftFindingClass;
-                    helper.offset = swiftMethod;
-                    if ([self scanSymbolTabWithFileData:fileData helper:helper vm:linkBase]) {
-                        [swiftUsedTypeSet addObject:swiftFindingClass];
-                    }
-                }
-            }
-        }
-    }
-}
+//+ (void)readTypeMember:(uintptr_t)typeOffset field:(uintptr_t)fieldDescriptor swiftUsedTypeSet:(NSMutableSet*)swiftUsedTypeSet fileData:(NSData *)fileData{
+//    uintptr_t fieldOffset = typeOffset + 4*4 + fieldDescriptor;
+//    FieldDescriptor field = {0};
+//    NSRange range = NSMakeRange(fieldOffset, 0);
+//    NSData *data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
+//    [data getBytes:&field length:sizeof(FieldDescriptor)];
+//
+//    NSInteger memCount = field.NumFields;
+//    NSLog(@"swift type has %lu members",memCount);
+//    if (memCount > 0) {
+//        uintptr_t memberOffset = fieldOffset + 4*4 ;
+//        for (NSInteger k = 0; k < memCount; k++) {
+//            range = NSMakeRange(memberOffset, 0);
+//            FieldRecord record = {0};
+//            data = [WBBladesTool readBytes:range length:sizeof(FieldRecord) fromFile:fileData];
+//            [data getBytes:&record length:sizeof(FieldRecord)];
+//
+//            uintptr_t memTypeOffset = memberOffset + 4 + record.MangledTypeName;
+//            uintptr_t types = 0;
+//            range = NSMakeRange(memTypeOffset, 0);
+//            data = [WBBladesTool readBytes:range length:1 fromFile:fileData];
+//            [data getBytes:&types length:sizeof(FieldRecord)];
+//            if(types == 0x1){//Swift Member
+//                memTypeOffset += 1;
+//
+//                range = NSMakeRange(memTypeOffset, 0);
+//                uintptr_t typeNameOffset = 0;
+//                data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
+//                [data getBytes:&typeNameOffset length:4];
+//
+//                uintptr_t memberTypeOffset = memTypeOffset + typeNameOffset;
+//                if (memberTypeOffset < fileData.length) {
+//                    SwiftType memberType = {0};
+//                    NSRange range = NSMakeRange(memberTypeOffset, 0);
+//                    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
+//                    [data getBytes:&memberType length:sizeof(SwiftType)];
+//
+//                    NSString *memTypeName = [WBBladesTool getSwiftTypeNameWithSwiftType:memberType Offset:memberTypeOffset fileData:fileData];
+//
+//                    if (memTypeName && memTypeName.length > 0) {
+//                        [swiftUsedTypeSet addObject:memTypeName];
+//                        NSLog(@"swift used type %@",memTypeName);
+//                    }
+//                }
+//            }else{//OC Member
+////                memTypeOffset += 4;
+//                range = NSMakeRange(memTypeOffset, 0);
+//                uintptr_t typeNameOffset = 0;
+//                data = [WBBladesTool readBytes:range length:1 fromFile:fileData];
+//                [data getBytes:&typeNameOffset length:1];
+//                if (typeNameOffset != 0x1) {
+//                    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+//                    [fileData getBytes:buffer range:NSMakeRange(memTypeOffset, CLASSNAME_MAX_LEN)];
+//                    NSString *memTypeName = NSSTRING(buffer);
+//
+////                    char *nameString = (char  *)string;
+////                    NSString *memTypeName = [NSString stringWithCString:nameString encoding:NSUTF8StringEncoding];
+//                    NSLog(@"swift used type %@",memTypeName);
+//                }
+//            }
+//
+//
+//
+//            memberOffset += sizeof(FieldRecord);
+//        }
+//    }
+//}
+//
+//+ (void)readUsedSwift5TypeDict:(NSMutableDictionary *)swiftTypeDict linkEdit:(segment_command_64)linkEdit set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
+//
+//    //计算linkBase
+//    uintptr_t linkBase = linkEdit.vmaddr - linkEdit.fileoff;
+//    NSArray *swiftTypeList = swiftTypeDict.allKeys;
+//
+//    if (swiftTypeList && swiftTypeList.count > 0) {
+//        for (NSInteger i = 0; i<swiftTypeList.count; i++) {
+//            NSString *swiftTypeName = swiftTypeList[i];
+//            NSArray *swiftMethod = swiftTypeDict[swiftTypeName];
+//            for (id method in swiftMethod) {
+//                uintptr_t swiftMethod = [method longValue];
+//                for (NSInteger j = 0; j<swiftTypeList.count; j++) {
+//                    NSString *swiftFindingClass = swiftTypeList[j];
+//                    if ([swiftUsedTypeSet containsObject:swiftFindingClass]) {
+//                        continue;
+//                    }
+//                    WBBladesHelper *helper = [WBBladesHelper new];
+//                    helper.className = swiftFindingClass;
+//                    helper.offset = swiftMethod;
+//                    if ([self scanSymbolTabWithFileData:fileData helper:helper vm:linkBase]) {
+//                        [swiftUsedTypeSet addObject:swiftFindingClass];
+//                    }
+//                }
+//            }
+//        }
+//    }
+//}
 
 @end
 

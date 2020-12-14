@@ -83,6 +83,11 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData;
 
+
+/**
+* get demangle name
+*/
++ (NSString *)getDemangleName:(NSString *)mangleName;
 @end
 
 NS_ASSUME_NONNULL_END

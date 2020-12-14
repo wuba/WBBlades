@@ -22,7 +22,7 @@ struct cfstring64
 
 struct class64Info
 {
-    unsigned int flags;
+    unsigned int flags;//objc-runtime-new.h line:379~460
     unsigned int instanceStart;
     unsigned int instanceSize;
     unsigned int reserved;
