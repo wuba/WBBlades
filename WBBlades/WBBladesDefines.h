@@ -103,6 +103,7 @@ struct category64
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
 #define TEXT_SWIFT5_TYPES @"__swift5_types"
+#define TEXT_SWIFT5_PROTOS @"__swift5_protos"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
 
@@ -131,6 +132,7 @@ struct category64
 
 typedef NS_ENUM(NSInteger, SwiftKind) {
     SwiftKindUnknown        = 0,     // Unknown
+    SwiftKindProtocol       = 3,     // Protocol
     SwiftKindClass          = 16,    // Class
     SwiftKindStruct         = 17,    // Struct
     SwiftKindEnum           = 18     // Enum

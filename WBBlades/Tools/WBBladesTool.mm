@@ -414,8 +414,10 @@
 }
 
 + (SwiftKind)getSwiftType:(SwiftType)type{
-    //读低五位判断类型
-    if ((type.Flag&0x1f) == SwiftKindClass) {
+    
+    if ((type.Flag&0x3) == SwiftKindProtocol){
+        return SwiftKindProtocol;
+    }else if ((type.Flag&0x1f) == SwiftKindClass) {
         //有VTable,有Override,有VTable,Override 第32位或第31位是否为1
         if (((type.Flag&0x80000000) == 0x80000000) || ((type.Flag&0x40000000) == 0x40000000)) {
             return SwiftKindClass;
@@ -425,6 +427,7 @@
     }else if((type.Flag&0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
     }
+    
     return SwiftKindUnknown;
 }
 
