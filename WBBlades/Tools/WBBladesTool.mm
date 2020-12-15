@@ -10,6 +10,8 @@
 #import "WBBladesDefines.h"
 #import <mach-o/loader.h>
 #import <mach-o/fat.h>
+#import <dlfcn.h>
+#import <string.h>
 
 @implementation WBBladesTool
 
@@ -490,5 +492,18 @@
     return typeName;
 }
 
++ (NSString *)getDemangleName:(NSString *)mangleName{
+    int (*swift_demangle_getDemangledName)(const char *,char *,int ) = (int (*)(const char *,char *,int))dlsym(RTLD_DEFAULT, "swift_demangle_getDemangledName");
+    
+    if (swift_demangle_getDemangledName) {
+        char *demangleName = (char *)malloc(CLASSNAME_MAX_LEN + 1);
+        int length = CLASSNAME_MAX_LEN + 1;
+        swift_demangle_getDemangledName([mangleName UTF8String],demangleName,length);
+        NSString *demangleNameStr = [NSString stringWithFormat:@"%s",demangleName];
+        free(demangleName);
+        return demangleNameStr;
+    }
+    return mangleName;
+}
 
 @end
