@@ -475,8 +475,13 @@
         [data getBytes:&enumType length:sizeof(SwiftEnumType)];
         
         typeNameOffset = enumType.Name;
-    }else{
+    }else if(kindType == SwiftKindProtocol){
+        SwiftProtocolType protosType = {0};
+        NSRange range = NSMakeRange(offset, 0);
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftProtocolType) fromFile:fileData];
+        [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
         
+        typeNameOffset = protosType.Name;
     }
     
     uintptr_t  nameOffset = offset + 8 + typeNameOffset;

@@ -458,11 +458,17 @@
         }else if(kindType == SwiftKindStruct){
 //            NSDictionary *methodDic = [self scanSwiftStructMethodSymbol:typeOffset
 //                                                              swiftType:swiftType
-//                                                                     vm:vm
+//                                                                     vm:linkBase
 //                                                               fileData:fileData
 //                                                           crashAddress:crashAddress];
 //            [crashSymbolRst addEntriesFromDictionary:methodDic];
         }else if(kindType == SwiftKindEnum){
+            NSDictionary *methodDic = [self scanSwiftEnumSymbol:typeOffset
+                                                      swiftType:swiftType
+                                                             vm:linkBase
+                                                       fileData:fileData
+                                                   crashAddress:crashAddress];
+            [crashSymbolRst addEntriesFromDictionary:methodDic];
             
         }
         location += sizeof(uint32_t);
@@ -675,6 +681,11 @@
     return crashSymbolRst.copy;
 }
 
++ (NSDictionary *)scanSwiftEnumSymbol:(uintptr_t)typeOffset swiftType:(SwiftType)swiftType vm:(uintptr_t)vm fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
+    NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
+    return crashSymbolRst.copy;
+}
+
 #pragma mark Swift5Protos
 + (NSDictionary *)scanSwift5Protos:(section_64)swift5Protos fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
@@ -700,7 +711,9 @@
         
         SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindProtocol) {
+            NSString *protosName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:protosOffset fileData:fileData];
             
+            NSLog(@"Protocol %@",protosName);
         }
         
     }
@@ -723,6 +736,7 @@
     }
     return has;
 }
+
 + (NSDictionary *)scanExcutableSymbolTab:(NSData *)fileData range:(NSRange)range commandCount:(uint32_t)commandCount{
     range = [self rangeAlign:range];
     

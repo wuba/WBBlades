@@ -155,6 +155,25 @@ typedef NS_ENUM(NSInteger, SwiftMethodType) {
     SwiftMethodTypeExtraDiscriminator           = 0xFFFF0000,
 };
 
+typedef NS_ENUM(NSInteger, SwiftProtocolTableKind) {
+    SwiftProtocolTableKindBaseProtocol                 = 0,
+    SwiftProtocolTableKindMethod,
+    SwiftProtocolTableKindInit,
+    SwiftProtocolTableKindGetter,
+    SwiftProtocolTableKindSetter,
+    SwiftProtocolTableKindReadCoroutine,
+    SwiftProtocolTableKindModifyCoroutine,
+    SwiftProtocolTableKindAssociatedTypeAccessFunction,
+    SwiftProtocolTableKindAssociatedConformanceAccessFunction
+};
+
+typedef NS_ENUM(NSInteger, SwiftProtocolTableType) {
+    SwiftProtocolTableTypeKind                         = 0x0F,
+    SwiftProtocolTableTypeInstance                     = 0x10,
+    SwiftProtocolTableTypeExtraDiscriminatorShift      = 16,
+    SwiftProtocolTableTypeExtraDiscriminator           = 0xFFFF0000,
+};
+
 /**
  从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
  */
@@ -256,4 +275,13 @@ struct SwiftEnumType {
     int32_t  FieldDescriptor;
     uint32   NumPayloadCasesAndPayloadSizeOffset;
     uint32   NumEmptyCases;
+};
+
+struct SwiftProtocolType{
+    uint32_t Flags;
+    int32_t  Parent;
+    int32_t  Name;
+    uint32_t NumRequirementsInSignature;
+    uint32_t NumRequirements;
+    int32_t  AssociatedTypeNames;
 };
