@@ -419,11 +419,14 @@
     //读低五位判断类型
     if ((type.Flag & 0x1f) == SwiftKindClass) {
         return SwiftKindClass;
+    }else if ((type.Flag & 0x3) == SwiftKindProtocol){
+        return SwiftKindProtocol;
     }else if((type.Flag & 0x1f) == SwiftKindStruct){
         return SwiftKindStruct;
     }else if((type.Flag & 0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
     }
+    
     return SwiftKindUnknown;
 }
 
@@ -480,8 +483,13 @@
         [data getBytes:&enumType length:sizeof(SwiftEnumType)];
         
         typeNameOffset = enumType.Name;
-    }else{
+    }else if(kindType == SwiftKindProtocol){
+        SwiftProtocolType protosType = {0};
+        NSRange range = NSMakeRange(offset, 0);
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftProtocolType) fromFile:fileData];
+        [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
         
+        typeNameOffset = protosType.Name;
     }
     
     uintptr_t  nameOffset = offset + 8 + typeNameOffset;

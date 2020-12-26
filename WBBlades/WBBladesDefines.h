@@ -103,6 +103,7 @@ struct category64
 #define DATA_CSTRING @"__cfstring"
 #define TEXT_TEXT_SECTION @"__text"
 #define TEXT_SWIFT5_TYPES @"__swift5_types"
+#define TEXT_SWIFT5_PROTOS @"__swift5_protos"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
 
@@ -131,6 +132,7 @@ struct category64
 
 typedef NS_ENUM(NSInteger, SwiftKind) {
     SwiftKindUnknown        = 0,     // Unknown
+    SwiftKindProtocol       = 3,     // Protocol
     SwiftKindClass          = 16,    // Class
     SwiftKindStruct         = 17,    // Struct
     SwiftKindEnum           = 18     // Enum
@@ -172,6 +174,25 @@ typedef NS_ENUM(NSInteger, FieldRecordFlag) {
 //    Directness_Direct,
 //    Directness_Indirect
 //};
+
+typedef NS_ENUM(NSInteger, SwiftProtocolTableKind) {
+    SwiftProtocolTableKindBaseProtocol                 = 0,
+    SwiftProtocolTableKindMethod,
+    SwiftProtocolTableKindInit,
+    SwiftProtocolTableKindGetter,
+    SwiftProtocolTableKindSetter,
+    SwiftProtocolTableKindReadCoroutine,
+    SwiftProtocolTableKindModifyCoroutine,
+    SwiftProtocolTableKindAssociatedTypeAccessFunction,
+    SwiftProtocolTableKindAssociatedConformanceAccessFunction
+};
+
+typedef NS_ENUM(NSInteger, SwiftProtocolTableType) {
+    SwiftProtocolTableTypeKind                         = 0x0F,
+    SwiftProtocolTableTypeInstance                     = 0x10,
+    SwiftProtocolTableTypeExtraDiscriminatorShift      = 16,
+    SwiftProtocolTableTypeExtraDiscriminator           = 0xFFFF0000,
+};
 
 /**
  从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
@@ -282,4 +303,13 @@ struct SwiftEnumType {
     int32_t  FieldDescriptor;
     uint32   NumPayloadCasesAndPayloadSizeOffset;
     uint32   NumEmptyCases;
+};
+
+struct SwiftProtocolType{
+    uint32_t Flags;
+    int32_t  Parent;
+    int32_t  Name;
+    uint32_t NumRequirementsInSignature;
+    uint32_t NumRequirements;
+    int32_t  AssociatedTypeNames;
 };
