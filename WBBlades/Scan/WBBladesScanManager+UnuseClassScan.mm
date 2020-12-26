@@ -603,7 +603,20 @@ static section_64 textList = {0};
                     unsigned long long nameOffset = contextOffset + 2 * 4 + typeContext.Name;
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    NSLog(@"0x01 %@",mangleTypeName);
+                    
+                    unsigned long long parentOffset = contextOffset + 1 * 4 + typeContext.Parent;
+                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    
+                    UInt32 parentNameContent;
+                    [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                    unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                    if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                    
+                    range = NSMakeRange(parentNameOffset, 0);
+
+                    NSString *parent = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                    NSString *typeName = [NSString stringWithFormat:@"%@.%@",parent,mangleTypeName];
+                    [swiftUsedTypeSet addObject:typeName];
                     break;
                 }
                 case 0x02:
@@ -623,7 +636,22 @@ static section_64 textList = {0};
                     unsigned long long nameOffset = contextAddress + 2 * 4 + typeContext.Name;
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    NSLog(@"0x02 %@",mangleTypeName);
+                    
+                    unsigned long long parentOffset = contextAddress + 1 * 4 + typeContext.Parent;
+                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                
+                    UInt32 parentNameContent;
+                    [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                    unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                    if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                    
+                    range = NSMakeRange(parentNameOffset, 0);
+
+                    NSString *parent = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+
+                    NSString *typeName = [NSString stringWithFormat:@"%@.%@",parent,mangleTypeName];
+                    [swiftUsedTypeSet addObject:typeName];
+
                     break;
                 }
                 case 0x09:
