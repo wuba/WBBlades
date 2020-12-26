@@ -417,17 +417,25 @@
 
 + (SwiftKind)getSwiftType:(SwiftType)type{
     //读低五位判断类型
-    if ((type.Flag&0x1f) == SwiftKindClass) {
-        //有VTable,有Override,有VTable,Override 第32位或第31位是否为1
-        if (((type.Flag&0x80000000) == 0x80000000) || ((type.Flag&0x40000000) == 0x40000000)) {
-            return SwiftKindClass;
-        }
-    }else if((type.Flag&0x1f) == SwiftKindStruct){
+    if ((type.Flag & 0x1f) == SwiftKindClass) {
+        return SwiftKindClass;
+    }else if((type.Flag & 0x1f) == SwiftKindStruct){
         return SwiftKindStruct;
-    }else if((type.Flag&0x1f) == SwiftKindEnum){
+    }else if((type.Flag & 0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
     }
     return SwiftKindUnknown;
+}
+
++ (BOOL)hasVTable:(SwiftType)type{
+    if ((type.Flag & 0x80000000) == 0x80000000) {return YES;}
+    
+    return NO;
+}
+
++ (BOOL)hadOverrideTable:(SwiftType)type{
+    if ((type.Flag & 0x40000000) == 0x40000000) {return YES;}
+    return NO;
 }
 
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method{
@@ -501,6 +509,22 @@
         return demangleNameStr;
     }
     return mangleName;
+}
+
++ (void*)mallocReversalData:(uintptr_t)data length:(int)length{
+    char *result = (char *)malloc(length);
+    memset(result, 0, length);
+    void *ptr1 = NULL;
+    uintptr_t ptr2 = NULL;
+
+    for (uintptr_t i = 0; i < length; i++) {
+        ptr1 = result + i;
+        ptr2 = data + (length - i - 1);
+        
+        memset(ptr1, (UInt8)*(char*)ptr2, 1);
+    }
+    
+    return result;
 }
 
 @end
