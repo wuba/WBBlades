@@ -425,6 +425,8 @@
         return SwiftKindStruct;
     }else if((type.Flag & 0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
+    }else if((type.Flag & 0x0f) == SwiftKindModule){
+        return SwiftKindModule;
     }
     
     return SwiftKindUnknown;

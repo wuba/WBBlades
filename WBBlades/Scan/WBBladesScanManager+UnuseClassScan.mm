@@ -607,16 +607,30 @@ static section_64 textList = {0};
                     unsigned long long parentOffset = contextOffset + 1 * 4 + typeContext.Parent;
                     if (parentOffset > vm) parentOffset = parentOffset - vm;
                     
-                    UInt32 parentNameContent;
-                    [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                    unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                    if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
-                    
-                    range = NSMakeRange(parentNameOffset, 0);
+                    SwiftKind kind = SwiftKindUnknown;
+                    while (kind != SwiftKindModule) {
+                        
+                        SwiftType type;
+                        [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
+                         kind = [WBBladesTool getSwiftType:type];
 
-                    NSString *parent = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    NSString *typeName = [NSString stringWithFormat:@"%@.%@",parent,mangleTypeName];
-                    [swiftUsedTypeSet addObject:typeName];
+                        UInt32 parentNameContent;
+                        [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        range = NSMakeRange(parentNameOffset, 0);
+                        
+                        NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
+                        
+                        UInt32 parentOffsetContent;
+                        [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
+                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
+                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    }
+
+                    [swiftUsedTypeSet addObject:mangleTypeName];
                     break;
                 }
                 case 0x02:
@@ -640,17 +654,29 @@ static section_64 textList = {0};
                     unsigned long long parentOffset = contextAddress + 1 * 4 + typeContext.Parent;
                     if (parentOffset > vm) parentOffset = parentOffset - vm;
                 
-                    UInt32 parentNameContent;
-                    [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                    unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                    if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
-                    
-                    range = NSMakeRange(parentNameOffset, 0);
+                    SwiftKind kind = SwiftKindUnknown;
+                    while (kind != SwiftKindModule) {
+                        
+                        SwiftType type;
+                        [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
+                         kind = [WBBladesTool getSwiftType:type];
 
-                    NSString *parent = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-
-                    NSString *typeName = [NSString stringWithFormat:@"%@.%@",parent,mangleTypeName];
-                    [swiftUsedTypeSet addObject:typeName];
+                        UInt32 parentNameContent;
+                        [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        range = NSMakeRange(parentNameOffset, 0);
+                        
+                        NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
+                        
+                        UInt32 parentOffsetContent;
+                        [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
+                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
+                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    }
+                    [swiftUsedTypeSet addObject:mangleTypeName];
 
                     break;
                 }
