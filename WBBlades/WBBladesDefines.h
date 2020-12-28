@@ -131,7 +131,8 @@ struct category64
 #define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
 
 typedef NS_ENUM(NSInteger, SwiftKind) {
-    SwiftKindUnknown        = 0,     // Unknown
+    SwiftKindUnknown        = -1,    // UnKnown
+    SwiftKindModule         = 0,     // Module
     SwiftKindProtocol       = 3,     // Protocol
     SwiftKindClass          = 16,    // Class
     SwiftKindStruct         = 17,    // Struct
