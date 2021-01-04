@@ -131,7 +131,8 @@ struct category64
 #define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
 
 typedef NS_ENUM(NSInteger, SwiftKind) {
-    SwiftKindUnknown        = 0,     // Unknown
+    SwiftKindUnknown        = -1,    // UnKnown
+    SwiftKindModule         = 0,     // Module
     SwiftKindProtocol       = 3,     // Protocol
     SwiftKindClass          = 16,    // Class
     SwiftKindStruct         = 17,    // Struct
@@ -154,6 +155,26 @@ typedef NS_ENUM(NSInteger, SwiftMethodType) {
     SwiftMethodTypeExtraDiscriminatorShift      = 16,
     SwiftMethodTypeExtraDiscriminator           = 0xFFFF0000,
 };
+typedef NS_ENUM(NSInteger, FieldRecordFlag) {
+    FieldRecordFlag_IsIndirectCase            = 0x1,
+    FieldRecordFlag_IsVar                     = 0x2,
+    FieldRecordFlag_IsArtificial              = 0x4,
+};
+
+
+//typedef NS_ENUM(uint8_t, SymbolicReferenceKind) {
+//  /// A symbolic reference to a context descriptor, representing the
+//  /// (unapplied generic) context.
+//    SymbolicReferenceKind_Context,
+//  /// A symbolic reference to an accessor function, which can be executed in
+//  /// the process to get a pointer to the referenced entity.
+//    SymbolicReferenceKind_AccessorFunctionReference,
+//};
+
+//typedef NS_ENUM(NSInteger, Directness) {
+//    Directness_Direct,
+//    Directness_Indirect
+//};
 
 typedef NS_ENUM(NSInteger, SwiftProtocolTableKind) {
     SwiftProtocolTableKindBaseProtocol                 = 0,
@@ -181,8 +202,8 @@ typedef NS_ENUM(NSInteger, SwiftProtocolTableType) {
 //__TEXT.__swift5_fieldmd
 struct FieldRecord{
     uint32  Flags;
-    int     MangledTypeName;
-    int     FieldName;
+    uint32  MangledTypeName;
+    uint32  FieldName;
 };
 
 struct FieldDescriptor{
@@ -191,7 +212,6 @@ struct FieldDescriptor{
     uint16       Kind;
     uint16       FieldRecordSize;
     uint32       NumFields;
-    FieldRecord* FieldRecords;
 };
 
 struct SwiftType {
@@ -201,9 +221,9 @@ struct SwiftType {
 
 /**
  
- -------------------------------------------------------------------------------------------------------------------
- |  ExtraDiscriminator(16bit)   | instanceMethod(1bit) | instanceMethod(1bit) | Kind(4bit) |
- -------------------------------------------------------------------------------------------------------------------
+ ---------------------------------------------------------------------------------------------------------------------
+ |  ExtraDiscriminator(16bit)  |... | instanceMethod(1bit) | instanceMethod(1bit) | Kind(4bit) |
+ ---------------------------------------------------------------------------------------------------------------------
  */
 struct SwiftMethod {
     uint32_t Flag;
@@ -227,6 +247,15 @@ struct SwiftOverrideMethod {
  |  TypeFlag(16bit)  |  version(8bit) | unique(1bit) | generic(2bit) | Kind(5bit) |
  --------------------------------------------------------------------------------------------------
  */
+
+struct SwiftBaseType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+};
+
 struct SwiftClassType {
     uint32_t Flag;
     uint32_t Parent;
