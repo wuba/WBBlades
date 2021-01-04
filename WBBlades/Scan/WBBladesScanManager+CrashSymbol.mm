@@ -478,7 +478,7 @@
 + (NSDictionary *)scanSwiftClassMethodSymbol:(uintptr_t)typeOffset swiftType:(SwiftType)swiftType vm:(uintptr_t)vm fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
     
-    NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+    NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset vm:vm fileData:fileData];
     
     SwiftClassType classType = {0};
     NSRange range = NSMakeRange(typeOffset, 0);
@@ -582,7 +582,7 @@
         data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
         [data getBytes:&classType length:sizeof(SwiftType)];
         
-        NSString *overrideClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:classType Offset:overrideClassOffset fileData:fileData];
+        NSString *overrideClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:classType Offset:overrideClassOffset  vm:vm fileData:fileData];
 
         NSString *methodName = [self swiftClassMethod:overrideMethod memberOffset:overrideMethodOffset member:{0} squ:0 memSqu:0 fileData:fileData];
         uintptr_t imp = overrideMethodOffset + 4 + overrideMethod.Offset;
@@ -648,7 +648,7 @@
 + (NSDictionary *)scanSwiftStructMethodSymbol:(uintptr_t)typeOffset swiftType:(SwiftType)swiftType vm:(uintptr_t)vm fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
     
-    NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset fileData:fileData];
+    NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset vm:vm fileData:fileData];
     
     SwiftStructType structType = {0};
     NSRange range = NSMakeRange(typeOffset, 0);
@@ -711,14 +711,79 @@
         
         SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindProtocol) {
-            NSString *protosName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:protosOffset fileData:fileData];
-            
+            NSString *protosName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:protosOffset  vm:linkBase fileData:fileData];
             NSLog(@"Protocol %@",protosName);
+            
+            NSInteger requirementsCount = 0;
+            range = NSMakeRange(protosOffset + 4*4, 0);
+            data = [WBBladesTool readBytes:range length:sizeof(4) fromFile:fileData];
+            [data getBytes:&requirementsCount range:NSMakeRange(0, sizeof(4))];
+            
+            if (requirementsCount > 0) {
+                NSLog(@"Protocol Requirements %lu",requirementsCount);
+                uintptr_t methodOffset = protosOffset + 4*6;
+                
+                for (NSInteger r = 0; r< requirementsCount; r++) {
+                    SwiftMethod method = {0};
+                    range = NSMakeRange(methodOffset + r*sizeof(SwiftMethod), 0);
+                    data = [WBBladesTool readBytes:range length:sizeof(SwiftMethod) fromFile:fileData];
+                    [data getBytes:&method range:NSMakeRange(0, sizeof(SwiftMethod))];
+                    
+                    NSString *methodName = [self swiftProtocolMethod:method methodOffset:methodOffset fileData:fileData];
+                    NSLog(@"%@",methodName);
+                }
+            }
         }
-        
     }
     
     return crashSymbolRst.copy;
+}
+
++ (NSString *)swiftProtocolMethod:(SwiftMethod)method methodOffset:(uintptr_t)methodOffset fileData:(NSData *)fileData{
+    SwiftProtocolTableKind kind = [WBBladesTool getSwiftProtocolTableKind:method];
+    SwiftProtocolTableType type = [WBBladesTool getSwiftProtocolTableType:method];
+    
+    NSString *methodName = @"";
+    switch (kind) {
+        case SwiftProtocolTableKindBaseProtocol:
+            methodName = @"base protocol";
+            break;
+        case SwiftProtocolTableKindMethod:
+            if (type == SwiftProtocolTableTypeKind) {
+                methodName = @"class method";
+            }else if (type == SwiftProtocolTableTypeInstance){
+                methodName = @"instance method";
+            }else if (type == SwiftProtocolTableTypeExtraDiscriminatorShift){
+                methodName = @"extra discriminator shift";
+            }else if (type == SwiftProtocolTableTypeExtraDiscriminator){
+                methodName = @"extra discriminator";
+            }
+            break;
+        case SwiftProtocolTableKindInit:
+            methodName = @"init";
+            break;
+        case SwiftProtocolTableKindGetter:
+            methodName = @"getter";
+            break;
+        case SwiftProtocolTableKindSetter:
+            methodName = @"setter";
+            break;
+        case SwiftProtocolTableKindReadCoroutine:
+            methodName = @"read";
+            break;
+        case SwiftProtocolTableKindModifyCoroutine:
+            methodName = @"modify";
+            break;
+        case SwiftProtocolTableKindAssociatedTypeAccessFunction:
+            methodName = @"associated type";
+            break;
+        case SwiftProtocolTableKindAssociatedConformanceAccessFunction:
+            methodName = @"assosiated conformance";
+            break;
+        default:
+            break;
+    }
+    return methodName;
 }
 
 #pragma mark Tools

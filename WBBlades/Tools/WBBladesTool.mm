@@ -450,10 +450,11 @@
     return type;
 }
 
-+ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData{
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData{
     SwiftKind kindType = [WBBladesTool getSwiftType:type];
     
     uintptr_t typeNameOffset = 0;
+    uintptr_t typeParent = 0;
     if (kindType == SwiftKindClass) {
         SwiftClassType classType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -461,6 +462,7 @@
         [data getBytes:&classType length:sizeof(SwiftClassType)];
         
         typeNameOffset = classType.Name;
+        typeParent = offset + 4 + classType.Parent;
     }else if(kindType == SwiftKindStruct){
         SwiftStructType structType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -468,6 +470,7 @@
         [data getBytes:&structType length:sizeof(SwiftStructType)];
         
         typeNameOffset = structType.Name;
+        typeParent = offset + 4 + structType.Parent;
     }else if(kindType == SwiftKindEnum){
         SwiftEnumType enumType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -475,6 +478,7 @@
         [data getBytes:&enumType length:sizeof(SwiftEnumType)];
         
         typeNameOffset = enumType.Name;
+        typeParent = offset + 4 + enumType.Parent;
     }else if(kindType == SwiftKindProtocol){
         SwiftProtocolType protosType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -482,6 +486,7 @@
         [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
         
         typeNameOffset = protosType.Name;
+        typeParent = offset + 4 + protosType.Parent;
     }
     
     uintptr_t  nameOffset = offset + 8 + typeNameOffset;
@@ -494,7 +499,42 @@
     [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
     NSString *typeName = NSSTRING(buffer);
     free(buffer);
+    
+    if (typeParent > vm) {
+        typeParent = typeParent - vm;
+    }
+    
+    SwiftType parentType = {0};
+    NSRange range = NSMakeRange(typeParent, 0);
+    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
+    [data getBytes:&parentType length:sizeof(SwiftType)];
+    
+    SwiftKind parentKindType = [WBBladesTool getSwiftType:parentType];
+    if (parentKindType != SwiftKindUnknown) {
+       NSString *parentName = [self getSwiftTypeNameWithSwiftType:parentType Offset:typeParent vm:vm fileData:fileData];
+        if (parentName && parentName.length > 0) {
+            typeName = [NSString stringWithFormat:@"%@.%@",parentName,typeName];
+        }
+    }
+    
     return typeName;
+}
+
++ (SwiftProtocolTableKind)getSwiftProtocolTableKind:(SwiftMethod)method{
+    SwiftProtocolTableKind kind = (SwiftProtocolTableKind)(method.Flag&SwiftProtocolTableTypeKind);
+    return kind;
+}
+
++ (SwiftProtocolTableType)getSwiftProtocolTableType:(SwiftMethod)method{
+    SwiftProtocolTableType type = SwiftProtocolTableTypeKind;
+    if ((method.Flag&SwiftProtocolTableTypeInstance) == SwiftProtocolTableTypeInstance) {
+        type = SwiftProtocolTableTypeInstance;
+    }else if ((method.Flag&SwiftProtocolTableTypeExtraDiscriminatorShift) == SwiftProtocolTableTypeExtraDiscriminatorShift){
+        type = SwiftProtocolTableTypeExtraDiscriminatorShift;
+    }else if ((method.Flag&SwiftProtocolTableTypeExtraDiscriminator) == SwiftProtocolTableTypeExtraDiscriminator){
+        type = SwiftProtocolTableTypeExtraDiscriminator;
+    }
+    return type;
 }
 
 + (NSString *)getDemangleName:(NSString *)mangleName{
