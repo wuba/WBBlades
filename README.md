@@ -111,10 +111,10 @@
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
 
 ## 相关技术文章
-58 同城 iOS 客户端组件体积分析与统计实践
-基于mach-o+反汇编的无用类检测
-开源｜WBBlades：基于Mach-O文件解析的APP分析工具
-从Mach-O角度谈谈Swift和OC的存储差异
+- [58 同城 iOS 客户端组件体积分析与统计实践](https://blog.csdn.net/csdnnews/article/details/100354658/)
+- [基于mach-o+反汇编的无用类检测](https://www.jianshu.com/p/c41ad330e81c)
+- [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
+- [从Mach-O角度谈谈Swift和OC的存储差异](https://www.jianshu.com/p/ef0ff6ee6bc6)
 
 ## 致谢
 我们在无用类检测中使用了capstone，通过反汇编来识别函数指令中类的调用情况。同时我们也对capstone做了部分修改，如果开发者想使用capstone引擎，建议从重新下载全新的capstone代码。最后感谢capstone为我们提供了非常优秀的反汇编能力。
