@@ -520,7 +520,7 @@
     [data getBytes:&parentType length:sizeof(SwiftType)];
     
     SwiftKind parentKindType = [WBBladesTool getSwiftType:parentType];
-    if (parentKindType != SwiftKindUnknown) {
+    if (parentKindType != SwiftKindModule) {
        NSString *parentName = [self getSwiftTypeNameWithSwiftType:parentType Offset:typeParent vm:vm fileData:fileData];
         if (parentName && parentName.length > 0) {
             typeName = [NSString stringWithFormat:@"%@.%@",parentName,typeName];

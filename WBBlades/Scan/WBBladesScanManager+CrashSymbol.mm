@@ -516,7 +516,7 @@
                 memSqu++;
             }
             
-            NSString *methodName = [self swiftClassMethod:method memberOffset:memberOffset member:record squ:j memSqu:memSqu fileData:fileData];
+            NSString *methodName = [self swiftClassMethod:method memberOffset:memberOffset member:record vm:vm squ:j memSqu:memSqu fileData:fileData];
             uintptr_t imp = methodLocation + 4 + method.Offset;
             NSLog(@"%@.%@",className,methodName);
                 
@@ -584,15 +584,15 @@
         
         NSString *overrideClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:classType Offset:overrideClassOffset  vm:vm fileData:fileData];
 
-        NSString *methodName = [self swiftClassMethod:overrideMethod memberOffset:overrideMethodOffset member:{0} squ:0 memSqu:0 fileData:fileData];
-        uintptr_t imp = overrideMethodOffset + 4 + overrideMethod.Offset;
+        NSString *methodName = [self swiftClassMethod:overrideMethod memberOffset:overrideMethodOffset member:{0} vm:vm squ:0 memSqu:0 fileData:fileData];
+        uintptr_t imp = methodLocation + 4*2 + method.Method;//函数地址
         NSLog(@"%@重写%@.%@",className,overrideClassName,methodName);
         [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             unsigned long long crash = [(NSString *)obj longLongValue];
             if ([self scanFuncBinaryCode:crash begin:imp vm:vm fileData:fileData]) {
                 NSString *key = [NSString stringWithFormat:@"%lld",crash];
                 if (!crashSymbolRst[key] || [crashSymbolRst[key][IMP_KEY] longLongValue] < imp) {
-                    NSMutableDictionary *dic = @{IMP_KEY:@(imp),SYMBOL_KEY:[NSString stringWithFormat:@"%@.%@",className,methodName]}.mutableCopy;
+                    NSMutableDictionary *dic = @{IMP_KEY:@(imp),SYMBOL_KEY:[NSString stringWithFormat:@"%@.重写%@.%@",className,overrideClassName,methodName]}.mutableCopy;
                     [crashSymbolRst setObject:dic forKey:key];
                 }
             }
@@ -604,14 +604,14 @@
     return [crashSymbolRst copy];
 }
 
-+ (NSString *)swiftClassMethod:(SwiftMethod)method memberOffset:(uintptr_t)memberOffset member:(FieldRecord)member squ:(NSInteger)squ memSqu:(NSInteger)memSqu fileData:(NSData *)fileData{
++ (NSString *)swiftClassMethod:(SwiftMethod)method memberOffset:(uintptr_t)memberOffset member:(FieldRecord)member vm:(uintptr_t)vm squ:(NSInteger)squ memSqu:(NSInteger)memSqu fileData:(NSData *)fileData{
     SwiftMethodKind kind = [WBBladesTool getSwiftMethodKind:method];
     SwiftMethodType type = [WBBladesTool getSwiftMethodType:method];
     
     NSString *methodName = @"";
     NSString *memName = @"";
     if (member.FieldName > 0 && (kind == SwiftMethodKindGetter || kind == SwiftMethodKindSetter || kind == SwiftMethodKindModify)) {
-        uintptr_t memNameOffset = memberOffset + (memSqu-1)*sizeof(FieldRecord) + 4*2 + member.FieldName;
+        uintptr_t memNameOffset = memberOffset + (memSqu-1)*sizeof(FieldRecord) + 4*2 + member.FieldName - vm;
         uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
         [fileData getBytes:buffer range:NSMakeRange(memNameOffset, CLASSNAME_MAX_LEN)];
         memName = NSSTRING(buffer);
