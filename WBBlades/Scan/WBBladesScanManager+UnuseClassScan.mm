@@ -60,7 +60,6 @@ static section_64 textList = {0};
 #pragma mark Scan
 //scan specified file to find unused classes
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
-    
     if (aimClasses.count != 0) {
         NSLog(@"在给定的%ld个类中搜索",aimClasses.count);
     }
@@ -271,7 +270,7 @@ static section_64 textList = {0};
         }
         if (strstr(dataStr, targetStr)) {//hit
             return YES;
-        } else if (strstr(dataStr, targetHighStr)) {//hit high address
+        } else if (strstr(dataStr, targetHighStr) && strstr(asmStr, "adrp")) {//hit high address
             high = YES;
         } else if (strstr(dataStr, targetLowStr)) {//after hit high address,hit low address
             if (high) {
