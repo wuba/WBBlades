@@ -75,13 +75,26 @@ NS_ASSUME_NONNULL_BEGIN
 * check swift  method Kind
 */
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method;
-
+/**
+* check swift  method Type
+*/
 + (SwiftMethodType)getSwiftMethodType:(SwiftMethod)method;
 
 /**
 * get swift type name
 */
-+ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData;
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData;
+
+/**
+* check swift  protocol table Kind
+*/
++ (SwiftProtocolTableKind)getSwiftProtocolTableKind:(SwiftMethod)method;
+
+/**
+* check swift  protocol table Type
+*/
++ (SwiftProtocolTableType)getSwiftProtocolTableType:(SwiftMethod)method;
+
 
 
 /**
