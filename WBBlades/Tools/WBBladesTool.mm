@@ -438,8 +438,12 @@
     return NO;
 }
 
-+ (BOOL)hadOverrideTable:(SwiftType)type{
++ (BOOL)hasOverrideTable:(SwiftType)type{
     if ((type.Flag & 0x40000000) == 0x40000000) {return YES;}
+    return NO;
+}
++ (BOOL)hasSingletonMetadataInitialization:(SwiftType)type{
+    if ( (type.Flag & 0x00010000 )) {return YES;}
     return NO;
 }
 
