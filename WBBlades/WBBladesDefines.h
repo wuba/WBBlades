@@ -256,6 +256,12 @@ struct SwiftBaseType {
     int32_t  FieldDescriptor;
 };
 
+/**
+ 由于flag的标记不同，结构也稍有变化，但是主要集中在以下三种类型
+ 1、SwiftClassType带有VTable的
+ 2、不带VTable的
+ 3、AddMetadataInitialization的
+ */
 struct SwiftClassType {
     uint32_t Flag;
     uint32_t Parent;
@@ -283,6 +289,25 @@ struct SwiftClassTypeNoMethods {
     uint32_t MetadataPositiveSizeInWords;
     uint32_t NumImmediateMembers;
     uint32_t NumFields;
+};
+
+struct SwiftClassSinMetadataInit {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    int32_t  SuperclassType;
+    uint32_t MetadataNegativeSizeInWords;
+    uint32_t MetadataPositiveSizeInWords;
+    uint32_t NumImmediateMembers;
+    uint32_t NumFields;
+    uint32_t Unknow1;
+    uint32_t Offset;
+    uint32_t SinMetadataInitCache;
+    uint32_t MetadataOrRelocationFunction;
+    uint32_t CompletionFunction;
+    uint32_t NumMethods;
 };
 
 
