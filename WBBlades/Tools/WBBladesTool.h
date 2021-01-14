@@ -107,6 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (void*)mallocReversalData:(uintptr_t)data length:(int)length;
 
+/**
+*generic data length
+*/
++ (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -434,7 +434,6 @@
 
 + (BOOL)hasVTable:(SwiftType)type{
     if ((type.Flag & 0x80000000) == 0x80000000) {return YES;}
-    
     return NO;
 }
 
@@ -444,6 +443,11 @@
 }
 + (BOOL)hasSingletonMetadataInitialization:(SwiftType)type{
     if ( (type.Flag & 0x00010000 )) {return YES;}
+    return NO;
+}
+
++ (BOOL)isgetGeneric:(SwiftType)type{
+    if ( (type.Flag & 0x10000000 )) {return YES;}
     return NO;
 }
 
@@ -579,6 +583,31 @@
     }
     
     return result;
+}
+
++ (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData{
+    
+    SwiftType swiftType;
+    [fileData getBytes:&swiftType range:NSMakeRange(typeOffset, sizeof(SwiftType))];
+    
+    if (![self isgetGeneric:swiftType]) {
+        return 0;
+    }
+    //非class 不处理
+    if ([self getSwiftType:swiftType] != SwiftKindClass) {
+        return 0;
+    }
+    
+    short paramsCount = 0;
+    short requeireCount = 0;
+    
+    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + 13*4, sizeof(short))];
+    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + 13*4 + 2, sizeof(short))];
+    
+    //4字节对齐
+    short pandding = (unsigned)-paramsCount & 3;
+    
+    return (3 + 4 + paramsCount + pandding + 3 * (requeireCount) + 1);
 }
 
 @end
