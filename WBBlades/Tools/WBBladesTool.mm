@@ -416,21 +416,39 @@
 }
 
 + (SwiftKind)getSwiftType:(SwiftType)type{
-    
-    if ((type.Flag&0x3) == SwiftKindProtocol){
+    //读低五位判断类型
+    if ((type.Flag & 0x1f) == SwiftKindClass) {
+        return SwiftKindClass;
+    }else if ((type.Flag & 0x3) == SwiftKindProtocol){
         return SwiftKindProtocol;
-    }else if ((type.Flag&0x1f) == SwiftKindClass) {
-        //有VTable,有Override,有VTable,Override 第32位或第31位是否为1
-        if (((type.Flag&0x80000000) == 0x80000000) || ((type.Flag&0x40000000) == 0x40000000)) {
-            return SwiftKindClass;
-        }
-    }else if((type.Flag&0x1f) == SwiftKindStruct){
+    }else if((type.Flag & 0x1f) == SwiftKindStruct){
         return SwiftKindStruct;
-    }else if((type.Flag&0x1f) == SwiftKindEnum){
+    }else if((type.Flag & 0x1f) == SwiftKindEnum){
         return SwiftKindEnum;
+    }else if((type.Flag & 0x0f) == SwiftKindModule){
+        return SwiftKindModule;
     }
     
     return SwiftKindUnknown;
+}
+
++ (BOOL)hasVTable:(SwiftType)type{
+    if ((type.Flag & 0x80000000) == 0x80000000) {return YES;}
+    return NO;
+}
+
++ (BOOL)hasOverrideTable:(SwiftType)type{
+    if ((type.Flag & 0x40000000) == 0x40000000) {return YES;}
+    return NO;
+}
++ (BOOL)hasSingletonMetadataInitialization:(SwiftType)type{
+    if ( (type.Flag & 0x00010000 )) {return YES;}
+    return NO;
+}
+
++ (BOOL)isgetGeneric:(SwiftType)type{
+    if ( (type.Flag & 0x10000000 )) {return YES;}
+    return NO;
 }
 
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method{
@@ -450,10 +468,11 @@
     return type;
 }
 
-+ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset fileData:(NSData*)fileData{
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData{
     SwiftKind kindType = [WBBladesTool getSwiftType:type];
     
     uintptr_t typeNameOffset = 0;
+    uintptr_t typeParent = 0;
     if (kindType == SwiftKindClass) {
         SwiftClassType classType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -461,6 +480,7 @@
         [data getBytes:&classType length:sizeof(SwiftClassType)];
         
         typeNameOffset = classType.Name;
+        typeParent = offset + 4 + classType.Parent;
     }else if(kindType == SwiftKindStruct){
         SwiftStructType structType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -468,6 +488,7 @@
         [data getBytes:&structType length:sizeof(SwiftStructType)];
         
         typeNameOffset = structType.Name;
+        typeParent = offset + 4 + structType.Parent;
     }else if(kindType == SwiftKindEnum){
         SwiftEnumType enumType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -475,6 +496,7 @@
         [data getBytes:&enumType length:sizeof(SwiftEnumType)];
         
         typeNameOffset = enumType.Name;
+        typeParent = offset + 4 + enumType.Parent;
     }else if(kindType == SwiftKindProtocol){
         SwiftProtocolType protosType = {0};
         NSRange range = NSMakeRange(offset, 0);
@@ -482,6 +504,7 @@
         [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
         
         typeNameOffset = protosType.Name;
+        typeParent = offset + 4 + protosType.Parent;
     }
     
     uintptr_t  nameOffset = offset + 8 + typeNameOffset;
@@ -494,7 +517,42 @@
     [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
     NSString *typeName = NSSTRING(buffer);
     free(buffer);
+    
+    if (typeParent > vm) {
+        typeParent = typeParent - vm;
+    }
+    
+    SwiftType parentType = {0};
+    NSRange range = NSMakeRange(typeParent, 0);
+    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
+    [data getBytes:&parentType length:sizeof(SwiftType)];
+    
+    SwiftKind parentKindType = [WBBladesTool getSwiftType:parentType];
+    if (parentKindType != SwiftKindModule) {
+       NSString *parentName = [self getSwiftTypeNameWithSwiftType:parentType Offset:typeParent vm:vm fileData:fileData];
+        if (parentName && parentName.length > 0) {
+            typeName = [NSString stringWithFormat:@"%@.%@",parentName,typeName];
+        }
+    }
+    
     return typeName;
+}
+
++ (SwiftProtocolTableKind)getSwiftProtocolTableKind:(SwiftMethod)method{
+    SwiftProtocolTableKind kind = (SwiftProtocolTableKind)(method.Flag&SwiftProtocolTableTypeKind);
+    return kind;
+}
+
++ (SwiftProtocolTableType)getSwiftProtocolTableType:(SwiftMethod)method{
+    SwiftProtocolTableType type = SwiftProtocolTableTypeKind;
+    if ((method.Flag&SwiftProtocolTableTypeInstance) == SwiftProtocolTableTypeInstance) {
+        type = SwiftProtocolTableTypeInstance;
+    }else if ((method.Flag&SwiftProtocolTableTypeExtraDiscriminatorShift) == SwiftProtocolTableTypeExtraDiscriminatorShift){
+        type = SwiftProtocolTableTypeExtraDiscriminatorShift;
+    }else if ((method.Flag&SwiftProtocolTableTypeExtraDiscriminator) == SwiftProtocolTableTypeExtraDiscriminator){
+        type = SwiftProtocolTableTypeExtraDiscriminator;
+    }
+    return type;
 }
 
 + (NSString *)getDemangleName:(NSString *)mangleName{
@@ -509,6 +567,47 @@
         return demangleNameStr;
     }
     return mangleName;
+}
+
++ (void*)mallocReversalData:(uintptr_t)data length:(int)length{
+    char *result = (char *)malloc(length);
+    memset(result, 0, length);
+    void *ptr1 = NULL;
+    uintptr_t ptr2 = NULL;
+
+    for (uintptr_t i = 0; i < length; i++) {
+        ptr1 = result + i;
+        ptr2 = data + (length - i - 1);
+        
+        memset(ptr1, (UInt8)*(char*)ptr2, 1);
+    }
+    
+    return result;
+}
+
++ (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData{
+    
+    SwiftType swiftType;
+    [fileData getBytes:&swiftType range:NSMakeRange(typeOffset, sizeof(SwiftType))];
+    
+    if (![self isgetGeneric:swiftType]) {
+        return 0;
+    }
+    //非class 不处理
+    if ([self getSwiftType:swiftType] != SwiftKindClass) {
+        return 0;
+    }
+    
+    short paramsCount = 0;
+    short requeireCount = 0;
+    
+    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + 13*4, sizeof(short))];
+    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + 13*4 + 2, sizeof(short))];
+    
+    //4字节对齐
+    short pandding = (unsigned)-paramsCount & 3;
+    
+    return (3 + 4 + paramsCount + pandding + 3 * (requeireCount) + 1);
 }
 
 @end
