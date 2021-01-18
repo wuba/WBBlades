@@ -91,6 +91,14 @@ struct category64
 //中文字符串所处的节
 #define CHINESE_STRING_SECTION  @"(__TEXT,__ustring)"
 
+//异常调试相关节
+#define TEXT_EH_FRAME @"__eh_frame"
+
+//swift5相关字符串节
+//sectname[16] 少了'\0',带入了后面的__TEXT
+#define TEXT_SWIFT5_REFLSTR @"(__TEXT,__swift5_reflstr__TEXT)"
+#define TEXT_SWIFT5_TYPEREF @"(__TEXT,__swift5_typeref__TEXT)"
+
 //节定义
 #define DATA_CLASSLIST_SECTION @"__objc_classlist__DATA"
 #define CONST_DATA_CLASSLIST_SECTION @"__objc_classlist__DATA_CONST"
@@ -106,6 +114,7 @@ struct category64
 #define TEXT_SWIFT5_PROTOS @"__swift5_protos"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
+
 
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
