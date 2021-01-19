@@ -607,7 +607,7 @@
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
     
-    return (4 + 4 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+    return (3 * 4 + 4 + 4 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
 }
 
 @end
