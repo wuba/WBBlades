@@ -446,8 +446,8 @@
     return NO;
 }
 
-+ (BOOL)isgetGeneric:(SwiftType)type{
-    if ( (type.Flag & 0x10000000 )) {return YES;}
++ (BOOL)isGeneric:(SwiftType)type{
+    if ( (type.Flag & 0x80 )) {return YES;}
     return NO;
 }
 
@@ -590,7 +590,7 @@
     SwiftType swiftType;
     [fileData getBytes:&swiftType range:NSMakeRange(typeOffset, sizeof(SwiftType))];
     
-    if (![self isgetGeneric:swiftType]) {
+    if (![self isGeneric:swiftType]) {
         return 0;
     }
     //非class 不处理
@@ -607,7 +607,7 @@
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
     
-    return (3 * 4 + 4 + 4 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+    return (1 * 4 + 4 + 4 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
 }
 
 @end

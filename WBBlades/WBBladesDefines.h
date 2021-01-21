@@ -316,7 +316,6 @@ struct SwiftClassSinMetadataInit {
     uint32_t SinMetadataInitCache;
     uint32_t MetadataOrRelocationFunction;
     uint32_t CompletionFunction;
-    uint32_t NumMethods;
 };
 
 

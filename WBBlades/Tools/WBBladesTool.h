@@ -95,7 +95,25 @@ NS_ASSUME_NONNULL_BEGIN
 */
 + (SwiftProtocolTableType)getSwiftProtocolTableType:(SwiftMethod)method;
 
+/**
+* hasVTable
+*/
++ (BOOL)hasVTable:(SwiftType)type;
 
+/**
+* hasOverrideTable
+*/
++ (BOOL)hasOverrideTable:(SwiftType)type;
+
+/**
+* hasSingletonMetadataInitialization
+*/
++ (BOOL)hasSingletonMetadataInitialization:(SwiftType)type;
+
+/**
+* isgetGeneric
+*/
++ (BOOL)isGeneric:(SwiftType)type;
 
 /**
 * get demangle name
