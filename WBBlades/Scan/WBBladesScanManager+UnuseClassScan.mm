@@ -811,7 +811,9 @@ static section_64 textList = {0};
         short genericSize = [WBBladesTool addPlaceholderWithGeneric:typeOffset fileData:fileData];
         if (hasVtable) {
             UInt32 methodsNum;
-            range = NSMakeRange(typeOffset + sizeof(SwiftClassTypeNoMethods) + (hasSingletonMetadataInitialization?20:0) + genericSize + (hasOverrideTable?8:0), 4);
+            
+            unsigned long long location = typeOffset + sizeof(SwiftClassTypeNoMethods) + 8 + (hasSingletonMetadataInitialization?12:0) + genericSize;
+            range = NSMakeRange(location, 4);
             [fileData getBytes:&methodsNum range:range];
             
             unsigned long long methodStructOffset = range.location + 4;
