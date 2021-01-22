@@ -545,8 +545,7 @@ static section_64 textList = {0};
 }
 
 #pragma mark Swift
-+ (NSMutableDictionary *)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
-    NSMutableDictionary *typeDict = [NSMutableDictionary dictionary];
++ (void)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
 
     //计算vm
     unsigned long long vm = swift5Types.addr - swift5Types.offset;
@@ -735,7 +734,6 @@ static section_64 textList = {0};
             [swiftUsedTypeSet addObject:name];
         }
     }];
-    return typeDict;
 }
 
 //目前只能在class中查找，其他类型后续会陆续补充
@@ -762,7 +760,6 @@ static section_64 textList = {0};
         if (nameOffset > vm) nameOffset -= vm;
         range = NSMakeRange(nameOffset, 0);
         NSString *name = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-        if ([name isEqualToString:typeName])continue;
         
         unsigned long long parentOffset = typeOffset + 1 * 4 + swiftType.Parent;
         if (parentOffset > vm) parentOffset = parentOffset - vm;
@@ -792,7 +789,8 @@ static section_64 textList = {0};
             parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
             if (parentOffset > vm) parentOffset = parentOffset - vm;
         }
-        
+        if ([name isEqualToString:typeName])continue;
+
         //遍历Vtable和overrideTable
         BOOL hasVtable = [WBBladesTool hasVTable:swiftType];
         BOOL hasOverrideTable = [WBBladesTool hasOverrideTable:swiftType];
@@ -823,10 +821,10 @@ static section_64 textList = {0};
                 [fileData getBytes:&method range:range];
                 
                 unsigned long long IMPOffset = (method.Offset + methodStructOffset + 4);
-                IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
+//                IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
                 
                 BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:IMPOffset vm:vm];
-                if (find) {NSLog(@"%@ 被 %@ 调用",typeName,name); return YES;}
+                if (find) {return YES;}
                 
                 methodStructOffset += sizeof(SwiftMethod);
             }
@@ -841,11 +839,11 @@ static section_64 textList = {0};
                     range = NSMakeRange(methodStructOffset , sizeof(SwiftOverrideMethod));
                     [fileData getBytes:&method range:range];
                     
-                    unsigned long long IMPOffset = (method.Method + methodStructOffset + 4);
-                    IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
+                    unsigned long long IMPOffset = (method.Method + methodStructOffset + 8);
+//                    IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
                     
                     BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:IMPOffset vm:vm];
-                    if (find) {NSLog(@"%@ 被 %@ 调用",typeName,name); return YES;}
+                    if (find) { return YES;}
 
                     methodStructOffset += sizeof(SwiftOverrideMethod);
                 }
