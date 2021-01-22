@@ -566,6 +566,7 @@
         free(demangleName);
         return demangleNameStr;
     }
+    NSAssert(swift_demangle_getDemangledName, @"在 Build Phases -> Link Binary with Libraries 中 加入 libswiftDemangle.tbd");
     return mangleName;
 }
 
