@@ -116,6 +116,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)isGeneric:(SwiftType)type;
 
 /**
+* isgetGeneric
+*/
++ (BOOL)isGenericType:(SwiftBaseType)type;
+
+/**
 * get demangle name
 */
 + (NSString *)getDemangleName:(NSString *)mangleName;

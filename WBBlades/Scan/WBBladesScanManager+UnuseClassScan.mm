@@ -129,7 +129,6 @@ static section_64 textList = {0};
                     section_64 sectionHeader;
                     [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
                     NSString *secName = [[NSString alloc] initWithUTF8String:sectionHeader.sectname];
-                    
                     if ([secName isEqualToString:TEXT_TEXT_SECTION]) {
                         textList = sectionHeader;
                         
@@ -138,7 +137,6 @@ static section_64 textList = {0};
                     }else if([secName isEqualToString:TEXT_SWIFT5_TYPES]){
                         swift5Types = sectionHeader;
                     }
-                    
                     currentSecLocation += sizeof(section_64);
                 }
             }else if([segName isEqualToString:SEGMENT_LINKEDIT]){
@@ -160,20 +158,23 @@ static section_64 textList = {0};
     //read classref
     [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
     
-    //read cfstring
+    //read __cstring
     [self readCStringList:cfstringList set:classrefSet fileData:fileData];
-    
+
     //read swift5Types
-    [self readSwiftTypes:swift5Types set:classrefSet fileData:fileData];
+    NSArray *swiftGenericTypes = [self readSwiftTypes:swift5Types set:classrefSet fileData:fileData];
     
     //read classlist - OBJC
     NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
+    
+    //泛型不在classlist里
+    [classSet addObjectsFromArray:swiftGenericTypes];
     
     [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *className = (NSString *)obj;
         if ([className hasPrefix:@"_TtC"]) {
             NSString *demangleName = [WBBladesTool getDemangleName:className];
-            if ([classrefSet containsObject:demangleName]) {
+            if ([classrefSet containsObject:demangleName] && demangleName.length > 0) {
                 [classrefSet addObject:className];
             }
         }
@@ -181,13 +182,11 @@ static section_64 textList = {0};
         
     
     [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [classSet removeObject:obj];
+        if ([classSet containsObject:obj]) {
+            [classSet removeObject:obj];
+        }
     }];
     
-//    NSMutableSet *swiftUsedTypeSet = [NSMutableSet set];
-//    NSMutableDictionary *swiftTypeListDict = [self readSwift5TypeList:swift5Types linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
-//
-//    [self readUsedSwift5TypeDict:swiftTypeListDict linkEdit:linkEdit set:swiftUsedTypeSet fileData:fileData];
     NSLog(@"%@",classSet);
     return classSet;
 }
@@ -545,14 +544,17 @@ static section_64 textList = {0};
 }
 
 #pragma mark Swift
-+ (void)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
++ (NSArray *)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
 
     //计算vm
     unsigned long long vm = swift5Types.addr - swift5Types.offset;
     NSUInteger textTypesSize = swift5Types.size;
     
+    NSMutableArray *genericTypes = [NSMutableArray array];
     NSMutableDictionary *accessFcunDic = @{}.mutableCopy;
     for (int i = 0; i < textTypesSize / 4 ; i++) {
+
+        BOOL isGenericType = NO;
 
         uintptr_t offset = swift5Types.addr + i * 4 - vm;
         NSRange range = NSMakeRange(offset, 4);
@@ -563,6 +565,8 @@ static section_64 textList = {0};
         SwiftBaseType swiftType = {0};
         range = NSMakeRange(typeOffset, sizeof(SwiftBaseType));
         [fileData getBytes:&swiftType range:range];
+        
+        isGenericType = isGenericType | [WBBladesTool isGenericType:swiftType];
         
         UInt32 nameOffsetContent;
         range = NSMakeRange(typeOffset + 2 * 4, sizeof(UInt32));
@@ -580,7 +584,9 @@ static section_64 textList = {0};
             
             SwiftType type;
             [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
-             kind = [WBBladesTool getSwiftType:type];
+            kind = [WBBladesTool getSwiftType:type];
+            
+            isGenericType = isGenericType | [WBBladesTool isGeneric:type];
 
             UInt32 parentNameContent;
             [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
@@ -603,6 +609,7 @@ static section_64 textList = {0};
         [fileData getBytes:&accessFuncContent range:range];
         unsigned long long accessFunc = typeOffset + 3 * 4 + accessFuncContent;
         if (accessFunc > vm) accessFunc -= vm;
+        if (isGenericType)[genericTypes addObject:name];
         
         [accessFcunDic setObject:@(accessFunc) forKey:name];
         
@@ -615,6 +622,8 @@ static section_64 textList = {0};
         
         unsigned long long  fieldRecordAddress =  fieldDescriptorAddress + sizeof(FieldDescriptor);
         for (int i = 0; i < fieldDescriptor.NumFields; i++) {
+            
+            BOOL isGenericFiled = NO;
             
             fieldRecordAddress = fieldRecordAddress + i * sizeof(FieldRecord);
 
@@ -641,6 +650,8 @@ static section_64 textList = {0};
                     unsigned long long contextOffset = mangleNameOffset + 1 + content - vm;
                     [fileData getBytes:&typeContext range:NSMakeRange(contextOffset,sizeof(SwiftBaseType))];
                     
+                    isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
+                    
                     unsigned long long nameOffset = contextOffset + 2 * 4 + typeContext.Name;
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
@@ -653,7 +664,9 @@ static section_64 textList = {0};
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
-                         kind = [WBBladesTool getSwiftType:type];
+                        kind = [WBBladesTool getSwiftType:type];
+                        
+                        isGenericFiled = isGenericFiled | [WBBladesTool isGeneric:type];
 
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
@@ -669,7 +682,7 @@ static section_64 textList = {0};
                         parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
                         if (parentOffset > vm) parentOffset = parentOffset - vm;
                     }
-
+                    if (isGenericFiled)[genericTypes addObject:mangleTypeName];
                     [swiftUsedTypeSet addObject:mangleTypeName];
                     break;
                 }
@@ -682,6 +695,9 @@ static section_64 textList = {0};
                     unsigned long long indirectContextOffset = mangleNameOffset + 1 + content;
                     unsigned long long contextAddress = 0;
                     [fileData getBytes:&contextAddress range:NSMakeRange(indirectContextOffset , 8)];
+                    
+                    isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
+                    
                     if (contextAddress == 0)continue;
                     
                     contextAddress = contextAddress - vm;
@@ -698,7 +714,9 @@ static section_64 textList = {0};
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
-                         kind = [WBBladesTool getSwiftType:type];
+                        kind = [WBBladesTool getSwiftType:type];
+                        
+                        isGenericFiled = isGenericFiled | [WBBladesTool isGeneric:type];
 
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
@@ -714,6 +732,7 @@ static section_64 textList = {0};
                         parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
                         if (parentOffset > vm) parentOffset = parentOffset - vm;
                     }
+                    if (isGenericFiled)[genericTypes addObject:mangleTypeName];
                     [swiftUsedTypeSet addObject:mangleTypeName];
 
                     break;
@@ -734,6 +753,7 @@ static section_64 textList = {0};
             [swiftUsedTypeSet addObject:name];
         }
     }];
+    return genericTypes.copy;
 }
 
 //目前只能在class中查找，其他类型后续会陆续补充

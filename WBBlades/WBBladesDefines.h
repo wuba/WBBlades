@@ -109,6 +109,7 @@ struct category64
 #define DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA"
 #define CONST_DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
+#define TEXT_CSTRING @"__cstring"
 #define TEXT_TEXT_SECTION @"__text"
 #define TEXT_SWIFT5_TYPES @"__swift5_types"
 #define TEXT_SWIFT5_PROTOS @"__swift5_protos"

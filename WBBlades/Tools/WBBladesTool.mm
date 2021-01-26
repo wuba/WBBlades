@@ -451,6 +451,11 @@
     return NO;
 }
 
++ (BOOL)isGenericType:(SwiftBaseType)type{
+    if ( (type.Flag & 0x80 )) {return YES;}
+    return NO;
+}
+
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method{
     SwiftMethodKind kind = (SwiftMethodKind)(method.Flag&SwiftMethodTypeKind);
     return kind;
