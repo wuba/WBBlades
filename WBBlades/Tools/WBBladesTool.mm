@@ -564,8 +564,8 @@
     int (*swift_demangle_getDemangledName)(const char *,char *,int ) = (int (*)(const char *,char *,int))dlsym(RTLD_DEFAULT, "swift_demangle_getDemangledName");
     
     if (swift_demangle_getDemangledName) {
-        char *demangleName = (char *)malloc(CLASSNAME_MAX_LEN + 1);
-        int length = CLASSNAME_MAX_LEN + 1;
+        char *demangleName = (char *)malloc(201);
+        int length = 201;
         swift_demangle_getDemangledName([mangleName UTF8String],demangleName,length);
         NSString *demangleNameStr = [NSString stringWithFormat:@"%s",demangleName];
         free(demangleName);
@@ -573,6 +573,21 @@
     }
     NSAssert(swift_demangle_getDemangledName, @"在 Build Phases -> Link Binary with Libraries 中 加入 libswiftDemangle.tbd");
     return mangleName;
+}
+
++ (NSString *)getDemangleNameWithCString:(char *)mangleName{
+    int (*swift_demangle_getDemangledName)(const char *,char *,int ) = (int (*)(const char *,char *,int))dlsym(RTLD_DEFAULT, "swift_demangle_getDemangledName");
+    
+    if (swift_demangle_getDemangledName) {
+        char *demangleName = (char *)malloc(201);
+        int length = 201;
+        swift_demangle_getDemangledName(mangleName,demangleName,length);
+        NSString *demangleNameStr = [NSString stringWithFormat:@"%s",demangleName];
+        free(demangleName);
+        return demangleNameStr;
+    }
+    NSAssert(swift_demangle_getDemangledName, @"在 Build Phases -> Link Binary with Libraries 中 加入 libswiftDemangle.tbd");
+    return [NSString stringWithFormat:@"%s",mangleName];
 }
 
 + (void*)mallocReversalData:(uintptr_t)data length:(int)length{

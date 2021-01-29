@@ -126,6 +126,10 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSString *)getDemangleName:(NSString *)mangleName;
 
 /**
+* get demangle name
+*/
++ (NSString *)getDemangleNameWithCString:(char *)mangleName;
+/**
 *  reversal data
 */
 + (void*)mallocReversalData:(uintptr_t)data length:(int)length;

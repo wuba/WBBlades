@@ -167,6 +167,9 @@ static section_64 textList = {0};
     //read classlist - OBJC
     NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
     
+    //泛型参数约束
+    [self readSwiftGenericRequire:classrefSet fileData:fileData];
+    
     //泛型不在classlist里
     [classSet addObjectsFromArray:swiftGenericTypes];
     
@@ -280,7 +283,7 @@ static section_64 textList = {0};
             }
         }
         begin += 4;
-    } while (strcmp("ret",asmStr) != 0 && (begin <= end));//result
+    } while (strcmp("ret",asmStr) != 0 && (begin < end));//result
     return NO;
     
 }
@@ -778,11 +781,18 @@ static section_64 textList = {0};
         }
     }
     
+    //一些type 直接记录了metadata的地址，无需通过accessfun 调用
+    NSDictionary *cacheMetaDic = [self readSwiftCacheMetadata:fileData];
+    
     //查找access调用
     [accessFcunDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *name = key;
         unsigned long long accessFunc = [obj unsignedLongLongValue];
-//        if ([self findCallAccessFunc:name accessFunc:accessFunc inSwiftTypes:swift5Types fileData:fileData]) {
+        unsigned long long cache = [cacheMetaDic[name] unsignedLongLongValue];
+        if (cache > 0) {
+            accessFunc = cache;
+        }
+        accessFunc = accessFunc > vm ? accessFunc - vm : accessFunc;
         if ([self findCallAccessFunc:name accessFunc:accessFunc fileData:fileData]) {
             [swiftUsedTypeSet addObject:name];
         }
@@ -792,6 +802,7 @@ static section_64 textList = {0};
 
 + (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc  fileData:(NSData *)fileData {
     NSArray *symbols = [self getSortedSymbolList:fileData];
+    
     NSString *demangleName = [WBBladesTool getDemangleName:typeName];
     
     //target address
@@ -809,10 +820,73 @@ static section_64 textList = {0};
             continue;
         }
         BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:symRanObj.begin end:symRanObj.end];
-//        if(find) NSLog(@"%@ 调用了 %@",symRanObj.symbol,typeName);
+        if(find) NSLog(@"%@ 调用了 %@",symRanObj.symbol,typeName);
         if (find) return YES;
     }
     return NO;
+}
+
++ (NSArray *)readSwiftGenericRequire:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
+    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
+    ptrdiff_t symbolOffset = symCmd.symbolOff;
+    NSMutableSet *genericRequiredSet = [NSMutableSet set];
+    for (int i=0; i < symCmd.symbolNum ; i++) {
+        nlist_64 nlist;
+        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+        char *p = (char *)fileData.bytes;
+        p = p + off;
+        memcpy(&nlist, p, sizeof(nlist_64));
+        if (nlist.n_sect != 1) {//这里判断不是很合理，暂时先处理
+            char buffer[201];
+            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+            char * p = (char *)fileData.bytes;
+            p = p+off;
+            memcpy(&buffer, p, 200);
+            NSString *symbol = [WBBladesTool getDemangleNameWithCString:buffer];
+            if ([symbol hasPrefix:METADATACACHE_FLAG]) {
+                NSString *cacheMetadata = [symbol substringFromIndex:METADATACACHE_FLAG.length];
+                NSArray *tmp = [cacheMetadata componentsSeparatedByString:@"<"];
+                if (tmp.count > 1) {//有泛型约束
+                    NSString *genericRequire = [tmp lastObject];
+                    genericRequire = [genericRequire stringByReplacingOccurrencesOfString:@">" withString:@""];
+                    NSArray *types = [genericRequire componentsSeparatedByString:@", "];
+                    [genericRequiredSet addObjectsFromArray:types];
+                    [swiftUsedTypeSet addObjectsFromArray:types];
+                }
+            }
+        }
+    }
+    return genericRequiredSet.allObjects;
+}
+
++ (NSDictionary *)readSwiftCacheMetadata:(NSData *)fileData{
+    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
+    ptrdiff_t symbolOffset = symCmd.symbolOff;
+    NSMutableDictionary *dic = @{}.mutableCopy;
+    for (int i=0; i < symCmd.symbolNum ; i++) {
+        nlist_64 nlist;
+        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+        char *p = (char *)fileData.bytes;
+        p = p + off;
+        memcpy(&nlist, p, sizeof(nlist_64));
+        if (nlist.n_sect != 1) {//这里判断不是很合理，暂时先处理
+            char buffer[201];
+            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+            char * p = (char *)fileData.bytes;
+            p = p+off;
+            memcpy(&buffer, p, 200);
+            NSString *symbol = [WBBladesTool getDemangleNameWithCString:buffer];
+            if ([symbol hasPrefix:METADATACACHE_FLAG]) {
+                NSString *cacheMetadata = [symbol substringFromIndex:METADATACACHE_FLAG.length];
+                NSArray *tmp = [cacheMetadata componentsSeparatedByString:@"<"];
+                NSString *typeName = [tmp firstObject];
+                if (nlist.n_value > 0 && typeName.length > 0) {
+                    [dic setObject:@(nlist.n_value) forKey:typeName];
+                }
+            }
+        }
+    }
+    return dic.copy;
 }
 
 + (NSArray *)getSortedSymbolList:(NSData *)fileData{
@@ -825,8 +899,7 @@ static section_64 textList = {0};
         char *p = (char *)fileData.bytes;
         p = p + off;
         memcpy(&nlist, p, sizeof(nlist_64));
-        if (nlist.n_sect == 1 &&
-            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
+        if (nlist.n_sect == 1) {//这里判断不是很合理，暂时先处理
             
             char buffer[201];
             ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
@@ -872,7 +945,6 @@ static section_64 textList = {0};
             [allSymbols addObject:symRanObj];
         }
     }];
-   
     return allSymbols.copy;
 }
 
@@ -981,7 +1053,7 @@ static section_64 textList = {0};
 //                    [fileData getBytes:&method range:range];
 //
 //                    unsigned long long IMPOffset = (method.Method + methodStructOffset + 8);
-////                    IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
+//                    IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
 //
 //                    BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:IMPOffset vm:vm];
 //                    if (find) {NSLog(@"%@ 调用了 %@",name,typeName); return YES;}

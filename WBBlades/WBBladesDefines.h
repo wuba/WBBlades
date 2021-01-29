@@ -115,7 +115,7 @@ struct category64
 #define TEXT_SWIFT5_PROTOS @"__swift5_protos"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
-
+#define METADATACACHE_FLAG @"demangling cache variable for type metadata for "
 
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
