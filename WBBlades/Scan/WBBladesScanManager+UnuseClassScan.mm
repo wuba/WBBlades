@@ -173,25 +173,39 @@ static section_64 textList = {0};
     //泛型不在classlist里
     [classSet addObjectsFromArray:swiftGenericTypes];
     
-    [classSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+    
+    return [self diffClasses:classSet used:classrefSet];
+}
+
++ (NSSet*)diffClasses:(NSMutableSet *)allClasses used:(NSMutableSet *)usedClasses{
+    [allClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *className = (NSString *)obj;
         if ([className hasPrefix:@"_TtC"]) {
             NSString *demangleName = [WBBladesTool getDemangleName:className];
-            if ([classrefSet containsObject:demangleName] && demangleName.length > 0) {
-                [classrefSet addObject:className];
+            if ([usedClasses containsObject:demangleName] && demangleName.length > 0) {
+                [usedClasses addObject:className];
             }
         }
     }];
         
-    
-    [classrefSet enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([classSet containsObject:obj]) {
-            [classSet removeObject:obj];
+    [usedClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([allClasses containsObject:obj]) {
+            [allClasses removeObject:obj];
         }
     }];
-    
-    NSLog(@"%@",classSet);
-    return classSet;
+    NSMutableSet *result = [NSMutableSet set];
+    [allClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        NSString *demangleName = @"";
+        if ([obj hasPrefix:@"_Tt"]) {
+            demangleName = [WBBladesTool getDemangleName:obj]?:@"";
+        }
+        NSDictionary *classDesc = @{@"name":obj,
+                                    @"demangleName":demangleName
+        };
+        [result addObject:classDesc];
+    }];
+    NSLog(@"%@",result);
+    return result;
 }
 
 + (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
@@ -820,7 +834,6 @@ static section_64 textList = {0};
             continue;
         }
         BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:symRanObj.begin end:symRanObj.end];
-        if(find) NSLog(@"%@ 调用了 %@",symRanObj.symbol,typeName);
         if (find) return YES;
     }
     return NO;
