@@ -565,6 +565,7 @@
     
     if (swift_demangle_getDemangledName) {
         char *demangleName = (char *)malloc(201);
+        memset(demangleName, 0, 201);
         int length = 201;
         swift_demangle_getDemangledName([mangleName UTF8String],demangleName,length);
         NSString *demangleNameStr = [NSString stringWithFormat:@"%s",demangleName];
