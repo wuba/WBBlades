@@ -21,7 +21,6 @@
 #import "WBBladesDefines.h"
 #import "capstone.h"
 
-
 @implementation WBBladesScanManager (UnuseClassScan)
 
 static cs_insn *s_cs_insn;
@@ -199,75 +198,73 @@ static section_64 textList = {0};
         if ([obj hasPrefix:@"_Tt"]) {
             demangleName = [WBBladesTool getDemangleName:obj]?:@"";
         }
-        NSDictionary *classDesc = @{@"name":obj,
-                                    @"demangleName":demangleName
-        };
-        [result addObject:classDesc];
+        NSString *className = demangleName.length > 0 ? demangleName : obj;
+        [result addObject:className];
     }];
     NSLog(@"%@",result);
     return result;
 }
 
-+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
-        
-    //binary files's symbol table
-    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
-    unsigned long long symbolOffset = symCmd.symbolOff;
-    unsigned long long targetAddress = helper.offset;
-    
-    if (!symCmd.withDWARF) {
-        return YES;
-    }
-    
-    //target address
-    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    //target high address
-    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-    
-    //Target low address
-    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-        
-    //enumerate symbol table
-    for (int i=0; i < symCmd.symbolNum - 1; i++) {
-        nlist_64 nlist;
-        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
-        char *p = (char *)fileData.bytes;
-        p = p + off;
-        memcpy(&nlist, p, sizeof(nlist_64));
-        
-        //https://developer.apple.com/documentation/kernel/nlist_64
-        if (nlist.n_sect == 1 &&
-            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
-            
-            char buffer[201];
-            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
-            char * p = (char *)fileData.bytes;
-            p = p+off;
-            memcpy(&buffer, p, 200);
-            char * className = strtok(buffer," ");
-            className = strstr(className,"[");
-            if (className) {
-                className = className+1;
-            } else {
-                className = buffer;
-            }
-            if (strcmp(className,[helper.className UTF8String]) == 0) {
-                continue;
-            }
-            
-            unsigned long long begin = nlist.n_value;
-            
-            //set the starting point of a function instruction, start enumerating to see if a class address exists
-            //if true, you can assume that this class is used in this function
-            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
-            if (use) {
-                return YES;
-            }
-        }
-    }
-    return NO;
-}
+//+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
+//
+//    //binary files's symbol table
+//    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
+//    unsigned long long symbolOffset = symCmd.symbolOff;
+//    unsigned long long targetAddress = helper.offset;
+//
+//    if (!symCmd.withDWARF) {
+//        return YES;
+//    }
+//
+//    //target address
+//    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+//
+//    //target high address
+//    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+//
+//    //Target low address
+//    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
+//
+//    //enumerate symbol table
+//    for (int i=0; i < symCmd.symbolNum - 1; i++) {
+//        nlist_64 nlist;
+//        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+//        char *p = (char *)fileData.bytes;
+//        p = p + off;
+//        memcpy(&nlist, p, sizeof(nlist_64));
+//
+//        //https://developer.apple.com/documentation/kernel/nlist_64
+//        if (nlist.n_sect == 1 &&
+//            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
+//
+//            char buffer[201];
+//            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+//            char * p = (char *)fileData.bytes;
+//            p = p+off;
+//            memcpy(&buffer, p, 200);
+//            char * className = strtok(buffer," ");
+//            className = strstr(className,"[");
+//            if (className) {
+//                className = className+1;
+//            } else {
+//                className = buffer;
+//            }
+//            if (strcmp(className,[helper.className UTF8String]) == 0) {
+//                continue;
+//            }
+//
+//            unsigned long long begin = nlist.n_value;
+//
+//            //set the starting point of a function instruction, start enumerating to see if a class address exists
+//            //if true, you can assume that this class is used in this function
+//            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
+//            if (use) {
+//                return YES;
+//            }
+//        }
+//    }
+//    return NO;
+//}
 
 
 + (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin end:(unsigned long long)end {
@@ -491,18 +488,18 @@ static section_64 textList = {0};
                    free(buffer);
                    
                    if (className) {
-                       WBBladesHelper *helper = [WBBladesHelper new];
-                       helper.className = className;
-                       helper.offset = range.location;
-                       if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
+//                       WBBladesHelper *helper = [WBBladesHelper new];
+//                       helper.className = className;
+//                       helper.offset = range.location;
+//                       if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
                            
                            //other class is calling current class
-                           if ([self scanSymbolTabWithFileData:fileData helper:helper vm:vm]) {
+//                           if ([self scanSymbolTabWithFileData:fileData helper:helper vm:vm]) {
                                [classrefSet addObject:className];
-                           }
-                       } else {
-                           [classrefSet addObject:className];
-                       }
+//                           }
+//                       } else {
+//                           [classrefSet addObject:className];
+//                       }
                    }
                }
            }
