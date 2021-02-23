@@ -166,7 +166,11 @@
                     [segName isEqualToString:SEGMENT_RODATA] ||
                     [segName isEqualToString:SEGMENT_DATA] ||
                     [segName isEqualToString:SEGMENT_DATA_CONST]) {
-                    objcMachO.size += sectionHeader.size;
+                    NSString * sectname = [NSString stringWithFormat:@"%s",sectionHeader.sectname];
+                     //TEXT_EH_FRAME 异常调试相关，链接时不计入
+                     if (![sectname isEqual: TEXT_EH_FRAME]) {
+                         objcMachO.size += sectionHeader.size;
+                    }
                 }
                 
                 //save for virtual linking
@@ -244,6 +248,12 @@
                                     end ++;
                                 }
                                 [objcMachO.sections setObject:[array copy] forKey:sectionName];
+                                
+                            } else if ([sectionName isEqualToString:TEXT_SWIFT5_REFLSTR]||
+                                       [sectionName isEqualToString:TEXT_SWIFT5_TYPEREF]) {
+                                
+                                    NSArray *array = [WBBladesTool readStrings:secRange fixlen:sectionHeader.size fromFile:fileData];
+                                    [objcMachO.sections setObject:array forKey:sectionName];
                             }
                         }
                         default:

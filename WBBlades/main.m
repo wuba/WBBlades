@@ -44,7 +44,7 @@ int main(int argc, const char *argv[]) {
         }else{
             NSLog(@"分析静态库的体积：WBBlades -size xxx.a xxx.framework ....");
             NSLog(@"分析无用类的体积：WBBlades -unused xxx.app -from xxx.a xxx.a ....(-from 标识只分析以下静态库中的无用类，不加此参数默认为APP中全部类)");
-            NSLog(@"日志符号化：WBBlades -symbol xxx.app -offsets 1234,5678,91011");
+            NSLog(@"日志符号化：WBBlades -symbol xxx.app -logPath 1234,5678,91011");
         }
     }
 }
@@ -124,14 +124,21 @@ static void scanUnusedClass(int argc, const char * argv[]) {
 
 static void scanCrashSymbol(int argc, const char * argv[]) {
     NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"symbol"];
-    NSString *crashAddress = [[NSUserDefaults standardUserDefaults] stringForKey:@"offsets"];
+    NSString *crashLogPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"logPath"];
     
+    //从崩溃日志中获取所有与该进程相关的偏移地址
+    NSArray *crashAddress = [WBBladesFileManager obtainAllCrashOffsets:crashLogPath appPath:appPath];
+    
+    //获取解析结果
     NSDictionary *result = [WBBladesScanManager symbolizeWithMachOFile:[WBBladesFileManager readArm64FromFile:appPath] crashOffsets:crashAddress];
+    
+    //生成崩溃解析后的完整日志
+    NSString *outputLog = [WBBladesFileManager obtainOutputLogWithResult:result];
     
     //write results to file
     NSString *outPutPath = resultFilePath();
-    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesCrash.plist"];
-    [result writeToFile:outPutPath atomically:YES];
+    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesCrash.txt"];
+    [outputLog writeToFile:outPutPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 #pragma mark Handle

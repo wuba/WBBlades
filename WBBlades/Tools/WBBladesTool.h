@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WBBladesDefines.h"
 #import "capstone.h"
 
 NS_ASSUME_NONNULL_BEGIN
@@ -64,6 +65,79 @@ NS_ASSUME_NONNULL_BEGIN
 *  is  Mach-O file
 */
 + (BOOL)isMachO:(NSData *)fileData;
+
+/**
+* check swift Type
+*/
++ (SwiftKind)getSwiftType:(SwiftType)type;
+
+/**
+* check swift  method Kind
+*/
++ (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method;
+/**
+* check swift  method Type
+*/
++ (SwiftMethodType)getSwiftMethodType:(SwiftMethod)method;
+
+/**
+* get swift type name
+*/
++ (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData;
+
+/**
+* check swift  protocol table Kind
+*/
++ (SwiftProtocolTableKind)getSwiftProtocolTableKind:(SwiftMethod)method;
+
+/**
+* check swift  protocol table Type
+*/
++ (SwiftProtocolTableType)getSwiftProtocolTableType:(SwiftMethod)method;
+
+/**
+* hasVTable
+*/
++ (BOOL)hasVTable:(SwiftType)type;
+
+/**
+* hasOverrideTable
+*/
++ (BOOL)hasOverrideTable:(SwiftType)type;
+
+/**
+* hasSingletonMetadataInitialization
+*/
++ (BOOL)hasSingletonMetadataInitialization:(SwiftType)type;
+
+/**
+* isgetGeneric
+*/
++ (BOOL)isGeneric:(SwiftType)type;
+
+/**
+* isgetGeneric
+*/
++ (BOOL)isGenericType:(SwiftBaseType)type;
+
+/**
+* get demangle name
+*/
++ (NSString *)getDemangleName:(NSString *)mangleName;
+
+/**
+* get demangle name
+*/
++ (NSString *)getDemangleNameWithCString:(char *)mangleName;
+/**
+*  reversal data
+*/
++ (void*)mallocReversalData:(uintptr_t)data length:(int)length;
+
+/**
+*generic data length
+*/
++ (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData;
 
 @end
 

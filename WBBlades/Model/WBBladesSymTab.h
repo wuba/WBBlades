@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) unsigned int size;
 
-@property (nonatomic, strong) NSArray<WBBladesSymbol*> *symbols;
+@property (nonatomic, strong) NSArray <WBBladesSymbol *>*symbols;
 
 @property (nonatomic, assign) NSRange range;
 
@@ -42,8 +42,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, assign) unsigned int strSize;
 
+@property (nonatomic, assign) unsigned int textSize;
+
 @property (nonatomic, assign) BOOL withDWARF;
 
 @end
 
+@interface WBBladesSymbolRange : NSObject
+
+@property (nonatomic, assign) unsigned long long begin;
+
+@property (nonatomic, assign) unsigned long long end;
+
+@property (nonatomic, copy) NSString *symbol;
+
+@end
 NS_ASSUME_NONNULL_END

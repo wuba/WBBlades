@@ -22,7 +22,7 @@ struct cfstring64
 
 struct class64Info
 {
-    unsigned int flags;
+    unsigned int flags;//objc-runtime-new.h line:379~460
     unsigned int instanceStart;
     unsigned int instanceSize;
     unsigned int reserved;
@@ -82,6 +82,7 @@ struct category64
 #define SEGMENT_RODATA @"__RODATA"
 #define SEGMENT_DATA @"__DATA"
 #define SEGMENT_DATA_CONST @"__DATA_CONST"
+#define SEGMENT_LINKEDIT @"__LINKEDIT"
 
 //符号表前缀定义
 #define CLASS_SYMBOL_PRE @"_OBJC_CLASS_$_"
@@ -89,6 +90,14 @@ struct category64
 
 //中文字符串所处的节
 #define CHINESE_STRING_SECTION  @"(__TEXT,__ustring)"
+
+//异常调试相关节
+#define TEXT_EH_FRAME @"__eh_frame"
+
+//swift5相关字符串节
+//sectname[16] 少了'\0',带入了后面的__TEXT
+#define TEXT_SWIFT5_REFLSTR @"(__TEXT,__swift5_reflstr__TEXT)"
+#define TEXT_SWIFT5_TYPEREF @"(__TEXT,__swift5_typeref__TEXT)"
 
 //节定义
 #define DATA_CLASSLIST_SECTION @"__objc_classlist__DATA"
@@ -100,9 +109,13 @@ struct category64
 #define DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA"
 #define CONST_DATA_NCATLIST_SECTION @"__objc_nlcatlist__DATA_CONST"
 #define DATA_CSTRING @"__cfstring"
+#define TEXT_CSTRING @"__cstring"
 #define TEXT_TEXT_SECTION @"__text"
+#define TEXT_SWIFT5_TYPES @"__swift5_types"
+#define TEXT_SWIFT5_PROTOS @"__swift5_protos"
 #define IMP_KEY @"imp"
 #define SYMBOL_KEY @"symbol"
+#define METADATACACHE_FLAG @"demangling cache variable for type metadata for "
 
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
@@ -127,68 +140,80 @@ struct category64
 #define BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED            0xB0
 #define BIND_OPCODE_DO_BIND_ULEB_TIMES_SKIPPING_ULEB        0xC0
 
+typedef NS_ENUM(NSInteger, SwiftKind) {
+    SwiftKindUnknown        = -1,    // UnKnown
+    SwiftKindModule         = 0,     // Module
+    SwiftKindProtocol       = 3,     // Protocol
+    SwiftKindClass          = 16,    // Class
+    SwiftKindStruct         = 17,    // Struct
+    SwiftKindEnum           = 18     // Enum
+};
+
+typedef NS_ENUM(NSInteger, SwiftMethodKind) {
+    SwiftMethodKindMethod             = 0,     // method
+    SwiftMethodKindInit               = 1,     //init
+    SwiftMethodKindGetter             = 2,     // get
+    SwiftMethodKindSetter             = 3,     // set
+    SwiftMethodKindModify             = 4,     // modify
+    SwiftMethodKindRead               = 5,     // read
+};
+
+typedef NS_ENUM(NSInteger, SwiftMethodType) {
+    SwiftMethodTypeKind                         = 0x0F,
+    SwiftMethodTypeInstance                     = 0x10,
+    SwiftMethodTypeDynamic                      = 0x20,
+    SwiftMethodTypeExtraDiscriminatorShift      = 16,
+    SwiftMethodTypeExtraDiscriminator           = 0xFFFF0000,
+};
+typedef NS_ENUM(NSInteger, FieldRecordFlag) {
+    FieldRecordFlag_IsIndirectCase            = 0x1,
+    FieldRecordFlag_IsVar                     = 0x2,
+    FieldRecordFlag_IsArtificial              = 0x4,
+};
+
+
+//typedef NS_ENUM(uint8_t, SymbolicReferenceKind) {
+//  /// A symbolic reference to a context descriptor, representing the
+//  /// (unapplied generic) context.
+//    SymbolicReferenceKind_Context,
+//  /// A symbolic reference to an accessor function, which can be executed in
+//  /// the process to get a pointer to the referenced entity.
+//    SymbolicReferenceKind_AccessorFunctionReference,
+//};
+
+//typedef NS_ENUM(NSInteger, Directness) {
+//    Directness_Direct,
+//    Directness_Indirect
+//};
+
+typedef NS_ENUM(NSInteger, SwiftProtocolTableKind) {
+    SwiftProtocolTableKindBaseProtocol                 = 0,
+    SwiftProtocolTableKindMethod,
+    SwiftProtocolTableKindInit,
+    SwiftProtocolTableKindGetter,
+    SwiftProtocolTableKindSetter,
+    SwiftProtocolTableKindReadCoroutine,
+    SwiftProtocolTableKindModifyCoroutine,
+    SwiftProtocolTableKindAssociatedTypeAccessFunction,
+    SwiftProtocolTableKindAssociatedConformanceAccessFunction
+};
+
+typedef NS_ENUM(NSInteger, SwiftProtocolTableType) {
+    SwiftProtocolTableTypeKind                         = 0x0F,
+    SwiftProtocolTableTypeInstance                     = 0x10,
+    SwiftProtocolTableTypeExtraDiscriminatorShift      = 16,
+    SwiftProtocolTableTypeExtraDiscriminator           = 0xFFFF0000,
+};
 
 /**
  从 https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html 了解到Swift的存储结构
  */
 
-//__TEXT.__swift5_protos
-struct ProtocolDescriptor{
-    uint32  Flags;
-    int     Parent;
-    int     Name;
-    uint32  NumRequirementsInSignature;
-    uint32  NumRequirements;
-    int     AssociatedTypeNames;
-};
-
-//__TEXT.__swift5_proto
-struct ProtocolConformanceDescriptor{
-    int     ProtocolDescriptor;
-    int     NominalTypeDescriptor;
-    int     ProtocolWitnessTable;
-    uint32  ConformanceFlags;
-};
-
-//__TEXT.__swift5_types
-struct EnumDescriptor{
-    uint32  Flags;
-    int     Parent;
-    int     Name;
-    int     AccessFunction;
-    int     FieldDescriptor;
-    uint32  NumPayloadCasesAndPayloadSizeOffset;
-    uint32  NumEmptyCases;
-};
-
-struct StructDescriptor{
-    uint32 Flags;
-    int    Parent;
-    int    Name;
-    int    AccessFunction;
-    int    FieldDescriptor;
-    uint32 NumFields;
-    uint32 FieldOffsetVectorOffset;
-};
-
-struct ClassDescriptor{
-    uint32  Flags;
-    int     Parent;
-    int     Name;
-    int     AccessFunction;
-    int     FieldDescriptor;
-    int     SuperclassType;
-    uint32  MetadataNegativeSizeInWords;
-    uint32  MetadataPositiveSizeInWords;
-    uint32  NumImmediateMembers;
-    uint32  NumFields;
-};
-
 //__TEXT.__swift5_fieldmd
 struct FieldRecord{
     uint32  Flags;
-    int     MangledTypeName;
-    int     FieldName;
+    uint32  MangledTypeName;
+    uint32  FieldName;
 };
 
 struct FieldDescriptor{
@@ -197,77 +222,129 @@ struct FieldDescriptor{
     uint16       Kind;
     uint16       FieldRecordSize;
     uint32       NumFields;
-    FieldRecord* FieldRecords;
 };
 
-//__TEXT.__swift5_assocty
-struct AssociatedTypeRecord{
-    int     Name;
-    int     SubstitutedTypeName;
+struct SwiftType {
+    uint32_t Flag;
+    uint32_t Parent;
 };
 
-struct AssociatedTypeDescriptor{
-    int                    ConformingTypeName;
-    int                    ProtocolTypeName;
-    uint32                 NumAssociatedTypes;
-    uint32                 AssociatedTypeRecordSize;
-    AssociatedTypeRecord*  AssociatedTypeRecords;
+/**
+ 
+ ---------------------------------------------------------------------------------------------------------------------
+ |  ExtraDiscriminator(16bit)  |... | instanceMethod(1bit) | instanceMethod(1bit) | Kind(4bit) |
+ ---------------------------------------------------------------------------------------------------------------------
+ */
+struct SwiftMethod {
+    uint32_t Flag;
+    uint32_t Offset;
 };
 
-//__TEXT.__swift5_builtin
-struct BuiltinTypeDescriptor{
-    int                 TypeName;
-    uint32              Size;
-    uint32              AlignmentAndFlags;
-    uint32              Stride;
-    uint32              NumExtraInhabitants;
+//OverrideTable结构如下，紧随VTable后4字节为OverrideTable数量，再其后为此结构数组
+//struct SwiftOverrideMethod {
+//    struct SwiftClassType *OverrideClass;
+//    struct SwiftMethod *OverrideMethod;
+//    struct SwiftMethod *Method;
+//};
+struct SwiftOverrideMethod {
+    uint32_t OverrideClass;
+    uint32_t OverrideMethod;
+    uint32_t Method;
 };
 
-//__TEXT.__swift5_capture
-struct CaptureTypeRecord{
-    int     MangledTypeName;
+/**
+ ---------------------------------------------------------------------------------------------------------------------
+ |  TypeFlag(16bit)  |  version(8bit) | generic(1bit) | unique(1bit) | unknow (1bi) | Kind(5bit) |
+ ---------------------------------------------------------------------------------------------------------------------
+ */
+
+struct SwiftBaseType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
 };
 
-struct MetadataSourceRecord{
-    int     MangledTypeName;
-    int     MangledMetadataSource;
+/**
+ 由于flag的标记不同，结构也稍有变化，但是主要集中在以下三种类型
+ 1、SwiftClassType带有VTable的
+ 2、不带VTable的
+ 3、AddMetadataInitialization的
+ */
+struct SwiftClassType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    int32_t  SuperclassType;
+    uint32_t MetadataNegativeSizeInWords;
+    uint32_t MetadataPositiveSizeInWords;
+    uint32_t NumImmediateMembers;
+    uint32_t NumFields;
+    uint32_t Unknow1;
+    uint32_t Offset;
+    uint32_t NumMethods;
 };
 
-struct CaptureDescriptor{
-    uint32                NumCaptureTypes;
-    uint32                NumMetadataSources;
-    uint32                NumBindings;
-    CaptureTypeRecord*    CaptureTypeRecords;
-    MetadataSourceRecord* MetadataSourceRecords;
+struct SwiftClassTypeNoMethods {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    int32_t  SuperclassType;
+    uint32_t MetadataNegativeSizeInWords;
+    uint32_t MetadataPositiveSizeInWords;
+    uint32_t NumImmediateMembers;
+    uint32_t NumFields;
 };
 
-//__TEXT.__swift5_replace
-struct Replacement{
-    int     ReplacedFunctionKey;
-    int     NewFunction;
-    int     Replacement;
-    uint32  Flags;
+struct SwiftClassSinMetadataInit {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    int32_t  SuperclassType;
+    uint32_t MetadataNegativeSizeInWords;
+    uint32_t MetadataPositiveSizeInWords;
+    uint32_t NumImmediateMembers;
+    uint32_t NumFields;
+    uint32_t Unknow1;
+    uint32_t Offset;
+    uint32_t SinMetadataInitCache;
+    uint32_t MetadataOrRelocationFunction;
+    uint32_t CompletionFunction;
 };
 
-struct ReplacementScope{
-    uint32  Flags;
-    uint32  NumReplacements;
+
+struct SwiftStructType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    uint32   NumFields;
+    uint32   FieldOffsetVectorOffset;
 };
 
-struct AutomaticReplacements{
-    uint32  Flags;
-    uint32  NumReplacements;
-    int     Replacements;
+struct SwiftEnumType {
+    uint32_t Flag;
+    uint32_t Parent;
+    int32_t  Name;
+    int32_t  AccessFunction;
+    int32_t  FieldDescriptor;
+    uint32   NumPayloadCasesAndPayloadSizeOffset;
+    uint32   NumEmptyCases;
 };
 
-//__TEXT.__swift5_replac2
-struct Replacement2{
-    int     Original;
-    int     Replacement;
-};
-
-struct AutomaticReplacementsSome{
-    uint32       Flags;
-    uint32       NumReplacements;
-    Replacement* Replacements;
+struct SwiftProtocolType{
+    uint32_t Flags;
+    int32_t  Parent;
+    int32_t  Name;
+    uint32_t NumRequirementsInSignature;
+    uint32_t NumRequirements;
+    int32_t  AssociatedTypeNames;
 };
