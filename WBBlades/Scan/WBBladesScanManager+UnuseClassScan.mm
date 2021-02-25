@@ -66,7 +66,7 @@ static section_64 textList = {0};
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     
-    if (mhHeader.filetype != MH_EXECUTE) {
+    if (mhHeader.filetype != MH_EXECUTE && mhHeader.filetype != MH_DYLIB) {
         NSLog(@"参数异常，-unused 参数不是可执行文件");
         return nil;
     }
