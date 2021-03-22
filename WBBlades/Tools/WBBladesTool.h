@@ -75,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 * check swift  method Kind
 */
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method;
+
 /**
 * check swift  method Type
 */
@@ -138,6 +139,12 @@ NS_ASSUME_NONNULL_BEGIN
 *generic data length
 */
 + (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData;
+
+/**
+*get methodNum location
+*/
++ (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData;
+
 
 @end
 

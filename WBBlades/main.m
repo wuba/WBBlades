@@ -44,7 +44,7 @@ int main(int argc, const char *argv[]) {
         }else{
             NSLog(@"分析静态库的体积：WBBlades -size xxx.a xxx.framework ....");
             NSLog(@"分析无用类的体积：WBBlades -unused xxx.app -from xxx.a xxx.a ....(-from 标识只分析以下静态库中的无用类，不加此参数默认为APP中全部类)");
-            NSLog(@"日志符号化：WBBlades -symbol xxx.app -logPath 1234,5678,91011");
+            NSLog(@"日志符号化：WBBlades -symbol xxx.app -logPath xxx.ips");
         }
     }
 }

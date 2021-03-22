@@ -120,7 +120,7 @@ struct category64
 #define SPECIAL_NUM 0x5614542
 #define SPECIAL_SECTION_TYPE   0x3c
 
-#define CLASSNAME_MAX_LEN 50
+#define CLASSNAME_MAX_LEN 150
 #define METHODNAME_MAX_LEN 150
 
 #define BIND_OPCODE_MASK                    0xF0
@@ -272,21 +272,21 @@ struct SwiftBaseType {
  2、不带VTable的
  3、AddMetadataInitialization的
  */
-struct SwiftClassType {
-    uint32_t Flag;
-    uint32_t Parent;
-    int32_t  Name;
-    int32_t  AccessFunction;
-    int32_t  FieldDescriptor;
-    int32_t  SuperclassType;
-    uint32_t MetadataNegativeSizeInWords;
-    uint32_t MetadataPositiveSizeInWords;
-    uint32_t NumImmediateMembers;
-    uint32_t NumFields;
-    uint32_t Unknow1;
-    uint32_t Offset;
-    uint32_t NumMethods;
-};
+//struct SwiftClassType {
+//    uint32_t Flag;
+//    uint32_t Parent;
+//    int32_t  Name;
+//    int32_t  AccessFunction;
+//    int32_t  FieldDescriptor;
+//    int32_t  SuperclassType;
+//    uint32_t MetadataNegativeSizeInWords;
+//    uint32_t MetadataPositiveSizeInWords;
+//    uint32_t NumImmediateMembers;
+//    uint32_t NumFields;
+//    uint32_t FieldOffsetVectorOffset;
+//    uint32_t Offset;
+//    uint32_t NumMethods;
+//};
 
 struct SwiftClassTypeNoMethods {
     uint32_t Flag;
@@ -301,23 +301,23 @@ struct SwiftClassTypeNoMethods {
     uint32_t NumFields;
 };
 
-struct SwiftClassSinMetadataInit {
-    uint32_t Flag;
-    uint32_t Parent;
-    int32_t  Name;
-    int32_t  AccessFunction;
-    int32_t  FieldDescriptor;
-    int32_t  SuperclassType;
-    uint32_t MetadataNegativeSizeInWords;
-    uint32_t MetadataPositiveSizeInWords;
-    uint32_t NumImmediateMembers;
-    uint32_t NumFields;
-    uint32_t Unknow1;
-    uint32_t Offset;
-    uint32_t SinMetadataInitCache;
-    uint32_t MetadataOrRelocationFunction;
-    uint32_t CompletionFunction;
-};
+//struct SwiftClassSinMetadataInit {
+//    uint32_t Flag;
+//    uint32_t Parent;
+//    int32_t  Name;
+//    int32_t  AccessFunction;
+//    int32_t  FieldDescriptor;
+//    int32_t  SuperclassType;
+//    uint32_t MetadataNegativeSizeInWords;
+//    uint32_t MetadataPositiveSizeInWords;
+//    uint32_t NumImmediateMembers;
+//    uint32_t NumFields;
+//    uint32_t FieldOffsetVectorOffset;
+//    uint32_t Offset;
+//    uint32_t SinMetadataInitCache;
+//    uint32_t MetadataOrRelocationFunction;
+//    uint32_t CompletionFunction;
+//};
 
 
 struct SwiftStructType {

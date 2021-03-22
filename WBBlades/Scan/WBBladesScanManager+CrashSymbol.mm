@@ -299,13 +299,13 @@
        }
     }
     
-    //Scan Swift5Types
+//    Scan Swift5Types
     NSDictionary *swift5TypesRst = [self scanSwift5Types:swift5Types
                                                 fileData:fileData
                                             crashAddress:crashAddress];
     [crashSymbolRst addEntriesFromDictionary:swift5TypesRst];
     
-    //Scan Swift5Protos
+//    Scan Swift5Protos
     NSDictionary *swift5ProtosRst = [self scanSwift5Protos:swift5Protos
                                                   fileData:fileData
                                               crashAddress:crashAddress];
@@ -423,30 +423,30 @@
     } while (asmCode != RET);
     return NO;
 }
-
+//
 #pragma mark Swift5Types
 + (NSDictionary *)scanSwift5Types:(section_64)swift5Types fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
-    
+
     //Scan Swift5Types
     NSRange range = NSMakeRange(swift5Types.offset, 0);
     NSUInteger location = 0;
     uintptr_t linkBase = swift5Types.addr - swift5Types.offset;
     for (int i = 0; i < swift5Types.size / 4 ; i++) {
         uintptr_t offset = swift5Types.addr + location - linkBase;
-        
+
         range = NSMakeRange(offset, 0);
         uintptr_t content = 0;
         NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
         [data getBytes:&content range:NSMakeRange(0, 4)];
-        
+
         uintptr_t typeOffset = content + offset - linkBase;
-        
+
         SwiftType swiftType = {0};
         range = NSMakeRange(typeOffset, 0);
         data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
         [data getBytes:&swiftType range:NSMakeRange(0, sizeof(SwiftType))];
-    
+
         SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindClass) {
             NSDictionary *methodDic = [self scanSwiftClassMethodSymbol:typeOffset
@@ -469,7 +469,7 @@
                                                        fileData:fileData
                                                    crashAddress:crashAddress];
             [crashSymbolRst addEntriesFromDictionary:methodDic];
-            
+
         }
         location += sizeof(uint32_t);
     }
@@ -477,25 +477,26 @@
 }
 + (NSDictionary *)scanSwiftClassMethodSymbol:(uintptr_t)typeOffset swiftType:(SwiftType)swiftType vm:(uintptr_t)vm fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
-    
+
     NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset vm:vm fileData:fileData];
-    
-    SwiftClassType classType = {0};
+
+    SwiftClassTypeNoMethods classType = {0};
     NSRange range = NSMakeRange(typeOffset, 0);
-    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
-    [data getBytes:&classType length:sizeof(SwiftClassType)];
-    
+    NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassTypeNoMethods) fromFile:fileData];
+    [data getBytes:&classType length:sizeof(SwiftClassTypeNoMethods)];
+
     uintptr_t fieldOffset = typeOffset + 4*4 + classType.FieldDescriptor;
     FieldDescriptor fieldDes = {0};
     range = NSMakeRange(fieldOffset, 0);
     data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
     [data getBytes:&fieldDes length:sizeof(FieldDescriptor)];
-    
+
     NSInteger memCount = fieldDes.NumFields;//先获取属性有几个
     uintptr_t memberOffset = fieldOffset + 4*4;
-    
-    uintptr_t methodLocation = typeOffset + sizeof(SwiftClassType);
-    UInt32 methodNum = classType.NumMethods;
+
+    uintptr_t methodLocation = [WBBladesTool methodNumLocation:swiftType offset:typeOffset fileData:fileData];
+    UInt32 methodNum = 0;
+    [fileData getBytes:&methodNum range:NSMakeRange(methodLocation, 4)];
     NSMutableArray *methodArray = [NSMutableArray array];
     FieldRecord record = {0};
     NSInteger memSqu = 0;
@@ -506,8 +507,8 @@
             SwiftMethod method = {0};
             range = NSMakeRange(methodLocation, 0);
             data = [WBBladesTool readBytes:range length:sizeof(SwiftMethod) fromFile:fileData];
-            [data getBytes:&method length:sizeof(SwiftClassType)];
-            
+            [data getBytes:&method length:sizeof(SwiftMethod)];
+
             SwiftMethodKind methodKind = [WBBladesTool getSwiftMethodKind:method];
             if (methodKind == SwiftMethodKindGetter && memSqu < memCount) {
                 range = NSMakeRange(memberOffset + memSqu*sizeof(FieldRecord), 0);
@@ -515,11 +516,11 @@
                 [data getBytes:&record length:sizeof(FieldRecord)];
                 memSqu++;
             }
-            
+
             NSString *methodName = [self swiftClassMethod:method memberOffset:memberOffset member:record vm:vm squ:j memSqu:memSqu fileData:fileData];
             uintptr_t imp = methodLocation + 4 + method.Offset;
             NSLog(@"%@.%@",className,methodName);
-                
+
             [crashAddress enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                 unsigned long long crash = [(NSString *)obj longLongValue];
                 if ([self scanFuncBinaryCode:crash begin:imp vm:vm fileData:fileData]) {
@@ -533,7 +534,7 @@
             methodLocation += sizeof(SwiftMethod);
         }
     }
-    
+
     if((swiftType.Flag&0x40000000) == 0x40000000) {//有OverrideTable
         if ((swiftType.Flag&0x80000000) != 0x80000000) {//没有VTable
             methodLocation = typeOffset + sizeof(SwiftClassTypeNoMethods) + 4;
@@ -545,7 +546,7 @@
                                                                 crashAdderss:crashAddress];
         [crashSymbolRst addEntriesFromDictionary:overrideRst];
     }
-    
+
     return [crashSymbolRst copy];
 }
 
@@ -555,33 +556,33 @@
                                             fileData:(NSData*)fileData
                                         crashAdderss:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
-    
+
     UInt32 overrideNum = 0;
     NSRange range = NSMakeRange(methodLocation, 0);
     NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
     [data getBytes:&overrideNum length:sizeof(4)];
     methodLocation +=4;
-    
+
     for (NSInteger i = 0; i < overrideNum; i++) {
         SwiftOverrideMethod method = {0};
         range = NSMakeRange(methodLocation, 0);
         data = [WBBladesTool readBytes:range length:sizeof(SwiftOverrideMethod) fromFile:fileData];
         [data getBytes:&method length:sizeof(SwiftOverrideMethod)];
-        
+
         uintptr_t overrideMethodOffset = methodLocation + 4 + method.OverrideMethod - vm;
-        
+
         SwiftMethod overrideMethod = {0};
         range = NSMakeRange(overrideMethodOffset, 0);
         data = [WBBladesTool readBytes:range length:sizeof(SwiftMethod) fromFile:fileData];
         [data getBytes:&overrideMethod length:sizeof(SwiftMethod)];
 
         uintptr_t overrideClassOffset = methodLocation + method.OverrideClass - vm;
-            
+
         SwiftType classType = {0};
         range = NSMakeRange(overrideClassOffset, 0);
         data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
         [data getBytes:&classType length:sizeof(SwiftType)];
-        
+
         NSString *overrideClassName = [WBBladesTool getSwiftTypeNameWithSwiftType:classType Offset:overrideClassOffset  vm:vm fileData:fileData];
 
         NSString *methodName = [self swiftClassMethod:overrideMethod memberOffset:overrideMethodOffset member:{0} vm:vm squ:0 memSqu:0 fileData:fileData];
@@ -597,17 +598,17 @@
                 }
             }
         }];
-        
+
         methodLocation += sizeof(SwiftOverrideMethod);
     }
-    
+
     return [crashSymbolRst copy];
 }
 
 + (NSString *)swiftClassMethod:(SwiftMethod)method memberOffset:(uintptr_t)memberOffset member:(FieldRecord)member vm:(uintptr_t)vm squ:(NSInteger)squ memSqu:(NSInteger)memSqu fileData:(NSData *)fileData{
     SwiftMethodKind kind = [WBBladesTool getSwiftMethodKind:method];
     SwiftMethodType type = [WBBladesTool getSwiftMethodType:method];
-    
+
     NSString *methodName = @"";
     NSString *memName = @"";
     if (member.FieldName > 0 && (kind == SwiftMethodKindGetter || kind == SwiftMethodKindSetter || kind == SwiftMethodKindModify)) {
@@ -616,7 +617,7 @@
         [fileData getBytes:buffer range:NSMakeRange(memNameOffset, CLASSNAME_MAX_LEN)];
         memName = NSSTRING(buffer);
     }
-    
+
     switch (kind) {
         case SwiftMethodKindMethod:
             if (type == SwiftMethodTypeKind) {
@@ -647,20 +648,20 @@
 
 + (NSDictionary *)scanSwiftStructMethodSymbol:(uintptr_t)typeOffset swiftType:(SwiftType)swiftType vm:(uintptr_t)vm fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
-    
+
     NSString *structName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset vm:vm fileData:fileData];
-    
+
     SwiftStructType structType = {0};
     NSRange range = NSMakeRange(typeOffset, 0);
     NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
     [data getBytes:&structType length:sizeof(SwiftStructType)];
-    
+
     uintptr_t fieldOffset = typeOffset + 4*4 + structType.FieldDescriptor;
     FieldDescriptor field = {0};
     range = NSMakeRange(fieldOffset, 0);
     data = [WBBladesTool readBytes:range length:sizeof(FieldDescriptor) fromFile:fileData];
     [data getBytes:&field length:sizeof(FieldDescriptor)];
-    
+
     NSInteger memCount = field.NumFields;
     if (memCount > 0) {
         uintptr_t memberOffset = fieldOffset + 4*4 ;
@@ -669,9 +670,9 @@
             FieldRecord record = {0};
             data = [WBBladesTool readBytes:range length:sizeof(FieldRecord) fromFile:fileData];
             [data getBytes:&record length:sizeof(FieldRecord)];
-            
+
             uintptr_t fieldNameOffset = memberOffset + 4*2 + record.FieldName;
-            
+
             uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
             [fileData getBytes:buffer range:NSMakeRange(fieldNameOffset, CLASSNAME_MAX_LEN)];
             NSString *fieldName = NSSTRING(buffer);
@@ -689,60 +690,60 @@
 #pragma mark Swift5Protos
 + (NSDictionary *)scanSwift5Protos:(section_64)swift5Protos fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
-    
+
     //Scan Swift5Protos
     NSRange range = NSMakeRange(swift5Protos.offset, 0);
     NSUInteger location = 0;
     uintptr_t linkBase = swift5Protos.addr - swift5Protos.offset;
     for (int i = 0; i < swift5Protos.size / 4 ; i++) {
         uintptr_t offset = swift5Protos.addr + location - linkBase;
-        
+
         range = NSMakeRange(offset, 0);
         uintptr_t content = 0;
         NSData *data = [WBBladesTool readBytes:range length:4 fromFile:fileData];
         [data getBytes:&content range:NSMakeRange(0, 4)];
-        
+
         uintptr_t protosOffset = content + offset - linkBase;
-        
+
         SwiftType swiftType = {0};
         range = NSMakeRange(protosOffset, 0);
         data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
         [data getBytes:&swiftType range:NSMakeRange(0, sizeof(SwiftType))];
-        
+
         SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindProtocol) {
             NSString *protosName = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:protosOffset  vm:linkBase fileData:fileData];
             NSLog(@"Protocol %@",protosName);
-            
+
             NSInteger requirementsCount = 0;
             range = NSMakeRange(protosOffset + 4*4, 0);
             data = [WBBladesTool readBytes:range length:sizeof(4) fromFile:fileData];
             [data getBytes:&requirementsCount range:NSMakeRange(0, sizeof(4))];
-            
+
             if (requirementsCount > 0) {
                 NSLog(@"Protocol Requirements %lu",requirementsCount);
                 uintptr_t methodOffset = protosOffset + 4*6;
-                
+
                 for (NSInteger r = 0; r< requirementsCount; r++) {
                     SwiftMethod method = {0};
                     range = NSMakeRange(methodOffset + r*sizeof(SwiftMethod), 0);
                     data = [WBBladesTool readBytes:range length:sizeof(SwiftMethod) fromFile:fileData];
                     [data getBytes:&method range:NSMakeRange(0, sizeof(SwiftMethod))];
-                    
+
                     NSString *methodName = [self swiftProtocolMethod:method methodOffset:methodOffset fileData:fileData];
                     NSLog(@"%@",methodName);
                 }
             }
         }
     }
-    
+
     return crashSymbolRst.copy;
 }
 
 + (NSString *)swiftProtocolMethod:(SwiftMethod)method methodOffset:(uintptr_t)methodOffset fileData:(NSData *)fileData{
     SwiftProtocolTableKind kind = [WBBladesTool getSwiftProtocolTableKind:method];
     SwiftProtocolTableType type = [WBBladesTool getSwiftProtocolTableType:method];
-    
+
     NSString *methodName = @"";
     switch (kind) {
         case SwiftProtocolTableKindBaseProtocol:

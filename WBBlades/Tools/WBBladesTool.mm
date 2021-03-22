@@ -456,6 +456,11 @@
     return NO;
 }
 
++ (BOOL)hasResilientSuperclass:(SwiftType)type{
+    if ((type.Flag & 0x20000000) == 0x20000000) {return YES;}
+    return NO;
+}
+
 + (SwiftMethodKind)getSwiftMethodKind:(SwiftMethod)method{
     SwiftMethodKind kind = (SwiftMethodKind)(method.Flag&SwiftMethodTypeKind);
     return kind;
@@ -479,10 +484,10 @@
     uintptr_t typeNameOffset = 0;
     uintptr_t typeParent = 0;
     if (kindType == SwiftKindClass) {
-        SwiftClassType classType = {0};
+        SwiftClassTypeNoMethods classType = {0};
         NSRange range = NSMakeRange(offset, 0);
-        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
-        [data getBytes:&classType length:sizeof(SwiftClassType)];
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassTypeNoMethods) fromFile:fileData];
+        [data getBytes:&classType length:sizeof(SwiftClassTypeNoMethods)];
         
         typeNameOffset = classType.Name;
         typeParent = offset + 4 + classType.Parent;
@@ -629,7 +634,30 @@
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
     
-    return (1 * 4 + 4 + 4 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+    /**
+        
+     16B  =  4B + 4B + 2B + 2B + 2B + 2B
+     addMetadataInstantiationCache -> 4B
+     addMetadataInstantiationPattern -> 4B
+     GenericParamCount -> 2B
+     GenericRequirementCount -> 2B
+     GenericKeyArgumentCount -> 2B
+     GenericExtraArgumentCount -> 2B
+        
+     */
+    return (16 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+}
+
++ (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData{
+    //遍历Vtable和overrideTable
+    BOOL hasVtable = [self hasVTable:baseType];
+    BOOL hasOverrideTable = [self hasOverrideTable:baseType];
+    BOOL hasSingletonMetadataInitialization = [self hasSingletonMetadataInitialization:baseType];
+    BOOL hasResilientSuperclass = [self hasResilientSuperclass:baseType];
+    short genericSize = [self addPlaceholderWithGeneric:typeOffset fileData:fileData];
+    if (!hasVtable && !hasOverrideTable ) {return typeOffset + sizeof(SwiftClassTypeNoMethods);}
+    uintptr_t typeLocation = typeOffset + sizeof(struct SwiftClassTypeNoMethods) + genericSize + (hasResilientSuperclass?4:0)+ (hasSingletonMetadataInitialization?12:0) + (hasVtable?4:0);
+    return typeLocation;
 }
 
 @end

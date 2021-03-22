@@ -25,6 +25,7 @@
 
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
+static NSArray *symbols;
 
 //dump binary file's classes
 + (NSSet *)dumpClassList:(NSData *)fileData {
@@ -593,6 +594,7 @@ static section_64 textList = {0};
 #pragma mark Swift
 + (NSArray *)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
 
+    symbols = [self getSortedSymbolList:fileData];
     //计算vm
     unsigned long long vm = swift5Types.addr - swift5Types.offset;
     NSUInteger textTypesSize = swift5Types.size;
@@ -796,24 +798,27 @@ static section_64 textList = {0};
     NSDictionary *cacheMetaDic = [self readSwiftCacheMetadata:fileData];
     
     //查找access调用
-    [accessFcunDic enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        NSString *name = key;
-        unsigned long long accessFunc = [obj unsignedLongLongValue];
-        unsigned long long cache = [cacheMetaDic[name] unsignedLongLongValue];
-        if (cache > 0) {
-            accessFunc = cache;
+    
+    NSArray *allKeys = accessFcunDic.allKeys;
+    dispatch_apply(allKeys.count, dispatch_get_global_queue(0, 0), ^(size_t index) {
+        @autoreleasepool {
+            NSString *name = allKeys[index];
+            unsigned long long accessFunc = [accessFcunDic[name] unsignedLongLongValue];
+            unsigned long long cache = [cacheMetaDic[name] unsignedLongLongValue];
+            if (cache > 0) {
+                accessFunc = cache;
+            }
+            accessFunc = accessFunc > vm ? accessFunc - vm : accessFunc;
+            if ([self findCallAccessFunc:name accessFunc:accessFunc fileData:fileData]) {
+                [swiftUsedTypeSet addObject:name];
+            }
         }
-        accessFunc = accessFunc > vm ? accessFunc - vm : accessFunc;
-        if ([self findCallAccessFunc:name accessFunc:accessFunc fileData:fileData]) {
-            [swiftUsedTypeSet addObject:name];
-        }
-    }];
+    });
     return genericTypes.copy;
 }
 
 + (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc  fileData:(NSData *)fileData {
-    NSArray *symbols = [self getSortedSymbolList:fileData];
-    
+        
     NSString *demangleName = [WBBladesTool getDemangleName:typeName];
     
     //target address
@@ -827,9 +832,13 @@ static section_64 textList = {0};
     
     for (int i = 0; i < symbols.count; i++) {
         WBBladesSymbolRange *symRanObj = (WBBladesSymbolRange*)symbols[i];
+        if (symRanObj.symbol.length == 0 ) {
+            continue;
+        }
         if ([symRanObj.symbol hasPrefix:typeName] || [symRanObj.symbol hasPrefix:demangleName]) {
             continue;
         }
+    
         BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:symRanObj.begin end:symRanObj.end];
         if (find) return YES;
     }
@@ -904,55 +913,64 @@ static section_64 textList = {0};
     ptrdiff_t symbolOffset = symCmd.symbolOff;
     NSMutableDictionary *dic = @{}.mutableCopy;
     for (int i=0; i < symCmd.symbolNum ; i++) {
-        nlist_64 nlist;
-        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
-        char *p = (char *)fileData.bytes;
-        p = p + off;
-        memcpy(&nlist, p, sizeof(nlist_64));
-        if (nlist.n_sect == 1) {//这里判断不是很合理，暂时先处理
-            
-            char buffer[201];
-            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
-            char * p = (char *)fileData.bytes;
-            p = p+off;
-            memcpy(&buffer, p, 200);
-            NSString *symbol = [NSString stringWithFormat:@"%s",buffer];
-            if ([symbol isEqualToString:@"__mh_execute_header"]) {
-                continue;
+        @autoreleasepool {
+            nlist_64 nlist;
+            ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
+            char *p = (char *)fileData.bytes;
+            p = p + off;
+            memcpy(&nlist, p, sizeof(nlist_64));
+            if (nlist.n_sect == 1) {//这里判断不是很合理，暂时先处理
+                
+                char buffer[201];
+                ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
+                char * p = (char *)fileData.bytes;
+                p = p+off;
+                memcpy(&buffer, p, 200);
+                NSString *symbol = [NSString stringWithFormat:@"%s",buffer];
+                if ([symbol isEqualToString:@"__mh_execute_header"]) {
+                    continue;
+                }
+                if ([symbol hasPrefix:@"-"] || [symbol hasPrefix:@"+"]) {
+                    continue;
+                }
+                unsigned long long offset = nlist.n_value;
+                [dic setObject:@(offset) forKey:symbol];
             }
-            unsigned long long offset = nlist.n_value;
-            [dic setObject:@(offset) forKey:symbol];
         }
     }
     NSArray *offsets = [dic keysSortedByValueUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        NSNumber *number1 = (NSNumber *)obj1;
-        NSNumber *number2 = (NSNumber *)obj2;
+        @autoreleasepool {
+            NSNumber *number1 = (NSNumber *)obj1;
+            NSNumber *number2 = (NSNumber *)obj2;
 
-        if ([number1 unsignedLongLongValue] > [number2 unsignedLongLongValue]) {
-            return NSOrderedDescending;
-        }else{
-            return NSOrderedAscending;
+            if ([number1 unsignedLongLongValue] > [number2 unsignedLongLongValue]) {
+                return NSOrderedDescending;
+            }else{
+                return NSOrderedAscending;
+            }
         }
     }];
     NSMutableArray *allSymbols = [NSMutableArray array];
     [offsets enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        WBBladesSymbolRange *symRanObj = [WBBladesSymbolRange new];
-        unsigned long long begin = [[dic objectForKey:obj] unsignedLongLongValue];
-        if (begin > 0) {
-            NSString *symbol = [WBBladesTool getDemangleName:obj];
-            if (symbol.length > 0) {
-                symRanObj.symbol = symbol;
-            }else{
-                symRanObj.symbol = obj;
+        @autoreleasepool {
+            WBBladesSymbolRange *symRanObj = [WBBladesSymbolRange new];
+            unsigned long long begin = [[dic objectForKey:obj] unsignedLongLongValue];
+            if (begin > 0) {
+                NSString *symbol = [WBBladesTool getDemangleName:obj];
+                if (symbol.length > 0) {
+                    symRanObj.symbol = symbol;
+                }else{
+                    symRanObj.symbol = obj;
+                }
+                symRanObj.begin = begin;
+                if (idx < offsets.count - 1) {
+                    symRanObj.end = [[dic objectForKey:offsets[idx + 1]] unsignedLongLongValue];
+                }else{
+                    symRanObj.end = 0;
+                }
+                [allSymbols addObject:symRanObj];
             }
-            symRanObj.begin = begin;
-            if (idx < offsets.count - 1) {
-                symRanObj.end = [[dic objectForKey:offsets[idx + 1]] unsignedLongLongValue];
-            }else{
-                symRanObj.end = 0;
-            }
-            [allSymbols addObject:symRanObj];
         }
     }];
     return allSymbols.copy;
