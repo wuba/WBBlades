@@ -666,15 +666,16 @@ static NSArray *symbols;
         unsigned long long fieldDescriptorOffset = 0;
       
         fieldDescriptorOffset = swiftType.FieldDescriptor;
+        if (fieldDescriptorOffset == 0) {continue;}
         unsigned long long fieldDescriptorAddress = fieldDescriptorOffset + typeOffset + 4 * 4;
         [fileData getBytes:&fieldDescriptor range:NSMakeRange(fieldDescriptorAddress, sizeof(FieldDescriptor))];
         
         unsigned long long  fieldRecordAddress =  fieldDescriptorAddress + sizeof(FieldDescriptor);
-        for (int i = 0; i < fieldDescriptor.NumFields; i++) {
+        for (int j = 0; j < fieldDescriptor.NumFields; j++) {
             
             BOOL isGenericFiled = NO;
             
-            fieldRecordAddress = fieldRecordAddress + i * sizeof(FieldRecord);
+            fieldRecordAddress = fieldRecordAddress + j * sizeof(FieldRecord);
 
 //          https://github.com/apple/swift/blob/253099a1ce43ee8d819e99089b6445137a60ef42/lib/Demangling/Demangler.cpp
             FieldRecord record = {0};
