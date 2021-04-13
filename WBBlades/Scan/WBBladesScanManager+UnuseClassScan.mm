@@ -652,6 +652,9 @@ static NSArray *symbols;
             parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
             if (parentOffset > vm) parentOffset = parentOffset - vm;
         }
+        if ([name containsString:@"TableViewArrayDataSource"]) {
+            NSLog(@"ok");
+        }
 
         UInt32 accessFuncContent;
         range = NSMakeRange(typeOffset + 3 * 4, sizeof(UInt32));
@@ -668,7 +671,116 @@ static NSArray *symbols;
         fieldDescriptorOffset = swiftType.FieldDescriptor;
         if (fieldDescriptorOffset == 0) {continue;}
         unsigned long long fieldDescriptorAddress = fieldDescriptorOffset + typeOffset + 4 * 4;
+        if (fieldDescriptorAddress > vm) fieldDescriptorAddress = fieldDescriptorAddress - vm;
         [fileData getBytes:&fieldDescriptor range:NSMakeRange(fieldDescriptorAddress, sizeof(FieldDescriptor))];
+        
+        if (fieldDescriptor.Superclass != 0) {
+            unsigned long long superclassOff = fieldDescriptorAddress + 4 * 1 + fieldDescriptor.Superclass;
+            if (superclassOff > vm) superclassOff = superclassOff - vm;
+            char firstChar;
+            [fileData getBytes:&firstChar range:NSMakeRange(superclassOff,1)];
+
+            switch (firstChar) {
+                case 0x01:
+                {
+                    UInt32 content = 0;
+                    [fileData getBytes:&content range:NSMakeRange(superclassOff + 1,4)];
+                    
+                    SwiftBaseType typeContext;
+                    unsigned long long contextOffset = superclassOff + 1 + content - vm;
+                    [fileData getBytes:&typeContext range:NSMakeRange(contextOffset,sizeof(SwiftBaseType))];
+                    
+                    unsigned long long nameOffset = contextOffset + 2 * 4 + typeContext.Name;
+                    NSRange range = NSMakeRange(nameOffset, 0);
+                    NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                    
+                    unsigned long long parentOffset = contextOffset + 1 * 4 + typeContext.Parent;
+                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    
+                    SwiftKind kind = SwiftKindUnknown;
+                    while (kind != SwiftKindModule) {
+                        
+                        SwiftType type;
+                        [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
+                        kind = [WBBladesTool getSwiftType:type];
+                        
+                        UInt32 parentNameContent;
+                        [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        range = NSMakeRange(parentNameOffset, 0);
+                        
+                        NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
+                        UInt32 parentOffsetContent;
+                        [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
+                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
+                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    }
+                    [swiftUsedTypeSet addObject:mangleTypeName];
+                }
+                    break;
+                case 0x02:
+                {
+                    UInt32 content = 0;
+                    [fileData getBytes:&content range:NSMakeRange(superclassOff + 1,4)];
+                    
+                    SwiftBaseType typeContext;
+                    unsigned long long indirectContextOffset = superclassOff + 1 + content;
+                    unsigned long long contextAddress = 0;
+                    [fileData getBytes:&contextAddress range:NSMakeRange(indirectContextOffset , 8)];
+                    
+                    if (contextAddress == 0)continue;
+                    
+                    contextAddress = contextAddress - vm;
+                    [fileData getBytes:&typeContext range:NSMakeRange(contextAddress,sizeof(SwiftBaseType))];
+                                        
+                    unsigned long long nameOffset = contextAddress + 2 * 4 + typeContext.Name;
+                    NSRange range = NSMakeRange(nameOffset, 0);
+                    NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                    unsigned long long parentOffset = contextAddress + 1 * 4 + typeContext.Parent;
+                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                
+                    SwiftKind kind = SwiftKindUnknown;
+                    while (kind != SwiftKindModule) {
+                        
+                        SwiftType type;
+                        [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
+                        kind = [WBBladesTool getSwiftType:type];
+                        
+                        UInt32 parentNameContent;
+                        [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
+                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        range = NSMakeRange(parentNameOffset, 0);
+                        
+                        NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
+                        UInt32 parentOffsetContent;
+                        [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
+                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
+                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    }
+                    [swiftUsedTypeSet addObject:mangleTypeName];
+                }
+                    break;
+                default:
+                {
+                    NSRange range = NSMakeRange(superclassOff, 0);
+                    NSString *superName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                    [swiftUsedTypeSet addObject:superName];
+                    if (superName.length <= 13 && superName.length >= 5) {
+                        superName = [superName substringWithRange:NSMakeRange(3,superName.length - 4)];
+                    }else if (superName.length <= 104 && superName.length >= 15){
+                        superName = [superName substringWithRange:NSMakeRange(4,superName.length - 5)];
+                    }
+                    
+                }
+                    break;
+            }
+        }
         
         unsigned long long  fieldRecordAddress =  fieldDescriptorAddress + sizeof(FieldDescriptor);
         for (int j = 0; j < fieldDescriptor.NumFields; j++) {
@@ -746,12 +858,12 @@ static NSArray *symbols;
                     unsigned long long contextAddress = 0;
                     [fileData getBytes:&contextAddress range:NSMakeRange(indirectContextOffset , 8)];
                     
-                    isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
-                    
                     if (contextAddress == 0)continue;
                     
                     contextAddress = contextAddress - vm;
                     [fileData getBytes:&typeContext range:NSMakeRange(contextAddress,sizeof(SwiftBaseType))];
+                    
+                    isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
                     
                     unsigned long long nameOffset = contextAddress + 2 * 4 + typeContext.Name;
                     NSRange range = NSMakeRange(nameOffset, 0);
