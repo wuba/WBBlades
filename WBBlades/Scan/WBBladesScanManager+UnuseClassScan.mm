@@ -7,6 +7,7 @@
 //
 
 #import "WBBladesScanManager+UnuseClassScan.h"
+
 #import <mach-o/nlist.h>
 #import <mach/mach.h>
 #import <mach/mach_vm.h>
@@ -20,6 +21,9 @@
 #import "WBBladesObjectHeader.h"
 #import "WBBladesDefines.h"
 #import "capstone.h"
+#import "WBBladesCMD.h"
+#import "libdwarf.h"
+#import "dwarf.h"
 
 @implementation WBBladesScanManager (UnuseClassScan)
 
@@ -60,6 +64,8 @@ static NSArray *symbols;
 #pragma mark Scan
 //scan specified file to find unused classes
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
+//    [self readDwarf];
+//    return nil;
     if (aimClasses.count != 0) {
         NSLog(@"在给定的%ld个类中搜索",aimClasses.count);
     }
@@ -611,6 +617,10 @@ static NSArray *symbols;
         [fileData getBytes:&content range:range];
         unsigned long long typeOffset = content + offset - vm;
 
+        SwiftType type = {0};
+        range = NSMakeRange(typeOffset, sizeof(SwiftType));
+        [fileData getBytes:&type range:range];
+        
         SwiftBaseType swiftType = {0};
         range = NSMakeRange(typeOffset, sizeof(SwiftBaseType));
         [fileData getBytes:&swiftType range:range];
@@ -634,7 +644,14 @@ static NSArray *symbols;
             SwiftType type;
             [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
             kind = [WBBladesTool getSwiftType:type];
-            
+            if (kind == SwiftKindUnknown) {
+//                类似这样的代码（Type的Parent可能不属于Type）
+//                func extensions(of value: Any) {
+//                    struct Extensions : AnyExtensions {}
+//                    return
+//                }
+                break;
+            }
             isGenericType = isGenericType | [WBBladesTool isGeneric:type];
 
             UInt32 parentNameContent;
@@ -652,9 +669,7 @@ static NSArray *symbols;
             parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
             if (parentOffset > vm) parentOffset = parentOffset - vm;
         }
-        if ([name containsString:@"TableViewArrayDataSource"]) {
-            NSLog(@"ok");
-        }
+    
 
         UInt32 accessFuncContent;
         range = NSMakeRange(typeOffset + 3 * 4, sizeof(UInt32));
@@ -703,7 +718,9 @@ static NSArray *symbols;
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
                         kind = [WBBladesTool getSwiftType:type];
-                        
+                        if (kind == SwiftKindUnknown) {
+                            break;
+                        }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
                         unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
@@ -748,7 +765,9 @@ static NSArray *symbols;
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
                         kind = [WBBladesTool getSwiftType:type];
-                        
+                        if (kind == SwiftKindUnknown) {
+                            break;
+                        }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
                         unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
@@ -770,13 +789,12 @@ static NSArray *symbols;
                 {
                     NSRange range = NSMakeRange(superclassOff, 0);
                     NSString *superName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    [swiftUsedTypeSet addObject:superName];
                     if (superName.length <= 13 && superName.length >= 5) {
                         superName = [superName substringWithRange:NSMakeRange(3,superName.length - 4)];
                     }else if (superName.length <= 104 && superName.length >= 15){
                         superName = [superName substringWithRange:NSMakeRange(4,superName.length - 5)];
                     }
-                    
+                    [swiftUsedTypeSet addObject:superName];
                 }
                     break;
             }
@@ -827,7 +845,9 @@ static NSArray *symbols;
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
                         kind = [WBBladesTool getSwiftType:type];
-                        
+                        if (kind == SwiftKindUnknown) {
+                            break;
+                        }
                         isGenericFiled = isGenericFiled | [WBBladesTool isGeneric:type];
 
                         UInt32 parentNameContent;
@@ -877,7 +897,9 @@ static NSArray *symbols;
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
                         kind = [WBBladesTool getSwiftType:type];
-                        
+                        if (kind == SwiftKindUnknown) {
+                            break;
+                        }
                         isGenericFiled = isGenericFiled | [WBBladesTool isGeneric:type];
 
                         UInt32 parentNameContent;
@@ -931,7 +953,6 @@ static NSArray *symbols;
 }
 
 + (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc  fileData:(NSData *)fileData {
-        
     NSString *demangleName = [WBBladesTool getDemangleName:typeName];
     
     //target address
@@ -951,7 +972,7 @@ static NSArray *symbols;
         if ([symRanObj.symbol hasPrefix:typeName] || [symRanObj.symbol hasPrefix:demangleName]) {
             continue;
         }
-    
+        
         BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:symRanObj.begin end:symRanObj.end];
         if (find) return YES;
     }
@@ -1082,11 +1103,19 @@ static NSArray *symbols;
                 }else{
                     symRanObj.end = 0;
                 }
+                [self trimSwiftSymbol:symRanObj];
                 [allSymbols addObject:symRanObj];
             }
         }
     }];
     return allSymbols.copy;
+}
+
++ (void)trimSwiftSymbol:(WBBladesSymbolRange *)symRanObj{
+    NSString *tripStr = @"static ";
+    if ([symRanObj.symbol hasPrefix:tripStr]) {
+        symRanObj.symbol = [symRanObj.symbol substringFromIndex:tripStr.length];
+    }
 }
 
 //
@@ -1261,6 +1290,285 @@ static NSArray *symbols;
         free(cmd);
     }
     return nil;
+}
+
+
+#pragma mark dwarf
+struct SrcFilesData {
+    char ** srcfiles;
+    Dwarf_Signed srcfilescount;
+    int srcfilesres;
+};
+struct DebugInfo {
+    Dwarf_Unsigned begin;
+    Dwarf_Unsigned end;
+    char *file;
+    char *symbol;
+    Dwarf_Unsigned linenum;
+};
+static struct DebugInfo* debugInfos;
+static Dwarf_Signed debugCount = 0;
+
++ (void)readDwarf{
+    NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
+    NSString *dwarfPath = getDWARF(appPath);
+    
+    Dwarf_Debug dbg = [self getDebug:dwarfPath];
+    [self readCUList:dbg];
+}
+
+//基于libdwarf simplereader.c做的修改
++ (void)readCUList:(Dwarf_Debug)dbg{
+    
+    while (YES) {
+        Dwarf_Unsigned headerLength;/*cu_header_length*/
+        Dwarf_Half versionStamp;     /*version_stamp*/
+        Dwarf_Off abbrevOffset;      /*abbrev_offset*/
+        Dwarf_Half addressSize;     /*address_size*/
+        Dwarf_Half lengthSize;     /*length_size*/
+        Dwarf_Half extensionSize;     /*extension_size*/
+        Dwarf_Sig8 signature;    /*type signature*/
+        Dwarf_Unsigned typeoffset; /*typeoffset*/
+        Dwarf_Unsigned nextHeaderOff; /*next_cu_header_offset*/
+        Dwarf_Half cuType; /*header_cu_type*/
+        Dwarf_Error error;    /*error*/
+        int res = DW_DLV_ERROR;
+        
+        struct SrcFilesData sf;
+        sf.srcfilesres = DW_DLV_ERROR;
+        sf.srcfiles = 0;
+        sf.srcfilescount = 0;
+        memset(&signature,0, sizeof(signature));
+        
+        //True means look in debug_Info;false use debug_types
+        res = dwarf_next_cu_header_d(dbg,TRUE,&headerLength,&versionStamp,&abbrevOffset,&addressSize,&lengthSize,&extensionSize,&signature,&typeoffset,&nextHeaderOff,&cuType,&error);
+        if (res == DW_DLV_NO_ENTRY) {
+            break;
+        }
+        Dwarf_Die noDie = 0;
+        Dwarf_Die cuDie = 0;
+        
+        res = dwarf_siblingof_b(dbg,noDie,TRUE,&cuDie,&error);
+        [self getDieAndSiblings:dbg die:cuDie sourceFiles:&sf];
+        
+        dwarf_dealloc(dbg,cuDie,DW_DLA_DIE);
+    }
+}
+
++ (void)getDieAndSiblings:(Dwarf_Debug)dbg die:(Dwarf_Die)inDie sourceFiles: (struct SrcFilesData *)sf{
+    int res = DW_DLV_ERROR;
+    Dwarf_Die curDie = inDie;
+    Dwarf_Die child = 0;
+    Dwarf_Error error = 0;
+
+    for(;;) {
+        Dwarf_Die sibDie = 0;
+        res = dwarf_child(curDie,&child,&error);
+        if (res == DW_DLV_OK) {
+            [self getDieAndSiblings:dbg die:child sourceFiles:sf];
+            dwarf_dealloc(dbg, child, DW_DLA_DIE);
+            child = 0;
+        }
+        res = dwarf_siblingof_b(dbg,curDie,TRUE,&sibDie,&error);
+        if(res == DW_DLV_NO_ENTRY) {
+            /* Done at this level. */
+            break;
+        }
+        if(curDie != inDie) {
+            dwarf_dealloc(dbg,curDie,DW_DLA_DIE);
+            curDie = 0;
+        }
+        curDie = sibDie;
+        [self printDieData:dbg die:curDie sourceFiles:sf];
+    }
+}
+
+static NSString *typeNameInDbg;
++ (void)printDieData:(Dwarf_Debug)dbg die:(Dwarf_Die)die sourceFiles:(struct SrcFilesData *)sf{
+    Dwarf_Half tag = 0;
+    Dwarf_Error error = 0;
+    int res = 0;
+
+    res = dwarf_tag(die,&tag,&error);
+    if(tag == DW_TAG_compile_unit) {
+//        free(debugInfos);
+//        debugCount = 0;
+//
+//        Dwarf_Error error = 0;
+//        Dwarf_Line *lines = NULL;
+//        int res = dwarf_srclines(die, &lines, &debugCount, &error);
+//        debugInfos = (struct DebugInfo*)malloc(debugCount * sizeof(struct DebugInfo));
+//
+//        for (int i = 0 ; i < debugCount; i++) {
+//            Dwarf_Line line = lines[i];
+//            char *filepath = 0;
+//            Dwarf_Addr address = 0;
+//            Dwarf_Unsigned lineno = 0;
+//            res = dwarf_linesrc(line, &filepath, &error);
+//            res = dwarf_lineno(line, &lineno, &error);
+//            res = dwarf_lineaddr(line, &address, &error);
+//            debugInfos[i].begin = address;
+//            debugInfos[i].linenum = lineno;
+//            debugInfos[i].file = (char*)[[[NSString stringWithFormat:@"%s",filepath] lastPathComponent] UTF8String];
+//        }
+    }else if (tag == DW_TAG_subprogram) {
+//        [self printSubprog:dbg die:die sourceFiles:sf];
+    }else if (tag == DW_TAG_structure_type){
+        [self printStructureType:dbg die:die sourceFiles:sf];
+    }else if (tag == DW_TAG_variable || tag == DW_TAG_formal_parameter){
+        
+    }
+//    resetsrcfiles(dbg,sf);
+}
+
++ (void)printParameterAndVariable:(Dwarf_Debug)dbg die:(Dwarf_Die)die sourceFiles:(struct SrcFilesData *)sf{
+    int res;
+    Dwarf_Die child = 0;
+    Dwarf_Error error = 0;
+
+    res = dwarf_child(die, &child, &error);
+    if (res != DW_DLV_OK) {
+        return;
+    }
+    Dwarf_Attribute *attrbuf = 0;
+    Dwarf_Signed attrcount = 0;
+    res = dwarf_attrlist(die,&attrbuf,&attrcount,&error);
+    if(res != DW_DLV_OK) {
+        return;
+    }
+    for(int i = 0; i < attrcount ; ++i) {
+        Dwarf_Half aform;
+        res = dwarf_whatattr(attrbuf[i],&aform,&error);
+        if(res == DW_DLV_OK) {
+            if(aform == DW_AT_name) {
+                
+            }
+        }
+    }
+}
+
++ (void)printStructureType:(Dwarf_Debug)dbg die:(Dwarf_Die)die sourceFiles:(struct SrcFilesData *)sf{
+    int res;
+    Dwarf_Die child = 0;
+    Dwarf_Error error = 0;
+
+    res = dwarf_child(die, &child, &error);
+    if (res != DW_DLV_OK) {
+        return;
+    }
+    Dwarf_Attribute *attrbuf = 0;
+    Dwarf_Signed attrcount = 0;
+    res = dwarf_attrlist(die,&attrbuf,&attrcount,&error);
+    if(res != DW_DLV_OK) {
+        return;
+    }
+    for(int i = 0; i < attrcount ; ++i) {
+        Dwarf_Half aform;
+        res = dwarf_whatattr(attrbuf[i],&aform,&error);
+        if(res == DW_DLV_OK) {
+            if(aform == DW_AT_name) {//这里不用linkage_name 是由于ATname不需要做转换成本低且不同Module重名概率也不是很高
+               typeNameInDbg = [self getString:attrbuf[i]];
+                break;
+            }
+        }
+    }
+}
+
++ (void)printSubprog:(Dwarf_Debug)dbg die:(Dwarf_Die)die sourceFiles:(struct SrcFilesData *)sf{
+    int res;
+    Dwarf_Error error = 0;
+    Dwarf_Attribute *attrbuf = 0;
+    Dwarf_Signed attrcount = 0;
+    Dwarf_Unsigned filenum = 0;
+
+    char *filename = 0;
+    
+    res = dwarf_attrlist(die,&attrbuf,&attrcount,&error);
+    if(res != DW_DLV_OK) {
+        return;
+    }
+    for(int i = 0; i < attrcount ; ++i) {
+        Dwarf_Half aform;
+        res = dwarf_whatattr(attrbuf[i],&aform,&error);
+        if(res == DW_DLV_OK) {
+            if(aform == DW_AT_call_file || aform == DW_AT_decl_file) {
+                Dwarf_Signed filenum_s = 0;
+                
+                filenum = [self getNumber:attrbuf[i]];
+                filenum_s = filenum;
+                /*  Would be good to evaluate filenum_s
+                 sanity here, ensuring filenum_s-1 is sensible. */
+                if((filenum > 0) && (sf->srcfilescount > (filenum_s-1))) {
+                    filename = sf->srcfiles[filenum_s-1];
+                }
+            }
+        }
+        dwarf_dealloc(dbg,attrbuf[i],DW_DLA_ATTR);
+    }
+}
+
++ (Dwarf_Unsigned)getNumber:(Dwarf_Attribute)attr{
+    Dwarf_Error error = 0;
+    int res;
+    Dwarf_Signed sval = 0;
+    Dwarf_Unsigned uval = 0;
+    Dwarf_Error *errp  = 0;
+    errp = &error;
+    res = dwarf_formudata(attr,&uval,errp);
+    if(res == DW_DLV_OK) {
+        return uval;
+    }
+    res = dwarf_formsdata(attr,&sval,errp);
+    if(res == DW_DLV_OK) {
+        return sval;
+    }
+    return 0;
+}
++ (NSString*)getString:(Dwarf_Attribute)attr{
+    Dwarf_Error error = 0;
+    int res;
+    Dwarf_Error *errp  = 0;
+    errp = &error;
+    char *stringval = 0;
+    res = dwarf_formstring(attr, &stringval, errp);
+    if(res != DW_DLV_OK) {
+        printf("Error !\n");
+        return @"";
+    }
+    return [NSString stringWithFormat:@"%s",stringval];
+}
+
+//static void resetsrcfiles(Dwarf_Debug dbg,struct srcfilesdata *sf){
+//    Dwarf_Signed sri = 0;
+//    if (sf->srcfiles) {
+//        for (sri = 0; sri < sf->srcfilescount; ++sri) {
+//            dwarf_dealloc(dbg, sf->srcfiles[sri],
+//                          DW_DLA_STRING);
+//        }
+//        dwarf_dealloc(dbg, sf->srcfiles, DW_DLA_LIST);
+//    }
+//    sf->srcfilesres = DW_DLV_ERROR;
+//    sf->srcfiles = 0;
+//    sf->srcfilescount = 0;
+//}
+
++ (Dwarf_Debug)getDebug:(NSString *)filepath{
+    Dwarf_Debug dbg = 0;
+    char realPath[MACHO_PATH_LEN];
+    realPath[0] = 0;
+    int res = DW_DLV_ERROR;
+    
+    res = dwarf_init_path(filepath.UTF8String,
+                          realPath,
+                          MACHO_PATH_LEN,
+                          DW_DLC_READ,
+                          DW_GROUPNUMBER_ANY,NULL,NULL,&dbg,
+                          0,0,0,NULL);
+    if(res != DW_DLV_OK) {
+        dbg = 0;
+    }
+
+    return dbg;
 }
 
 @end
