@@ -28,6 +28,7 @@
 		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
 		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
 		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
+		3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3749FF6426359D3800E90888 /* libswiftDemangle.tbd */; };
 		37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.mm */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
@@ -105,6 +106,7 @@
 		3733D82C22B4BB15002062FE /* WBBladesObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObject.m; sourceTree = "<group>"; };
 		3733D83122B4ED82002062FE /* WBBladesLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesLinkManager.h; sourceTree = "<group>"; };
 		3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesLinkManager.mm; sourceTree = "<group>"; };
+		3749FF6426359D3800E90888 /* libswiftDemangle.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftDemangle.tbd; path = usr/lib/swift/libswiftDemangle.tbd; sourceTree = SDKROOT; };
 		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
 		37561F3D23B392F10020CF02 /* WBBladesCMD.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesCMD.mm; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -126,6 +128,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,11 +210,20 @@
 			path = AArch64;
 			sourceTree = "<group>";
 		};
+		3749FF6326359D3800E90888 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				3749FF6426359D3800E90888 /* libswiftDemangle.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3794EE6F22B3C71300D5DFA4 = {
 			isa = PBXGroup;
 			children = (
 				3794EE7A22B3C71300D5DFA4 /* WBBlades */,
 				3794EE7922B3C71300D5DFA4 /* Products */,
+				3749FF6326359D3800E90888 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -495,6 +507,10 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_LIMIT_MACROS",
@@ -515,6 +531,10 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)/usr/lib/swift",
+				);
 				OTHER_CFLAGS = (
 					"-D__STDC_CONSTANT_MACROS",
 					"-D__STDC_LIMIT_MACROS",

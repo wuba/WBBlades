@@ -25,8 +25,8 @@
          <BreakpointContent
             uuid = "30623431-220C-4F5B-9535-33165B5B777B"
             shouldBeEnabled = "Yes"
-            ignoreCount = "0"
             condition = "i == 952"
+            ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "WBBlades/WBBladesScanManager+UnuseClassScan.mm"
             startingColumnNumber = "9223372036854775807"
