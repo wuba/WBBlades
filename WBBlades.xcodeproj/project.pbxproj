@@ -32,7 +32,7 @@
 		37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.mm */; };
 		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
-		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */; };
+		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */; };
 		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
 		37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1423B9EC05006D814F /* WBBladesTool.mm */; };
 		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
@@ -114,7 +114,7 @@
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
 		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
 		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
-		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesFileManager.m; sourceTree = "<group>"; };
+		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesFileManager.mm; sourceTree = "<group>"; };
 		37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+CrashSymbol.h"; sourceTree = "<group>"; };
 		37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
 		37CF3F1323B9EC05006D814F /* WBBladesTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
@@ -277,7 +277,7 @@
 				37561F3C23B392F10020CF02 /* WBBladesCMD.h */,
 				37561F3D23B392F10020CF02 /* WBBladesCMD.mm */,
 				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
-				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.m */,
+				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */,
 				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
 				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
 			);
@@ -377,7 +377,7 @@
 				372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */,
 				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
 				3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */,
-				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.m in Sources */,
+				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.mm in Sources */,
 				3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */,
 				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
 				3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */,
