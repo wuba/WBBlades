@@ -1278,6 +1278,7 @@ static NSArray *symbols;
                 memcpy(&nlist, p, sizeof(nlist_64));
                 if (nlist.n_type == SPECIAL_SECTION_TYPE && nlist.n_sect == N_UNDF && nlist.n_value == SPECIAL_NUM) {
                     symtabModel.withDWARF = NO;
+                    NSLog(@"Swift无用代码检测依赖Debug包的符号表，检测到您的包里没有符号表，建议使用arm64真机的debug包扫描");
                 }
             }
             

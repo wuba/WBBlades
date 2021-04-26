@@ -363,14 +363,14 @@
         case MH_MAGIC: //32 bit mach-o
         case MH_CIGAM:
         {
-            NSLog(@"32位 mach-o");
+            NSLog(@"32位 Mach-O");
         } break;
             
         case MH_MAGIC_64://64 bit mach-o
         case MH_CIGAM_64:
         {
             //a single object
-            NSLog(@"64位 mach-o");
+            NSLog(@"64位 Mach-O");
             return YES;
         } break;
         default:
