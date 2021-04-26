@@ -931,7 +931,7 @@ static NSArray *symbols;
     NSDictionary *cacheMetaDic = [self readSwiftCacheMetadata:fileData];
     
     //查找access调用
-    
+    NSLock *locker = [[NSLock alloc] init];
     NSArray *allKeys = accessFcunDic.allKeys;
     dispatch_apply(allKeys.count, dispatch_get_global_queue(0, 0), ^(size_t index) {
         @autoreleasepool {
@@ -943,7 +943,9 @@ static NSArray *symbols;
             }
             accessFunc = accessFunc > vm ? accessFunc - vm : accessFunc;
             if ([self findCallAccessFunc:name accessFunc:accessFunc fileData:fileData]) {
+                [locker lock];
                 [swiftUsedTypeSet addObject:name];
+                [locker unlock];
             }
         }
     });
