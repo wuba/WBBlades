@@ -990,7 +990,7 @@ static NSArray *symbols;
         char *p = (char *)fileData.bytes;
         p = p + off;
         memcpy(&nlist, p, sizeof(nlist_64));
-        if (nlist.n_sect != 1) {//这里判断不是很合理，暂时先处理
+        if (([WBBladesTool sectionFlagsWithIndex:nlist.n_sect fileData:fileData] & (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) != (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)){
             char buffer[201];
             ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
             char * p = (char *)fileData.bytes;
@@ -1023,7 +1023,7 @@ static NSArray *symbols;
         char *p = (char *)fileData.bytes;
         p = p + off;
         memcpy(&nlist, p, sizeof(nlist_64));
-        if (nlist.n_sect != 1) {//这里判断不是很合理，暂时先处理
+        if (([WBBladesTool sectionFlagsWithIndex:nlist.n_sect fileData:fileData] & (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) != (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)){
             char buffer[201];
             ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
             char * p = (char *)fileData.bytes;
@@ -1054,7 +1054,7 @@ static NSArray *symbols;
             char *p = (char *)fileData.bytes;
             p = p + off;
             memcpy(&nlist, p, sizeof(nlist_64));
-            if (([WBBladesTool sectionFlagsWithIndex:nlist.n_sect fileData:fileData] & (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) == (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) {                
+            if (([WBBladesTool sectionFlagsWithIndex:nlist.n_sect fileData:fileData] & (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) == (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) {
                 char buffer[201];
                 ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
                 char * p = (char *)fileData.bytes;
