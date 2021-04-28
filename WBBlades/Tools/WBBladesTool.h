@@ -146,6 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData;
 
 
++ (UInt32)sectionFlagsWithIndex:(int)index fileData:(NSData *)fileData;
 @end
 
 NS_ASSUME_NONNULL_END

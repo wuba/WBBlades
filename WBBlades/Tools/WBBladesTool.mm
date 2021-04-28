@@ -683,4 +683,36 @@
     return typeLocation;
 }
 
++ (UInt32)sectionFlagsWithIndex:(int)index fileData:(NSData *)fileData{
+    
+    static NSMutableDictionary *sectionDic = @{}.mutableCopy;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        mach_header_64 mhHeader;
+        [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+        unsigned long long currentLcLocation = sizeof(mach_header_64);
+        int sectionNum = 1;
+        for (int i = 0; i < mhHeader.ncmds; i++) {
+            load_command* cmd = (load_command *)malloc(sizeof(load_command));
+            [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+            
+            if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+                segment_command_64 segmentCommand;
+                [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    currentSecLocation += sizeof(section_64);
+                    [sectionDic setObject:@(sectionHeader.flags) forKey:@(sectionNum)];
+                    sectionNum++;
+                }
+            }
+            currentLcLocation += cmd->cmdsize;
+            free(cmd);
+        }
+    });
+    return [[sectionDic objectForKey:@(index)] unsignedIntValue];
+}
+
 @end
