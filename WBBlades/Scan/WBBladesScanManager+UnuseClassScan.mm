@@ -607,13 +607,19 @@ static NSArray *symbols;
     NSMutableDictionary *accessFcunDic = @{}.mutableCopy;
     for (int i = 0; i < textTypesSize / 4 ; i++) {
 
-        BOOL isGenericType = NO;
+//出现跨段地址需要纠错，比如通过__TEXT端计算访问到__RODATA段，需要进行纠错
+#define CORRECT_ADDRESS(__vmAddress)\
+__vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
 
-        uintptr_t offset = swift5Types.addr + i * 4 - vm;
+        BOOL isGenericType = NO;
+        unsigned long long typeAddress = swift5Types.addr + i * 4;
+        uintptr_t offset = typeAddress - vm;
         NSRange range = NSMakeRange(offset, 4);
         unsigned long long content = 0;
         [fileData getBytes:&content range:range];
-        unsigned long long typeOffset = content + offset - vm;
+        unsigned long long vmAddress = content + typeAddress;
+        CORRECT_ADDRESS(vmAddress)
+        unsigned long long typeOffset = [WBBladesTool getOffsetFromVmAddress:vmAddress fileData:fileData];
 
         SwiftType type = {0};
         range = NSMakeRange(typeOffset, sizeof(SwiftType));
@@ -624,7 +630,7 @@ static NSArray *symbols;
         [fileData getBytes:&swiftType range:range];
         
         isGenericType = isGenericType | [WBBladesTool isGenericType:swiftType];
-        
+        //获取名字基本都在同一个section 进行跳转，因此不会跨段
         UInt32 nameOffsetContent;
         range = NSMakeRange(typeOffset + 2 * 4, sizeof(UInt32));
         [fileData getBytes:&nameOffsetContent range:range];
@@ -672,24 +678,28 @@ static NSArray *symbols;
         UInt32 accessFuncContent;
         range = NSMakeRange(typeOffset + 3 * 4, sizeof(UInt32));
         [fileData getBytes:&accessFuncContent range:range];
-        unsigned long long accessFunc = typeOffset + 3 * 4 + accessFuncContent;
-        if (accessFunc > vm) accessFunc -= vm;
+        //可能跨段
+        unsigned long long accessFuncAddr = vmAddress + 3 * 4 + accessFuncContent;
+        CORRECT_ADDRESS(accessFuncAddr)
+        unsigned long long accessFunc = [WBBladesTool getOffsetFromVmAddress:accessFuncAddr fileData:fileData];
         if (isGenericType)[genericTypes addObject:name];
         
         [accessFcunDic setObject:@(accessFunc) forKey:name];
         
         FieldDescriptor fieldDescriptor = {0};
-        unsigned long long fieldDescriptorOffset = 0;
+        unsigned long long fieldDescriptorContent = 0;
       
-        fieldDescriptorOffset = swiftType.FieldDescriptor;
-        if (fieldDescriptorOffset == 0) {continue;}
-        unsigned long long fieldDescriptorAddress = fieldDescriptorOffset + typeOffset + 4 * 4;
-        if (fieldDescriptorAddress > vm) fieldDescriptorAddress = fieldDescriptorAddress - vm;
-        [fileData getBytes:&fieldDescriptor range:NSMakeRange(fieldDescriptorAddress, sizeof(FieldDescriptor))];
-        
+        fieldDescriptorContent = swiftType.FieldDescriptor;
+        if (fieldDescriptorContent == 0) {continue;}
+        unsigned long long fieldDescriptorAddress = fieldDescriptorContent + vmAddress + 4 * 4;
+        CORRECT_ADDRESS(fieldDescriptorAddress)
+        unsigned long long fieldDescriptorOff = [WBBladesTool getOffsetFromVmAddress:fieldDescriptorAddress fileData:fileData];
+        [fileData getBytes:&fieldDescriptor range:NSMakeRange(fieldDescriptorOff, sizeof(FieldDescriptor))];
+
         if (fieldDescriptor.Superclass != 0) {
-            unsigned long long superclassOff = fieldDescriptorAddress + 4 * 1 + fieldDescriptor.Superclass;
-            if (superclassOff > vm) superclassOff = superclassOff - vm;
+            unsigned long long superclassAddr = fieldDescriptorAddress + 4 * 1 + fieldDescriptor.Superclass;
+            CORRECT_ADDRESS(superclassAddr)
+            unsigned long long superclassOff = [WBBladesTool getOffsetFromVmAddress:superclassAddr fileData:fileData];
             char firstChar;
             [fileData getBytes:&firstChar range:NSMakeRange(superclassOff,1)];
 
@@ -798,7 +808,7 @@ static NSArray *symbols;
             }
         }
         
-        unsigned long long  fieldRecordAddress =  fieldDescriptorAddress + sizeof(FieldDescriptor);
+        unsigned long long  fieldRecordAddress =  fieldDescriptorOff + sizeof(FieldDescriptor);
         for (int j = 0; j < fieldDescriptor.NumFields; j++) {
             
             BOOL isGenericFiled = NO;
