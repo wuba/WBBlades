@@ -44,8 +44,7 @@
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //遍历查找classlist
-            if ([segName isEqualToString:SEGMENT_DATA] ||
-                [segName isEqualToString:SEGMENT_DATA_CONST]) {
+            if ((segmentCommand.initprot | VM_PROT_WRITE | VM_PROT_READ) == (VM_PROT_WRITE | VM_PROT_READ)) {
                 //遍历所有的section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -63,7 +62,7 @@
                     }
                     currentSecLocation += sizeof(section_64);
                 }
-            }else if([segName isEqualToString:SEGMENT_TEXT]){
+            } else if ((segmentCommand.initprot | VM_PROT_READ | VM_PROT_EXECUTE) == (VM_PROT_READ | VM_PROT_EXECUTE)) {
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     
@@ -300,16 +299,16 @@
     }
     
 //    Scan Swift5Types
-    NSDictionary *swift5TypesRst = [self scanSwift5Types:swift5Types
-                                                fileData:fileData
-                                            crashAddress:crashAddress];
-    [crashSymbolRst addEntriesFromDictionary:swift5TypesRst];
-    
-//    Scan Swift5Protos
-    NSDictionary *swift5ProtosRst = [self scanSwift5Protos:swift5Protos
-                                                  fileData:fileData
-                                              crashAddress:crashAddress];
-    [crashSymbolRst addEntriesFromDictionary:swift5ProtosRst];
+//    NSDictionary *swift5TypesRst = [self scanSwift5Types:swift5Types
+//                                                fileData:fileData
+//                                            crashAddress:crashAddress];
+//    [crashSymbolRst addEntriesFromDictionary:swift5TypesRst];
+//
+////    Scan Swift5Protos
+//    NSDictionary *swift5ProtosRst = [self scanSwift5Protos:swift5Protos
+//                                                  fileData:fileData
+//                                              crashAddress:crashAddress];
+//    [crashSymbolRst addEntriesFromDictionary:swift5ProtosRst];
     
     return crashSymbolRst.copy;
 }
@@ -423,7 +422,7 @@
     } while (asmCode != RET);
     return NO;
 }
-//
+////
 #pragma mark Swift5Types
 + (NSDictionary *)scanSwift5Types:(section_64)swift5Types fileData:(NSData *)fileData crashAddress:(NSArray *)crashAddress{
     NSMutableDictionary *crashSymbolRst = [NSMutableDictionary dictionary];
@@ -805,14 +804,14 @@
 
 + (NSDictionary *)scanExcutableSymbolTab:(NSData *)fileData range:(NSRange)range commandCount:(uint32_t)commandCount{
     range = [self rangeAlign:range];
-    
+
     NSMutableDictionary *textSymbols = [NSMutableDictionary dictionary];
     for (int i = 0; i < commandCount; i++) {
         nlist_64 symbol = {0};
         NSData *symbolData = [WBBladesTool readBytes:range length:sizeof(nlist_64) fromFile:fileData];
         [symbolData getBytes:&symbol range:NSMakeRange(0, sizeof(nlist_64))];
-        
-        if (symbol.n_sect == 0x01) {//__TEXT,__text
+
+        if (([WBBladesTool sectionFlagsWithIndex:symbol.n_sect fileData:fileData] & (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) != (S_ATTR_PURE_INSTRUCTIONS|S_ATTR_SOME_INSTRUCTIONS)) {//__TEXT,__text
             NSString *key = [NSString stringWithFormat:@"%llu",symbol.n_value];
             [textSymbols setValue:@(symbol.n_un.n_strx) forKey:key];
         }

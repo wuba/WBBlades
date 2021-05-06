@@ -90,8 +90,7 @@ static NSArray *symbols;
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //enumerate classlist、selref、classref、nlcls、cfstring section
-            if ([segName isEqualToString:SEGMENT_DATA] ||
-                [segName isEqualToString:SEGMENT_DATA_CONST]) {
+            if ((segmentCommand.initprot | VM_PROT_WRITE | VM_PROT_READ) == (VM_PROT_WRITE | VM_PROT_READ)) {
                 //enumerate section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -126,7 +125,7 @@ static NSArray *symbols;
                     }
                     currentSecLocation += sizeof(section_64);
                 }
-            } else if ([segName isEqualToString:SEGMENT_TEXT]) {
+            } else if ((segmentCommand.initprot | VM_PROT_READ | VM_PROT_EXECUTE) == (VM_PROT_READ | VM_PROT_EXECUTE)) {
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     
@@ -710,15 +709,20 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     [fileData getBytes:&content range:NSMakeRange(superclassOff + 1,4)];
                     
                     SwiftBaseType typeContext;
-                    unsigned long long contextOffset = superclassOff + 1 + content - vm;
+                    unsigned long long contextAddr = superclassAddr + 1 + content;
+                    CORRECT_ADDRESS(contextAddr)
+                    unsigned long long contextOffset = [WBBladesTool getOffsetFromVmAddress:contextAddr fileData:fileData];
                     [fileData getBytes:&typeContext range:NSMakeRange(contextOffset,sizeof(SwiftBaseType))];
                     
-                    unsigned long long nameOffset = contextOffset + 2 * 4 + typeContext.Name;
+                    unsigned long long nameAddr = contextAddr + 2 * 4 + typeContext.Name;
+                    CORRECT_ADDRESS(nameAddr)
+                    unsigned long long nameOffset = [WBBladesTool getOffsetFromVmAddress:nameAddr fileData:fileData];
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    
-                    unsigned long long parentOffset = contextOffset + 1 * 4 + typeContext.Parent;
-                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+
+                    unsigned long long parentAddr = contextAddr + 1 * 4 + typeContext.Parent;
+                    CORRECT_ADDRESS(parentAddr)
+                    unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     
                     SwiftKind kind = SwiftKindUnknown;
                     while (kind != SwiftKindModule) {
@@ -731,8 +735,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        unsigned long long parentNameAddr = parentAddr + 2 * 4 + parentNameContent;
+                        CORRECT_ADDRESS(parentNameAddr)
+                        unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
                         range = NSMakeRange(parentNameOffset, 0);
                         
@@ -740,8 +746,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
-                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
-                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                        
+                        parentAddr = parentAddr + 1 * 4 + parentOffsetContent;
+                        CORRECT_ADDRESS(parentAddr)
+                        parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     }
                     [swiftUsedTypeSet addObject:mangleTypeName];
                 }
@@ -752,20 +760,28 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     [fileData getBytes:&content range:NSMakeRange(superclassOff + 1,4)];
                     
                     SwiftBaseType typeContext;
-                    unsigned long long indirectContextOffset = superclassOff + 1 + content;
+                    unsigned long long indirectContextAddr = superclassAddr + 1 + content;
+                    CORRECT_ADDRESS(indirectContextAddr)
+                    unsigned long long indirectContextOffset = [WBBladesTool getOffsetFromVmAddress:indirectContextAddr fileData:fileData];
+                    
                     unsigned long long contextAddress = 0;
                     [fileData getBytes:&contextAddress range:NSMakeRange(indirectContextOffset , 8)];
                     
                     if (contextAddress == 0)continue;
                     
-                    contextAddress = contextAddress - vm;
-                    [fileData getBytes:&typeContext range:NSMakeRange(contextAddress,sizeof(SwiftBaseType))];
+                    CORRECT_ADDRESS(contextAddress)
+                    unsigned long long contextOff = [WBBladesTool getOffsetFromVmAddress:contextAddress fileData:fileData];
+                    [fileData getBytes:&typeContext range:NSMakeRange(contextOff,sizeof(SwiftBaseType))];
                                         
-                    unsigned long long nameOffset = contextAddress + 2 * 4 + typeContext.Name;
+                    unsigned long long nameOffAddr = contextAddress + 2 * 4 + typeContext.Name;
+                    CORRECT_ADDRESS(nameOffAddr)
+                    unsigned long long nameOffset = [WBBladesTool getOffsetFromVmAddress:nameOffAddr fileData:fileData];
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    unsigned long long parentOffset = contextAddress + 1 * 4 + typeContext.Parent;
-                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    
+                    unsigned long long parentAddr = contextAddress + 1 * 4 + typeContext.Parent;
+                    CORRECT_ADDRESS(parentAddr)
+                    unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                 
                     SwiftKind kind = SwiftKindUnknown;
                     while (kind != SwiftKindModule) {
@@ -778,8 +794,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        unsigned long long parentNameAddr = parentAddr + 2 * 4 + parentNameContent;
+                        CORRECT_ADDRESS(parentNameAddr)
+                        unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
                         range = NSMakeRange(parentNameOffset, 0);
                         
@@ -787,8 +805,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
-                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
-                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                        
+                        parentAddr = parentAddr + 1 * 4 + parentOffsetContent;
+                        CORRECT_ADDRESS(parentAddr)
+                        parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     }
                     [swiftUsedTypeSet addObject:mangleTypeName];
                 }
@@ -807,23 +827,25 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     break;
             }
         }
-        
-        unsigned long long  fieldRecordAddress =  fieldDescriptorOff + sizeof(FieldDescriptor);
+        unsigned long long  fieldRecordAddr = fieldDescriptorAddress + sizeof(FieldDescriptor);
+        unsigned long long  fieldRecordOff =  fieldDescriptorOff + sizeof(FieldDescriptor);
         for (int j = 0; j < fieldDescriptor.NumFields; j++) {
             
             BOOL isGenericFiled = NO;
             
-            fieldRecordAddress = fieldRecordAddress + j * sizeof(FieldRecord);
+            fieldRecordAddr = fieldRecordAddr + j * sizeof(FieldRecord);
+            fieldRecordOff = fieldRecordOff + j * sizeof(FieldRecord);//？ j *
 
 //          https://github.com/apple/swift/blob/253099a1ce43ee8d819e99089b6445137a60ef42/lib/Demangling/Demangler.cpp
             FieldRecord record = {0};
-            [fileData getBytes:&record range:NSMakeRange(fieldRecordAddress, sizeof(FieldRecord))];
+            [fileData getBytes:&record range:NSMakeRange(fieldRecordOff, sizeof(FieldRecord))];
             if (record.Flags != FieldRecordFlag_IsVar) {
                 continue;
             }
             
-            unsigned long long mangleNameOffset = (fieldRecordAddress + (record.MangledTypeName) + 1 * 4);
-            if (mangleNameOffset > vm) mangleNameOffset -= vm;
+            unsigned long long mangleNameAddr = fieldRecordAddr + (record.MangledTypeName) + 1 * 4;
+            CORRECT_ADDRESS(mangleNameAddr)
+            unsigned long long mangleNameOffset = [WBBladesTool getOffsetFromVmAddress:mangleNameAddr fileData:fileData];
         
             char firstChar;
             [fileData getBytes:&firstChar range:NSMakeRange(mangleNameOffset,1)];
@@ -835,17 +857,22 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     [fileData getBytes:&content range:NSMakeRange(mangleNameOffset + 1,4)];
                     
                     SwiftBaseType typeContext;
-                    unsigned long long contextOffset = mangleNameOffset + 1 + content - vm;
+                    unsigned long long contextAddr = mangleNameAddr + 1 + content;
+                    CORRECT_ADDRESS(contextAddr)
+                    unsigned long long contextOffset = [WBBladesTool getOffsetFromVmAddress:contextAddr fileData:fileData];
                     [fileData getBytes:&typeContext range:NSMakeRange(contextOffset,sizeof(SwiftBaseType))];
                     
                     isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
                     
-                    unsigned long long nameOffset = contextOffset + 2 * 4 + typeContext.Name;
+                    unsigned long long nameAddr = contextAddr + 2 * 4 + typeContext.Name;
+                    CORRECT_ADDRESS(nameAddr)
+                    unsigned long long nameOffset = [WBBladesTool getOffsetFromVmAddress:nameAddr fileData:fileData];
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
                     
-                    unsigned long long parentOffset = contextOffset + 1 * 4 + typeContext.Parent;
-                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    unsigned long long parentAddr = contextAddr + 1 * 4 + typeContext.Parent;
+                    CORRECT_ADDRESS(parentAddr)
+                    unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     
                     SwiftKind kind = SwiftKindUnknown;
                     while (kind != SwiftKindModule) {
@@ -860,8 +887,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
 
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        
+                        unsigned long long parentNameAddr = parentAddr + 2 * 4 + parentNameContent;
+                        CORRECT_ADDRESS(parentNameAddr)
+                        unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
                         range = NSMakeRange(parentNameOffset, 0);
                         
@@ -869,8 +898,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
-                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
-                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                        
+                        parentAddr = parentAddr + 1 * 4 + parentOffsetContent;
+                        CORRECT_ADDRESS(parentAddr)
+                        parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     }
                     if (isGenericFiled)[genericTypes addObject:mangleTypeName];
                     [swiftUsedTypeSet addObject:mangleTypeName];
@@ -882,22 +913,30 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     [fileData getBytes:&content range:NSMakeRange(mangleNameOffset + 1,4)];
                     
                     SwiftBaseType typeContext;
-                    unsigned long long indirectContextOffset = mangleNameOffset + 1 + content;
+                    
+                    unsigned long long indirectContextAddr = mangleNameAddr + 1 + content;
+                    CORRECT_ADDRESS(indirectContextAddr)
+                    unsigned long long indirectContextOffset = [WBBladesTool getOffsetFromVmAddress:indirectContextAddr fileData:fileData];
                     unsigned long long contextAddress = 0;
                     [fileData getBytes:&contextAddress range:NSMakeRange(indirectContextOffset , 8)];
                     
                     if (contextAddress == 0)continue;
                     
-                    contextAddress = contextAddress - vm;
-                    [fileData getBytes:&typeContext range:NSMakeRange(contextAddress,sizeof(SwiftBaseType))];
+                    CORRECT_ADDRESS(contextAddress)
+                    unsigned long long contextOff = [WBBladesTool getOffsetFromVmAddress:contextAddress fileData:fileData];
+                    [fileData getBytes:&typeContext range:NSMakeRange(contextOff,sizeof(SwiftBaseType))];
                     
                     isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];
                     
-                    unsigned long long nameOffset = contextAddress + 2 * 4 + typeContext.Name;
+                    unsigned long long nameAddr = contextAddress + 2 * 4 + typeContext.Name;
+                    CORRECT_ADDRESS(nameAddr)
+                    unsigned long long nameOffset = [WBBladesTool getOffsetFromVmAddress:nameAddr fileData:fileData];
                     NSRange range = NSMakeRange(nameOffset, 0);
                     NSString *mangleTypeName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-                    unsigned long long parentOffset = contextAddress + 1 * 4 + typeContext.Parent;
-                    if (parentOffset > vm) parentOffset = parentOffset - vm;
+                    
+                    unsigned long long parentAddr = contextAddress + 1 * 4 + typeContext.Parent;
+                    CORRECT_ADDRESS(parentAddr)
+                    unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                 
                     SwiftKind kind = SwiftKindUnknown;
                     while (kind != SwiftKindModule) {
@@ -912,8 +951,9 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
 
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-                        unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-                        if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
+                        unsigned long long parentNameAddr = parentAddr + 2 * 4 + parentNameContent;
+                        CORRECT_ADDRESS(parentNameAddr)
+                        unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
                         range = NSMakeRange(parentNameOffset, 0);
                         
@@ -921,8 +961,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
-                        parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
-                        if (parentOffset > vm) parentOffset = parentOffset - vm;
+                        
+                        parentAddr = parentAddr + 1 * 4 + parentOffsetContent;
+                        CORRECT_ADDRESS(parentAddr)
+                        parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     }
                     if (isGenericFiled)[genericTypes addObject:mangleTypeName];
                     [swiftUsedTypeSet addObject:mangleTypeName];
