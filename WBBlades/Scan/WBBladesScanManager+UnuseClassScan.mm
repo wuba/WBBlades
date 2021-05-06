@@ -303,35 +303,35 @@ static NSArray *symbols;
     
 }
 
-+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
-    char *asmStr;
-    BOOL high = NO;
-    if (begin < (textList.offset + vm)) {
-        return NO;
-    }
-    unsigned long long maxText = textList.offset + vm + textList.size;
-    //enumerate function instruction
-    do {
-        unsigned long long index = (begin - textList.offset - vm) / 4;
-        char *dataStr = s_cs_insn[index].op_str;
-        asmStr = s_cs_insn[index].mnemonic;
-        if (strcmp(".byte",asmStr) == 0) {
-            return NO;
-        }
-        if (strstr(dataStr, targetStr)) {//hit
-            return YES;
-        } else if (strstr(dataStr, targetHighStr) && strstr(asmStr, "adrp")) {//hit high address
-            high = YES;
-        } else if (strstr(dataStr, targetLowStr)) {//after hit high address,hit low address
-            if (high) {
-                return  YES;
-            }
-        }
-        begin += 4;
-    } while (strcmp("ret",asmStr) != 0 && (begin <= maxText));//result
-    return NO;
-    
-}
+//+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
+//    char *asmStr;
+//    BOOL high = NO;
+//    if (begin < (textList.offset + vm)) {
+//        return NO;
+//    }
+//    unsigned long long maxText = textList.offset + vm + textList.size;
+//    //enumerate function instruction
+//    do {
+//        unsigned long long index = (begin - textList.offset - vm) / 4;
+//        char *dataStr = s_cs_insn[index].op_str;
+//        asmStr = s_cs_insn[index].mnemonic;
+//        if (strcmp(".byte",asmStr) == 0) {
+//            return NO;
+//        }
+//        if (strstr(dataStr, targetStr)) {//hit
+//            return YES;
+//        } else if (strstr(dataStr, targetHighStr) && strstr(asmStr, "adrp")) {//hit high address
+//            high = YES;
+//        } else if (strstr(dataStr, targetLowStr)) {//after hit high address,hit low address
+//            if (high) {
+//                return  YES;
+//            }
+//        }
+//        begin += 4;
+//    } while (strcmp("ret",asmStr) != 0 && (begin <= maxText));//result
+//    return NO;
+//
+//}
 
 #pragma mark Read
 + (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
@@ -832,10 +832,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
         for (int j = 0; j < fieldDescriptor.NumFields; j++) {
             
             BOOL isGenericFiled = NO;
-            
-            fieldRecordAddr = fieldRecordAddr + j * sizeof(FieldRecord);
-            fieldRecordOff = fieldRecordOff + j * sizeof(FieldRecord);//？ j *
-
+    
 //          https://github.com/apple/swift/blob/253099a1ce43ee8d819e99089b6445137a60ef42/lib/Demangling/Demangler.cpp
             FieldRecord record = {0};
             [fileData getBytes:&record range:NSMakeRange(fieldRecordOff, sizeof(FieldRecord))];
@@ -847,6 +844,9 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             CORRECT_ADDRESS(mangleNameAddr)
             unsigned long long mangleNameOffset = [WBBladesTool getOffsetFromVmAddress:mangleNameAddr fileData:fileData];
         
+            fieldRecordAddr += sizeof(FieldRecord);
+            fieldRecordOff += sizeof(FieldRecord);
+            
             char firstChar;
             [fileData getBytes:&firstChar range:NSMakeRange(mangleNameOffset,1)];
              
