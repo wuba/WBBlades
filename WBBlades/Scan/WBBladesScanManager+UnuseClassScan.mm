@@ -665,6 +665,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             range = NSMakeRange(parentNameOffset, 0);
             
             NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+            //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
+            if (kind == SwiftKindAnonymous) {
+                name = [WBBladesTool getDemangleName:parentName];
+                break;
+            }
             name = [NSString stringWithFormat:@"%@.%@",parentName,name];
             
             UInt32 parentOffsetContent;
@@ -743,6 +748,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         range = NSMakeRange(parentNameOffset, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
+                        if (kind == SwiftKindAnonymous) {
+                            mangleTypeName = [WBBladesTool getDemangleName:parentName];
+                            break;
+                        }
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
@@ -802,6 +812,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         range = NSMakeRange(parentNameOffset, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
+                        if (kind == SwiftKindAnonymous) {
+                            mangleTypeName = [WBBladesTool getDemangleName:parentName];
+                            break;
+                        }
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
@@ -895,6 +910,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         range = NSMakeRange(parentNameOffset, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        
+                        //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
+                        if (kind == SwiftKindAnonymous) {
+                            mangleTypeName = [WBBladesTool getDemangleName:parentName];
+                            break;
+                        }
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
@@ -958,6 +979,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         range = NSMakeRange(parentNameOffset, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
+                        //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
+                        if (kind == SwiftKindAnonymous) {
+                            mangleTypeName = [WBBladesTool getDemangleName:parentName];
+                            break;
+                        }
                         mangleTypeName = [NSString stringWithFormat:@"%@.%@",parentName,mangleTypeName];
                         UInt32 parentOffsetContent;
                         [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];

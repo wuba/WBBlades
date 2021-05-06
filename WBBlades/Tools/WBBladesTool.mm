@@ -450,6 +450,8 @@
         return SwiftKindEnum;
     }else if((type.Flag & 0x0f) == SwiftKindModule){
         return SwiftKindModule;
+    }else if((type.Flag & 0x1f) == SwiftKindAnonymous){
+        return SwiftKindAnonymous;
     }
     
     return SwiftKindUnknown;
