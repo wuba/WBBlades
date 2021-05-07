@@ -656,9 +656,15 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                 break;
             }
             isGenericType = isGenericType | [WBBladesTool isGeneric:type];
-
+            
+            //Anonymous 二进制布局如下：Flag(4B)+Parent(4B)+泛型签名（不定长）+mangleName(4B)
+            int genericPlaceholder = 0;
+            if (kind == SwiftKindAnonymous) {
+                genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+            }
+            
             UInt32 parentNameContent;
-            [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
+            [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];
             unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
             if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
             
@@ -745,7 +751,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         CORRECT_ADDRESS(parentNameAddr)
                         unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
-                        range = NSMakeRange(parentNameOffset, 0);
+                        int genericPlaceholder = 0;
+                        if (kind == SwiftKindAnonymous) {
+                            genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+                        }
+                        
+                        range = NSMakeRange(parentNameOffset + genericPlaceholder, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
                         //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
@@ -809,7 +820,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         CORRECT_ADDRESS(parentNameAddr)
                         unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
-                        range = NSMakeRange(parentNameOffset, 0);
+                        int genericPlaceholder = 0;
+                        if (kind == SwiftKindAnonymous) {
+                            genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+                        }
+                        
+                        range = NSMakeRange(parentNameOffset + genericPlaceholder, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
                         //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称
@@ -907,7 +923,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         CORRECT_ADDRESS(parentNameAddr)
                         unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
-                        range = NSMakeRange(parentNameOffset, 0);
+                        int genericPlaceholder = 0;
+                        if (kind == SwiftKindAnonymous) {
+                            genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+                        }
+                        
+                        range = NSMakeRange(parentNameOffset + genericPlaceholder, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
                         
@@ -976,7 +997,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         CORRECT_ADDRESS(parentNameAddr)
                         unsigned long long parentNameOffset = [WBBladesTool getOffsetFromVmAddress:parentNameAddr fileData:fileData];
                         
-                        range = NSMakeRange(parentNameOffset, 0);
+                        int genericPlaceholder = 0;
+                        if (kind == SwiftKindAnonymous) {
+                            genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+                        }
+                        
+                        range = NSMakeRange(parentNameOffset + genericPlaceholder, 0);
                         
                         NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
                         //SwiftDemo.(MyTestClass in _ACC0AAF35A10249F804F819922A1AA60) SwiftKindAnonymous竟然存的完整名称

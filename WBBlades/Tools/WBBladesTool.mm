@@ -645,16 +645,21 @@
     if (![self isGeneric:swiftType]) {
         return 0;
     }
-    //非class 不处理
-    if ([self getSwiftType:swiftType] != SwiftKindClass) {
+    //非class | Anonymous不处理
+    int front = 0;
+    if ([self getSwiftType:swiftType] == SwiftKindClass) {
+        front = 13;
+    }else if ([self getSwiftType:swiftType] == SwiftKindAnonymous){
+        front = 2;
+    }else{
         return 0;
     }
     
     short paramsCount = 0;
     short requeireCount = 0;
     
-    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + 13*4, sizeof(short))];
-    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + 13*4 + 2, sizeof(short))];
+    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + front * 4, sizeof(short))];
+    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + front * 4 + 2, sizeof(short))];
     
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
