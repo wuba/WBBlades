@@ -600,7 +600,7 @@
         swift_demangle_getDemangledName([mangleName UTF8String],demangleName,length);
         NSString *demangleNameStr = [NSString stringWithFormat:@"%s",demangleName];
         free(demangleName);
-        return demangleNameStr;
+        return demangleNameStr.length>0?demangleNameStr:mangleName;
     }
     NSAssert(swift_demangle_getDemangledName, @"在 Build Phases -> Link Binary with Libraries 中 加入 libswiftDemangle.tbd");
     return mangleName;
