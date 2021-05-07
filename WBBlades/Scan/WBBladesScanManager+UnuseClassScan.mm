@@ -864,10 +864,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             
             BOOL isGenericFiled = NO;
     
-//          https://github.com/apple/swift/blob/253099a1ce43ee8d819e99089b6445137a60ef42/lib/Demangling/Demangler.cpp
+//          https://github.com/apple/swift/blob/7123d2614b5f222d03b3762cb110d27a9dd98e24/include/swift/Reflection/Records.h
             FieldRecord record = {0};
             [fileData getBytes:&record range:NSMakeRange(fieldRecordOff, sizeof(FieldRecord))];
-            if (record.Flags != FieldRecordFlag_IsVar) {
+            //0x0 泛型属性 例如：let name: ClassA<String>? = nil
+            if (record.Flags != FieldRecordFlag_IsVar && record.Flags != 0x0) {
                 continue;
             }
             
