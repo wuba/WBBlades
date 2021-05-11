@@ -120,8 +120,6 @@ static void scanUnusedClass(int argc, const char * argv[]) {
     }];
     [resultData setObject:classes forKey:libName];
     [resultData writeToFile:outPutPath atomically:YES];
-    NSLog(@"Unused class:");
-    NSLog(@"%@", classset.debugDescription);
 }
 
 static void scanCrashSymbol(int argc, const char * argv[]) {
