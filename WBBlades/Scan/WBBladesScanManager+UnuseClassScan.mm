@@ -90,7 +90,7 @@ static NSArray *symbols;
             NSString *segName = [NSString stringWithFormat:@"%s",segmentCommand.segname];
             
             //enumerate classlist、selref、classref、nlcls、cfstring section
-            if ((segmentCommand.initprot | VM_PROT_WRITE | VM_PROT_READ) == (VM_PROT_WRITE | VM_PROT_READ)) {
+            if ((segmentCommand.maxprot | VM_PROT_WRITE | VM_PROT_READ) == (VM_PROT_WRITE | VM_PROT_READ)) {
                 //enumerate section header
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
@@ -125,7 +125,7 @@ static NSArray *symbols;
                     }
                     currentSecLocation += sizeof(section_64);
                 }
-            } else if ((segmentCommand.initprot | VM_PROT_READ | VM_PROT_EXECUTE) == (VM_PROT_READ | VM_PROT_EXECUTE)) {
+            } else if ((segmentCommand.maxprot | VM_PROT_READ | VM_PROT_EXECUTE) == (VM_PROT_READ | VM_PROT_EXECUTE)) {
                 unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
                 for (int j = 0; j < segmentCommand.nsects; j++) {
                     
