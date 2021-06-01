@@ -637,6 +637,17 @@
     return result;
 }
 
+/**
+ addMetadataInstantiationCache -> 4B  (class only)
+ addMetadataInstantiationPattern -> 4B  (class only)
+ GenericParamCount -> 2B
+ GenericRequirementCount -> 2B
+ GenericKeyArgumentCount -> 2B
+ GenericExtraArgumentCount -> 2B
+ params -> paramsCount B
+ pandding -> pandding B
+ 3 * 4 * (requeireCount) B
+ */
 + (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData{
     
     SwiftType swiftType;
@@ -647,10 +658,15 @@
     }
     //非class | Anonymous不处理
     int front = 0;
+    //Anonymous的header为8字节
+    int header = 8;
     if ([self getSwiftType:swiftType] == SwiftKindClass) {
-        front = 13;
+        //class的11个（4B） + addMetadataInstantiationCache （4B） + addMetadataInstantiationPattern（4B）
+        front = (11 + 2) * 4;
+        //class的header为16字节
+        header = 16;
     }else if ([self getSwiftType:swiftType] == SwiftKindAnonymous){
-        front = 2;
+        front = 2 * 4;
     }else{
         return 0;
     }
@@ -658,24 +674,15 @@
     short paramsCount = 0;
     short requeireCount = 0;
     
-    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + front * 4, sizeof(short))];
-    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + front * 4 + 2, sizeof(short))];
+    [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + front, sizeof(short))];
+    [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + front + 2, sizeof(short))];
     
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
     
-    /**
-        
-     16B  =  4B + 4B + 2B + 2B + 2B + 2B
-     addMetadataInstantiationCache -> 4B
-     addMetadataInstantiationPattern -> 4B
-     GenericParamCount -> 2B
-     GenericRequirementCount -> 2B
-     GenericKeyArgumentCount -> 2B
-     GenericExtraArgumentCount -> 2B
-        
-     */
-    return (16 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+    return (header  + paramsCount + pandding + 3 * 4 * (requeireCount));
+//    return (16 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
+
 }
 
 + (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData{
