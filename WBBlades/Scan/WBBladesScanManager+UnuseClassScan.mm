@@ -650,6 +650,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             
             SwiftType type;
             [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
+            NSLog(@"flag = 0x%x  parent = 0x%x",type.Flag,type.Parent);
             kind = [WBBladesTool getSwiftType:type];
             if (kind == SwiftKindUnknown) {
 //                类似这样的代码（Type的Parent可能不属于Type）
@@ -666,7 +667,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             if (kind == SwiftKindAnonymous) {
                 genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
             }
-            
+            //如果Anonymous 没有mangleName，则放弃
+            if (kind == SwiftKindAnonymous && ![WBBladesTool anonymousHasMangledName:type]) {
+                break;
+            }
+        
             UInt32 parentNameContent;
             [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];
             unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent + genericPlaceholder;
@@ -752,6 +757,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         if (kind == SwiftKindAnonymous) {
                             genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
                         }
+                        //如果Anonymous 没有mangleName，则放弃
+                        if (kind == SwiftKindAnonymous && ![WBBladesTool anonymousHasMangledName:type]) {
+                            break;
+                        }
                         
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];
@@ -821,7 +830,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         if (kind == SwiftKindAnonymous) {
                             genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
                         }
-                        
+                        //如果Anonymous 没有mangleName，则放弃
+                        if (kind == SwiftKindAnonymous && ![WBBladesTool anonymousHasMangledName:type]) {
+                            break;
+                        }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];
                         
@@ -924,6 +936,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         if (kind == SwiftKindAnonymous) {
                             genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
                         }
+                        //如果Anonymous 没有mangleName，则放弃
+                        if (kind == SwiftKindAnonymous && ![WBBladesTool anonymousHasMangledName:type]) {
+                            break;
+                        }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];
                         
@@ -996,6 +1012,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                         int genericPlaceholder = 0;
                         if (kind == SwiftKindAnonymous) {
                             genericPlaceholder = [WBBladesTool addPlaceholderWithGeneric:parentOffset fileData:fileData];
+                        }
+                        //如果Anonymous 没有mangleName，则放弃
+                        if (kind == SwiftKindAnonymous && ![WBBladesTool anonymousHasMangledName:type]) {
+                            break;
                         }
                         UInt32 parentNameContent;
                         [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4 + genericPlaceholder, 4)];

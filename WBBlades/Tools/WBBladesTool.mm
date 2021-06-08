@@ -685,6 +685,13 @@
 
 }
 
++ (BOOL)anonymousHasMangledName:(SwiftType)baseType{
+    if ((baseType.Flag & 0xFFFF) == 0x01) {
+        return YES;
+    }
+    return NO;
+}
+
 + (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData{
     //遍历Vtable和overrideTable
     BOOL hasVtable = [self hasVTable:baseType];
