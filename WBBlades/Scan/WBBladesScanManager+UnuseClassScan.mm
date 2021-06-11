@@ -28,6 +28,7 @@
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
 static NSArray *symbols;
+static section_64 textConst = {0};
 
 //dump binary file's classes
 + (NSSet *)dumpClassList:(NSData *)fileData {
@@ -80,6 +81,7 @@ static NSArray *symbols;
     section_64 nlcatList= {0};
     section_64 cfstringList= {0};
     section_64 swift5Types = {0};
+
     segment_command_64 linkEdit = {0};
     
     unsigned long long currentLcLocation = sizeof(mach_header_64);
@@ -143,6 +145,8 @@ static NSArray *symbols;
                         s_cs_insn = [WBBladesTool disassemWithMachOFile:fileData from:sectionHeader.offset length:sectionHeader.size];
                     }else if([secName isEqualToString:TEXT_SWIFT5_TYPES]){
                         swift5Types = sectionHeader;
+                    }else if([secName isEqualToString:TEXT_CONST]){
+                        textConst = sectionHeader;
                     }
                     currentSecLocation += sizeof(section_64);
                 }
@@ -213,68 +217,6 @@ static NSArray *symbols;
     return result;
 }
 
-//+ (BOOL)scanSymbolTabWithFileData:(NSData *)fileData helper:(WBBladesHelper *)helper vm:(unsigned long long )vm {
-//
-//    //binary files's symbol table
-//    WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
-//    unsigned long long symbolOffset = symCmd.symbolOff;
-//    unsigned long long targetAddress = helper.offset;
-//
-//    if (!symCmd.withDWARF) {
-//        return YES;
-//    }
-//
-//    //target address
-//    char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//    //target high address
-//    char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//    //Target low address
-//    char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",targetAddress & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//    //enumerate symbol table
-//    for (int i=0; i < symCmd.symbolNum - 1; i++) {
-//        nlist_64 nlist;
-//        ptrdiff_t off = symbolOffset + i * sizeof(nlist_64);
-//        char *p = (char *)fileData.bytes;
-//        p = p + off;
-//        memcpy(&nlist, p, sizeof(nlist_64));
-//
-//        //https://developer.apple.com/documentation/kernel/nlist_64
-//        if (nlist.n_sect == 1 &&
-//            (nlist.n_type == 0x0e || nlist.n_type == 0x0f)) {
-//
-//            char buffer[201];
-//            ptrdiff_t off = symCmd.strOff+nlist.n_un.n_strx;
-//            char * p = (char *)fileData.bytes;
-//            p = p+off;
-//            memcpy(&buffer, p, 200);
-//            char * className = strtok(buffer," ");
-//            className = strstr(className,"[");
-//            if (className) {
-//                className = className+1;
-//            } else {
-//                className = buffer;
-//            }
-//            if (strcmp(className,[helper.className UTF8String]) == 0) {
-//                continue;
-//            }
-//
-//            unsigned long long begin = nlist.n_value;
-//
-//            //set the starting point of a function instruction, start enumerating to see if a class address exists
-//            //if true, you can assume that this class is used in this function
-//            BOOL use = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:begin vm:vm];
-//            if (use) {
-//                return YES;
-//            }
-//        }
-//    }
-//    return NO;
-//}
-
-
 + (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin end:(unsigned long long)end {
     
     char *asmStr;
@@ -307,35 +249,6 @@ static NSArray *symbols;
     
 }
 
-//+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin  vm:(unsigned long long )vm {
-//    char *asmStr;
-//    BOOL high = NO;
-//    if (begin < (textList.offset + vm)) {
-//        return NO;
-//    }
-//    unsigned long long maxText = textList.offset + vm + textList.size;
-//    //enumerate function instruction
-//    do {
-//        unsigned long long index = (begin - textList.offset - vm) / 4;
-//        char *dataStr = s_cs_insn[index].op_str;
-//        asmStr = s_cs_insn[index].mnemonic;
-//        if (strcmp(".byte",asmStr) == 0) {
-//            return NO;
-//        }
-//        if (strstr(dataStr, targetStr)) {//hit
-//            return YES;
-//        } else if (strstr(dataStr, targetHighStr) && strstr(asmStr, "adrp")) {//hit high address
-//            high = YES;
-//        } else if (strstr(dataStr, targetLowStr)) {//after hit high address,hit low address
-//            if (high) {
-//                return  YES;
-//            }
-//        }
-//        begin += 4;
-//    } while (strcmp("ret",asmStr) != 0 && (begin <= maxText));//result
-//    return NO;
-//
-//}
 
 #pragma mark Read
 + (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
@@ -495,20 +408,7 @@ static NSArray *symbols;
                    NSString *className = NSSTRING(buffer);
                    free(buffer);
                    
-                   if (className) {
-//                       WBBladesHelper *helper = [WBBladesHelper new];
-//                       helper.className = className;
-//                       helper.offset = range.location;
-//                       if ([aimClasses count] == 0 || [aimClasses containsObject:className]) {
-                           
-                           //other class is calling current class
-//                           if ([self scanSymbolTabWithFileData:fileData helper:helper vm:vm]) {
-                               [classrefSet addObject:className];
-//                           }
-//                       } else {
-//                           [classrefSet addObject:className];
-//                       }
-                   }
+                   if (className) [classrefSet addObject:className];
                }
            }
        }
@@ -645,6 +545,8 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
         unsigned long long parentOffset = typeOffset + 1 * 4 + swiftType.Parent;
         if (parentOffset > vm) parentOffset = parentOffset - vm;
         
+        if ([self invalidParent:parentOffset])continue;
+        
         SwiftKind kind = SwiftKindUnknown;
         while (kind != SwiftKindModule) {
             
@@ -690,8 +592,8 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
             [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
             parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
             if (parentOffset > vm) parentOffset = parentOffset - vm;
+            if ([self invalidParent:parentOffset])break;;
         }
-    
 
         UInt32 accessFuncContent;
         range = NSMakeRange(typeOffset + 3 * 4, sizeof(UInt32));
@@ -742,9 +644,9 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     unsigned long long parentAddr = contextAddr + 1 * 4 + typeContext.Parent;
                     CORRECT_ADDRESS(parentAddr)
                     unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
-                    
+            
                     SwiftKind kind = SwiftKindUnknown;
-                    while (kind != SwiftKindModule) {
+                    while (kind != SwiftKindModule && ![self invalidParent:parentOffset]) {
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
@@ -817,7 +719,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                 
                     SwiftKind kind = SwiftKindUnknown;
-                    while (kind != SwiftKindModule) {
+                    while (kind != SwiftKindModule && ![self invalidParent:parentOffset]) {
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
@@ -922,7 +824,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                     
                     SwiftKind kind = SwiftKindUnknown;
-                    while (kind != SwiftKindModule) {
+                    while (kind != SwiftKindModule && ![self invalidParent:parentOffset]) {
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
@@ -999,7 +901,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
                     unsigned long long parentOffset = [WBBladesTool getOffsetFromVmAddress:parentAddr fileData:fileData];
                 
                     SwiftKind kind = SwiftKindUnknown;
-                    while (kind != SwiftKindModule) {
+                    while (kind != SwiftKindModule && ![self invalidParent:parentOffset]) {
                         
                         SwiftType type;
                         [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
@@ -1075,6 +977,13 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     });
     
     return genericTypes.copy;
+}
+
++ (BOOL)invalidParent:(UInt64)parentOff{
+    if (parentOff >= textConst.offset && parentOff < textConst.offset + textConst.size ) {
+        return NO;
+    }
+    return YES;
 }
 
 + (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc  fileData:(NSData *)fileData {
@@ -1241,125 +1150,6 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
         symRanObj.symbol = [symRanObj.symbol substringFromIndex:tripStr.length];
     }
 }
-
-//
-////目前只能在class中查找，其他类型后续会陆续补充
-//+ (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc inSwiftTypes:(section_64)swift5Types fileData:(NSData *)fileData {
-//
-//    NSUInteger textTypesSize = swift5Types.size;
-//    unsigned long long vm = swift5Types.addr - swift5Types.offset;
-//
-//    for (int i = 0; i < textTypesSize / 4; i++) {
-//        uintptr_t offset = swift5Types.addr + i * 4 - vm;
-//        NSRange range = NSMakeRange(offset, 4);
-//        unsigned long long content = 0;
-//        [fileData getBytes:&content range:range];
-//        unsigned long long typeOffset = content + offset - vm;
-//
-//        SwiftType swiftType = {0};
-//        range = NSMakeRange(typeOffset, sizeof(SwiftType));
-//        [fileData getBytes:&swiftType range:range];
-//
-//        UInt32 nameOffsetContent;
-//        range = NSMakeRange(typeOffset + 2 * 4, sizeof(UInt32));
-//        [fileData getBytes:&nameOffsetContent range:range];
-//        unsigned long long nameOffset = typeOffset + 2 * 4 + nameOffsetContent;
-//        if (nameOffset > vm) nameOffset -= vm;
-//        range = NSMakeRange(nameOffset, 0);
-//        NSString *name = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-//
-//        unsigned long long parentOffset = typeOffset + 1 * 4 + swiftType.Parent;
-//        if (parentOffset > vm) parentOffset = parentOffset - vm;
-//
-//        SwiftKind kind = [WBBladesTool getSwiftType:swiftType];
-//        if (kind != SwiftKindClass) {continue;}
-//
-//        kind = SwiftKindUnknown;
-//        while (kind != SwiftKindModule) {
-//
-//            SwiftType type;
-//            [fileData getBytes:&type range:NSMakeRange(parentOffset, sizeof(SwiftType))];
-//             kind = [WBBladesTool getSwiftType:type];
-//
-//            UInt32 parentNameContent;
-//            [fileData getBytes:&parentNameContent range:NSMakeRange(parentOffset + 2 * 4, 4)];
-//            unsigned long long parentNameOffset = parentOffset + 2 * 4 + parentNameContent;
-//            if (parentNameOffset > vm) parentNameOffset = parentNameOffset - vm;
-//
-//            range = NSMakeRange(parentNameOffset, 0);
-//
-//            NSString *parentName = [WBBladesTool readString:range fixlen:150 fromFile:fileData];
-//            name = [NSString stringWithFormat:@"%@.%@",parentName,name];
-//
-//            UInt32 parentOffsetContent;
-//            [fileData getBytes:&parentOffsetContent range:NSMakeRange(parentOffset + 1 * 4, 4)];
-//            parentOffset = parentOffset + 1 * 4 + parentOffsetContent;
-//            if (parentOffset > vm) parentOffset = parentOffset - vm;
-//        }
-//        if ([name isEqualToString:typeName])continue;
-//
-//        //遍历Vtable和overrideTable
-//        BOOL hasVtable = [WBBladesTool hasVTable:swiftType];
-//        BOOL hasOverrideTable = [WBBladesTool hasOverrideTable:swiftType];
-//        BOOL hasSingletonMetadataInitialization = [WBBladesTool hasSingletonMetadataInitialization:swiftType];
-//        if (!hasVtable && !hasOverrideTable ) {continue;}
-//
-//        //target address
-//        char *targetStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",accessFunc] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//        //target high address
-//        char *targetHighStr =(char *) [[[NSString stringWithFormat:@"#0x%llX",accessFunc & 0xFFFFFFFFFFFFF000] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//        //Target low address
-//        char *targetLowStr = (char *)[[[NSString stringWithFormat:@"#0x%llX",accessFunc & 0x0000000000000fff] lowercaseString] cStringUsingEncoding:NSUTF8StringEncoding];
-//
-//        short genericSize = [WBBladesTool addPlaceholderWithGeneric:typeOffset fileData:fileData];
-//        if (hasVtable) {
-//            UInt32 methodsNum;
-//
-//            unsigned long long location = typeOffset + sizeof(SwiftClassTypeNoMethods) + 8 + (hasSingletonMetadataInitialization?12:0) + genericSize;
-//            range = NSMakeRange(location, 4);
-//            [fileData getBytes:&methodsNum range:range];
-//
-//            unsigned long long methodStructOffset = range.location + 4;
-//            for (int j = 0; j < methodsNum; j++) {
-//                SwiftMethod method;
-//                range = NSMakeRange(methodStructOffset , sizeof(SwiftMethod));
-//                [fileData getBytes:&method range:range];
-//
-//                unsigned long long IMPOffset = (method.Offset + methodStructOffset + 4);
-////                IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
-//
-//                BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:IMPOffset vm:vm];
-//                if (find) {NSLog(@"%@ 调用了 %@",name,typeName); return YES;}
-//
-//                methodStructOffset += sizeof(SwiftMethod);
-//            }
-//
-//            if (hasOverrideTable) {
-//                UInt32 methodsNum;
-//                range = NSMakeRange(methodStructOffset, 4);
-//                [fileData getBytes:&methodsNum range:range];
-//                methodStructOffset = methodStructOffset + 4;
-//                for (int j = 0; j < methodsNum; j++) {
-//                    SwiftOverrideMethod method;
-//                    range = NSMakeRange(methodStructOffset , sizeof(SwiftOverrideMethod));
-//                    [fileData getBytes:&method range:range];
-//
-//                    unsigned long long IMPOffset = (method.Method + methodStructOffset + 8);
-//                    IMPOffset = [WBBladesTool getOffsetFromVmAddress:IMPOffset fileData:fileData];
-//
-//                    BOOL find = [self scanSELCallerWithAddress:targetStr heigh:targetHighStr low:targetLowStr begin:IMPOffset vm:vm];
-//                    if (find) {NSLog(@"%@ 调用了 %@",name,typeName); return YES;}
-//
-//                    methodStructOffset += sizeof(SwiftOverrideMethod);
-//                }
-//            }
-//        }
-//    }
-//    return NO;
-//}
-
 
 + (WBBladesSymTabCommand *)symbolTabOffsetWithMachO:(NSData *)fileData {
     
