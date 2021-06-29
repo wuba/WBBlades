@@ -8,7 +8,6 @@
 
 #import "WBBladesTool.h"
 #import "WBBladesDefines.h"
-#import <mach-o/loader.h>
 #import <mach-o/fat.h>
 #import <dlfcn.h>
 #import <string.h>
@@ -368,6 +367,39 @@
     }
     
     return address;
+}
+
++ (section_64)getTEXTConst:(unsigned long long )address fileData:(NSData *)fileData{
+    
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    section_64 textConst = {0};
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command cmd;// (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:&cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd.cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            if (address >= segmentCommand.vmaddr && address <= segmentCommand.vmaddr + segmentCommand.vmsize) {
+                unsigned long long currentSecLocation = currentLcLocation + sizeof(segment_command_64);
+                int sectionNum = 1;
+                for (int j = 0; j < segmentCommand.nsects; j++) {
+                    section_64 sectionHeader;
+                    [fileData getBytes:&sectionHeader range:NSMakeRange(currentSecLocation, sizeof(section_64))];
+                    if (address >= sectionHeader.addr && address < sectionHeader.addr + sectionHeader.size) {
+                        return sectionHeader;
+                    }
+                    currentSecLocation += sizeof(section_64);
+                    sectionNum++;
+                }
+            }
+        }
+        currentLcLocation += cmd.cmdsize;
+    }
+    
+    return textConst;
 }
 
 //judge whether the file is supported

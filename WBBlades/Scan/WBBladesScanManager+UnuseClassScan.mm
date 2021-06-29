@@ -27,8 +27,8 @@
 
 static cs_insn *s_cs_insn;
 static section_64 textList = {0};
-static NSArray *symbols;
 static section_64 textConst = {0};
+static NSArray *symbols;
 
 //dump binary file's classes
 + (NSSet *)dumpClassList:(NSData *)fileData {
@@ -145,8 +145,6 @@ static section_64 textConst = {0};
                         s_cs_insn = [WBBladesTool disassemWithMachOFile:fileData from:sectionHeader.offset length:sectionHeader.size];
                     }else if([secName isEqualToString:TEXT_SWIFT5_TYPES]){
                         swift5Types = sectionHeader;
-                    }else if([secName isEqualToString:TEXT_CONST]){
-                        textConst = sectionHeader;
                     }
                     currentSecLocation += sizeof(section_64);
                 }
@@ -177,7 +175,7 @@ static section_64 textConst = {0};
     
     //read classlist - OBJC
     NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
-    
+//    73317
     //泛型参数约束
     [self readSwiftGenericRequire:classrefSet fileData:fileData];
     
@@ -253,7 +251,6 @@ static section_64 textConst = {0};
 #pragma mark Read
 + (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSMutableSet *classSet = [NSMutableSet set];
-    unsigned long long vm = classList.addr - classList.offset;
     unsigned long long max = [fileData length];
     NSRange  range = NSMakeRange(classList.offset, 0);
         for (int i = 0; i < classList.size / 8 ; i++) {
@@ -262,7 +259,7 @@ static section_64 textConst = {0};
                 unsigned long long classAddress;
                 NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                 [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-                unsigned long long classOffset = classAddress - vm;
+                unsigned long long classOffset = [WBBladesTool getOffsetFromVmAddress:classAddress fileData:fileData];
                 
                 //class struct
                 class64 targetClass = {0};
@@ -272,28 +269,28 @@ static section_64 textConst = {0};
                 
                 //class info struct
                 class64Info targetClassInfo = {0};
-                unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                unsigned long long targetClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.data fileData:fileData];
                 targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                 data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
                 
-                unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];//targetClassInfo.name - vm;
+                unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];
                 
                 //superclass info
                 if (targetClass.superClass != 0) {
                     class64 superClass = {0};
-                    NSRange superClassRange = NSMakeRange(targetClass.superClass - vm, 0);
+                    NSRange superClassRange = NSMakeRange([WBBladesTool getOffsetFromVmAddress:targetClass.superClass fileData:fileData], 0);
                     data = [WBBladesTool readBytes:superClassRange length:sizeof(class64) fromFile:fileData];
                     [data getBytes:&superClass length:sizeof(class64)];
                     
                     class64Info superClassInfo = {0};
-                    unsigned long long superClassInfoOffset = superClass.data - vm;
+                    unsigned long long superClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:superClass.data fileData:fileData];
                     superClassInfoOffset = (superClassInfoOffset / 8) * 8;
                     NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
                     data = [WBBladesTool readBytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                     [data getBytes:&superClassInfo length:sizeof(class64Info)];
-                    unsigned long long superClassNameOffset = superClassInfo.name - vm;
+                    unsigned long long superClassNameOffset = [WBBladesTool getOffsetFromVmAddress:superClassInfo.name fileData:fileData];
                     
                     //class name 50 bytes maximum
                     uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -319,7 +316,7 @@ static section_64 textConst = {0};
                 if (className)[classSet addObject:className];
                 
                 //enumerate member variables
-                unsigned long long varListOffset = targetClassInfo.instanceVariables - vm;
+                unsigned long long varListOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.instanceVariables fileData:fileData];
                 if (varListOffset > 0 && varListOffset < max) {
                     unsigned int varCount;
                     NSRange varRange = NSMakeRange(varListOffset + 4, 0);
@@ -330,7 +327,7 @@ static section_64 textConst = {0};
                         ivar64_t var = {};
                         [fileData getBytes:&var range:varRange];
                         unsigned long long methodNameOffset = var.type;
-                        methodNameOffset = methodNameOffset - vm;
+                        methodNameOffset = [WBBladesTool getOffsetFromVmAddress:methodNameOffset fileData:fileData];
                         uint8_t * buffer = (uint8_t *)malloc(METHODNAME_MAX_LEN + 1); buffer[METHODNAME_MAX_LEN] = '\0';
                         if (methodNameOffset > 0 && methodNameOffset < max) {
                             [fileData getBytes:buffer range:NSMakeRange(methodNameOffset,METHODNAME_MAX_LEN)];
@@ -350,7 +347,6 @@ static section_64 textConst = {0};
 
 + (void)readCStringList:(section_64)cfstringList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(cfstringList.offset, 0);
-    unsigned long long vm = cfstringList.addr - cfstringList.offset;
     unsigned long long max = [fileData length];
     for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
          @autoreleasepool {
@@ -358,7 +354,7 @@ static section_64 textConst = {0};
              cfstring64 cfstring;
              NSData *data = [WBBladesTool readBytes:range length:sizeof(cfstring64) fromFile:fileData];
              [data getBytes:&cfstring range:NSMakeRange(0, sizeof(cfstring64))];
-             unsigned long long stringOff = cfstring.stringAddress - vm;
+             unsigned long long stringOff = [WBBladesTool getOffsetFromVmAddress:cfstring.stringAddress fileData:fileData];
              if (stringOff > 0 && stringOff < max) {
                  uint8_t *buffer = (uint8_t *)malloc(cfstring.size + 1); buffer[cfstring.size] = '\0';
                  [fileData getBytes:buffer range:NSMakeRange(stringOff, cfstring.size)];
@@ -382,7 +378,7 @@ static section_64 textConst = {0};
                unsigned long long classAddress;
                NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-               classAddress = classAddress - vm;
+               classAddress = [WBBladesTool getOffsetFromVmAddress:classAddress fileData:fileData];
                //method name 150 bytes maximum
                if (classAddress > 0 && classAddress < max) {
                    
@@ -395,12 +391,12 @@ static section_64 textConst = {0};
                    
                    //class64info struct
                    class64Info targetClassInfo = {0};
-                   unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                   unsigned long long targetClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.data fileData:fileData];
                    targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                    NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                    data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                    [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-                   unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];//targetClassInfo.name - vm;
+                   unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];
                    
                    //class name 50 bytes maximum
                    uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -424,7 +420,7 @@ static section_64 textConst = {0};
             unsigned long long catAddress;
             NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
             [data getBytes:&catAddress range:NSMakeRange(0, 8)];
-            catAddress = catAddress - vm;
+            catAddress = [WBBladesTool getOffsetFromVmAddress:catAddress fileData:fileData];
             //method name 150 bytes maximum
             if (catAddress > 0 && catAddress < max) {
                 
@@ -436,15 +432,15 @@ static section_64 textConst = {0};
                     continue;
                 }
                 class64 targetClass;
-                [fileData getBytes:&targetClass range:NSMakeRange(targetCategory.cls - vm,sizeof(class64))];
+                [fileData getBytes:&targetClass range:NSMakeRange([WBBladesTool getOffsetFromVmAddress:targetCategory.cls fileData:fileData],sizeof(class64))];
                                 
                 class64Info targetClassInfo = {0};
-                unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                unsigned long long targetClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.data fileData:fileData];
                 targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                 NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                 data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                 [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-                unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData]; //targetClassInfo.name - vm;
+                unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];
                                 
                 //class name 50 bytes maximum
                 uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -470,7 +466,7 @@ static section_64 textConst = {0};
              unsigned long long classAddress;
              NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
              [data getBytes:&classAddress range:NSMakeRange(0, 8)];
-             classAddress = classAddress - vm;
+             classAddress = [WBBladesTool getOffsetFromVmAddress:classAddress fileData:fileData];
              //method name 150 bytes maximum
              if (classAddress > 0 && classAddress < max) {
                  
@@ -478,12 +474,12 @@ static section_64 textConst = {0};
                  [fileData getBytes:&targetClass range:NSMakeRange(classAddress,sizeof(class64))];
                  
                  class64Info targetClassInfo = {0};
-                 unsigned long long targetClassInfoOffset = targetClass.data - vm;
+                 unsigned long long targetClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.data fileData:fileData];
                  targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
                  NSRange targetClassInfoRange = NSMakeRange(targetClassInfoOffset, 0);
                  data = [WBBladesTool readBytes:targetClassInfoRange length:sizeof(class64Info) fromFile:fileData];
                  [data getBytes:&targetClassInfo length:sizeof(class64Info)];
-                 unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];//targetClassInfo.name - vm;
+                 unsigned long long classNameOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.name fileData:fileData];
                  
                  //class name 50 bytes maximum
                  uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
@@ -516,13 +512,19 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
 
         BOOL isGenericType = NO;
         unsigned long long typeAddress = swift5Types.addr + i * 4;
-        uintptr_t offset = typeAddress - vm;
+        uintptr_t offset = [WBBladesTool getOffsetFromVmAddress:typeAddress fileData:fileData];
         NSRange range = NSMakeRange(offset, 4);
         unsigned long long content = 0;
         [fileData getBytes:&content range:range];
         unsigned long long vmAddress = content + typeAddress;
         CORRECT_ADDRESS(vmAddress)
         unsigned long long typeOffset = [WBBladesTool getOffsetFromVmAddress:vmAddress fileData:fileData];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            //因为段迁移默认的权限是R&W，所以想找到text,const就只能通过Type的地址去反查
+            textConst = [WBBladesTool getTEXTConst:vmAddress fileData:fileData];
+        });
 
         SwiftType type = {0};
         range = NSMakeRange(typeOffset, sizeof(SwiftType));

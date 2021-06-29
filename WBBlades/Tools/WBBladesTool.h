@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "WBBladesDefines.h"
 #import "capstone.h"
+#import <mach-o/loader.h>
+
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -148,6 +150,9 @@ NS_ASSUME_NONNULL_BEGIN
 + (BOOL)anonymousHasMangledName:(SwiftType)baseType;
 
 + (UInt32)sectionFlagsWithIndex:(int)index fileData:(NSData *)fileData;
+
++ (section_64)getTEXTConst:(unsigned long long )address fileData:(NSData *)fileData;
+
 @end
 
 NS_ASSUME_NONNULL_END
