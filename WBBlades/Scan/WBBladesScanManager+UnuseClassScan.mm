@@ -370,7 +370,6 @@ static NSArray *symbols;
 
 + (void)readClsRefList:(section_64)classrefList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(classrefList.offset, 0);
-    unsigned long long vm = classrefList.addr - classrefList.offset;
     unsigned long long max = [fileData length];
     for (int i = 0; i < classrefList.size / 8; i++) {
            @autoreleasepool {
@@ -412,7 +411,6 @@ static NSArray *symbols;
 
 + (void)readNLCatList:(section_64)nlcatList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(nlcatList.offset, 0);
-    unsigned long long vm = nlcatList.addr - nlcatList.offset;
     unsigned long long max = [fileData length];
     for (int i = 0; i < nlcatList.size / 8; i++) {
         @autoreleasepool {
@@ -458,7 +456,6 @@ static NSArray *symbols;
 + (void)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     //nlclslist
     NSRange range = NSMakeRange(nlclsList.offset, 0);
-    unsigned long long vm = nlclsList.addr - nlclsList.offset;
     unsigned long long max = [fileData length];
      for (int i = 0; i < nlclsList.size / 8; i++) {
          @autoreleasepool {
