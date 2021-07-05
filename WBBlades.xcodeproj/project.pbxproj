@@ -42,7 +42,7 @@
 		3794EE7622B3C71300D5DFA4 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
+			dstPath = /usr/share/man/man1;
 			dstSubfolderSpec = 0;
 			files = (
 			);
@@ -109,7 +109,7 @@
 		3749FF6426359D3800E90888 /* libswiftDemangle.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftDemangle.tbd; path = usr/lib/swift/libswiftDemangle.tbd; sourceTree = SDKROOT; };
 		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
 		37561F3D23B392F10020CF02 /* WBBladesCMD.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesCMD.mm; sourceTree = "<group>"; };
-		3794EE7822B3C71300D5DFA4 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WBBlades; sourceTree = BUILT_PRODUCTS_DIR; };
+		3794EE7822B3C71300D5DFA4 /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
 		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
 		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
@@ -230,7 +230,7 @@
 		3794EE7922B3C71300D5DFA4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3794EE7822B3C71300D5DFA4 /* WBBlades */,
+				3794EE7822B3C71300D5DFA4 /* blades */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -309,6 +309,7 @@
 				3794EE7422B3C71300D5DFA4 /* Sources */,
 				3794EE7522B3C71300D5DFA4 /* Frameworks */,
 				3794EE7622B3C71300D5DFA4 /* CopyFiles */,
+				37E59715268C95F200F40AA8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -316,7 +317,7 @@
 			);
 			name = WBBlades;
 			productName = WBBlades;
-			productReference = 3794EE7822B3C71300D5DFA4 /* WBBlades */;
+			productReference = 3794EE7822B3C71300D5DFA4 /* blades */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -349,6 +350,26 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		37E59715268C95F200F40AA8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm -rf /usr/local/bin/blades\ncp -f ${BUILT_PRODUCTS_DIR}/blades /usr/local/bin/blades\nchmod 777 /usr/local/bin/blades\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3794EE7422B3C71300D5DFA4 /* Sources */ = {
@@ -445,6 +466,7 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = blades;
 				SDKROOT = macosx;
 			};
 			name = Debug;
@@ -498,6 +520,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = blades;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -509,6 +532,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
@@ -520,7 +544,7 @@
 					"-DCAPSTONE_HAS_ARM64",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = blades;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
@@ -532,7 +556,8 @@
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
-				DEVELOPMENT_TEAM = EJA352Y795;
+				DEVELOPMENT_TEAM = "";
+				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
@@ -544,7 +569,7 @@
 					"-DCAPSTONE_HAS_ARM64",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = blades;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
