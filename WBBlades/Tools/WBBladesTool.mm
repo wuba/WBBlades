@@ -484,6 +484,8 @@
         return SwiftKindModule;
     }else if((type.Flag & 0x1f) == SwiftKindAnonymous){
         return SwiftKindAnonymous;
+    }else if((type.Flag & 0x1f) == SwiftKindOpaqueType){
+        return SwiftKindOpaqueType;
     }
     
     return SwiftKindUnknown;

@@ -146,6 +146,7 @@ typedef NS_ENUM(NSInteger, SwiftKind) {
     SwiftKindModule         = 0,     // Module
     SwiftKindAnonymous      = 2,     // Anonymous
     SwiftKindProtocol       = 3,     // Protocol
+    SwiftKindOpaqueType     = 4,     // OpaqueType
     SwiftKindClass          = 16,    // Class
     SwiftKindStruct         = 17,    // Struct
     SwiftKindEnum           = 18     // Enum

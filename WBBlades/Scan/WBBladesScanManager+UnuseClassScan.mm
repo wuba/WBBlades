@@ -546,7 +546,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
         
         if ([self invalidParent:parentOffset])continue;
         
-        SwiftKind kind = SwiftKindUnknown;
+        SwiftKind kind = [WBBladesTool getSwiftType:type];
+        if (kind == SwiftKindOpaqueType) {
+            //屏蔽swiftUI 的some修饰的类型
+            continue;
+        }
         while (kind != SwiftKindModule) {
             
             SwiftType type;
