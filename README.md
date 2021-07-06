@@ -28,7 +28,7 @@ $ make install
 
   `$ blades -symbol xxx.app -logPath xxx.ips`
 
-## 一些示例
+## 无用代码检测支持范围
 
 支持`OC`和`Swift` 的无用代码检测，`OC`仅支持`Class`级别的检测，**Swift目前只支持`Class`结构，不支持`Struct`、`Enum`等结构的无用代码查找**。
 
