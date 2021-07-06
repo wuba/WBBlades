@@ -2,7 +2,7 @@
 
 ## 简介
 
-WBBlades是基于Mach-O文件解析的工具集，包括无用代码检测（支持OC和Swift）、静态库体积分析、无符号表日志恢复。
+WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、静态库体积分析、无符号表日志恢复。
 
 ## 安装
 
@@ -14,7 +14,7 @@ $ make install
 
 ## 使用
 
-- 无用代码检测 OC & Swift 
+- 无用代码检测 `OC` & `Swift`
 
    `$ blades -unused xxx.app -from xxx.a xxx.a ....`
 
@@ -30,7 +30,7 @@ $ make install
 
 ## 一些示例
 
-支持OC和Swift 的无用代码检测，OC仅支持Class级别的检测，Swift目前只支持Class结构，不支持Struct、Enum等。
+支持`OC`和`Swift` 的无用代码检测，`OC`仅支持`Class`级别的检测，**Swift目前只支持`Class`结构，不支持`Struct`、`Enum`等**。
 
 | 说明                     | 标记为被使用 | 代码示例                                     |
 | :----------------------- | :----------: | :------------------------------------------- |
