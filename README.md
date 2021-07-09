@@ -1,8 +1,7 @@
 
-
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、静态库体积分析、无符号表日志恢复。
+WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析、无符号表日志符号化。
 
 ## 安装
 
@@ -20,32 +19,51 @@ $ make install
 
   > -from 标识只分析以下静态库中的无用代码，不加此参数默认为APP中全部类
 
-- 静态库体积分析(预估一个静态库经过链接后所占包大小，无需编译链接)
+- 包大小分析 (直接测算.a |.framework链接后的大小)
 
   `$ blades -size xxx.a xxx.framework ....`
 
-- 无符号表日志恢复（在丢失符号表的情况下，尝试`OC`崩溃堆栈符号化，不支持`Swift`）
+  > 支持输入一个文件夹路径，输入后该文件下所有的静态库都会被分析
+
+- 无符号表日志符号化（在丢失符号表的情况下，尝试`OC`崩溃堆栈符号化，不支持`Swift`）
 
   `$ blades -symbol xxx.app -logPath xxx.ips`
+  
+  
 
-## 无用代码检测支持范围
+## 工具特性介绍
 
-支持`OC`和`Swift` 的无用代码检测，`OC`仅支持`Class`级别的检测，**Swift目前只支持`Class`结构，不支持`Struct`、`Enum`等结构的无用代码查找**。
+### 无用代码（无用类）检测支持范围
 
-| 说明                     | 标记为被使用 | 代码示例                                     |
-| :----------------------- | :----------: | :------------------------------------------- |
-| OC 的类的静态调用        |      ✅       | `[MyClass new]`                              |
-| OC 的动态调用            |      ✅       | `NSClassFromString(@"MyClass")`              |
-| OC 字符串拼接动态调用    |      ❌       | `NSClassFromString(@"My" + @"Class")`        |
-| OC load方法使用          |      ✅       | `+load{...} `                                |
-| OC & Swift 被继承        |      ✅       | `SomClass : MyClass`                         |
-| OC & Swift 作为属性      |      ✅       | `@property (strong,atomic) MyClass *obj;`    |
-| Swift 类直接调用         |      ✅       | `MyClass.init()`                             |
-| Swift 通过runtime调用    |      ❌       | `objc_getClass("Demo.MyClass")`              |
-| Swift 泛型参数           |      ✅       | `SomeClass<MyClass>.init()`                  |
-| Swfit 类在OC中动态调用   |      ✅       | `NSClassFromString("Demo.MyClass")`          |
-| Swift 容器中作为类型声明 |      ❌       | `var array:[MyClass]`                        |
-| Swift 多重嵌套           |      ✅       | ` class SomeClass {class MyClass {...} ...}` |
+| 说明                     | 是否支持 | 代码示例                                     |
+| :----------------------- | :------: | :------------------------------------------- |
+| OC 的类的静态调用        |    ✅     | `[MyClass new]`                              |
+| OC 的动态调用            |    ✅     | `NSClassFromString(@"MyClass")`              |
+| OC 字符串拼接动态调用    |    ❌     | `NSClassFromString(@"My" + @"Class")`        |
+| OC load方法使用          |    ✅     | `+load{...} `                                |
+| OC & Swift 被继承        |    ✅     | `SomClass : MyClass`                         |
+| OC & Swift 作为属性      |    ✅     | `@property (strong,atomic) MyClass *obj;`    |
+| Swift 类直接调用         |    ✅     | `MyClass.init()`                             |
+| Swift 通过runtime调用    |    ❌     | `objc_getClass("Demo.MyClass")`              |
+| Swift 泛型参数           |    ✅     | `SomeClass<MyClass>.init()`                  |
+| Swfit 类在OC中动态调用   |    ✅     | `NSClassFromString("Demo.MyClass")`          |
+| Swift 容器中作为类型声明 |    ❌     | `var array:[MyClass]`                        |
+| Swift 多重嵌套           |    ✅     | ` class SomeClass {class MyClass {...} ...}` |
+
+### 包大小分析工具
+
+支持快速检测一个静态库的链接后大小。无需编译链接。**举例说明：如果你想知道一个接入或更新一个SDK对会增加多少包大小，可以用`blades -size `来预估下大小**，而无需将SDK接入编译链接成功后进行测算。
+
+
+
+### 无符号表日志符号化工具
+
+在丢失dSYM文件的情况下，尝试通过`blades -symbol`恢复日志。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用blades进行符号化。**在工具使用前应先注意几点：
+
+- 如果你的app是debug包或者没有剥离符号表的包，那么可以通过`dsymutil app -o xx.dSYM `来提取符号表。然后用符号表进行日志符号化。
+- 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化。
+
+
 
 ## Developing for WBBlades
 
