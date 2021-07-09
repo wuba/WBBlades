@@ -10,6 +10,7 @@ $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
 $ make install
 ```
+如果出现类似`[1]    70390 killed     blades`提示，可以尝试重新`make install`
 
 ## 使用
 
