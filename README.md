@@ -59,8 +59,7 @@ Supports quick detection of the linked size of a static library. No need to comp
 
 In the case of losing the dSYM file, try to restore the log via `blades -symbol`. **For example, in an app packaging, the dSYM file is cleared after a period of time, but the app file is retained. In this case, you can consider using blades for symbolization. **Before using the tool, pay attention to a few points:
 
-- 
-If your app is a debug package or a package that does not strip the symbol table, you can use `dsymutil app -o xx.dSYM `to extract the symbol table. Then use the symbol table to symbolize the log.
+- If your app is a debug package or a package that does not strip the symbol table, you can use `dsymutil app -o xx.dSYM `to extract the symbol table. Then use the symbol table to symbolize the log.
 
 - This tool only supports ObjC, and its principle is to determine the function of the crash by analyzing the address of the ObjC method in Mach-O. Therefore, it is not suitable for Swfit, C, and C++. In addition, tools are not omnipotent, and are only used as emergency supplementary technical means. In daily situations, it is recommended to use symbol tables for log symbolization.
 
