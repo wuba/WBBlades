@@ -42,8 +42,8 @@ int main(int argc, const char *argv[]) {
         }else if (crashLogStr.length > 0){
             scanCrashSymbol(argc, argv);//crash log symbolicate
         }else{
+            NSLog(@"筛选检测无用代码：blades -unused xxx.app -from xxx.a xxx.a .... -o outputPath (-from 标识只分析以下静态库中的无用代码，不加此参数默认为APP中全部)");
             NSLog(@"分析多个静态库的体积：blades -size xxx.a xxx.framework ....");
-            NSLog(@"筛选检测无用代码：blades -unused xxx.app -from xxx.a xxx.a ....(-from 标识只分析以下静态库中的无用代码，不加此参数默认为APP中全部)");
             NSLog(@"日志符号化：blades -symbol xxx.app -logPath xxx.ips");
         }
     }
@@ -88,8 +88,8 @@ static void scanUnusedClass(int argc, const char * argv[]) {
     s_classSet = [NSMutableSet set];
     
     NSString *selectLibs = [[NSUserDefaults standardUserDefaults] stringForKey:@"from"];
-    
-    NSString *libName = @"";
+    NSString *outputPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"o"];
+
     if (selectLibs.length > 0) {
         //enumerate all libs and all classes 
         for (int i = 4; i < argc; i++) {
@@ -97,9 +97,6 @@ static void scanUnusedClass(int argc, const char * argv[]) {
                 NSString *libPath = [NSString stringWithFormat:@"%s",argv[i]];
                 NSLog(@"读取%@所有类", libPath);
                 enumLibFiles(libPath);
-                NSString *tmp = [libPath lastPathComponent];
-                tmp = [@" " stringByAppendingString:tmp];
-                libName = [libName stringByAppendingString:tmp];
             }
         }
     }
@@ -110,16 +107,17 @@ static void scanUnusedClass(int argc, const char * argv[]) {
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     
     //write results to file
-    NSString *outPutPath = resultFilePath();
-    outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
-    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:outPutPath];
-    NSMutableDictionary *resultData = [[NSMutableDictionary alloc] initWithDictionary:plist];
-    NSMutableArray *classes = [NSMutableArray array];
-    [classset enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        [classes addObject:obj];
-    }];
-    [resultData setObject:classes forKey:libName];
-    [resultData writeToFile:outPutPath atomically:YES];
+    
+    if (outputPath.length == 0) {
+        outputPath = resultFilePath();
+        outputPath = [outputPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
+        [classset.allObjects writeToFile:outputPath atomically:YES];
+    }else{
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:classset.allObjects options:0 error:nil];
+        NSString *strJson = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        [strJson writeToFile:outputPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    }
+    NSLog(@"success");
 }
 
 static void scanCrashSymbol(int argc, const char * argv[]) {
