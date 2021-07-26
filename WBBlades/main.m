@@ -101,23 +101,25 @@ static void scanUnusedClass(int argc, const char * argv[]) {
         }
     }
     
-    NSString *appPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
-    
+    NSString *filePath = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
+
+    NSString *appPath = getAppPathIfIpa(filePath);
+        
     //read binary files, scan all libs and classes to find unused classes
     NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:[WBBladesFileManager readArm64FromFile:appPath] classes:s_classSet];
     
     //write results to file
-    
     if (outputPath.length == 0) {
         outputPath = resultFilePath();
-        outputPath = [outputPath stringByAppendingPathComponent:@"WBBladesClass.plist"];
+        outputPath = [outputPath stringByAppendingPathComponent:@"UnusedClass.plist"];
         [classset.allObjects writeToFile:outputPath atomically:YES];
     }else{
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:classset.allObjects options:0 error:nil];
         NSString *strJson = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         [strJson writeToFile:outputPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     }
-    NSLog(@"success");
+    
+    rmAppIfIpa(filePath);
 }
 
 static void scanCrashSymbol(int argc, const char * argv[]) {

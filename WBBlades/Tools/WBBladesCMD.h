@@ -48,6 +48,10 @@ void compileXcassets(NSString *path);
  */
 void colorPrint(NSString *info);
 
+NSString* getAppPathIfIpa(NSString *filePath);
+
+void rmAppIfIpa(NSString *filePath);
+
 #ifdef    __cplusplus
 }
 #endif

@@ -25,6 +25,57 @@ static NSData * cmd(NSString *cmd) {
     return data;
 }
 
+void rmAppIfIpa(NSString *filePath){
+    NSString *fileName = filePath.lastPathComponent;
+    NSString *fileType = [fileName componentsSeparatedByString:@"."].lastObject;
+    if ([fileType isEqualToString:@"ipa"]) {
+        //创建同级目录
+        NSString *parentPath = filePath.stringByDeletingLastPathComponent;
+        NSString *tmpPath = [parentPath stringByAppendingFormat:@"/tmp/"];
+        cmd([NSString stringWithFormat:@"rm -rf %@",tmpPath]);
+    }
+}
+
+NSString* getAppPathIfIpa(NSString *filePath){
+    
+    rmAppIfIpa(filePath);
+    
+    NSString *fileName = filePath.lastPathComponent;
+    NSString *fileType = [fileName componentsSeparatedByString:@"."].lastObject;
+    if ([fileType isEqualToString:@"ipa"]) {
+        NSFileManager *manager = [NSFileManager defaultManager];
+        //创建同级目录
+        NSString *parentPath = filePath.stringByDeletingLastPathComponent;
+        NSString *tmpPath = [parentPath stringByAppendingFormat:@"/tmp/"];
+        NSString *copyPath = [tmpPath stringByAppendingString:@"copy.ipa"];
+
+        cmd([NSString stringWithFormat:@"mkdir %@",tmpPath]);
+        
+        //解压
+        [manager copyItemAtPath:filePath toPath:copyPath error:NULL];
+        
+        cmd([NSString stringWithFormat:@"unzip -d %@ %@",tmpPath,copyPath]);
+        
+        __block NSString *lastFilePath = filePath;
+        NSString *payloadPath = [tmpPath stringByAppendingFormat:@"Payload/"];
+        BOOL isDirectory;
+        if([manager fileExistsAtPath:payloadPath isDirectory:&isDirectory]){
+            NSArray *files = [manager contentsOfDirectoryAtPath:payloadPath error:NULL];
+            [files enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+               
+                NSString *file = (NSString *)obj;
+                if ([file hasSuffix:@".app"]) {
+                    lastFilePath = [payloadPath stringByAppendingString:file];
+                    *stop = YES;
+                }
+            }];
+        }
+        filePath = lastFilePath;
+    }
+
+    return filePath;
+}
+
 void stripFile(NSString *filePath) {
 
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
