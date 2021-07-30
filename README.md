@@ -57,7 +57,7 @@ $ make install
 
 Supports quick detection of the linked size of a static library. No need to compile and link. **For example: If you want to know how much app size will increase when an SDK is imported or updated, you can use `blades -size` to estimate the size**, without the need to connect the SDK to compile and link successfully to calculate.
 
-### Log Symbolization Tool Without dSYM File
+### Crash Log Symbolization Tool Without dSYM File
 
 In the case of losing the dSYM file, try to restore the log via `blades -symbol`. **For example, in an app packaging, the dSYM file is cleared after a period of time, but the app file is retained. In this case, you can consider using blades for symbolization. **Before using the tool, pay attention to a few points:
 
