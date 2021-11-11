@@ -262,7 +262,7 @@
             
             switch (opcode) {
                 case BIND_OPCODE_DONE:{
-                    end = isLazyBind?NO:YES;
+                    end = isLazyBind?YES:NO;
                     break;
                 }
                 case BIND_OPCODE_SET_SYMBOL_TRAILING_FLAGS_IMM:{
