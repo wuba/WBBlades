@@ -257,13 +257,15 @@ static void enumAllFiles(NSString *path) {
                 resourceSize += [fileData length];
                     
                 removeFile(assetsCarPath);//remove file
-            }else if ([lastPathComponent hasSuffix:@"git"] ||
+            }
+            else if ([lastPathComponent hasSuffix:@"git"] ||
                       [[lastPathComponent lowercaseString] hasSuffix:@"dsym"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"demo"] ||
                       [[lastPathComponent lowercaseString] isEqualToString:@"document"]){
                 //ignore git,demo,document
                 return;
-            }else{
+            }
+            else {
                 NSArray * dirArray = [fileManger contentsOfDirectoryAtPath:path error:nil];
                 NSString * subPath = nil;
                 //enumerate current directory's files
@@ -274,14 +276,27 @@ static void enumAllFiles(NSString *path) {
                     enumAllFiles(subPath);
                 }
             }
-        }else{
+        }
+        else {
             NSArray *array = [[lastPathComponent lowercaseString] componentsSeparatedByString:@"."];
             NSString *fileType = [array lastObject];
             //judge whether it is a resource
             if (isResource(fileType)) {
                 //calculate resources' size
-                NSData *fileData = [WBBladesFileManager  readFromFile:path];
-                resourceSize += [fileData length];
+                // 对于.car类的资源，需要按指定类型(如3X)先进行分片，再统计大小
+                if ([fileType isEqualToString:@"car"]) {
+                    NSString *thinCarPath = [NSString stringWithFormat:@"%@/Thinning_Assets.car",[path stringByDeletingLastPathComponent]];
+                    appSlicing3XAssetsCar(path, thinCarPath);//compile xcassets
+                    //compile '.car' type files to calculate size
+                    NSData *fileData = [WBBladesFileManager  readFromFile:thinCarPath];
+                    NSLog(@"资源编译后 %@大小：%lu 字节",path, [fileData length]);
+                    resourceSize += [fileData length];
+                    removeFile(thinCarPath);//remove file
+                }
+                else {
+                    NSData *fileData = [WBBladesFileManager  readFromFile:path];
+                    resourceSize += [fileData length];
+                }
             }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//static library
                 handleStaticLibrary(path);
             }else{//Probably it is a compiled intermediate files
@@ -312,6 +327,7 @@ static BOOL isResource(NSString *type) {//resource type
         [type isEqualToString:@"rs"] ||
         [type isEqualToString:@"sty"] ||
         [type isEqualToString:@"cfg"] ||
+        [type isEqualToString:@"car"] ||
         [type isEqualToString:@"strings"]) {
         return YES;
     }
