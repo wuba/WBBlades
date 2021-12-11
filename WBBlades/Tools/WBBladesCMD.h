@@ -41,6 +41,10 @@ void removeCopyFile(NSString *filePath);
  * Compile xcassert resources.
  */
 void compileXcassets(NSString *path);
+/**
+ app slicing 3X for Assets.Car
+ */
+void appSlicing3XAssetsCar(NSString *path, NSString *thinName);
 
 /**
  * Color printing to console.

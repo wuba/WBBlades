@@ -137,6 +137,12 @@ void compileXcassets(NSString *path) {
     cmd(complieCmd);
 }
 
+// 对已有的Assets.car文件进行3X分片
+void appSlicing3XAssetsCar(NSString *path, NSString *thinCarPath) {
+    NSString *thinCmd = [NSString stringWithFormat:@"assetutil --idiom phone --subtype 570 --scale 3 --display-gamut srgb --graphicsclass MTL2,2 --graphicsclassfallbacks MTL1,2:GLES2,0 --memory 1 --hostedidioms car,watch %@ -o %@", path, thinCarPath];
+    cmd(thinCmd);
+}
+
 #pragma mark Tools
 void colorPrint(NSString *info) {
     
