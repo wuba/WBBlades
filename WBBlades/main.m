@@ -13,6 +13,7 @@
 #import "WBBladesScanManager+UnuseClassScan.h"
 #import "WBBladesScanManager+CrashSymbol.h"
 #import "WBBladesCMD.h"
+#import "WBBladesTool.h"
 
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
@@ -297,9 +298,21 @@ static void enumAllFiles(NSString *path) {
                     NSData *fileData = [WBBladesFileManager  readFromFile:path];
                     resourceSize += [fileData length];
                 }
-            }else if([array count] == 1 || [fileType isEqualToString:@"a"]){//static library
+            }
+            else if( [fileType isEqualToString:@"a"]) {//static library
                 handleStaticLibrary(path);
-            }else{//Probably it is a compiled intermediate files
+            }
+            else if( [array count] == 1 ) {
+                // 没有后缀的文件，可能是framework中的macho，也可能是资源文件如模型文件
+                NSData *fileData = [WBBladesFileManager readFromFile:path];
+                if ([WBBladesTool isMachO:fileData]) {
+                    handleStaticLibrary(path);
+                }
+                else {
+                    resourceSize += [fileData length];
+                }
+            }
+            else {//Probably it is a compiled intermediate files
             }
         }
     }
