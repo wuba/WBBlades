@@ -30,7 +30,7 @@
 		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
 		3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3749FF6426359D3800E90888 /* libswiftDemangle.tbd */; };
 		37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.mm */; };
-		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
+		3794EE7C22B3C71300D5DFA4 /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.mm */; };
 		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
 		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */; };
 		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
@@ -110,7 +110,7 @@
 		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
 		37561F3D23B392F10020CF02 /* WBBladesCMD.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesCMD.mm; sourceTree = "<group>"; };
 		3794EE7822B3C71300D5DFA4 /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
-		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		3794EE7B22B3C71300D5DFA4 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
 		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
 		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 				37FA62BD23CEFE5D008BCBAF /* Link */,
 				37FA62BC23CEFDA2008BCBAF /* Scan */,
 				3729357722E1897E00C37C02 /* Capstone */,
-				3794EE7B22B3C71300D5DFA4 /* main.m */,
+				3794EE7B22B3C71300D5DFA4 /* main.mm */,
 				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
 			);
 			path = WBBlades;
@@ -403,7 +403,7 @@
 				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
 				3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */,
 				3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */,
-				3794EE7C22B3C71300D5DFA4 /* main.m in Sources */,
+				3794EE7C22B3C71300D5DFA4 /* main.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
