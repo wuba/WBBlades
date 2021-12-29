@@ -26,19 +26,23 @@
 #import "WBBladesDefines.h"
 
 @implementation WBBladesScanManager
-//scan static library size
+
+/**
+ 功能：扫描和提取静态库文件中的数据。首先会判断当前文件类型。可能存在单一目标文件的静态库、动态库、多目标文件静态库等几种可能。其中动态库直接获取文件大小。静态库则需要根据目标文件进行提取数据计算
+ fileData：传入的文件二进制
+ */
 + (unsigned long long)scanStaticLibrary:(NSData *)fileData {
     
-    //judge whether it is a static library
-    if ([fileData length] < sizeof(mach_header) || ![WBBladesTool isSupport:fileData]) {
+    //异常判断，架构检测
+    if ([fileData length] < sizeof(mach_header_64) || ![WBBladesTool isSupport:fileData]) {
         return 0;
     }
     NSMutableArray *objects = [NSMutableArray array];
     
-    //Get the file eigenvalue
-    mach_header header = *(mach_header*)((mach_header *)[fileData bytes]);
+    //获取文件的header
+    mach_header_64 header = *(mach_header_64*)((mach_header_64 *)[fileData bytes]);
     
-    if (header.filetype == MH_OBJECT) {//it is a object file
+    if (header.filetype == MH_OBJECT) {
         WBBladesObject *object = [WBBladesObject new];
         NSRange range = NSMakeRange(0, 0);
         
@@ -79,7 +83,11 @@
     return linkSize;
 }
 
-//scan object file and return model
+/**
+ 功能：从二进制文件的指定位置读取相应的数据。并且这段数据会被当做目标文件来读取和解析。先读Header，再读目标文件。
+ fileData：从磁盘中读取的二进制文件。
+ range：目标文件的位置
+ */
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range {
     range = [self rangeAlign:range];
     
@@ -96,11 +104,15 @@
     return object;
 }
 
+/**
+ 功能：从指定位置读取目标文件对应的Header
+ fileData：从磁盘中读取的二进制文件
+ range：目标文件的位置
+ */
 + (WBBladesObjectHeader *)scanObjectHeader:(NSData *)fileData range:(NSRange)range {
     
     NSRange tmpRange = range;
     NSUInteger len = fileData.length - tmpRange.location;
-    //reuse symbol table code,intercepting binary
     NSData *tmpData = [WBBladesTool readBytes:tmpRange length:len fromFile:fileData];
     NSRange headerRange = NSMakeRange(0, 0);
     WBBladesObjectHeader *objcHeader = [self scanSymtabHeader:tmpData range:headerRange];
@@ -108,6 +120,11 @@
     return objcHeader;
 }
 
+/**
+ 功能：从指定位置读取目标文件对应的Header
+ fileData：从磁盘中读取的二进制文件
+ range：目标文件的位置
+ */
 + (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange)range {
     
     //use eight-byte alignment
@@ -281,7 +298,11 @@
     return objcMachO;
 }
 
-//scan symbol table and return model
+/**
+    功能：获取静态库中的符号表，目前获取到相应数据后没有做任何使用。
+    fileData：从磁盘中读取的二进制文件
+    range：符号表的位置
+ */
 + (WBBladesSymTab *)scanSymbolTab:(NSData *)fileData range:(NSRange)range {
     range = [self rangeAlign:range];
     unsigned long long location = range.location;
@@ -316,7 +337,11 @@
     return symTab;
 }
 
-//scan string table and return model
+/**
+    功能：获取静态库中的字符串表，目前获取到相应数据后没有做任何使用。
+    fileData：从磁盘中读取的二进制文件
+    range：字符串的位置
+ */
 + (WBBladesStringTab *)scanStringTab:(NSData *)fileData range:(NSRange) range {
     
     //string table can be regardless of byte alignment
@@ -336,7 +361,11 @@
     return stringTab;
 }
 
-//scan symbol table header and return model
+/**
+    功能：获取静态库中的Symtab Header，目前获取到相应数据后没有做任何使用。
+    fileData：从磁盘中读取的二进制文件
+    range：Symtab Header的位置
+ */
 + (WBBladesObjectHeader *)scanSymtabHeader:(NSData *)fileData range:(NSRange )range{
     
     range = [self rangeAlign:range];
@@ -369,8 +398,10 @@
 }
 
 #pragma mark Tools
-//use eight-bytes alignment
-+ (NSRange)rangeAlign:(NSRange)range {
+/**
+    功能：每段数据读取时需要做8字节对齐，否则会出现异常。
+    range：需要做8字节对齐的数据，只修正location
+ */+ (NSRange)rangeAlign:(NSRange)range {
     unsigned long long location = NSMaxRange(range);
     location = 8 * ceil(location / 8.0);
     return NSMakeRange(location, range.length);

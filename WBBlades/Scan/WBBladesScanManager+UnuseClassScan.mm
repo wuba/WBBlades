@@ -30,7 +30,10 @@ static section_64 textList = {0};
 static section_64 textConst = {0};
 static NSArray *symbols;
 
-//dump binary file's classes
+/**
+ 功能：无用代码检测时，可以输入静态库，然后从静态库中提取类集合。在后续的无用代码检测流程中，我们只检测这部分集合内的无用代码，其他类是否有被使用不会被检测。该方法的作用就是从指定的静态库中提取类集合。
+ fileData：从磁盘中读取的二进制文件，通常是静态库文件
+ */
 + (NSSet *)dumpClassList:(NSData *)fileData {
     
     if (!fileData || ![WBBladesTool isSupport:fileData]) {
@@ -61,10 +64,21 @@ static NSArray *symbols;
 }
 
 #pragma mark Scan
-//scan specified file to find unused classes
+/**
+ 功能：无用代码检测的主流程函数。其主流程如下：
+     （1）读取nlclslist中的数据，该数据通常为实现了+laod的类，这些类我们会标记为有用类
+     （2）读取nlcatlist，该数据通常为分类中实现了+load的类，这些类我们会标记为有用类
+     （3）读取classref，该数据通常为被显式调用的OC类，例如+[ClassA func]，ClassA会被标记为有用类
+     （4）读取cfstring，该数据通常记录被使用到的OC的字符串，例如 @”ClassA“,ClassA会被标记为有用类，这一步是为了解决runtime 动态调用类的识别问题，但是如果是字符串拼接后动态调用，那么我们依旧无法识别。
+     （5）遍历swift5Types，该数据通常记录swift中的类型，例如枚举、结构体、类等等。从swift5Types中，我们会在汇编代码中，查找每个swift类的访问函数地址，如果找到则说明该类有被使用，如果没找到则说明没有被使用。
+     （6）遍历classlist，该数据通常存储OC&Swift的所有类集合。在遍历类的过程中，我们会读取每个类的属性、父类，并将属性类型和父类类型加入到有用类集合中。
+     （7）从符号表中泛型的参数，并将参数加入到有用类集合中。例如<MyClass>，MyClass会被检测出并加入到有用类集合中。
+     （8）泛型类没有被存储到classlist中，因此需要将泛型类补充到集合中
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ aimClasses：只查找给定的类集合中的无用类。
+ */
 + (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses {
-//    [self readDwarf];
-//    return nil;
+    
     if (aimClasses.count != 0) {
         NSLog(@"在给定的%ld个类中搜索",aimClasses.count);
     }
@@ -167,7 +181,7 @@ static NSArray *symbols;
     //read classref
     [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
     
-    //read __cstring
+    //read __cfstring
     [self readCStringList:cfstringList set:classrefSet fileData:fileData];
 
     //read swift5Types
@@ -185,7 +199,11 @@ static NSArray *symbols;
     
     return [self diffClasses:classSet used:classrefSet];
 }
-
+/**
+ 功能：对类做diff，差集即为无用类集合。在diff过程中，如果遇到Swift类则需要进行demangleName处理
+ allClasses：所有的类
+ usedClasses：被标记为有用到的类
+ */
 + (NSSet*)diffClasses:(NSMutableSet *)allClasses used:(NSMutableSet *)usedClasses{
     [allClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *className = (NSString *)obj;
@@ -215,7 +233,16 @@ static NSArray *symbols;
     return result;
 }
 
-+ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr  begin:(unsigned long long)begin end:(unsigned long long)end {
+/**
+ 功能：在指定的汇编代码中查找指定的地址。此功能在机器指令反汇编后，得到汇编代码后才能使用。
+ targetStr：完整的地址
+ targetHighStr：在汇编代码中，很多情况下不是直接对targetStr进行使用，而是将targetStr拆分为高位和低位2部分数据，这里的targetHighStr就是高位数据
+ targetLowStr：低位数据
+ begin：从哪个字节开始进行查找
+ end：在哪个字节结束查找
+ 
+ */
++ (BOOL)scanSELCallerWithAddress:(char * )targetStr heigh:(char *)targetHighStr low:(char *)targetLowStr begin:(unsigned long long)begin end:(unsigned long long)end {
     
     char *asmStr;
     BOOL high = NO;
@@ -249,6 +276,11 @@ static NSArray *symbols;
 
 
 #pragma mark Read
+/**
+ 功能：获取classlist section中的数据，并遍历每个类的父类及属性。将父类和属性纳入到有用类集合中
+ classList：classlist section的section_64结构体，里面记录了classlist section的引导信息
+ aimClasses：只检测指定的类，此数据从静态库中提取
+ */
 + (NSMutableSet *)readClassList:(section_64)classList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSMutableSet *classSet = [NSMutableSet set];
     unsigned long long max = [fileData length];
@@ -345,6 +377,11 @@ static NSArray *symbols;
     return classSet;
 }
 
+/**
+ 功能：该函数目的是为了获取项目中用到的所有字符串，例如 @”String“。获取到字符串后我们”勉强“把这些字符串都当做runtime动态调用的类。
+ classrefSet：被引用的类的集合，string会被加入到这个集合中
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (void)readCStringList:(section_64)cfstringList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(cfstringList.offset, 0);
     unsigned long long max = [fileData length];
@@ -368,6 +405,11 @@ static NSArray *symbols;
      }
 }
 
+/**
+ 功能：读取二进制文件中的classref数据，classref中存放的是被显式调用的类（不包括Swift类）。例如+[ClassA func]，ClassA会被存放到classref中。
+ aimClasses：只检测指定的类，此数据从静态库中提取
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (void)readClsRefList:(section_64)classrefList aimClasses:(NSSet *)aimClasses set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(classrefList.offset, 0);
     unsigned long long max = [fileData length];
@@ -409,6 +451,11 @@ static NSArray *symbols;
        }
 }
 
+/**
+ 功能：读取分类中实现+load的类，在某些场景下，文件在主类中没有实现+load方法，但是在分类中实现了+load，这种场景可以通过nlcatList获取到类信息。
+ classrefSet：被引用的类的集合
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (void)readNLCatList:(section_64)nlcatList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(nlcatList.offset, 0);
     unsigned long long max = [fileData length];
@@ -453,6 +500,11 @@ static NSArray *symbols;
     }
 }
 
+/**
+ 功能：读取主类中实现+load的类，在某些场景下，文件在主类中没有实现+load方法，但是在分类中实现了+load，这种场景下该类没有在nlclsList中。
+ classrefSet：被引用的类的集合
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (void)readNLClsList:(section_64)nlclsList set:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     //nlclslist
     NSRange range = NSMakeRange(nlclsList.offset, 0);
@@ -492,6 +544,17 @@ static NSArray *symbols;
 }
 
 #pragma mark Swift
+/**
+ 功能：查找被使用到的Swift类。主要流程如下：
+ （1）获取类型，如果是类的话继续获取name；
+ （2）获取到swift 类的访问函数acccessfunc;
+ （3）获取类的父类名称，标记为有用类
+ （4）获取类的属性类型，标记为有用类
+ （5）在汇编代码中查找每个类的accessfunc，找到则标记为有用类
+ swiftUsedTypeSet：被引用的类的集合
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ return：返回在遍历过程中检测出的泛型类型
+ */
 + (NSArray *)readSwiftTypes:(section_64)swift5Types set:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
 
     symbols = [self getSortedSymbolList:fileData];
@@ -982,6 +1045,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return genericTypes.copy;
 }
 
+/**
+ 功能：判断某个类型的Parent 的偏移地址是否合法，如果合法则可以继续当前流程，否则中断遍历
+ parentOff：某个类型的Parent 的偏移地址
+ return：YES合法，NO不合理的值
+ */
 + (BOOL)invalidParent:(UInt64)parentOff{
     if (parentOff >= textConst.offset && parentOff < textConst.offset + textConst.size ) {
         return NO;
@@ -989,6 +1057,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return YES;
 }
 
+/**
+ 功能：在汇编代码中查找Swift类的AccessFunc是否有调用。在符号表中进行判断是否为Swift类型，如果是Swift类型的函数的话才会在其汇编代码中搜索。
+ typeName：当前正在检测是否有用的Swift类
+ accessFunc：当前正在检测是否有用的Swift类的访问函数AccessFunc
+ return：YES:Swift类被检测到有被使用 NO:Swift类没有被使用
+ */
 + (BOOL)findCallAccessFunc:(NSString *)typeName accessFunc:(unsigned long long)accessFunc  fileData:(NSData *)fileData {
     NSString *demangleName = [WBBladesTool getDemangleName:typeName];
     
@@ -1016,6 +1090,12 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return NO;
 }
 
+/**
+ 功能：泛型的约束需要被当做有用代码，因此通过符号表检测出所有泛型的约束条件，并解析出对应的类型名称放入到有用类集合中。
+ swiftUsedTypeSet：有用类集合
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ return：泛型集合
+ */
 + (NSArray *)readSwiftGenericRequire:(NSMutableSet *)swiftUsedTypeSet fileData:(NSData *)fileData{
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     ptrdiff_t symbolOffset = symCmd.symbolOff;
@@ -1049,6 +1129,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return genericRequiredSet.allObjects;
 }
 
+/**
+ 功能：从符号表中读取数据，如果符号以"demangling cache variable for type metadata for "开头，说明该类型符号没有AccessFunc的调用而是直接使用Metadata的地址。
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ return：{ 类名: Metadata地址 }
+ */
 + (NSDictionary *)readSwiftCacheMetadata:(NSData *)fileData{
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     ptrdiff_t symbolOffset = symCmd.symbolOff;
@@ -1079,6 +1164,11 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return dic.copy;
 }
 
+/**
+ 功能：读取符号表，并对符号表按地址进行排序。处理后可以得到每个符号的地址区间。
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ return：WBBladesSymbolRange 对象数组
+ */
 + (NSArray *)getSortedSymbolList:(NSData *)fileData{
     WBBladesSymTabCommand *symCmd = [self symbolTabOffsetWithMachO:fileData];
     ptrdiff_t symbolOffset = symCmd.symbolOff;
@@ -1147,6 +1237,10 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
     return allSymbols.copy;
 }
 
+/**
+ 功能：剔除符号开头的“static ”。
+ symRanObj：WBBladesSymbolRange类型模型。
+ */
 + (void)trimSwiftSymbol:(WBBladesSymbolRange *)symRanObj{
     NSString *tripStr = @"static ";
     if ([symRanObj.symbol hasPrefix:tripStr]) {
