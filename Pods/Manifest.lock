@@ -1,0 +1,16 @@
+PODS:
+  - WBBrightMirror (1.0)
+
+DEPENDENCIES:
+  - WBBrightMirror (from `./WBBrightMirror`)
+
+EXTERNAL SOURCES:
+  WBBrightMirror:
+    :path: "./WBBrightMirror"
+
+SPEC CHECKSUMS:
+  WBBrightMirror: d5e1f5318e0124f40bb4a687cbc156307fbdad6d
+
+PODFILE CHECKSUM: d0dc772550336cfc9028afb6e6e7e0f3e8cebd06
+
+COCOAPODS: 1.10.1

@@ -1,0 +1,9 @@
+
+platform :macos, "10.13"
+
+target "WBBlades" do
+   pod 'WBBrightMirror', :path => './WBBrightMirror'
+  # pod 'ArtilleryOfItaly', :path => './ArtilleryOfItaly'
+
+end
+

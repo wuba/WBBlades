@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2D3BC50E7729E212678B9577 /* libPods-WBBlades.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */; };
 		372935DA22E18AC100C37C02 /* cs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358022E1897E00C37C02 /* cs.c */; };
 		372935DB22E18AC100C37C02 /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358F22E1897E00C37C02 /* SStream.c */; };
 		372935DC22E18AC100C37C02 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729359022E1897E00C37C02 /* utils.c */; };
@@ -36,6 +37,7 @@
 		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
 		37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1423B9EC05006D814F /* WBBladesTool.mm */; };
 		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
+		463EA374277C40950011FF55 /* WBCrashTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463EA373277C40950011FF55 /* WBCrashTool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +53,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.debug.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
 		3726270122DC47EE009B6117 /* WBBladesDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
 		3729357822E1897E00C37C02 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
 		3729357922E1897E00C37C02 /* inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inttypes.h; sourceTree = "<group>"; };
@@ -121,6 +124,11 @@
 		37CF3F1423B9EC05006D814F /* WBBladesTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
 		37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
 		37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
+		463EA372277C40950011FF55 /* WBBlades-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBlades-Bridging-Header.h"; sourceTree = "<group>"; };
+		463EA373277C40950011FF55 /* WBCrashTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBCrashTool.swift; sourceTree = "<group>"; };
+		463EA375277C409E0011FF55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.release.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +137,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */,
+				2D3BC50E7729E212678B9577 /* libPods-WBBlades.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -214,6 +223,7 @@
 			isa = PBXGroup;
 			children = (
 				3749FF6426359D3800E90888 /* libswiftDemangle.tbd */,
+				C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -224,6 +234,7 @@
 				3794EE7A22B3C71300D5DFA4 /* WBBlades */,
 				3794EE7922B3C71300D5DFA4 /* Products */,
 				3749FF6326359D3800E90888 /* Frameworks */,
+				40D424E6E737EEAB0E0AE94A /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -244,7 +255,10 @@
 				37FA62BC23CEFDA2008BCBAF /* Scan */,
 				3729357722E1897E00C37C02 /* Capstone */,
 				3794EE7B22B3C71300D5DFA4 /* main.m */,
+				463EA373277C40950011FF55 /* WBCrashTool.swift */,
+				463EA375277C409E0011FF55 /* Info.plist */,
 				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
+				463EA372277C40950011FF55 /* WBBlades-Bridging-Header.h */,
 			);
 			path = WBBlades;
 			sourceTree = "<group>";
@@ -299,6 +313,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		40D424E6E737EEAB0E0AE94A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */,
+				6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -306,10 +329,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3794EE7F22B3C71300D5DFA4 /* Build configuration list for PBXNativeTarget "WBBlades" */;
 			buildPhases = (
+				05A6B2073356680A3EDB8014 /* [CP] Check Pods Manifest.lock */,
 				3794EE7422B3C71300D5DFA4 /* Sources */,
 				3794EE7522B3C71300D5DFA4 /* Frameworks */,
 				3794EE7622B3C71300D5DFA4 /* CopyFiles */,
 				37E59715268C95F200F40AA8 /* ShellScript */,
+				2668335EA5F4AFBE2867EDA4 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -331,6 +356,7 @@
 				TargetAttributes = {
 					3794EE7722B3C71300D5DFA4 = {
 						CreatedOnToolsVersion = 10.1;
+						LastSwiftMigration = 1310;
 					};
 				};
 			};
@@ -352,6 +378,45 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		05A6B2073356680A3EDB8014 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WBBlades-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2668335EA5F4AFBE2867EDA4 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		37E59715268C95F200F40AA8 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -394,6 +459,7 @@
 				37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */,
 				37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */,
 				372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */,
+				463EA374277C40950011FF55 /* WBCrashTool.swift in Sources */,
 				372935E822E18AC100C37C02 /* MCInst.c in Sources */,
 				372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */,
 				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
@@ -527,12 +593,19 @@
 		};
 		3794EE8022B3C71300D5DFA4 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
@@ -546,18 +619,28 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = blades;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WBBlades/WBBlades-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
 		3794EE8122B3C71300D5DFA4 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
 				DEVELOPMENT_TEAM = "";
 				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
@@ -571,6 +654,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
 				PRODUCT_NAME = blades;
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WBBlades/WBBlades-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

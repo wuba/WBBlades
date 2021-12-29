@@ -13,6 +13,7 @@
 #import "WBBladesScanManager+UnuseClassScan.h"
 #import "WBBladesScanManager+CrashSymbol.h"
 #import "WBBladesCMD.h"
+#import "blades-Swift.h"
 
 static BOOL isResource(NSString *type);
 static void enumAllFiles(NSString *path);
@@ -26,6 +27,7 @@ static NSMutableSet *s_classSet;
 static void scanStaticLibrary(int argc, const char * argv[]);
 static void scanUnusedClass(int argc, const char * argv[]);
 static void scanCrashSymbol(int argc, const char * argv[]);
+static void scanCrashLog(int argc, const char * argv[]);
 static NSString *resultFilePath(void);
 
 int main(int argc, const char *argv[]) {
@@ -34,12 +36,15 @@ int main(int argc, const char *argv[]) {
         NSString *staticLibSizeStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"size"];
         NSString *unusedClassStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"unused"];
         NSString *crashLogStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"symbol"];
+        NSString *crashStr = [[NSUserDefaults standardUserDefaults] stringForKey:@"crash"];
 
         if (staticLibSizeStr.length > 0) {
             scanStaticLibrary(argc, argv);//scan static library size
         }else if (unusedClassStr.length > 0){
             scanUnusedClass(argc, argv);//scan unused class
         }else if (crashLogStr.length > 0){
+            scanCrashSymbol(argc, argv);//crash log symbolicate
+        }else if (crashStr.length > 0){
             scanCrashSymbol(argc, argv);//crash log symbolicate
         }else{
             NSLog(@"筛选检测无用代码：blades -unused xxx.app -from xxx.a xxx.a .... -o outputPath (-from 标识只分析以下静态库中的无用代码，不加此参数默认为APP中全部)");
@@ -139,6 +144,20 @@ static void scanCrashSymbol(int argc, const char * argv[]) {
     NSString *outPutPath = resultFilePath();
     outPutPath = [outPutPath stringByAppendingPathComponent:@"WBBladesCrash.txt"];
     [outputLog writeToFile:outPutPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+}
+
+static void scanCrashLog(int argc, const char * argv[]){
+    if (argc < 3){
+        return;
+    }
+    NSString *logPath = [NSString stringWithFormat:@"%s", argv[2]];
+    BOOL canContinue = [WBCrashTool scanCrashWithLogPath:logPath];
+    if (canContinue) {
+        printf("Insert your symbol file path: ");
+        char *sPath;
+        scanf("%s",&sPath);
+        //
+    }
 }
 
 #pragma mark Handle

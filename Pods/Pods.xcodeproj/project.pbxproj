@@ -1,0 +1,655 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0103F9AC3BFBD70E8E71B043BE98A0A3 /* WBBrightMirror-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 11395E4703E02B38643A33FF64744AF8 /* WBBrightMirror-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0262B03C5EC26D1ACB289A5ABB77836D /* WBBrightMirror-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 4C62963B134C86AE5B1311215199605F /* WBBrightMirror-Bridging-Header.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		223C85BDD62CE4485B1FC7AD21F779DC /* WBBrightMirrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F8404EEA5382649CC1EB5E4ABF14C3 /* WBBrightMirrorManager.swift */; };
+		269E63A390C2C142954BFDA95BAF1AD1 /* WBBrightMirrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A94D3EBF411FBCF667FC1BA1BE671B8 /* WBBrightMirrorModel.swift */; };
+		34F71092FF4D3A0FD43C7F672006142F /* WBBrightMirror-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D26E366777D694811F1670105AD2CF7B /* WBBrightMirror-dummy.m */; };
+		39EF87701833FC71EA8936DD7858CDD1 /* WBBMSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C6F42CCC4FAB975335D5456F19A053 /* WBBMSymbolTool.swift */; };
+		3AA48E6C5DB979E6545BECFE49AAFA16 /* WBBMSymbolTake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716C0E0A85591899B99241083BAE86B8 /* WBBMSymbolTake.swift */; };
+		483B774E7A050EAC889AE76EDC543E0D /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3167996A268DF45CB8D165E2B1D716AF /* WBBMScanLogModel.swift */; };
+		54DC0FD3B1D0B6D91D702D30678B339B /* WBBMOutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABEEBD2CCD8776E0A02C158AE0324A8 /* WBBMOutputFile.swift */; };
+		5FA7B29AB7261098CF49EB850A11CA3D /* WBBMScanBuglyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D47F630F18962A50F56BB1EFB35A11B /* WBBMScanBuglyLog.swift */; };
+		653D97F62285C582BA68D911E5D96026 /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 46D3FE57B493A1BD4C3383BDEA61F45C /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7B94FB26CC931E83D2A704CC1E507B98 /* WBBMScanLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77EB6A38AECC7625D97C4BEDC935741 /* WBBMScanLogManager.swift */; };
+		926B42A2D63131518D6D3E7008359C12 /* WBBMLightSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FBA48C5A8C059A9E4D5B2AB7C4C5784 /* WBBMLightSymbolTool.swift */; };
+		9460976A559DDEF9A3E083DC1EC8E3CB /* WBBMShellObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB5590C57F5B2B23375EB224DB45F68B /* WBBMShellObject.swift */; };
+		97F63F62EAD9FCF1FC826B4066EAFEBC /* WBBMScanLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F7A721694F99F04A6FCDF8079127BAE /* WBBMScanLogTool.swift */; };
+		9BC074359F632A78D247ECDE5D9F0191 /* WBBMScanSystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A518970CB7B4F9A88D19D167015E8E4 /* WBBMScanSystemLog.swift */; };
+		EDB0F98363FD31B198E446248BF705E0 /* WBBMSymbolSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE0302C6F6651E5C6658D70AE4672C5F /* WBBMSymbolSearch.swift */; };
+		F4239A9EE8EA5B9E039BC9723B292C8F /* WBBMDownload.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B2216F61DD84AAA3AB1F291A98A30C /* WBBMDownload.swift */; };
+		FB362C42B16FD4893B91B807FEE77A80 /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 51FCC4248ABEA4EAE90B586EF43E3C29 /* Pods-WBBlades-dummy.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		302C2B919DBA8F0DC749D76B5D8F6DDE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DC3F0E7B0F31931ABBE1EAF87025EA1B;
+			remoteInfo = WBBrightMirror;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		0C544D9E4A74D399784ED9732CB87504 /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; name = dsymutil; path = WBBrightMirror/Resource/dsymutil; sourceTree = "<group>"; };
+		11395E4703E02B38643A33FF64744AF8 /* WBBrightMirror-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBrightMirror-umbrella.h"; sourceTree = "<group>"; };
+		1D47F630F18962A50F56BB1EFB35A11B /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
+		3167996A268DF45CB8D165E2B1D716AF /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
+		3FBA48C5A8C059A9E4D5B2AB7C4C5784 /* WBBMLightSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMLightSymbolTool.swift; sourceTree = "<group>"; };
+		436C87308893455F40CD7DD11BD4D1B2 /* WBBrightMirror-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBrightMirror-prefix.pch"; sourceTree = "<group>"; };
+		46D3FE57B493A1BD4C3383BDEA61F45C /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
+		49F8404EEA5382649CC1EB5E4ABF14C3 /* WBBrightMirrorManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBrightMirrorManager.swift; path = WBBrightMirror/WBBrightMirrorManager.swift; sourceTree = "<group>"; };
+		4A94D3EBF411FBCF667FC1BA1BE671B8 /* WBBrightMirrorModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBrightMirrorModel.swift; path = WBBrightMirror/WBBrightMirrorModel.swift; sourceTree = "<group>"; };
+		4B88050B0910B9F2EEEC581E53B059E3 /* WBBrightMirror.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBrightMirror.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		4C62963B134C86AE5B1311215199605F /* WBBrightMirror-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBrightMirror-Bridging-Header.h"; path = "WBBrightMirror/WBBrightMirror-Bridging-Header.h"; sourceTree = "<group>"; };
+		51FCC4248ABEA4EAE90B586EF43E3C29 /* Pods-WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBlades-dummy.m"; sourceTree = "<group>"; };
+		5451DED325CA6BFF95F79A42639C2816 /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
+		58CBC37B6A2838A825764D38523097C6 /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
+		5F7A721694F99F04A6FCDF8079127BAE /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
+		716C0E0A85591899B99241083BAE86B8 /* WBBMSymbolTake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTake.swift; sourceTree = "<group>"; };
+		7274725D0CCDB96DDDE3C882E8A78666 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
+		84C6F42CCC4FAB975335D5456F19A053 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
+		8598518C4F029701E88025C26C384672 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libWBBrightMirror.a; path = libWBBrightMirror.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A518970CB7B4F9A88D19D167015E8E4 /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
+		8ABEEBD2CCD8776E0A02C158AE0324A8 /* WBBMOutputFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMOutputFile.swift; sourceTree = "<group>"; };
+		8E269D7397819FF1677A7A820C839CEA /* WBBrightMirror.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBrightMirror.modulemap; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBlades.a"; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AE0302C6F6651E5C6658D70AE4672C5F /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
+		B29702C6D9D8EE1BCC74A68EDDC1FF39 /* WBBrightMirror.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBrightMirror.release.xcconfig; sourceTree = "<group>"; };
+		BB5590C57F5B2B23375EB224DB45F68B /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
+		C5E0747A262D008B3517FDA8EC8A4CF8 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
+		D26E366777D694811F1670105AD2CF7B /* WBBrightMirror-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBrightMirror-dummy.m"; sourceTree = "<group>"; };
+		D52F4DBBC0CABB2E2DD3331CCF682E32 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
+		DBE51912C46BBC21CD2ABA420B45A9FB /* WBBrightMirror.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBrightMirror.debug.xcconfig; sourceTree = "<group>"; };
+		E0B2216F61DD84AAA3AB1F291A98A30C /* WBBMDownload.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMDownload.swift; sourceTree = "<group>"; };
+		F77EB6A38AECC7625D97C4BEDC935741 /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C39AB57D7232095464D243CA2478AED2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F31802A7807CC10E28662828D401E855 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0FC85E51A572D1DB3D05536AC1FB0C29 /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				15220E2819A9AA675FB96798A56611C6 /* WBBrightMirror */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		15220E2819A9AA675FB96798A56611C6 /* WBBrightMirror */ = {
+			isa = PBXGroup;
+			children = (
+				0C544D9E4A74D399784ED9732CB87504 /* dsymutil */,
+				4C62963B134C86AE5B1311215199605F /* WBBrightMirror-Bridging-Header.h */,
+				49F8404EEA5382649CC1EB5E4ABF14C3 /* WBBrightMirrorManager.swift */,
+				4A94D3EBF411FBCF667FC1BA1BE671B8 /* WBBrightMirrorModel.swift */,
+				3B38F6B683CBBC89552291E21958395C /* Pod */,
+				3F83696FDEE6B007E22471D309F9103A /* Support Files */,
+				A4D505FB3AAFECA7B258A3470DC32AA8 /* WBBMAnalyze */,
+				400D96CCA438A34004D5EACC208A363C /* WBBMFileManager */,
+				DA68F83DD92DF605EF56B55500868358 /* WBBMScanLog */,
+				ED1EE40FBEF53A3C4DC78A7F3D239BB8 /* WBBMSymbol */,
+			);
+			name = WBBrightMirror;
+			path = ../WBBrightMirror;
+			sourceTree = "<group>";
+		};
+		247AE728DFA03A23961198B74A4FA57D /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				DB4BB453B5BA99E5FD8A5D3B2BE2B74F /* Pods-WBBlades */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		3B38F6B683CBBC89552291E21958395C /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				4B88050B0910B9F2EEEC581E53B059E3 /* WBBrightMirror.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		3F83696FDEE6B007E22471D309F9103A /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				8E269D7397819FF1677A7A820C839CEA /* WBBrightMirror.modulemap */,
+				D26E366777D694811F1670105AD2CF7B /* WBBrightMirror-dummy.m */,
+				436C87308893455F40CD7DD11BD4D1B2 /* WBBrightMirror-prefix.pch */,
+				11395E4703E02B38643A33FF64744AF8 /* WBBrightMirror-umbrella.h */,
+				DBE51912C46BBC21CD2ABA420B45A9FB /* WBBrightMirror.debug.xcconfig */,
+				B29702C6D9D8EE1BCC74A68EDDC1FF39 /* WBBrightMirror.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/WBBrightMirror";
+			sourceTree = "<group>";
+		};
+		400D96CCA438A34004D5EACC208A363C /* WBBMFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				E0B2216F61DD84AAA3AB1F291A98A30C /* WBBMDownload.swift */,
+				8ABEEBD2CCD8776E0A02C158AE0324A8 /* WBBMOutputFile.swift */,
+			);
+			name = WBBMFileManager;
+			path = WBBrightMirror/WBBMFileManager;
+			sourceTree = "<group>";
+		};
+		72F5F25E784E3C28578EDC2F5D0F2E9A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */,
+				86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A4D505FB3AAFECA7B258A3470DC32AA8 /* WBBMAnalyze */ = {
+			isa = PBXGroup;
+			children = (
+				BB5590C57F5B2B23375EB224DB45F68B /* WBBMShellObject.swift */,
+			);
+			name = WBBMAnalyze;
+			path = WBBrightMirror/WBBMAnalyze;
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				0FC85E51A572D1DB3D05536AC1FB0C29 /* Development Pods */,
+				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
+				72F5F25E784E3C28578EDC2F5D0F2E9A /* Products */,
+				247AE728DFA03A23961198B74A4FA57D /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DA68F83DD92DF605EF56B55500868358 /* WBBMScanLog */ = {
+			isa = PBXGroup;
+			children = (
+				1D47F630F18962A50F56BB1EFB35A11B /* WBBMScanBuglyLog.swift */,
+				F77EB6A38AECC7625D97C4BEDC935741 /* WBBMScanLogManager.swift */,
+				3167996A268DF45CB8D165E2B1D716AF /* WBBMScanLogModel.swift */,
+				5F7A721694F99F04A6FCDF8079127BAE /* WBBMScanLogTool.swift */,
+				8A518970CB7B4F9A88D19D167015E8E4 /* WBBMScanSystemLog.swift */,
+			);
+			name = WBBMScanLog;
+			path = WBBrightMirror/WBBMScanLog;
+			sourceTree = "<group>";
+		};
+		DB4BB453B5BA99E5FD8A5D3B2BE2B74F /* Pods-WBBlades */ = {
+			isa = PBXGroup;
+			children = (
+				58CBC37B6A2838A825764D38523097C6 /* Pods-WBBlades.modulemap */,
+				5451DED325CA6BFF95F79A42639C2816 /* Pods-WBBlades-acknowledgements.markdown */,
+				D52F4DBBC0CABB2E2DD3331CCF682E32 /* Pods-WBBlades-acknowledgements.plist */,
+				51FCC4248ABEA4EAE90B586EF43E3C29 /* Pods-WBBlades-dummy.m */,
+				C5E0747A262D008B3517FDA8EC8A4CF8 /* Pods-WBBlades-resources.sh */,
+				46D3FE57B493A1BD4C3383BDEA61F45C /* Pods-WBBlades-umbrella.h */,
+				7274725D0CCDB96DDDE3C882E8A78666 /* Pods-WBBlades.debug.xcconfig */,
+				8598518C4F029701E88025C26C384672 /* Pods-WBBlades.release.xcconfig */,
+			);
+			name = "Pods-WBBlades";
+			path = "Target Support Files/Pods-WBBlades";
+			sourceTree = "<group>";
+		};
+		ED1EE40FBEF53A3C4DC78A7F3D239BB8 /* WBBMSymbol */ = {
+			isa = PBXGroup;
+			children = (
+				3FBA48C5A8C059A9E4D5B2AB7C4C5784 /* WBBMLightSymbolTool.swift */,
+				AE0302C6F6651E5C6658D70AE4672C5F /* WBBMSymbolSearch.swift */,
+				716C0E0A85591899B99241083BAE86B8 /* WBBMSymbolTake.swift */,
+				84C6F42CCC4FAB975335D5456F19A053 /* WBBMSymbolTool.swift */,
+			);
+			name = WBBMSymbol;
+			path = WBBrightMirror/WBBMSymbol;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		26B1D5240069A16083D854F9B71F8AEC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				653D97F62285C582BA68D911E5D96026 /* Pods-WBBlades-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ECC692BCDE0752DB5229D957DD56B799 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0262B03C5EC26D1ACB289A5ABB77836D /* WBBrightMirror-Bridging-Header.h in Headers */,
+				0103F9AC3BFBD70E8E71B043BE98A0A3 /* WBBrightMirror-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6EA5B01A31724D4C3EEEA986F0F4E596 /* Build configuration list for PBXNativeTarget "WBBrightMirror" */;
+			buildPhases = (
+				ECC692BCDE0752DB5229D957DD56B799 /* Headers */,
+				4E860686061597E8BA0E1CEF32B041EC /* Sources */,
+				F31802A7807CC10E28662828D401E855 /* Frameworks */,
+				A914E3A154AA5AF1A99A4642A10CEF9C /* Copy generated compatibility header */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WBBrightMirror;
+			productName = WBBrightMirror;
+			productReference = 86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88B70964B2A55D5660942B51F3C97143 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */;
+			buildPhases = (
+				26B1D5240069A16083D854F9B71F8AEC /* Headers */,
+				DFC6C454D6BBC05AA3CB5006AEF1341B /* Sources */,
+				C39AB57D7232095464D243CA2478AED2 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				5EA1AAAFE66AE31C967D35986A360873 /* PBXTargetDependency */,
+			);
+			name = "Pods-WBBlades";
+			productName = "Pods-WBBlades";
+			productReference = AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = 72F5F25E784E3C28578EDC2F5D0F2E9A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */,
+				DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		A914E3A154AA5AF1A99A4642A10CEF9C /* Copy generated compatibility header */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
+				"${PODS_ROOT}/Headers/Public/WBBrightMirror/WBBrightMirror.modulemap",
+				"${PODS_ROOT}/Headers/Public/WBBrightMirror/WBBrightMirror-umbrella.h",
+			);
+			name = "Copy generated compatibility header";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
+				"${BUILT_PRODUCTS_DIR}/WBBrightMirror-umbrella.h",
+				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBrightMirror/WBBrightMirror.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBrightMirror/WBBrightMirror-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4E860686061597E8BA0E1CEF32B041EC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4239A9EE8EA5B9E039BC9723B292C8F /* WBBMDownload.swift in Sources */,
+				926B42A2D63131518D6D3E7008359C12 /* WBBMLightSymbolTool.swift in Sources */,
+				54DC0FD3B1D0B6D91D702D30678B339B /* WBBMOutputFile.swift in Sources */,
+				5FA7B29AB7261098CF49EB850A11CA3D /* WBBMScanBuglyLog.swift in Sources */,
+				7B94FB26CC931E83D2A704CC1E507B98 /* WBBMScanLogManager.swift in Sources */,
+				483B774E7A050EAC889AE76EDC543E0D /* WBBMScanLogModel.swift in Sources */,
+				97F63F62EAD9FCF1FC826B4066EAFEBC /* WBBMScanLogTool.swift in Sources */,
+				9BC074359F632A78D247ECDE5D9F0191 /* WBBMScanSystemLog.swift in Sources */,
+				9460976A559DDEF9A3E083DC1EC8E3CB /* WBBMShellObject.swift in Sources */,
+				EDB0F98363FD31B198E446248BF705E0 /* WBBMSymbolSearch.swift in Sources */,
+				3AA48E6C5DB979E6545BECFE49AAFA16 /* WBBMSymbolTake.swift in Sources */,
+				39EF87701833FC71EA8936DD7858CDD1 /* WBBMSymbolTool.swift in Sources */,
+				34F71092FF4D3A0FD43C7F672006142F /* WBBrightMirror-dummy.m in Sources */,
+				223C85BDD62CE4485B1FC7AD21F779DC /* WBBrightMirrorManager.swift in Sources */,
+				269E63A390C2C142954BFDA95BAF1AD1 /* WBBrightMirrorModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFC6C454D6BBC05AA3CB5006AEF1341B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FB362C42B16FD4893B91B807FEE77A80 /* Pods-WBBlades-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5EA1AAAFE66AE31C967D35986A360873 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBrightMirror;
+			target = DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */;
+			targetProxy = 302C2B919DBA8F0DC749D76B5D8F6DDE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		27EB83BD7BBDA508AADAF55830BE6258 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8598518C4F029701E88025C26C384672 /* Pods-WBBlades.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7599BD86FD28576C20F8B9B6B5ACBEC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		C0AB89DB0533D8E2B9201FA6579824B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		C4A60D8FEE76D3532136D36D82A006F2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7274725D0CCDB96DDDE3C882E8A78666 /* Pods-WBBlades.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D006620D3467F29C2205B6A4388BF7FF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DBE51912C46BBC21CD2ABA420B45A9FB /* WBBrightMirror.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBrightMirror/WBBrightMirror-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBrightMirror/WBBrightMirror.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBrightMirror;
+				PRODUCT_NAME = WBBrightMirror;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Debug;
+		};
+		EB91636D0A1CCB2F719B2048B009ABF9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B29702C6D9D8EE1BCC74A68EDDC1FF39 /* WBBrightMirror.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBrightMirror/WBBrightMirror-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBrightMirror/WBBrightMirror.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBrightMirror;
+				PRODUCT_NAME = WBBrightMirror;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7599BD86FD28576C20F8B9B6B5ACBEC9 /* Debug */,
+				C0AB89DB0533D8E2B9201FA6579824B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6EA5B01A31724D4C3EEEA986F0F4E596 /* Build configuration list for PBXNativeTarget "WBBrightMirror" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D006620D3467F29C2205B6A4388BF7FF /* Debug */,
+				EB91636D0A1CCB2F719B2048B009ABF9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88B70964B2A55D5660942B51F3C97143 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4A60D8FEE76D3532136D36D82A006F2 /* Debug */,
+				27EB83BD7BBDA508AADAF55830BE6258 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

@@ -1,0 +1,38 @@
+{
+  "name": "WBBrightMirror",
+  "version": "1.0",
+  "summary": "WBBrightMirror",
+  "description": "xxxxxx",
+  "homepage": "git@igit.58corp.com:58_ios_team/WBBrightMirror.git",
+  "source": {
+    "git": "git@igit.58corp.com:58_ios_team/WBBrightMirror.git",
+    "branch": "1.0"
+  },
+  "license": {
+    "type": "58license",
+    "text": "\n"
+  },
+  "authors": "58tongcheng",
+  "requires_arc": true,
+  "platforms": {
+    "osx": "10.12"
+  },
+  "resources": "WBBrightMirror/Resource/*",
+  "source_files": [
+    "WBBrightMirror/*.{swift,h}",
+    "WBBrightMirror/**/*.{swift}"
+  ],
+  "vendored_frameworks": "WBBrightMirror/ThirdParty/Alamofire/*.framework",
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBrightMirror",
+    "DEFINES_MODULE": "YES"
+  },
+  "module_name": "WBBrightMirror",
+  "swift_versions": [
+    "5.0",
+    "5.1",
+    "5.2",
+    "5.3"
+  ],
+  "swift_version": "5.3"
+}
