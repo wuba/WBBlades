@@ -1,0 +1,6 @@
+module WBBrightMirror {
+  umbrella header "WBBrightMirror-umbrella.h"
+
+  export *
+  module * { export * }
+}
