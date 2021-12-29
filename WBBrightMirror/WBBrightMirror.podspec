@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
 
   s.resources = "WBBrightMirror/Resource/*"
   s.source_files = 'WBBrightMirror/*.{swift,h}','WBBrightMirror/**/*.{swift}'
-  s.vendored_frameworks  = 'WBBrightMirror/ThirdParty/Alamofire/*.framework'
+  # s.vendored_frameworks  = 'WBBrightMirror/ThirdParty/Alamofire/*.framework'
   # s.exclude_files = ""
 
   s.xcconfig = {

@@ -22,7 +22,6 @@
     "WBBrightMirror/*.{swift,h}",
     "WBBrightMirror/**/*.{swift}"
   ],
-  "vendored_frameworks": "WBBrightMirror/ThirdParty/Alamofire/*.framework",
   "xcconfig": {
     "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBrightMirror",
     "DEFINES_MODULE": "YES"
