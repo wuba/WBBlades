@@ -146,11 +146,23 @@ NS_ASSUME_NONNULL_BEGIN
 *get methodNum location
 */
 + (uintptr_t)methodNumLocation:(SwiftType)baseType offset:(uintptr_t)typeOffset fileData:(NSData *)fileData;
-
+/**
+ 功能：是否有MangledName
+ */
 + (BOOL)anonymousHasMangledName:(SwiftType)baseType;
 
+/**
+ 功能：根据索引获取section的Flag字段
+ index：section索引
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (UInt32)sectionFlagsWithIndex:(int)index fileData:(NSData *)fileData;
 
+/**
+ 功能：根据地址反查section，目的是为了适配段迁移
+ address：地址
+ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
+ */
 + (section_64)getTEXTConst:(unsigned long long )address fileData:(NSData *)fileData;
 
 @end
