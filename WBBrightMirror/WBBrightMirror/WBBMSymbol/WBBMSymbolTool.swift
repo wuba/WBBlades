@@ -17,68 +17,6 @@ open class WBBMSymbolTool: NSObject {
     open class func startAnalyze(logModel: WBBMLogModel, symbolPath: String?, _ completionHandler: @escaping (_ isComplete: Bool,_ fromDsym: String?, _ logModel: WBBMLogModel) -> Void) {
         let symbolTool = WBBMSymbolTool()
         logModel.analyzeTool = symbolTool
-        
-        let dsymPath = WBBMDownload.downloadPath + "/\(logModel.processName)_\(logModel.processUUID+WBBMLightSymbolTool.WBBMSymbolFileDsymType)"
-        //用DSYM文件直接解，暂时跳过
-        if logModel.originalLogPath != nil && logModel.originalLogPath.absoluteString.count > 0 && WBBMLightSymbolTool.checkXcodeExist() && FileManager.default.fileExists(atPath: dsymPath)  {
-            DispatchQueue.global().async{
-                let resourcePath = Bundle.main.resourcePath ?? ""
-                let symbolicate = WBBMDownload.downloadPath+"/symbolicatecrash"
-                
-                if !FileManager.default.fileExists(atPath: symbolicate) {
-                    let appSymbolicatePath = resourcePath + "/symbolicatecrash"
-                    guard FileManager.default.fileExists(atPath: appSymbolicatePath) else{
-                        DispatchQueue.main.async {
-                            completionHandler(false,nil,logModel)
-                        }
-                        return
-                    }
-                    
-                    try? FileManager.default.copyItem(atPath: appSymbolicatePath, toPath: symbolicate)
-                }
-                
-                guard FileManager.default.fileExists(atPath: symbolicate) else {
-                    DispatchQueue.main.async {
-                        completionHandler(false,nil,logModel)
-                    }
-                    return
-                }
-                
-                let outputPath = WBBMOutputFile.resultPath(fileName: "\(logModel.processName)_\(logModel.detailModel.crashTime)")
-                
-                let tmpFilePath = WBBMDownload.downloadPath+"/tmp.ips"
-                let originalContent = try? String.init(contentsOf: logModel.originalLogPath, encoding: .utf8)
-                
-                let lineArray = originalContent?.split(separator: "\n") ?? []
-                var newContent = ""
-                for line in lineArray{
-                    var newLine = String(line)
-                    if line.contains("???") {
-                        newLine = newLine.replacingOccurrences(of: "???", with: logModel.processName)
-                    }
-                    newContent.append("\(newLine)\n")
-                }
-                try? newContent.write(toFile: tmpFilePath, atomically: true, encoding: .utf8)
-
-                let shContent = String.init(format: "cd ~/Downloads/WBBrightMirror/\nexport DEVELOPER_DIR=\"/Applications/XCode.app/Contents/Developer\"\n./symbolicatecrash %@ %@ > crash.txt", tmpFilePath,dsymPath)
-
-                let shFilePath = WBBMDownload.downloadPath+"/tmpsh_\(logModel.processName).sh"
-                try? shContent.write(toFile: shFilePath, atomically: true, encoding: .utf8)
-                _ = WBBMShellObject.launch(path: "/bin/sh", arguments: [shFilePath])
-                
-                let crashResultPath = WBBMDownload.downloadPath + "/crash.txt"
-                try? FileManager.default.copyItem(atPath: crashResultPath, toPath: outputPath)
-                
-                try? FileManager.default.removeItem(atPath: crashResultPath)
-                try? FileManager.default.removeItem(atPath: shFilePath)
-                try? FileManager.default.removeItem(atPath: tmpFilePath)
-                
-                DispatchQueue.main.async {
-                    completionHandler(true,outputPath,logModel)
-                }
-            }
-            return
-        }
         symbolTool.readSymbol(logModel: logModel, symbolPath: symbolPath) { complete, resultLogModel in
             completionHandler(complete,nil,resultLogModel)
         }
@@ -155,17 +93,17 @@ open class WBBMSymbolTool: NSObject {
 
                 //如果 carsh 文件的 UUID 与 symbol UUID 不一致
                 if symbolUUID.uppercased() != processUUID.uppercased() {
-                    completionHandler(false,logModel)
-                    return
+//                    completionHandler(false,logModel)
+//                    return
                 }
 
                 //计算偏移地址
                 self.dismantleLog(logModel: logModel, symbolTableArr[1]) { [weak self] (isComplete, logModel) in
-                    DispatchQueue.main.async{
+//                    DispatchQueue.main.async{
                         if  self?.stopped == false{
                             completionHandler(isComplete, logModel)
                         }
-                    }
+//                    }
                 }
             }
         }

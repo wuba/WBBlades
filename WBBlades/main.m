@@ -45,7 +45,7 @@ int main(int argc, const char *argv[]) {
         }else if (crashLogStr.length > 0){
             scanCrashSymbol(argc, argv);//crash log symbolicate
         }else if (crashStr.length > 0){
-            scanCrashSymbol(argc, argv);//crash log symbolicate
+            scanCrashLog(argc, argv);//crash log symbolicate
         }else{
             NSLog(@"筛选检测无用代码：blades -unused xxx.app -from xxx.a xxx.a .... -o outputPath (-from 标识只分析以下静态库中的无用代码，不加此参数默认为APP中全部)");
             NSLog(@"分析多个静态库的体积：blades -size xxx.a xxx.framework ....");
@@ -155,8 +155,13 @@ static void scanCrashLog(int argc, const char * argv[]){
     if (canContinue) {
         printf("Insert your symbol file path: ");
         char *sPath;
-        scanf("%s",&sPath);
-        //
+        scanf("%s",sPath);
+        
+        //symbol file path
+        NSString *symbolPath = [NSString stringWithFormat:@"%s",sPath];
+        symbolPath = [symbolPath stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+        [WBCrashTool startSymbolicateWithSymbolPath:symbolPath];
+        sleep(9999);
     }
 }
 

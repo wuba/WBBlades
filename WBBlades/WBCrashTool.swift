@@ -9,7 +9,6 @@
 import Foundation
 import WBBrightMirror
 
-
 @objc public class WBCrashTool: NSObject{
     static let deskTopConfigPath = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first ?? "","/blade-config.json")
     
@@ -37,18 +36,25 @@ import WBBrightMirror
     }
     
     @objc class func startSymbolicate(symbolPath: NSString?){
-        guard let path = symbolPath, path.length > 0 else{
+        guard let path = symbolPath as String?, path.count > 0 else{
             print("No such file or directory.")
             return;
         }
         
-        WBBrightMirrorManager.startAnalyze(logModel: logModel!, symbolPath: path as String) { succeed, symbolReady, outputPath in
+        WBBrightMirrorManager.startAnalyze(logModel: logModel!, symbolPath: path) { succeed, symbolReady, outputPath in
             if symbolReady{
                 print("Symbol File Ready.")
+                print("Waiting for symbolicate finish...")
             }else if succeed{
-                print("Symbolicate Succeed!")
+                print("Symbolicate Succeed! Result is writted in ")
+                if outputPath != nil {
+                    print(outputPath!)
+                }
+                NSWorkspace.shared.selectFile(outputPath, inFileViewerRootedAtPath: "")
+                exit(0)
             }else{
                 print("Symbolicate Failed!")
+                exit(0)
             }
         }
     }
