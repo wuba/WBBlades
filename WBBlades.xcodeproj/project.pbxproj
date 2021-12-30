@@ -309,7 +309,6 @@
 				3794EE7422B3C71300D5DFA4 /* Sources */,
 				3794EE7522B3C71300D5DFA4 /* Frameworks */,
 				3794EE7622B3C71300D5DFA4 /* CopyFiles */,
-				37E59715268C95F200F40AA8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -350,26 +349,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		37E59715268C95F200F40AA8 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm -rf /usr/local/bin/blades\ncp -f ${BUILT_PRODUCTS_DIR}/blades /usr/local/bin/blades\nchmod 777 /usr/local/bin/blades\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3794EE7422B3C71300D5DFA4 /* Sources */ = {
