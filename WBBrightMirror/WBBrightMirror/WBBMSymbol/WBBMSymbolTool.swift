@@ -93,6 +93,9 @@ open class WBBMSymbolTool: NSObject {
 
                 //如果 carsh 文件的 UUID 与 symbol UUID 不一致
                 if symbolUUID.uppercased() != processUUID.uppercased() {
+                    let yellow = "\u{001B}[0;33m"
+                    let message = "WARNING: Crash log's UUID is inconsistentand with Symbol File's UUID."
+                    print(yellow + message);
 //                    completionHandler(false,logModel)
 //                    return
                 }

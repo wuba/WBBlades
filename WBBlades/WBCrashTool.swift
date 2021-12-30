@@ -16,21 +16,22 @@ import WBBrightMirror
     
     @objc class func scanCrash(logPath: NSString?) -> Bool{
         guard let path = logPath, path.length > 0 else{
-            print("No such file or directory.")
+            crashErrorPrint(string: "No such file or directory.")
             return false;
         }
         
         guard let fileString = try? String.init(contentsOfFile: path as String) else{
-            print("Unable to read file.")
+            crashErrorPrint(string: "Unable to read file.")
             return false
         }
         
         logModel = WBBrightMirrorManager.scanLog(logString: fileString)
         if logModel == nil {
-            print("Analyze log failed, try again.")
+            crashErrorPrint(string: "Analyze log failed, try again.")
             return false
         }
-        print("Crash APP's UUID: ",logModel?.processUUID ?? "")
+        
+        crashNormalPrint(string: "Crash APP's UUID: " + (logModel?.processUUID ?? ""))
         
         return true
     }
@@ -43,19 +44,29 @@ import WBBrightMirror
         
         WBBrightMirrorManager.startAnalyze(logModel: logModel!, symbolPath: path) { succeed, symbolReady, outputPath in
             if symbolReady{
-                print("Symbol File Ready.")
-                print("Waiting for symbolicate finish...")
+                crashNormalPrint(string: "Symbol File Ready.")
+                crashNormalPrint(string: "Waiting for symbolicate finish...")
             }else if succeed{
-                print("Symbolicate Succeed! Result is writted in ")
+                crashNormalPrint(string: "Symbolicate Succeed! Result is writted in ")
                 if outputPath != nil {
                     print(outputPath!)
                 }
                 NSWorkspace.shared.selectFile(outputPath, inFileViewerRootedAtPath: "")
                 exit(0)
             }else{
-                print("Symbolicate Failed!")
+                crashErrorPrint(string: "Symbolicate Failed!")
                 exit(0)
             }
         }
+    }
+    
+    class func crashErrorPrint(string: String){
+        let redColor = "\u{001B}[0;31m"
+        print(redColor + string);
+    }
+    
+    class func crashNormalPrint(string: String){
+        let whiteColor = "\u{001B}[0;37m"
+        print(whiteColor + string);
     }
 }
