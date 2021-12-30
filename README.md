@@ -13,6 +13,14 @@ $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
 $ sudo make install
 ```
+
+Build with SwiftPM
+
+```
+swift build -c release --arch arm64 --arch x86_64
+sudo cp .build/apple/Products/Release/blades /usr/local/bin
+```
+
 **If you see some message like `[1] 70390 killed blades` ,please `make install`again.**
 
 
