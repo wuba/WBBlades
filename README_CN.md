@@ -10,7 +10,7 @@ WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（�
 ```
 $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
-$ make install
+$ sudo make install
 ```
 如果出现类似`[1]    70390 killed     blades`提示，可以尝试重新`make install`
 
