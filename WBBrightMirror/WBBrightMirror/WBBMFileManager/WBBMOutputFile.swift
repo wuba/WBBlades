@@ -8,7 +8,7 @@
 import Foundation
 
 class WBBMOutputFile {
-    
+    static let downloadPath = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "","/WBBrightMirror")
     static let outputDir = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "","/WBBrightMirror/output")
     
     class func outputResultFile(logResultModel: WBBMLogModel, _ completionHandler: @escaping (_ succeed: Bool, _ outputPath: String?) -> Void){
@@ -62,9 +62,9 @@ class WBBMOutputFile {
     }
     
     class func cleanAllCache() -> Void {
-        if FileManager.default.fileExists(atPath: WBBMDownload.downloadPath) {
-            try? FileManager.default.removeItem(atPath: WBBMDownload.downloadPath)
-            try? FileManager.default.createDirectory(atPath: (WBBMDownload.downloadPath), withIntermediateDirectories: true, attributes: nil)
+        if FileManager.default.fileExists(atPath: downloadPath) {
+            try? FileManager.default.removeItem(atPath: downloadPath)
+            try? FileManager.default.createDirectory(atPath: (downloadPath), withIntermediateDirectories: true, attributes: nil)
         }
     }
 }

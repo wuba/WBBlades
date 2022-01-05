@@ -35,7 +35,11 @@ class WBBMLightSymbolTool {
             return
         }
         
-        let outputPath = WBBMDownload.downloadPath + "/buglySymbol&" + processName + "&" + "arm64&" + uuid.replacingOccurrences(of: "-", with: "") + WBBMSymbolFileSymbolType
+        if !FileManager.default.fileExists(atPath: WBBMOutputFile.downloadPath) {
+            try? FileManager.default.createDirectory(atPath: (WBBMOutputFile.downloadPath), withIntermediateDirectories: true, attributes: nil)
+        }
+        
+        let outputPath = WBBMOutputFile.downloadPath + "/buglySymbol&" + processName + "&" + "arm64&" + uuid.replacingOccurrences(of: "-", with: "") + WBBMSymbolFileSymbolType
         
         if symbolPath.lowercased().contains(WBBMSymbolFileDsymType) {
             DispatchQueue.global().async{
@@ -53,7 +57,7 @@ class WBBMLightSymbolTool {
                 return
             }
             let exeFile = symbolPath + "/\(processName)"
-            let dsymTmpPath = WBBMDownload.downloadPath + "/tmp_\(uuid).DSYM"
+            let dsymTmpPath = WBBMOutputFile.downloadPath + "/tmp_\(uuid).DSYM"
             DispatchQueue.global().async{
                 let _ =  WBBMShellObject.launch(path: fileName, arguments: [exeFile,"-o",dsymTmpPath]) ?? ""
 //                Artillery.readDwarf(dsymTmpPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
@@ -66,14 +70,5 @@ class WBBMLightSymbolTool {
         }
         
         finishHandler(nil)
-    }
-    
-    class func checkXcodeExist() -> Bool {
-//        let xcodeID = "com.apple.dt.Xcode"
-//        let urlArray = LSCopyApplicationURLsForBundleIdentifier(xcodeID as CFString, nil)
-//        if urlArray != nil {
-//            return true
-//        }
-        return false
     }
 }

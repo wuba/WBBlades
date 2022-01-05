@@ -10,8 +10,6 @@ import Foundation
 import WBBrightMirror
 
 @objc public class WBCrashTool: NSObject{
-    static let deskTopConfigPath = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first ?? "","/blade-config.json")
-    
     static var logModel: WBBMLogModel?
     
     @objc class func scanCrash(logPath: NSString?) -> Bool{
