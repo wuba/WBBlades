@@ -29,7 +29,7 @@ open class WBBMSymbolTool: NSObject {
         symbolTool?.symbolTables.removeAll()
     }
     
-    //MARK:读取符号表 拿到结果
+    //MARK:read symbol table, analyze crash log
     func readSymbol(logModel: WBBMLogModel, symbolPath: String?, _ completionHandler: @escaping (_ isComplete: Bool, _ logModel: WBBMLogModel) -> Void) {
         let downloadDir: String = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? ""
         let savePath = downloadDir + "/WBBrightMirror"
@@ -43,7 +43,6 @@ open class WBBMSymbolTool: NSObject {
         let filePath = symbolPath ?? savePath + "/buglySymbol&" + logModel.processName + "&" + "arm64&" + processUUID + WBBMLightSymbolTool.WBBMSymbolFileSymbolType
 
         if !WBBMSymbolTake.isExistSymbol(filePath: filePath){
-            //            self.showAlert("符号表不存在，请下载符号表")
             if !stopped {
                 completionHandler(false, logModel)
             }
@@ -51,11 +50,9 @@ open class WBBMSymbolTool: NSObject {
         }
 
         DispatchQueue.global().async {
-
             let pathUrl = URL(fileURLWithPath: filePath)
-
             do {
-                //读取内容
+                //read content
                 let data = try! Data(contentsOf: pathUrl, options: .mappedRead)
                 guard let content = String(data: data, encoding:
                                             String.Encoding(rawValue:
@@ -64,10 +61,9 @@ open class WBBMSymbolTool: NSObject {
                     return
                 }
                 
-                //查找符号表UUID
+                //look for symbol table
                 var  symbolTableArr = [String]()
-
-                //如果缓存里有符号表 直接取
+                //read symbol table in cache
                 if let cacheSymbolTaleDict = UserDefaults.standard.value(forKey: "kWB_Symbol_Table") as? [String:[String]] {
                     if let cacheSymbolTables = cacheSymbolTaleDict[logModel.processUUID],
                        !cacheSymbolTables.isEmpty {
@@ -91,7 +87,7 @@ open class WBBMSymbolTool: NSObject {
                     return
                 }
 
-                //如果 carsh 文件的 UUID 与 symbol UUID 不一致
+                //carsh log's UUID is different form symbol table's UUID
                 if symbolUUID.uppercased() != processUUID.uppercased() {
                     let yellow = "\u{001B}[0;33m"
                     let message = "WARNING: Crash log's UUID is inconsistentand with Symbol File's UUID."
@@ -100,7 +96,7 @@ open class WBBMSymbolTool: NSObject {
 //                    return
                 }
 
-                //计算偏移地址
+                //calculate offset address
                 self.dismantleLog(logModel: logModel, symbolTableArr[1]) { [weak self] (isComplete, logModel) in
 //                    DispatchQueue.main.async{
                         if  self?.stopped == false{
@@ -116,7 +112,7 @@ open class WBBMSymbolTool: NSObject {
         self.stopped = true
     }
 
-    //MARK: 解析logModel
+    //MARK: analyze
     private func dismantleLog(logModel: WBBMLogModel, _ addressTable: String, _ completionHandler: @escaping (_ isComplete: Bool,_ logModel: WBBMLogModel) -> Void) {
 
         self.symbolTables = addressTable.components(separatedBy: "\n")
@@ -130,7 +126,7 @@ open class WBBMSymbolTool: NSObject {
 
         self.allStatcks.removeAll()
 
-        //全部排序
+        //obtain all thread stack
         var allStatckArray = [WBBMStackModel]()
         for threadInfoModel in detailModel.threadInfoArray {
             for stackModel in threadInfoModel.stackArray {
@@ -138,7 +134,7 @@ open class WBBMSymbolTool: NSObject {
             }
         }
 
-        // 从小到大排序
+        // sort with offset size
         allStatckArray.sort(){
             let offsetAddValue0 = WBBMSymbolTake.obtainOffset(stackModel: $0) ?? 0
             let offsetAddValue1 = WBBMSymbolTake.obtainOffset(stackModel: $1) ?? 0
@@ -147,18 +143,23 @@ open class WBBMSymbolTool: NSObject {
         }
         
         var foundedStartAddress = -1
-        //修正，若日志中取不到进程的起始地址，尝试通过main函数来计算进程的起始地址
+        //crash log has't process's base address,try to calculate base address in main thread
         if !logModel.detailModel.foundedAddress{
             var mainThread = logModel.detailModel.threadInfoArray[0]
-            if !mainThread.threadName.hasSuffix("com.apple.main-thread") {//如果第一个不是，查第二个是否为主线程(主要是有Lastbacktrace的时候)
+            //check first line has main thread's name
+            if !mainThread.threadName.hasSuffix("com.apple.main-thread"){
+                //check second line has main thread's name
                 mainThread = logModel.detailModel.threadInfoArray[1]
             }
             if mainThread.threadName.hasSuffix("com.apple.main-thread") {
                 let stackCount = mainThread.stackArray.count
+                //obtain main thread's penultimate line, is most likely the main function
                 let mainFunc = mainThread.stackArray[stackCount - 2];
+                //obtain main function's offset in symbol table
                 let mainFuncOffset = WBBMSymbolSearch.searchMainFuncInSymbol(items: self.symbolTables)
                 let mainFuncDecimal = Int(WBBMScanLogTool.hexToDecimal(hex: mainFunc.address)) ?? 0
-                foundedStartAddress = mainFuncDecimal - mainFuncOffset
+                //calculate base address = main function address - main function offset
+                foundedStartAddress = mainFuncDecimal - mainFuncOffset//founded!
             }else{
                 if !stopped {
                     completionHandler(false,logModel)
@@ -167,13 +168,13 @@ open class WBBMSymbolTool: NSObject {
             }
         }
         
-        if !stopped && !logModel.detailModel.foundedAddress && foundedStartAddress <= 0 {//日志中取不到进程的起始地址,但是通过main函数也依然找不到起始地址
+        //not found base address, then can't analyze crash log
+        if !stopped && !logModel.detailModel.foundedAddress && foundedStartAddress <= 0 {
             completionHandler(false,logModel)
             return
         }
 
         var index = 0
-
         for stackModel in allStatckArray {
             index += 1
             if self.stopped {
@@ -187,21 +188,21 @@ open class WBBMSymbolTool: NSObject {
                 stackModel.processStartAddress = "\(foundedStartAddress)"
             }
            
-            //拿到偏移地址后 去符号表里查找
+            //obtain offset
             guard let offset = WBBMSymbolTake.obtainOffset(stackModel: stackModel) else {
                 continue
             }
 
-            //如果历史里有
+            //judge cache
             if (self.allStatcks.keys.contains(String(offset))) {
                 stackModel.analyzeResult = self.allStatcks[String(offset)] ?? ""
                 continue
             }
 
-            //查找错误
+            //look for symbol
             let resultLine = WBBMSymbolSearch.searchInSymbol(items: self.symbolTables, item: offset)
 
-            if resultLine.isEmpty {
+            if resultLine.isEmpty {//not found
                 continue
             }
             let symbolModel = WBBMSymbolModel(resultLine)
@@ -212,14 +213,10 @@ open class WBBMSymbolTool: NSObject {
                 stackAddress = addresArr[1]
             }
             
-            var functionName = symbolModel.functionName;
-            if functionName.hasPrefix("_Tt") {
-//                functionName = WBBMScanLogTool.getDemangleName(mangleName: functionName)
-            }
             let analyzes = [String(stackModel.squence),"",stackModel.process,"\t\t\t ",stackAddress,"",symbolModel.functionName,"",symbolModel.clasName]
             stackModel.analyzeResult =  analyzes.joined(separator: " ")
 
-            //存贮
+            //save result
             allStatcks[String(offset)] = stackModel.analyzeResult
         }
         
@@ -248,22 +245,20 @@ open class WBBMSymbolTool: NSObject {
         let filePath = symbolPath ?? savePath + "/buglySymbol&" + logModel.processName + "&" + "arm64&" + processUUID + WBBMLightSymbolTool.WBBMSymbolFileSymbolType
 
         if !WBBMSymbolTake.isExistSymbol(filePath: filePath){
-            //            self.showAlert("符号表不存在，请下载符号表")
             return nil
         }
 
         let pathUrl = URL(fileURLWithPath: filePath)
 
         do {
-            //读取内容
-            //当前时间的时间戳
+            //read content
             let data = try! Data(contentsOf: pathUrl, options: .mappedRead)
 
             guard let content = String(data: data, encoding: String.Encoding(rawValue: String.Encoding.utf8.rawValue)) else {
                 return nil
             }
 
-            //分割
+            //segmentation
             let symbolTableArr = content.components(separatedBy: "Symbol table:")
             let addressTable = symbolTableArr[1];
 

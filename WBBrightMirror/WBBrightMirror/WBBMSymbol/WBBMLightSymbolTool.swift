@@ -17,11 +17,8 @@ class WBBMLightSymbolTool {
     static let applicationPath = String.init(format: "%@", NSSearchPathForDirectoriesInDomains(.applicationDirectory, .userDomainMask, true).first ?? "")
     
     class func checkLightSymbolPath(path: String?, processName: String, uuid: String, finishHandler:@escaping (String?)->Void) -> Void {
-        guard let symbolPath = path else {
+        guard let symbolPath = path, symbolPath.count > 0 else {
             finishHandler(nil)
-            return
-        }
-        if symbolPath.count == 0 {
             return
         }
         

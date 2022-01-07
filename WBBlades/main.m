@@ -161,7 +161,7 @@ static void scanCrashLog(int argc, const char * argv[]){
         NSString *symbolPath = [NSString stringWithFormat:@"%s",sPath];
         symbolPath = [symbolPath stringByReplacingOccurrencesOfString:@"\\" withString:@""];
         [WBCrashTool startSymbolicateWithSymbolPath:symbolPath];
-        sleep(9999);
+        sleep(99999);
     }
 }
 

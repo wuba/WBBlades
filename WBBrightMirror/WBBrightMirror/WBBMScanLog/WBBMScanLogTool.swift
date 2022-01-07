@@ -97,12 +97,9 @@ class WBBMScanSystemLogTool{
         return processDic
     }
     
-    //MARK:-
-    //MARK:New Crash
+    //MARK: -
+    //MARK: New Crash
     class func scanSystemProcessAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeProcessModel>{
-//        var processDic: Dictionary<String,Array<String>> = Dictionary.init()
-        
-        
         let usedImages = detailInfoDic["usedImages"] as? Array ?? [];
         
         if usedImages.count == 0 {
@@ -135,36 +132,39 @@ class WBBMScanSystemLogTool{
             }
         }
         
-        if startAdr > 0 {
-            guard let legacyInfo = detailInfoDic["legacyInfo"] as? Dictionary<String,Any> else {
-                return processArray
-            }
-            guard let imageExtraInfo = legacyInfo["imageExtraInfo"] as? Array<Any> else {
-                return processArray
+        guard startAdr > 0 else{
+            return processArray
+        }
+        
+        guard let legacyInfo = detailInfoDic["legacyInfo"] as? Dictionary<String,Any> else {
+            return processArray
+        }
+        guard let imageExtraInfo = legacyInfo["imageExtraInfo"] as? Array<Any> else {
+            return processArray
+        }
+        
+        for suchExtra in imageExtraInfo {
+            guard let imageExtra = suchExtra as? Dictionary<String,Any> else {
+                continue
             }
             
-            for suchExtra in imageExtraInfo {
-                guard let imageExtra = suchExtra as? Dictionary<String,Any> else {
-                    continue
-                }
-                
-                let imageName = imageExtra["name"] as? String ?? ""
-                if imageName == logDetailModel.processName || imageName.hasPrefix("?") || imageName == "" {
-                    let size = imageExtra["size"] as? Int ?? 0
-                    let startAddress = String(startAdr)
-                    let endAddress = String(startAdr+size)
+            let imageName = imageExtra["name"] as? String ?? ""
+            if imageName == logDetailModel.processName || imageName.hasPrefix("?") || imageName == "" {
+                let size = imageExtra["size"] as? Int ?? 0
+                let startAddress = String(startAdr)
+                let endAddress = String(startAdr+size)
 
-                    let processModel = WBBMSystemLogNewTypeProcessModel()
-                    if logDetailModel.processName == processModel.processName && startAdr == 0{
-                        logDetailModel.foundedAddress = false
-                    }
-                    processModel.processName = imageName;
-                    processModel.processStartAddress = startAddress
-                    processModel.processEndAddress = endAddress
-                    processArray.append(processModel)
+                let processModel = WBBMSystemLogNewTypeProcessModel()
+                if logDetailModel.processName == processModel.processName && startAdr == 0{
+                    logDetailModel.foundedAddress = false
                 }
+                processModel.processName = imageName;
+                processModel.processStartAddress = startAddress
+                processModel.processEndAddress = endAddress
+                processArray.append(processModel)
             }
         }
+        
         return processArray
     }
     
@@ -201,8 +201,8 @@ class WBBMScanSystemLogTool{
 
 
 class WBBMScanLogTool{
-    //MARK:-
-    //MARK:Hex
+    //MARK: -
+    //MARK: Hex
     class func hexToDecimal(hex: String) -> String {
         var str = hex.uppercased()
         if str.hasPrefix("0X") {

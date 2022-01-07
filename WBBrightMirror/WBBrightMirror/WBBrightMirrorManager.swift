@@ -8,20 +8,15 @@
 import Cocoa
 
 open class WBBrightMirrorManager{
+    //scan log type and content
     open class func scanLog(logString: String) -> WBBMLogModel?{
        return WBBMScanLogManager.scanLog(logString: logString)
     }
     
     open class func downloadSymbol(logModel: WBBMLogModel, progressHandler:@escaping (Double)->Void, finishHandler:@escaping (String?)->Void) -> Void{
-//        WBBMDownload.downloadSymbol(logModel: logModel) { (progress) in
-//            progressHandler(progress)
-//        }finishHandler: { (error) in
-//            finishHandler(error)
-//        }
     }
     
     open class func stopDownload(logModel: WBBMLogModel) -> Void{
-//        WBBMDownload.stopDownloadSymbol(logModel: logModel)
     }
     
     open class func checkBuglyProcessName(logModel: WBBMLogModel){

@@ -38,7 +38,7 @@ class WBBMSymbolTake {
     }
 
 
-    //MARK: 符号表是否存在
+    //MARK: judge symbol table is exist
     class func isExistSymbol(filePath: String) -> Bool {
 
         let fileManager = FileManager.default
@@ -46,7 +46,7 @@ class WBBMSymbolTake {
         return isExist
     }
 
-    //MARK: 获得符号表UUID
+    //MARK: obtain symble table's uuid
     class func obtainSymbolUUID(_ symbolInfo: String) -> String? {
 
         let lines: Array<Substring> = symbolInfo.split(separator: Character.init("\n"))
@@ -61,17 +61,17 @@ class WBBMSymbolTake {
         return nil
     }
 
-    //MARK:拿到偏移地址
+    //MARK: offset
     class func obtainOffset(stackModel: WBBMStackModel) -> Int? {
 
-        //去掉首尾空格 \t
+        //remove white spacing at the beginning and end of the text
         var stackAddress = stackModel.address.trimmingCharacters(in: .whitespaces)
 
         if stackAddress.count > 12 {
             let startI = stackAddress.index(stackAddress.startIndex, offsetBy: 9);
             stackAddress = "0x\(stackAddress[startI..<stackAddress.endIndex])"
         }
-        //转十进制
+        //decimal value
         let stackAddressValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(stackAddress))) ?? 0
 
         var  stackStartAddressValue: Int = Int(stackModel.processStartAddress) ?? 0
@@ -85,10 +85,7 @@ class WBBMSymbolTake {
         }
         return nil
     }
-
 }
-
-
 
 open class WBBMSymbolModel {
     public var start: String = ""
@@ -110,7 +107,6 @@ open class WBBMSymbolModel {
         if functionLines.count > 1 {
             end = functionLines[1]
         }
-
 
         if functionLines.count > 2 {
             functionName = functionLines[2]

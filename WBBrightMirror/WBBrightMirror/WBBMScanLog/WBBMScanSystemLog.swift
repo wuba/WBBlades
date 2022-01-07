@@ -15,6 +15,7 @@ class WBBMScanSystemLog {
         
         var detailContent = content;
         
+        //standard format has header info
         if content.hasPrefix("{"){
             var braceCount = 0
             var appInfo = String.init()
@@ -32,6 +33,7 @@ class WBBMScanSystemLog {
                 return nil
             }
             
+            //obtain bug type
             let bug_type = appInfoDic["bug_type"] as? String ?? ""
             logModel.logType = WBBMLogType(rawValue: bug_type) ?? WBBMLogType(rawValue: "")!
             logModel.processName = appInfoDic["app_name"] as? String ?? ""
@@ -40,7 +42,7 @@ class WBBMScanSystemLog {
             
             let start = content.index(content.startIndex, offsetBy: appInfo.count)
             detailContent = String.init(content[start..<content.endIndex])
-        }else if content.hasPrefix("Incident Identifier:"){
+        }else if content.hasPrefix("Incident Identifier:"){//hasn't header info & prefix of Incident Identifier:
             var lineIndex = 0
             let lines: Array<Substring> = content.split(separator: Character.init("\n"))
             let logHeaderDic = WBBMScanSystemLogTool.checkLogHeader(lines:lines,&lineIndex,endLine: "Triggered by Thread")
@@ -50,10 +52,21 @@ class WBBMScanSystemLog {
             logModel.processName = processName
             logModel.processUUID = processDic[processName] ?? ""
             logModel.version = logHeaderDic["Version"] as? String ?? ""
-        }else{
+        }else if content.hasPrefix("Date/Time:"){//hasn't header info & prefix of Date/Time:
+            var lineIndex = 0
+            let lines: Array<Substring> = content.split(separator: Character.init("\n"))
+            let logHeaderDic = WBBMScanSystemLogTool.checkLogHeader(lines:lines,&lineIndex,endLine: "Heaviest stack for the target process:")
+            let processName = String((logHeaderDic["Command"] as? String ?? "").split(separator: " ").first ?? "")
+            let processDic = WBBMScanSystemLogTool.scanSystemProcessBinaryUUID(lines: lines, processIdentifier:(logHeaderDic["Identifier"] as? String ?? ""), processName: processName)
+            logModel.logType = .SystemWakeUp
+            logModel.processName = processName
+            logModel.processUUID = processDic[processName] ?? ""
+            logModel.version = logHeaderDic["Version"] as? String ?? ""
+        }else{//not a system crash log
             return nil
         }
         
+        //crash log type
         if logModel.logType == .SystemCrash || logModel.logType == .SystemDemoCrash {
             let detailModel = scanSystemCrashLog(content: detailContent)
             logModel.detailModel = detailModel
@@ -63,7 +76,7 @@ class WBBMScanSystemLog {
         }else if logModel.logType == .SystemWakeUp{
             let detailModel = scanSystemWakeupLog(content: detailContent)
             logModel.detailModel = detailModel
-        }else if logModel.logType == .SystemNewCrash{
+        }else if logModel.logType == .SystemNewCrash{//iOS14+ json crash type
             let detailModel = scanSystemNewCrashLog(content: detailContent, uuid: logModel.processUUID)
             logModel.detailModel = detailModel
         }
@@ -71,8 +84,8 @@ class WBBMScanSystemLog {
         return logModel
     }
     
-    //MARK:-
-    //MARK:System Crash Log(bug_type:109)
+    //MARK: -
+    //MARK: System Crash Log(bug_type:109)
     class func scanSystemCrashLog(content: String) -> WBBMLogDetailModel {
         var lineIndex = 0
         let lines: Array<Substring> = content.split(separator: Character.init("\n"))
@@ -96,6 +109,7 @@ class WBBMScanSystemLog {
         logDetailModel.terminationDescription = logHeaderDic["Termination Description"] as? String ?? ""
         logDetailModel.triggeredThread = logHeaderDic["Triggered by Thread"] as? String ?? ""
         
+        //scan all processes' base address&end address
         let processDic = WBBMScanSystemLogTool.scanSystemProcessAddress(lines: lines, processIdentifier: logDetailModel.identifier, processName: processName)
         if processDic.keys.count == 0 {
             logDetailModel.threadInfoArray = []
@@ -110,10 +124,12 @@ class WBBMScanSystemLog {
             threadInfoArray.append(backtraceInfo)
         }
         
+        //scan such thread stack
         var suchThread: Array<String> = Array.init()
         var suchThreadNum = 0
         for index in lineIndex..<lines.count {
             let suchline = lines[index]
+            //thread's end line is next thread's first line
             if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: String(suchline)){
                 if let threadInfo = scanSystemCrashProcessLog(lines: suchThread, processName: processName, processDic: processDic) as WBBMThreadInfoModel? {
                     threadInfoArray.append(threadInfo)
@@ -263,8 +279,8 @@ class WBBMScanSystemLog {
         return threadInfoModel
     }
     
-    //MARK:-
-    //MARK:System Wake Up(bug_type:142)
+    //MARK: -
+    //MARK: System Wake Up(bug_type:142)
     class func scanSystemWakeupLog(content: String) -> WBBMLogDetailModel {
         var lineIndex = 0
         let lines: Array<Substring> = content.split(separator: Character.init("\n"))
@@ -289,11 +305,14 @@ class WBBMScanSystemLog {
         logDetailModel.terminationDescription = "Active CPUs are \(cpuActives)"
         logDetailModel.triggeredThread = ""
         
+        //scan all processes' base address&end address
         let processDic = WBBMScanSystemLogTool.scanSystemProcessAddress(lines: lines, processIdentifier: logDetailModel.identifier, processName: processName)
         if processDic.keys.count == 0 {
             logDetailModel.threadInfoArray = []
             return logDetailModel
         }
+        
+        //scan heaviest thread
         var suchThread: Array<String> = Array.init()
         for index in lineIndex..<lines.count {
             let suchline = String(lines[index])
@@ -302,12 +321,12 @@ class WBBMScanSystemLog {
             }
             suchThread.append(suchline)
         }
-        
         let threadInfo = scanSystemWakeupProcessLog(lines: suchThread, processName:logDetailModel.processName, processDic:processDic)
         logDetailModel.threadInfoArray = [threadInfo]
         return logDetailModel
     }
     
+    //scan wake up log
     class func scanSystemWakeupProcessLog(lines: Array<String>, processName: String, processDic:Dictionary<String,Array<String>>) -> WBBMThreadInfoModel {
         
         var stacks: Array<WBBMStackModel> = Array.init()
@@ -338,8 +357,8 @@ class WBBMScanSystemLog {
     }
     
    
-    //MARK:-
-    //MARK:System New Crash(bug_type:309)
+    //MARK: -
+    //MARK: System New Crash(bug_type:309)
     class func scanSystemNewCrashLog(content: String, uuid: String) -> WBBMLogDetailModel {
         let jsonData: Data = content.data(using: .utf8) ?? Data.init()
         let detailInfoDic: Dictionary<String,Any> = try! JSONSerialization.jsonObject(with: jsonData, options: .mutableContainers) as? Dictionary<String,Any> ?? [:]
@@ -364,6 +383,7 @@ class WBBMScanSystemLog {
         let triggered = legacyInfo["threadTriggered"] as? Dictionary ?? [:]
         logDetailModel.triggeredThread = "Thread \(triggered["index"] ?? "") \(triggered["queue"] ?? "")"
         
+        //scan all processes' base address&end address
         let procName = detailInfoDic["procName"] as? String ?? ""
         logDetailModel.processName = procName
         let processArray = WBBMScanSystemLogTool.scanSystemProcessAddressNewType(detailInfoDic: detailInfoDic, logDetailModel: logDetailModel, uuid: uuid)
@@ -383,6 +403,7 @@ class WBBMScanSystemLog {
             threadInfoArray.append(backtraceInfo)
         }
         
+        //scan such thread stack
         let threads: Array<Dictionary> = detailInfoDic["threads"] as? Array <Dictionary<String, Any>> ?? []
         var threadIndex = 0
         for suchThread in threads {
@@ -440,8 +461,8 @@ class WBBMScanSystemLog {
         return stacks
     }
     
-    //MARK:-
-    //MARK:Other
+    //MARK: -
+    //MARK: Other
     class func originalResult(stackModel: WBBMStackModel) -> Void{
         let processStartAddress = WBBMScanLogTool.decimalToHex(decimal: stackModel.processStartAddress)
         

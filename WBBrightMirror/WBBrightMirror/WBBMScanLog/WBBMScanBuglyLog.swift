@@ -90,13 +90,11 @@ class WBBMScanBuglyTool{
         }
     }
     class func checkBuglyProcessStartAddress(logModel: WBBMLogModel, symbolPath: String?,startAddress: String?, completionHandler: @escaping (_ ready: Bool) -> Void) {
-        if let adr = startAddress{
-            if adr.count > 0 {
-                let demical = WBBMScanLogTool.hexToDecimal(hex: adr)
-                setBuglyStartAddress(logModel: logModel,demicalAddress: demical)
-                completionHandler(true)
-                return
-            }
+        if let adr = startAddress, adr.count > 0{
+            let demical = WBBMScanLogTool.hexToDecimal(hex: adr)
+            setBuglyStartAddress(logModel: logModel,demicalAddress: demical)
+            completionHandler(true)
+            return
         }
         
         DispatchQueue.global().async{

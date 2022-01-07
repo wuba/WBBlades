@@ -13,10 +13,12 @@ class WBBMScanLogManager {
            return nil
        }
        
+       //scan system crash log
        if let logModel: WBBMLogModel = WBBMScanSystemLog.scanSystemLog(content: logString) {
            return logModel
        }
-        
+    
+       //scan bugly crash log
        if let logModel: WBBMLogModel = WBBMScanBuglyLog.scanBuglyLog(content: logString) {
            return logModel
        }

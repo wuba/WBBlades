@@ -104,9 +104,6 @@ open class WBBMSymbolSearch {
                 }
             }
         }
-        //        if index != 0 {
-        //            return items[index]
-        //        }
         return ""
     }
     
@@ -157,81 +154,4 @@ open class WBBMSymbolSearch {
         }
         return ""
     }
-    
-    //递归查找
-    //        let items = items
-    //
-    //        if items.count < 3 {
-    //            for line in items {
-    //
-    //                let symbolModel = WBBMSymbolModel(String(line))
-    //                let startInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.start)) ?? 0
-    //                let endInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.end)) ?? 0
-    //
-    //                if item >= startInt && item < endInt {
-    //                    return String(line)
-    //                }
-    //            }
-    //        } else {
-    //            //1.先找中间的那个
-    //            let line = items[items.count/2]
-    //            let symbolModel = WBBMSymbolModel(String(line))
-    //
-    //            let startInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.start)) ?? 0
-    //            let endInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.end)) ?? 0
-    //
-    //            if item >= startInt && item < endInt {
-    //                return String(line)
-    //            } else {
-    //                if item < startInt {
-    //                    let newItems = Array(items[0...items.count/2])
-    //                    return self.binarySearch(items: newItems, item: item)
-    //                } else  {
-    //                    let newItems = Array(items[items.count/2...items.count-1])
-    //                    return self.binarySearch(items: newItems, item: item)
-    //                }
-    //            }
-    //        }
-    //        return ""
-    //    }
-    
-    
-    //MARK:分段查找
-    //    class func reduceSymbol2(_ functionTables: [[String]]?, _ offsetAdd: Int) -> String {
-    //
-    //        var index = 0;
-    //        for subArr: [String] in functionTables {
-    //
-    //            //取每个数组里面的第一个和最后一个 判断此时在不在这个区间内
-    //            let firstLine = subArr.first ?? ""
-    //            let lastLine = subArr.last ?? ""
-    //
-    //            let firstModel = WBBMSymbolModel(firstLine)
-    //            let lastModel = WBBMSymbolModel(lastLine)
-    //
-    //            //查找区间
-    //
-    //            let firstValue = Int(WBBMScanLogTool.hexToDecimal(hex: firstModel.start)) ?? 0
-    //            let endValue = Int(WBBMScanLogTool.hexToDecimal(hex: lastModel.end)) ?? 0
-    //
-    //            if offsetAdd >= firstValue && offsetAdd < endValue {
-    //                //找到区间数组 在这个数组里查找
-    //                for line in subArr {
-    //
-    //                    let symbolModel = WBBMSymbolModel(line)
-    //                    let startInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.start)) ?? 0
-    //                    let endInt = Int(WBBMScanLogTool.hexToDecimal(hex: symbolModel.end)) ?? 0
-    //
-    //                    if offsetAdd >= startInt && offsetAdd < endInt {
-    //                        return line
-    //                    }
-    //
-    //                }
-    //            }
-    //            index += 1
-    //        }
-    //        return ""
-    //
-    //    }
-    
 }

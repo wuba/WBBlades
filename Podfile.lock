@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "./WBBrightMirror"
 
 SPEC CHECKSUMS:
-  WBBrightMirror: d5e1f5318e0124f40bb4a687cbc156307fbdad6d
+  WBBrightMirror: d329fce16d782019505a0d807ce45eead19c7c3b
 
 PODFILE CHECKSUM: d0dc772550336cfc9028afb6e6e7e0f3e8cebd06
 
