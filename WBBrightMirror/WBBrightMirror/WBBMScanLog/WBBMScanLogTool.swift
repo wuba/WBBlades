@@ -52,9 +52,9 @@ class WBBMScanSystemLogTool{
         return false
     }
     
-    //scan symtem crash log's processes' the scope of address
-    class func scanSystemProcessAddress(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,Array<String>>{
-        var processDic: Dictionary<String,Array<String>> = Dictionary.init()
+    //scan symtem crash log's libraries' the scope of address
+    class func scanSystemLibraryAddress(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,Array<String>>{
+        var libraryDic: Dictionary<String,Array<String>> = Dictionary.init()
         for suchline in lines.reversed() {
             let suchString = String(suchline)
             if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: suchString) {
@@ -71,14 +71,14 @@ class WBBMScanSystemLogTool{
                 
                 let startAddress = WBBMScanLogTool.hexToDecimal(hex: String(suchArray[0]))
                 let endAddress = WBBMScanLogTool.hexToDecimal(hex: String(suchArray[2]))
-                processDic[key] = [startAddress,endAddress]
+                libraryDic[key] = [startAddress,endAddress]
             }
         }
-        return processDic
+        return libraryDic
     }
     
-    class func scanSystemProcessBinaryUUID(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,String>{
-        var processDic: Dictionary<String,String> = Dictionary.init()
+    class func scanSystemLibraryBinaryUUID(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,String>{
+        var libraryDic: Dictionary<String,String> = Dictionary.init()
         for suchline in lines.reversed() {
             let suchString = String(suchline)
             if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: suchString) {
@@ -92,16 +92,16 @@ class WBBMScanSystemLogTool{
                 }else if(key.contains("???")){
                     key = processName
                 }
-                processDic[key] = String(suchArray[5]).replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
+                libraryDic[key] = String(suchArray[5]).replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
             }
         }
-        return processDic
+        return libraryDic
     }
     
     //MARK: -
     //MARK: New Crash
-    //scan new symtem crash log's processes' the scope of address
-    class func scanSystemProcessAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeProcessModel>{
+    //scan new symtem crash log's libraries' the scope of address
+    class func scanSystemLibraryAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeLibraryModel>{
         let usedImages = detailInfoDic["usedImages"] as? Array ?? [];
         
         if usedImages.count == 0 {
@@ -109,18 +109,18 @@ class WBBMScanSystemLogTool{
         }
         
         if usedImages[0] is Array<Any> {
-            return scanSystemProcessNewTypeArray(usedImages: usedImages, detailInfoDic: detailInfoDic, logDetailModel: logDetailModel, uuid: uuid);
+            return scanSystemLibraryNewTypeArray(usedImages: usedImages, detailInfoDic: detailInfoDic, logDetailModel: logDetailModel, uuid: uuid);
         }
         
         if usedImages[0] is Dictionary<String, Any> {
-            return scanSystemProcessNewTypeDictionary(usedImages: usedImages,logDetailModel: logDetailModel)
+            return scanSystemLibraryNewTypeDictionary(usedImages: usedImages,logDetailModel: logDetailModel)
         }
         
         return []
     }
     
-    private class func scanSystemProcessNewTypeArray(usedImages:Array<Any>,detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String)-> Array<WBBMSystemLogNewTypeProcessModel>{
-        var processArray: Array<WBBMSystemLogNewTypeProcessModel> = Array();
+    private class func scanSystemLibraryNewTypeArray(usedImages:Array<Any>,detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String)-> Array<WBBMSystemLogNewTypeLibraryModel>{
+        var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         
         var startAdr = 0
         for suchImages in usedImages {
@@ -135,14 +135,14 @@ class WBBMScanSystemLogTool{
         }
         
         guard startAdr > 0 else{
-            return processArray
+            return libraryArray
         }
         
         guard let legacyInfo = detailInfoDic["legacyInfo"] as? Dictionary<String,Any> else {
-            return processArray
+            return libraryArray
         }
         guard let imageExtraInfo = legacyInfo["imageExtraInfo"] as? Array<Any> else {
-            return processArray
+            return libraryArray
         }
         
         for suchExtra in imageExtraInfo {
@@ -156,22 +156,22 @@ class WBBMScanSystemLogTool{
                 let startAddress = String(startAdr)
                 let endAddress = String(startAdr+size)
 
-                let processModel = WBBMSystemLogNewTypeProcessModel()
-                if logDetailModel.processName == processModel.processName && startAdr == 0{
+                let libraryModel = WBBMSystemLogNewTypeLibraryModel()
+                if logDetailModel.processName == libraryModel.libraryName && startAdr == 0{
                     logDetailModel.foundedAddress = false
                 }
-                processModel.processName = imageName;
-                processModel.processStartAddress = startAddress
-                processModel.processEndAddress = endAddress
-                processArray.append(processModel)
+                libraryModel.libraryName = imageName;
+                libraryModel.libraryStartAddress = startAddress
+                libraryModel.libraryEndAddress = endAddress
+                libraryArray.append(libraryModel)
             }
         }
         
-        return processArray
+        return libraryArray
     }
     
-    private class func scanSystemProcessNewTypeDictionary(usedImages:Array<Any>,logDetailModel: WBBMLogDetailModel)-> Array<WBBMSystemLogNewTypeProcessModel>{
-        var processArray: Array<WBBMSystemLogNewTypeProcessModel> = Array();
+    private class func scanSystemLibraryNewTypeDictionary(usedImages:Array<Any>,logDetailModel: WBBMLogDetailModel)-> Array<WBBMSystemLogNewTypeLibraryModel>{
+        var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         
         var hasMain = false
         for suchImages in usedImages {
@@ -179,25 +179,25 @@ class WBBMScanSystemLogTool{
                 continue
             }
             
-            let processModel = WBBMSystemLogNewTypeProcessModel()
-            processModel.processName = images["name"] as? String ?? "";
+            let libraryModel = WBBMSystemLogNewTypeLibraryModel()
+            libraryModel.libraryName = images["name"] as? String ?? "";
             
             let startAddress = images["base"] as? Int ?? 0
             let size = images["size"] as? Int ?? 0
-            if (!hasMain && (logDetailModel.processName == processModel.processName || processModel.processName == "" || processModel.processName.hasPrefix("?"))) && startAddress == 0{
+            if (!hasMain && (logDetailModel.processName == libraryModel.libraryName || libraryModel.libraryName == "" || libraryModel.libraryName.hasPrefix("?"))) && startAddress == 0{
                 logDetailModel.foundedAddress = false
-                processModel.processName = logDetailModel.processName
+                libraryModel.libraryName = logDetailModel.processName
             }
             
-            processModel.processStartAddress = String(startAddress)
-            processModel.processEndAddress = String(startAddress+size)
-            if processModel.processName == logDetailModel.processName {
+            libraryModel.libraryStartAddress = String(startAddress)
+            libraryModel.libraryEndAddress = String(startAddress+size)
+            if libraryModel.libraryName == logDetailModel.processName {
                 hasMain = true
             }
-            processArray.append(processModel)
+            libraryArray.append(libraryModel)
         }
         
-        return processArray
+        return libraryArray
     }
 }
 

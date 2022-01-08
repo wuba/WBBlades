@@ -14,10 +14,10 @@ enum WBBMSystemLogEndLine: String{
     case WakeUpPowerStats = "Powerstats for:"
 }
 
-class WBBMSystemLogNewTypeProcessModel{
-    public var processName: String = ""
-    public var processStartAddress: String = ""
-    public var processEndAddress: String = ""
+class WBBMSystemLogNewTypeLibraryModel{
+    public var libraryName: String = ""
+    public var libraryStartAddress: String = ""
+    public var libraryEndAddress: String = ""
     
     public init() {}
 }
