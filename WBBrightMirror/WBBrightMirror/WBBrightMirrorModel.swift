@@ -24,7 +24,7 @@ open class WBBMLogModel{
     public var detailModel: WBBMLogDetailModel!
     public var originalLogPath: URL!
     public var extendParams: Dictionary<String,Any> = [:]
-    public var issueid: String = "" //bugly异常ID
+    public var issueid: String = "" //bugly issue id
 
     public init() {}
 }
@@ -34,7 +34,7 @@ open class WBBMLogDetailModel{
     public var identifier: String = ""
     public var hardwareModel: String = ""
     public var processName: String = ""
-    public var foundedAddress: Bool = true //正常情况下认为可以获取到进程的起始地址
+    public var foundedAddress: Bool = true //In the normal condition, it is considered that the base address of the process can be obtained
     public var crashTime: String = ""
     public var launchTime: String = ""
     public var osVersion: String = ""

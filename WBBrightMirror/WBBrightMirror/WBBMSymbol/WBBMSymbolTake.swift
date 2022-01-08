@@ -10,7 +10,7 @@ import Foundation
 
 class WBBMSymbolTake {
 
-    //MARK: Symbol table disassembly
+    //MARK: Disassemble symbol table
     class func dismantleParagraph(_ symbolTable: String) -> [[String]]? {
         let functionTables: [String] = symbolTable.components(separatedBy: "\n")
         var integer:Int = functionTables.count/100
@@ -38,7 +38,7 @@ class WBBMSymbolTake {
     }
 
 
-    //MARK: judge symbol table is exist
+    //MARK: judge whether symbol table exists
     class func isExistSymbol(filePath: String) -> Bool {
 
         let fileManager = FileManager.default

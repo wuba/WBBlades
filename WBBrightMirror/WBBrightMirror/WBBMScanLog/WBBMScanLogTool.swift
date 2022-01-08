@@ -52,7 +52,7 @@ class WBBMScanSystemLogTool{
         return false
     }
     
-    //scan symtem crash log's libraries' the scope of address
+    //scan the address range of all libraries in the crash log content of the new system
     class func scanSystemLibraryAddress(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,Array<String>>{
         var libraryDic: Dictionary<String,Array<String>> = Dictionary.init()
         for suchline in lines.reversed() {
@@ -63,7 +63,7 @@ class WBBMScanSystemLogTool{
             let suchArray = suchString.split(separator: Character.init(" "))
             if suchArray.count > 4 && suchArray[1] == "-" {
                 var key = String(suchArray[3])
-                if key.contains(processIdentifier) {//when the process's name is same as process's identifier in binary images
+                if key.contains(processIdentifier) {//when the name of process is the same as the process‘s identifier in the binary images
                     key = processName
                 }else if(key.contains("???")){
                     key = processName
@@ -87,7 +87,7 @@ class WBBMScanSystemLogTool{
             let suchArray = suchString.split(separator: Character.init(" "))
             if suchArray.count > 6 {
                 var key = String(suchArray[3])
-                if key.contains(processIdentifier) {//when the process's name is same as process's identifier in binary images
+                if key.contains(processIdentifier) {//when the name of process is the same as the process‘s identifier in the binary images
                     key = processName
                 }else if(key.contains("???")){
                     key = processName
@@ -100,7 +100,7 @@ class WBBMScanSystemLogTool{
     
     //MARK: -
     //MARK: New Crash
-    //scan new symtem crash log's libraries' the scope of address
+    //scan the address range of all libraries in new symtem crash log content
     class func scanSystemLibraryAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeLibraryModel>{
         let usedImages = detailInfoDic["usedImages"] as? Array ?? [];
         
@@ -119,6 +119,7 @@ class WBBMScanSystemLogTool{
         return []
     }
     
+    //array type log
     private class func scanSystemLibraryNewTypeArray(usedImages:Array<Any>,detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String)-> Array<WBBMSystemLogNewTypeLibraryModel>{
         var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         
@@ -170,6 +171,7 @@ class WBBMScanSystemLogTool{
         return libraryArray
     }
     
+    //dictionary type log
     private class func scanSystemLibraryNewTypeDictionary(usedImages:Array<Any>,logDetailModel: WBBMLogDetailModel)-> Array<WBBMSystemLogNewTypeLibraryModel>{
         var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         

@@ -38,7 +38,7 @@ class WBBMLightSymbolTool {
         
         let outputPath = WBBMOutputFile.downloadPath + "/buglySymbol&" + processName + "&" + "arm64&" + uuid.replacingOccurrences(of: "-", with: "") + WBBMSymbolFileSymbolType
         
-        if symbolPath.lowercased().contains(WBBMSymbolFileDsymType) {//.dsym file need to strip a light symbol file
+        if symbolPath.lowercased().contains(WBBMSymbolFileDsymType) {//.dsym file need strip a light symbol file
             DispatchQueue.global().async{
                 //strip a light symbol file
 //                Artillery.readDwarf(symbolPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
@@ -49,7 +49,7 @@ class WBBMLightSymbolTool {
             return
         }
         
-        if symbolPath.contains(WBBMSymbolFileAppType) {//.app file need to strip a light symbol file
+        if symbolPath.contains(WBBMSymbolFileAppType) {//.app file need strip a light symbol file
             guard let fileName = Bundle.main.path(forResource: "dsymutil", ofType: "") else {
                 finishHandler(nil)
                 return

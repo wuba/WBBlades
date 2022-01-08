@@ -15,7 +15,7 @@ class WBBMScanSystemLog {
         
         var detailContent = content;
         
-        //standard format has header info
+        //standard format has header info.
         if content.hasPrefix("{"){
             var braceCount = 0
             var appInfo = String.init()
@@ -109,7 +109,7 @@ class WBBMScanSystemLog {
         logDetailModel.terminationDescription = logHeaderDic["Termination Description"] as? String ?? ""
         logDetailModel.triggeredThread = logHeaderDic["Triggered by Thread"] as? String ?? ""
         
-        //scan all libraries' base address&end address
+        //scan the base address&end address of all libraries
         let libraryDic = WBBMScanSystemLogTool.scanSystemLibraryAddress(lines: lines, processIdentifier: logDetailModel.identifier, processName: processName)
         if libraryDic.keys.count == 0 {
             logDetailModel.threadInfoArray = []
@@ -129,7 +129,7 @@ class WBBMScanSystemLog {
         var suchThreadNum = 0
         for index in lineIndex..<lines.count {
             let suchline = lines[index]
-            //thread's end line is next thread's first line
+            //current thread's end line is next thread's first line
             if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: String(suchline)){
                 if let threadInfo = scanSystemCrashProcessLog(lines: suchThread, processName: processName, libraryDic: libraryDic) as WBBMThreadInfoModel? {
                     threadInfoArray.append(threadInfo)
@@ -305,7 +305,7 @@ class WBBMScanSystemLog {
         logDetailModel.terminationDescription = "Active CPUs are \(cpuActives)"
         logDetailModel.triggeredThread = ""
         
-        //scan all libraries' base address&end address
+        //scan the base address&end address of all libraries
         let libraryDic = WBBMScanSystemLogTool.scanSystemLibraryAddress(lines: lines, processIdentifier: logDetailModel.identifier, processName: processName)
         if libraryDic.keys.count == 0 {
             logDetailModel.threadInfoArray = []
@@ -383,7 +383,7 @@ class WBBMScanSystemLog {
         let triggered = legacyInfo["threadTriggered"] as? Dictionary ?? [:]
         logDetailModel.triggeredThread = "Thread \(triggered["index"] ?? "") \(triggered["queue"] ?? "")"
         
-        //scan all libraries' base address&end address
+        //scan the base address&end address of all libraries
         let procName = detailInfoDic["procName"] as? String ?? ""
         logDetailModel.processName = procName
         let libraryArray = WBBMScanSystemLogTool.scanSystemLibraryAddressNewType(detailInfoDic: detailInfoDic, logDetailModel: logDetailModel, uuid: uuid)

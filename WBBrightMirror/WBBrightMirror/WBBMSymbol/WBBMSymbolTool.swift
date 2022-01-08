@@ -87,16 +87,14 @@ open class WBBMSymbolTool: NSObject {
                     return
                 }
 
-                //carsh log's UUID is different form symbol table's UUID
+                //When UUID of crash log is different from that of symbol table.
                 if symbolUUID.uppercased() != processUUID.uppercased() {
                     let yellow = "\u{001B}[0;33m"
-                    let message = "WARNING: Crash log's UUID is inconsistentand with Symbol File's UUID."
+                    let message = "WARNING: UUID of crash log is inconsistent with that of symbol table."
                     print(yellow + message);
-//                    completionHandler(false,logModel)
-//                    return
                 }
 
-                //calculate offset address
+                //calculate offset
                 self.dismantleLog(logModel: logModel, symbolTableArr[1]) { [weak self] (isComplete, logModel) in
 //                    DispatchQueue.main.async{
                         if  self?.stopped == false{
@@ -134,7 +132,7 @@ open class WBBMSymbolTool: NSObject {
             }
         }
 
-        // sort with offset size
+        //sort with offset size
         allStatckArray.sort(){
             let offsetAddValue0 = WBBMSymbolTake.obtainOffset(stackModel: $0) ?? 0
             let offsetAddValue1 = WBBMSymbolTake.obtainOffset(stackModel: $1) ?? 0
@@ -143,19 +141,19 @@ open class WBBMSymbolTool: NSObject {
         }
         
         var foundedStartAddress = -1
-        //crash log has't process's base address,try to calculate base address in main thread
+        //if crash log doesn’t include the base address of the process, it will try to calculate base address with main thread.
         if !logModel.detailModel.foundedAddress{
             var mainThread = logModel.detailModel.threadInfoArray[0]
-            //check first line has main thread's name
+            //Check whether the first line has the name of the main thread
             if !mainThread.threadName.hasSuffix("com.apple.main-thread"){
-                //check second line has main thread's name
+                //Check whether the second line has the name of the main thread
                 mainThread = logModel.detailModel.threadInfoArray[1]
             }
             if mainThread.threadName.hasSuffix("com.apple.main-thread") {
                 let stackCount = mainThread.stackArray.count
-                //obtain main thread's penultimate line, is most likely the main function
+                //obtain penultimate line of the main thread, it is the main function with a high probability.
                 let mainFunc = mainThread.stackArray[stackCount - 2];
-                //obtain main function's offset in symbol table
+                //obtain the offset of main function in symbol table
                 let mainFuncOffset = WBBMSymbolSearch.searchMainFuncInSymbol(items: self.symbolTables)
                 let mainFuncDecimal = Int(WBBMScanLogTool.hexToDecimal(hex: mainFunc.address)) ?? 0
                 //calculate base address = main function address - main function offset
@@ -168,7 +166,7 @@ open class WBBMSymbolTool: NSObject {
             }
         }
         
-        //not found base address, then can't analyze crash log
+        //If the base address is not found, then it cannot be analysed
         if !stopped && !logModel.detailModel.foundedAddress && foundedStartAddress <= 0 {
             completionHandler(false,logModel)
             return
@@ -193,7 +191,7 @@ open class WBBMSymbolTool: NSObject {
                 continue
             }
 
-            //judge cache
+            //judge whether the cache exists
             if (self.allStatcks.keys.contains(String(offset))) {
                 stackModel.analyzeResult = self.allStatcks[String(offset)] ?? ""
                 continue
@@ -223,7 +221,7 @@ open class WBBMSymbolTool: NSObject {
         self.allStatcks.removeAll()
         self.symbolTables.removeAll()
         
-        //全部查找完成
+        //finished!
         if !self.stopped {
             completionHandler(true,logModel)
         }
