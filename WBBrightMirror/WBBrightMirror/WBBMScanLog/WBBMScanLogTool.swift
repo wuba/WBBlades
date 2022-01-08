@@ -52,6 +52,7 @@ class WBBMScanSystemLogTool{
         return false
     }
     
+    //scan symtem crash log's processes' the scope of address
     class func scanSystemProcessAddress(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,Array<String>>{
         var processDic: Dictionary<String,Array<String>> = Dictionary.init()
         for suchline in lines.reversed() {
@@ -99,6 +100,7 @@ class WBBMScanSystemLogTool{
     
     //MARK: -
     //MARK: New Crash
+    //scan new symtem crash log's processes' the scope of address
     class func scanSystemProcessAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeProcessModel>{
         let usedImages = detailInfoDic["usedImages"] as? Array ?? [];
         
@@ -224,21 +226,4 @@ class WBBMScanLogTool{
         }
         return String(format: "%llX", decimalInt)
     }
-    
-    typealias mangleFunc = @convention(c) (CFString, CFString,CInt) -> CFString
-    
-    class func getDemangleName(mangleName: String) -> String{
-        let handle = dlopen("libswiftDemangle.tbd", RTLD_NOW)
-        let sym = dlsym(handle, "swift_demangle_getDemangledName")
-        if sym != nil {
-            let demangled = malloc(201);
-            let pointer = unsafeBitCast(sym,to: mangleFunc.self)
-            let result = pointer(mangleName.cString(using: .utf8) as! CFString,demangled as! CFString,CInt(mangleName.count))
-            print(result)
-        }
-        
-        return mangleName
-        
-    }
-    
 }

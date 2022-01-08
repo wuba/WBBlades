@@ -191,19 +191,19 @@ class WBBMScanSystemLog {
                     let startAdr = Int(String(adrArray[0])) ?? 0
                     let endAdr = Int(String(adrArray[1])) ?? 0
                     if suchValue > startAdr && suchValue < endAdr {
-                        stackModel.process = String(key)
-                        stackModel.processStartAddress = String(startAdr)
-                        stackModel.processEndAddress = String(endAdr)
+                        stackModel.library = String(key)
+                        stackModel.libraryStartAddress = String(startAdr)
+                        stackModel.libraryEndAddress = String(endAdr)
                         break
                     }
                 }
-                if stackModel.process.count == 0 {
-                    stackModel.process = processName
+                if stackModel.library.count == 0 {
+                    stackModel.library = processName
                     let adrArray = processDic[processName] ?? []
                     let startAdr = Int(String(adrArray[0])) ?? 0
                     let endAdr = Int(String(adrArray[1])) ?? 0
-                    stackModel.processStartAddress = String(startAdr)
-                    stackModel.processEndAddress = String(endAdr)
+                    stackModel.libraryStartAddress = String(startAdr)
+                    stackModel.libraryEndAddress = String(endAdr)
                 }
                 originalResult(stackModel: stackModel)
                 threadInfoArray.append(stackModel)
@@ -221,14 +221,14 @@ class WBBMScanSystemLog {
                 if suchArray.count > 5 {
                     let stackModel = WBBMStackModel.init()
                     stackModel.squence = Int(suchArray[0]) ?? 0
-                    var process = String(suchArray[1])
-                    if process.contains("???"){
-                        process = processName
+                    var library = String(suchArray[1])
+                    if library.contains("???"){
+                        library = processName
                     }
-                    stackModel.process = process
+                    stackModel.library = library
                     stackModel.address = String(suchArray[2])
-                    stackModel.processStartAddress = (processDic[stackModel.process] ?? []).first ?? ""
-                    stackModel.processEndAddress = (processDic[stackModel.process] ?? []).last ?? ""
+                    stackModel.libraryStartAddress = (processDic[stackModel.library] ?? []).first ?? ""
+                    stackModel.libraryEndAddress = (processDic[stackModel.library] ?? []).last ?? ""
                     stackModel.offset = String(suchArray.last ?? "")
                     stackModel.analyzeResult = String(suchline)
                     threadInfoArray.append(stackModel)
@@ -265,10 +265,10 @@ class WBBMScanSystemLog {
                 if process.contains("???"){
                     process = processName
                 }
-                stackModel.process = process
+                stackModel.library = process
                 stackModel.address = String(suchArray[2]).replacingOccurrences(of: "\t", with: "")
-                stackModel.processStartAddress = (processDic[stackModel.process] ?? []).first ?? ""
-                stackModel.processEndAddress = (processDic[stackModel.process] ?? []).last ?? ""
+                stackModel.libraryStartAddress = (processDic[stackModel.library] ?? []).first ?? ""
+                stackModel.libraryEndAddress = (processDic[stackModel.library] ?? []).last ?? ""
                 stackModel.offset = String(suchArray.last ?? "")
                 stackModel.analyzeResult = suchLine
                 stacks.append(stackModel)
@@ -335,14 +335,14 @@ class WBBMScanSystemLog {
             if suchArray.count > 5 {
                 let stackModel = WBBMStackModel.init()
                 stackModel.squence = Int(suchArray[0]) ?? 0
-                var process = String(suchArray[2]).replacingOccurrences(of: "(", with: "")
-                if process.contains("???"){
-                    process = processName
+                var library = String(suchArray[2]).replacingOccurrences(of: "(", with: "")
+                if library.contains("???"){
+                    library = processName
                 }
-                stackModel.process = process
+                stackModel.library = library
                 stackModel.address = String(suchArray[5]).trimmingCharacters(in: CharacterSet.init(charactersIn: "[]"))
-                stackModel.processStartAddress = (processDic[stackModel.process] ?? []).first ?? ""
-                stackModel.processEndAddress = (processDic[stackModel.process] ?? []).last ?? ""
+                stackModel.libraryStartAddress = (processDic[stackModel.library] ?? []).first ?? ""
+                stackModel.libraryEndAddress = (processDic[stackModel.library] ?? []).last ?? ""
                 stackModel.offset = String(suchArray.last ?? "").replacingOccurrences(of: ")", with: "")
                 stackModel.analyzeResult = suchline;
                 stacks.append(stackModel)
@@ -439,11 +439,11 @@ class WBBMScanSystemLog {
             
             if imageIndex >= 0{
                 let processModel = processArray[imageIndex]
-                stackModel.process = processModel.processName
-                stackModel.processStartAddress = processModel.processStartAddress
-                stackModel.processEndAddress = processModel.processEndAddress
+                stackModel.library = processModel.processName
+                stackModel.libraryStartAddress = processModel.processStartAddress
+                stackModel.libraryEndAddress = processModel.processEndAddress
                 
-                let processStartInt =  Int(stackModel.processStartAddress) ?? 0
+                let processStartInt =  Int(stackModel.libraryStartAddress) ?? 0
                 if offset > processStartInt{
                     stackModel.address = WBBMScanLogTool.decimalToHex(decimal: String(offset))
                     stackModel.offset = String(offset - processStartInt)
@@ -464,17 +464,17 @@ class WBBMScanSystemLog {
     //MARK: -
     //MARK: Other
     class func originalResult(stackModel: WBBMStackModel) -> Void{
-        let processStartAddress = WBBMScanLogTool.decimalToHex(decimal: stackModel.processStartAddress)
+        let libraryStartAddress = WBBMScanLogTool.decimalToHex(decimal: stackModel.libraryStartAddress)
         
-        var processOffset = "?"
+        var libraryOffset = "?"
         if stackModel.offset.count > 0 {
-            processOffset = stackModel.offset
+            libraryOffset = stackModel.offset
         }
         
         var addr = stackModel.address
         if !stackModel.address.hasPrefix("0x") && !stackModel.address.hasPrefix("0X") {
             addr = "0x\(stackModel.address)"
         }
-        stackModel.analyzeResult = "\(stackModel.squence)  \(stackModel.process)\t\t\t\(addr) 0x\(processStartAddress) + \(processOffset)"
+        stackModel.analyzeResult = "\(stackModel.squence)  \(stackModel.library)\t\t\t\(addr) 0x\(libraryStartAddress) + \(libraryOffset)"
     }
 }

@@ -27,7 +27,7 @@ class WBBMScanBuglyLog{
         var stackModel: WBBMStackModel = WBBMStackModel()
         
         for suchline in lines {
-            if index%3 == 0 {
+            if index%3 == 0 {//first line is squence
                 let suchIndex = Int(suchline)
                 if suchIndex == nil {
                     isBuglyLog = false
@@ -35,14 +35,14 @@ class WBBMScanBuglyLog{
                 }
                 stackModel = WBBMStackModel()
                 stackModel.squence = suchIndex ?? 0
-            }else if index%3 == 1 {
+            }else if index%3 == 1 {//second line is library name
                 let array = suchline.split(separator: " ")
                 if array.count == 0 || array.count != 1 {
                     isBuglyLog = false
                     break
                 }
-                stackModel.process = String(array[0])
-            }else if index%3 == 2 {
+                stackModel.library = String(array[0])
+            }else if index%3 == 2 {//last line
                 let array = suchline.split(separator: " ")
                 if array.count > 1 {
                     let adr = String(array[0])
@@ -53,7 +53,7 @@ class WBBMScanBuglyLog{
                 }
                 stackModel.address = String(array[0])
                 stackModel.offset =  String(array.last ?? "")
-                stackModel.analyzeResult = "\(stackModel.squence) \(stackModel.process)\t\(suchline)"
+                stackModel.analyzeResult = "\(stackModel.squence) \(stackModel.library)\t\(suchline)"
                 stackArray.append(stackModel)
             }
             index += 1
@@ -83,8 +83,8 @@ class WBBMScanBuglyTool{
         }
         
         for stackModel in stackArray {
-            if stackModel.process.contains("???") {
-                stackModel.process = logModel.processName
+            if stackModel.library.contains("???") {
+                stackModel.library = logModel.processName
                 stackModel.analyzeResult = stackModel.analyzeResult.replacingOccurrences(of: "???", with: logModel.processName)
             }
         }
@@ -112,10 +112,10 @@ class WBBMScanBuglyTool{
             var stackAddress = 0
             var functionName = ""
             for stackModel in stackArray.reversed() {
-                if stackModel.process == "???" {
-                    stackModel.process = logModel.processName
+                if stackModel.library == "???" {
+                    stackModel.library = logModel.processName
                 }
-                if stackModel.process == logModel.processName {
+                if stackModel.library == logModel.processName {
                     let suchArray = stackModel.analyzeResult.split(separator: " ")
                     if suchArray.count > 3 {
                         var tmpStackAddress = stackModel.address.trimmingCharacters(in: .whitespaces)
@@ -159,8 +159,8 @@ class WBBMScanBuglyTool{
         }
         
         for stackModel in stackArray {
-            if stackModel.process == logModel.processName {
-                stackModel.processStartAddress = demicalAddress
+            if stackModel.library == logModel.processName {
+                stackModel.libraryStartAddress = demicalAddress
             }
         }
     }

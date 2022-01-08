@@ -180,12 +180,12 @@ open class WBBMSymbolTool: NSObject {
             if self.stopped {
                 break
             }
-            if stackModel.process != logModel.processName {
+            if stackModel.library != logModel.processName {
                 continue
             }
             
             if foundedStartAddress > 0 {
-                stackModel.processStartAddress = "\(foundedStartAddress)"
+                stackModel.libraryStartAddress = "\(foundedStartAddress)"
             }
            
             //obtain offset
@@ -213,7 +213,7 @@ open class WBBMSymbolTool: NSObject {
                 stackAddress = addresArr[1]
             }
             
-            let analyzes = [String(stackModel.squence),"",stackModel.process,"\t\t\t ",stackAddress,"",symbolModel.functionName,"",symbolModel.clasName]
+            let analyzes = [String(stackModel.squence),"",stackModel.library,"\t\t\t ",stackAddress,"",symbolModel.functionName,"",symbolModel.clasName]
             stackModel.analyzeResult =  analyzes.joined(separator: " ")
 
             //save result
@@ -230,7 +230,7 @@ open class WBBMSymbolTool: NSObject {
     }
 
 
-    //MARK: 根据函数名查找偏移地址
+    //MARK: Find the offset address by the function name
     class func searchFunctionInfo(functionName: String, logModel: WBBMLogModel, symbolPath: String?) -> WBBMSymbolModel? {
 
         let downloadDir: String = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? ""

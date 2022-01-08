@@ -57,10 +57,10 @@ open class WBBMThreadInfoModel{
 
 open class WBBMStackModel{
     public var squence = 0;
-    public var process: String = ""
+    public var library: String = ""
     public var address: String = ""
-    public var processStartAddress: String = ""
-    public var processEndAddress: String = ""
+    public var libraryStartAddress: String = ""
+    public var libraryEndAddress: String = ""
     public var offset: String = ""
     public var analyzeResult: String = ""
 

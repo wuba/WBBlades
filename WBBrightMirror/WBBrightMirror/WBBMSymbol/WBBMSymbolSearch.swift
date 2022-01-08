@@ -16,7 +16,7 @@ open class WBBMSymbolSearch {
     }
     
     
-    //MARK: 查找
+    //MARK: search symbol
     open class func searchInSymbol(searchtype: SearchType = .binary, items: [String], item: Int) -> String {
         if searchtype == .finbonacci {
             return finbonacciSearch(items: items, item: item)
@@ -25,7 +25,7 @@ open class WBBMSymbolSearch {
         }
     }
     
-    //MARK: 查找main函数
+    //MARK: search main function offset
     class func searchMainFuncInSymbol(items: [String]) -> Int {
         if items.count == 0 {
             return 0
@@ -53,16 +53,15 @@ open class WBBMSymbolSearch {
     }
     
     
-    //MARK:斐波那契查找
+    //MARK: finbonacci
     private static var finbonacciSequence = [Int]()
     
-    //构建一个斐波那契数列
     private class func createFibonacciSequence() -> [Int] {
         var finbonacciSequence = [0,1]
         for i in 2..<40 {
             finbonacciSequence.append(finbonacciSequence[i-1] + finbonacciSequence[i-2])
         }
-        print("Fibonacci数列：\(finbonacciSequence)")
+        print("Fibonacci Sequence：\(finbonacciSequence)")
         return finbonacciSequence
     }
     
@@ -107,7 +106,7 @@ open class WBBMSymbolSearch {
         return ""
     }
     
-    //寻找number在Fibonacci数列中的位置
+    //find number
     private class func findNumberInFibonacci(number: Int) -> Int {
         var index = 0
         let finbonacciSequence = self.finbonacciSequence
@@ -118,7 +117,7 @@ open class WBBMSymbolSearch {
     }
     
     
-    //查找表的元素补齐 便于Fibonacci数列进行分割
+    //find the element completion
     private class func createFibonacciSearchTable(items: [String], key: Int) -> Array<String> {
         var serahItems = items
         for _ in 0..<(self.finbonacciSequence[key]-items.count) {
@@ -127,7 +126,7 @@ open class WBBMSymbolSearch {
         return serahItems
     }
     
-    //MARK: 折半查找
+    //MARK: binary search
     private class func binarySearch(items: [String], item: Int) -> String {
         
         //非递归查找

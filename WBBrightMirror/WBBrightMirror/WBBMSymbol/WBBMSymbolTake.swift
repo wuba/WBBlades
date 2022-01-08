@@ -10,7 +10,7 @@ import Foundation
 
 class WBBMSymbolTake {
 
-    //MARK: 符号表拆段
+    //MARK: Symbol table disassembly
     class func dismantleParagraph(_ symbolTable: String) -> [[String]]? {
         let functionTables: [String] = symbolTable.components(separatedBy: "\n")
         var integer:Int = functionTables.count/100
@@ -74,9 +74,9 @@ class WBBMSymbolTake {
         //decimal value
         let stackAddressValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(stackAddress))) ?? 0
 
-        var  stackStartAddressValue: Int = Int(stackModel.processStartAddress) ?? 0
-        if stackModel.processStartAddress.hasPrefix("0x") {
-            stackStartAddressValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(stackModel.processStartAddress))) ?? 0
+        var  stackStartAddressValue: Int = Int(stackModel.libraryStartAddress) ?? 0
+        if stackModel.libraryStartAddress.hasPrefix("0x") {
+            stackStartAddressValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(stackModel.libraryStartAddress))) ?? 0
         }
 
         if stackAddressValue > stackStartAddressValue {
