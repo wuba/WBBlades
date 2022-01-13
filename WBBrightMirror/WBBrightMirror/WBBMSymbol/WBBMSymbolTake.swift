@@ -10,7 +10,10 @@ import Foundation
 
 class WBBMSymbolTake {
 
-    //MARK: Disassemble symbol table
+    /**
+     *  disassemble symbol table
+     *  @param symbolTable       symbol table content
+     */
     class func dismantleParagraph(_ symbolTable: String) -> [[String]]? {
         let functionTables: [String] = symbolTable.components(separatedBy: "\n")
         var integer:Int = functionTables.count/100
@@ -37,8 +40,10 @@ class WBBMSymbolTake {
         return allTables
     }
 
-
-    //MARK: judge whether symbol table exists
+    /**
+     *  judge whether symbol table exists
+     *  @param filePath       symbol table file path
+     */
     class func isExistSymbol(filePath: String) -> Bool {
 
         let fileManager = FileManager.default
@@ -46,7 +51,10 @@ class WBBMSymbolTake {
         return isExist
     }
 
-    //MARK: obtain symble table's uuid
+    /**
+     *  obtain symble table's uuid
+     *  @param symbolInfo       symbol table content
+     */
     class func obtainSymbolUUID(_ symbolInfo: String) -> String? {
 
         let lines: Array<Substring> = symbolInfo.split(separator: Character.init("\n"))
@@ -61,7 +69,10 @@ class WBBMSymbolTake {
         return nil
     }
 
-    //MARK: offset
+    /**
+     *  obtain offset
+     *  @param stackModel     every stack info
+     */
     class func obtainOffset(stackModel: WBBMStackModel) -> Int? {
 
         //remove white spacing at the beginning and end of the text

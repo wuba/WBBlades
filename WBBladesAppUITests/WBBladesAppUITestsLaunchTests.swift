@@ -1,6 +1,6 @@
 //
-//  WBBladesAppUITestsLaunchTests.swift
-//  WBBladesAppUITests
+//  WBBladesCrashAppUITestsLaunchTests.swift
+//  WBBladesCrashAppUITests
 //
 //  Created by 朴惠姝 on 2022/1/12.
 //  Copyright © 2022 邓竹立. All rights reserved.
@@ -8,7 +8,7 @@
 
 import XCTest
 
-class WBBladesAppUITestsLaunchTests: XCTestCase {
+class WBBladesCrashAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

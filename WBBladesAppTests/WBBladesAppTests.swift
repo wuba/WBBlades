@@ -1,15 +1,15 @@
 //
-//  WBBladesAppTests.swift
-//  WBBladesAppTests
+//  WBBladesCrashAppTests.swift
+//  WBBladesCrashAppTests
 //
 //  Created by 朴惠姝 on 2022/1/12.
 //  Copyright © 2022 邓竹立. All rights reserved.
 //
 
 import XCTest
-@testable import WBBladesApp
+@testable import WBBladesCrashApp
 
-class WBBladesAppTests: XCTestCase {
+class WBBladesCrashAppTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -8,7 +8,7 @@ target "WBBlades" do
 end
 
 
-target "WBBladesApp" do
+target "WBBladesCrashApp" do
    pod 'WBBrightMirror', :path => './WBBrightMirror'
   # pod 'ArtilleryOfItaly', :path => './ArtilleryOfItaly'
 
