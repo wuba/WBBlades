@@ -8,6 +8,10 @@
 import Foundation
 
 class WBBMScanBuglyLog{
+    /**
+     *  scan the bugly log with content
+     *  @param content  the original content of bugly log
+     */
     class func scanBuglyLog(content: String) -> WBBMLogModel?{
         let lines = content.split(separator: "\n")
         
@@ -70,6 +74,10 @@ class WBBMScanBuglyLog{
 }
 
 class WBBMScanBuglyTool{
+    /**
+     *  whether the process name of bugly log corrects
+     *  @param logModel  analyzed log model
+     */
     class func checkBuglyProcessName(logModel: WBBMLogModel){
         let detailModel = logModel.detailModel
         guard let threadInfoArray = detailModel?.threadInfoArray else{
@@ -89,10 +97,17 @@ class WBBMScanBuglyTool{
             }
         }
     }
-    class func checkBuglyProcessStartAddress(logModel: WBBMLogModel, symbolPath: String?,startAddress: String?, completionHandler: @escaping (_ ready: Bool) -> Void) {
-        if let adr = startAddress, adr.count > 0{
+    
+    /**
+     *  check the necessary info of bugly log
+     *  @param logModel         analyzed log model
+     *  @param symbolPath       the absolute path of symbol table
+     *  @param startAddress     the base address of process
+     */
+    class func checkBuglyProcessBaseAddress(logModel: WBBMLogModel, symbolPath: String?,baseAddress: String?, completionHandler: @escaping (_ ready: Bool) -> Void) {
+        if let adr = baseAddress, adr.count > 0{
             let demical = WBBMScanLogTool.hexToDecimal(hex: adr)
-            setBuglyStartAddress(logModel: logModel,demicalAddress: demical)
+            setBuglyBaseAddress(logModel: logModel,demicalAddress: demical)
             completionHandler(true)
             return
         }
@@ -120,7 +135,7 @@ class WBBMScanBuglyTool{
                     if suchArray.count > 3 {
                         var tmpStackAddress = stackModel.address.trimmingCharacters(in: .whitespaces)
 
-                        if tmpStackAddress.count > 12 {
+                        if tmpStackAddress.count > 12 {//correct the high address
                             let startI = tmpStackAddress.index(tmpStackAddress.startIndex, offsetBy: 9);
                             tmpStackAddress = "0x\(tmpStackAddress[startI..<tmpStackAddress.endIndex])"
                         }
@@ -133,20 +148,26 @@ class WBBMScanBuglyTool{
                 }
             }
             
+            //Find the offset address by the function name
             guard let resultModel =  WBBMSymbolTool.searchFunctionInfo(functionName: functionName, logModel: logModel, symbolPath: symbolPath) else{
                 completionHandler(false)
                 return
             }
             
             let funcStartAddress = Int(WBBMScanLogTool.hexToDecimal(hex: resultModel.start)) ?? 0
-            self.setBuglyStartAddress(logModel: logModel,demicalAddress: "\(stackAddress - funcStartAddress)")
+            self.setBuglyBaseAddress(logModel: logModel,demicalAddress: "\(stackAddress - funcStartAddress)")
             DispatchQueue.main.async{
                 completionHandler(true)
             }
         }
     }
     
-    class func setBuglyStartAddress(logModel: WBBMLogModel,demicalAddress: String){
+    /**
+     *  set the bugly base address
+     *  @param logModel           analyzed log model
+     *  @param demicalAddress     the base address of process in demical
+     */
+    class func setBuglyBaseAddress(logModel: WBBMLogModel,demicalAddress: String){
         let detailModel = logModel.detailModel
         guard let threadInfoArray = detailModel?.threadInfoArray else{
             return

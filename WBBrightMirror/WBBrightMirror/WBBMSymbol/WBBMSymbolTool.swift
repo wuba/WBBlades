@@ -14,6 +14,12 @@ open class WBBMSymbolTool: NSObject {
     private var stopped = false
     private var symbolTableDict = [String:[String]]()
 
+    /**
+     *  start analyzing
+     *  @param logModel         analyzed log model
+     *  @param symbolPath       the absolute path of symbol table
+     *  @param completionHandler     analyzing finish handler
+     */
     open class func startAnalyze(logModel: WBBMLogModel, symbolPath: String?, _ completionHandler: @escaping (_ isComplete: Bool,_ fromDsym: String?, _ logModel: WBBMLogModel) -> Void) {
         let symbolTool = WBBMSymbolTool()
         logModel.analyzeTool = symbolTool
@@ -22,6 +28,10 @@ open class WBBMSymbolTool: NSObject {
         }
     }
     
+    /**
+     *  stop analyzing
+     *  @param logModel         analyzed log model
+     */
     class func stopAnalyze(logModel: WBBMLogModel) {
         let symbolTool = logModel.analyzeTool
         symbolTool?.stopReadSymbol(logModel: logModel)
@@ -29,7 +39,12 @@ open class WBBMSymbolTool: NSObject {
         symbolTool?.symbolTables.removeAll()
     }
     
-    //MARK:read symbol table, analyze crash log
+    /**
+     *  read symbol table, analyze crash log
+     *  @param logModel         analyzed log model
+     *  @param symbolPath       the absolute path of symbol table
+     *  @param completionHandler     analyzing finish handler
+     */
     func readSymbol(logModel: WBBMLogModel, symbolPath: String?, _ completionHandler: @escaping (_ isComplete: Bool, _ logModel: WBBMLogModel) -> Void) {
         let downloadDir: String = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? ""
         let savePath = downloadDir + "/WBBrightMirror"
@@ -96,21 +111,28 @@ open class WBBMSymbolTool: NSObject {
 
                 //calculate offset
                 self.dismantleLog(logModel: logModel, symbolTableArr[1]) { [weak self] (isComplete, logModel) in
-//                    DispatchQueue.main.async{
-                        if  self?.stopped == false{
-                            completionHandler(isComplete, logModel)
-                        }
-//                    }
+                    if  self?.stopped == false{
+                        completionHandler(isComplete, logModel)
+                    }
                 }
             }
         }
     }
 
+    /**
+     *  stop reading symbol
+     *  @param logModel         analyzed log model
+     */
     func stopReadSymbol(logModel: WBBMLogModel) -> Void{
         self.stopped = true
     }
 
-    //MARK: analyze
+    /**
+     *  analyze the log
+     *  @param logModel                 analyzed log model
+     *  @param addressTable             function offset address
+     *  @param completionHandler        analyzing finish handler
+     */
     private func dismantleLog(logModel: WBBMLogModel, _ addressTable: String, _ completionHandler: @escaping (_ isComplete: Bool,_ logModel: WBBMLogModel) -> Void) {
 
         self.symbolTables = addressTable.components(separatedBy: "\n")
@@ -227,8 +249,12 @@ open class WBBMSymbolTool: NSObject {
         }
     }
 
-
-    //MARK: Find the offset address by the function name
+    /**
+     *  find the offset address by the function name
+     *  @param functionName     the function name
+     *  @param logModel         analyzed log model
+     *  @param symbolPath       the absolute path of symbol table
+     */
     class func searchFunctionInfo(functionName: String, logModel: WBBMLogModel, symbolPath: String?) -> WBBMSymbolModel? {
 
         let downloadDir: String = NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? ""
@@ -275,7 +301,10 @@ open class WBBMSymbolTool: NSObject {
         }
     }
 
-
+    /**
+     *  alert tool
+     *  @param message   alert message
+     */
     public func showAlert(_ message: String) {
         DispatchQueue.main.async{
             let alert:NSAlert = NSAlert()

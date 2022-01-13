@@ -8,6 +8,11 @@
 import Foundation
 
 class WBBMShellObject{
+    /**
+     *  execute a task
+     *  @param path         command path
+     *  @param arguments    command arguments
+     */
     class func launch(path:String, arguments: Array<String>) -> String? {
         let task = Process()
         task.launchPath = path

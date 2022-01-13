@@ -8,27 +8,40 @@
 import Cocoa
 
 open class WBBrightMirrorManager{
-    //scan log type and content
+    /**
+     *  scan log type and content
+     *  @param logString  the original content of crash log
+     */
     open class func scanLog(logString: String) -> WBBMLogModel?{
        return WBBMScanLogManager.scanLog(logString: logString)
     }
-    
-    open class func downloadSymbol(logModel: WBBMLogModel, progressHandler:@escaping (Double)->Void, finishHandler:@escaping (String?)->Void) -> Void{
-    }
-    
-    open class func stopDownload(logModel: WBBMLogModel) -> Void{
-    }
-    
+
+    /**
+     *  whether the process name of bugly log corrects
+     *  @param logModel  analyzed log model
+     */
     open class func checkBuglyProcessName(logModel: WBBMLogModel){
         WBBMScanBuglyTool.checkBuglyProcessName(logModel: logModel)
     }
     
-    open class func checkBuglyAnalzeReady(logModel: WBBMLogModel, symbolPath: String?,startAddress: String?, completionHandler: @escaping (_ ready: Bool) -> Void){
-        WBBMScanBuglyTool.checkBuglyProcessStartAddress(logModel: logModel, symbolPath: symbolPath, startAddress: startAddress) { ready in
+    /**
+     *  check the necessary info of bugly log
+     *  @param logModel         analyzed log model
+     *  @param symbolPath       the absolute path of symbol table
+     *  @param startAddress     the base address of process
+     */
+    open class func checkBuglyAnalzeReady(logModel: WBBMLogModel, symbolPath: String?,baseAddress: String?, completionHandler: @escaping (_ ready: Bool) -> Void){
+        WBBMScanBuglyTool.checkBuglyProcessBaseAddress(logModel: logModel, symbolPath: symbolPath, baseAddress: baseAddress) { ready in
             completionHandler(ready)
         }
     }
     
+    /**
+     *  analyzing start
+     *  @param logModel              analyzed log model
+     *  @param symbolPath            the absolute path of symbol table
+     *  @param completionHandler     analyzing finish handler
+     */
     open class func startAnalyze(logModel: WBBMLogModel, symbolPath: String?, _ completionHandler: @escaping (_ succeed: Bool,_ symbolReady: Bool, _ outputPath: String?) -> Void){
         //Whether it is light symbol
         WBBMLightSymbolTool.checkLightSymbolPath(path: symbolPath, processName: logModel.processName, uuid:logModel.processUUID) { (lightSymbolPath) in

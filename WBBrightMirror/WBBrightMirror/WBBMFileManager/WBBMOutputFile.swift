@@ -8,9 +8,17 @@
 import Foundation
 
 class WBBMOutputFile {
+    //download path of symbol table
     static let downloadPath = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "","/WBBrightMirror")
+    //output path of analyzing result
     static let outputDir = String.init(format: "%@%@", NSSearchPathForDirectoriesInDomains(.downloadsDirectory, .userDomainMask, true).first ?? "","/WBBrightMirror/output")
     
+    /**
+     *  output the result file
+     *  @param logModel                 analyzed log model
+     *  @param completionHandler        analyzing finish handler
+     *  @param outputPath               the output path of analyzing result
+     */
     class func outputResultFile(logResultModel: WBBMLogModel, _ completionHandler: @escaping (_ succeed: Bool, _ outputPath: String?) -> Void){
         
         guard let detailModel = logResultModel.detailModel else{
@@ -21,6 +29,7 @@ class WBBMOutputFile {
         var resultString = String()
         resultString.append("\(detailModel.headerLogString)\n\n")
         
+        //appending the string
         for threadModel in detailModel.threadInfoArray  {
             var threadSqu = ""
             if threadModel.threadSequence.count > 0 {
@@ -36,6 +45,7 @@ class WBBMOutputFile {
             resultString.append("\n")
         }
         
+        //save the file
         let outputPath = saveResult(resultString: resultString, processName: logResultModel.processName, crashTime: detailModel.crashTime)
         if outputPath == nil {
             completionHandler(false,nil)
@@ -44,6 +54,12 @@ class WBBMOutputFile {
         }
     }
 
+    /**
+     *  save result in a file
+     *  @param resultString             analyzing result string
+     *  @param processName              the name of process
+     *  @param outputPath               the crash time of process
+     */
     class func saveResult(resultString: String?, processName: String, crashTime: String?) -> String?{
         let outputPath = resultPath(fileName: "\(processName)_\(crashTime ?? "")")
         
@@ -55,12 +71,19 @@ class WBBMOutputFile {
         return outputPath
     }
     
+    /**
+     *  the result path
+     *  @param fileName         file name of result
+     */
     class func resultPath(fileName: String) -> String{
         let outputPath = "\(outputDir)/\(fileName).txt"
         try? FileManager.default.createDirectory(atPath: (outputDir), withIntermediateDirectories: true, attributes: nil)
         return outputPath
     }
     
+    /**
+     *  clear all cache, include result file, symbol table in download path.
+     */
     class func cleanAllCache() -> Void {
         if FileManager.default.fileExists(atPath: downloadPath) {
             try? FileManager.default.removeItem(atPath: downloadPath)

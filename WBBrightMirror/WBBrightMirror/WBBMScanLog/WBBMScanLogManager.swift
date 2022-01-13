@@ -8,6 +8,10 @@
 import Foundation
 
 class WBBMScanLogManager {
+    /**
+     *  scan log type and content
+     *  @param logString  the original content of crash log
+     */
     class func scanLog(logString: String) -> WBBMLogModel?{
        if logString.count == 0 {
            return nil
