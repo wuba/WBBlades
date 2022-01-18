@@ -51,6 +51,8 @@
 		464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0466278EFDEF00390BD1 /* SystemCrash.plist */; };
 		464A046B278EFDEF00390BD1 /* BuglyCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0467278EFDEF00390BD1 /* BuglyCrash.plist */; };
 		464A046C278EFDEF00390BD1 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0468278EFDEF00390BD1 /* HelpViewController.swift */; };
+		464F8C26279008BD006EFD8B /* LanguageText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464F8C25279008BD006EFD8B /* LanguageText.plist */; };
+		464F8C2827900A20006EFD8B /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464F8C2727900A20006EFD8B /* TextDictionary.swift */; };
 		A8BA4BEF936EDA3FC3BE51D6 /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F749A7B81F8B1C65A73B50DF /* libPods-WBBladesCrashApp.a */; };
 /* End PBXBuildFile section */
 
@@ -177,6 +179,8 @@
 		464A0466278EFDEF00390BD1 /* SystemCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SystemCrash.plist; sourceTree = "<group>"; };
 		464A0467278EFDEF00390BD1 /* BuglyCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BuglyCrash.plist; sourceTree = "<group>"; };
 		464A0468278EFDEF00390BD1 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		464F8C25279008BD006EFD8B /* LanguageText.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LanguageText.plist; sourceTree = "<group>"; };
+		464F8C2727900A20006EFD8B /* TextDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
 		6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.release.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
 		C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C7E7AE5270639A9C5C7A925F /* Pods-WBBladesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesApp.debug.xcconfig"; path = "Target Support Files/Pods-WBBladesApp/Pods-WBBladesApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -414,6 +418,8 @@
 				464A042C278EF3B000390BD1 /* AppDelegate.swift */,
 				464A042E278EF3B000390BD1 /* ViewController.swift */,
 				464A0455278EF3E800390BD1 /* LogTextView.swift */,
+				464F8C2727900A20006EFD8B /* TextDictionary.swift */,
+				464F8C25279008BD006EFD8B /* LanguageText.plist */,
 				464A0464278EFDEF00390BD1 /* Help */,
 				464A0430278EF3B100390BD1 /* Assets.xcassets */,
 				464A0459278EF99600390BD1 /* Info.plist */,
@@ -583,6 +589,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				464A045A278EF99600390BD1 /* Info.plist in Resources */,
+				464F8C26279008BD006EFD8B /* LanguageText.plist in Resources */,
 				464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */,
 				464A0431278EF3B100390BD1 /* Assets.xcassets in Resources */,
 				464A0434278EF3B100390BD1 /* Main.storyboard in Resources */,
@@ -747,6 +754,7 @@
 			files = (
 				464A042F278EF3B000390BD1 /* ViewController.swift in Sources */,
 				464A0456278EF3E800390BD1 /* LogTextView.swift in Sources */,
+				464F8C2827900A20006EFD8B /* TextDictionary.swift in Sources */,
 				464A042D278EF3B000390BD1 /* AppDelegate.swift in Sources */,
 				464A0469278EFDEF00390BD1 /* HelpViewManager.swift in Sources */,
 				464A046C278EFDEF00390BD1 /* HelpViewController.swift in Sources */,

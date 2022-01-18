@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>mainTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>拖入一个崩溃日志文件或拷贝具体的崩溃堆栈</string>
+		<key>eng</key>
+		<string>Drag in a crash log file or copy a specific bugly crash stack</string>
+	</dict>
+	<key>startButtonNormal</key>
+	<dict>
+		<key>chinese</key>
+		<string>开始</string>
+		<key>eng</key>
+		<string>Start</string>
+	</dict>
+	<key>startButtonSelected</key>
+	<dict>
+		<key>chinese</key>
+		<string>暂停</string>
+		<key>eng</key>
+		<string>Stop</string>
+	</dict>
+	<key>inputSymbolPath</key>
+	<dict>
+		<key>chinese</key>
+		<string>请输入相应的符号表文件，您可以拖入本地的包含符号表的文件，支持.app，.dsym，.symbol文件</string>
+		<key>eng</key>
+		<string>Input a relevant symbol file, you can drag a local symbol file to input filed. supports &apos;.app&apos;, &apos;.dsym&apos;, &apos;.symbol&apos;</string>
+	</dict>
+	<key>analyzingInterrupt</key>
+	<dict>
+		<key>chinese</key>
+		<string>解析被暂停</string>
+		<key>eng</key>
+		<string>Analyzing is interrupted</string>
+	</dict>
+	<key>buglyMainTip</key>
+	<dict>
+		<key>chinese</key>
+		<string>您必须输入进程名，否则无法进行解析.</string>
+		<key>eng</key>
+		<string>You must to input process name or it will not be analyzed</string>
+	</dict>
+	<key>buglyProcessNameTip</key>
+	<dict>
+		<key>chinese</key>
+		<string>您没有输入进程起始地址，我们会计算，您需要耐心等待.</string>
+		<key>eng</key>
+		<string>You didn&apos;t input the base address of your process, we wil try to calculate base address, please wait.</string>
+	</dict>
+	<key>notSupportLog</key>
+	<dict>
+		<key>chinese</key>
+		<string>暂时不支持该类型日志，请您换一个日志再试试！</string>
+		<key>eng</key>
+		<string>This type of log is not supported, please try again with another log</string>
+	</dict>
+	<key>uncorrectLogType</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入正确的日志文件</string>
+		<key>eng</key>
+		<string>Please drag a correct type log file</string>
+	</dict>
+	<key>necessaryField</key>
+	<dict>
+		<key>chinese</key>
+		<string>请输入必要字段，否则无法继续进行</string>
+		<key>eng</key>
+		<string>You must to input necessary field or it will not be analyzed</string>
+	</dict>
+	<key>inputCorrectFile</key>
+	<dict>
+		<key>chinese</key>
+		<string>找不到该文件，请您拖入正确的符号表文件.</string>
+		<key>eng</key>
+		<string>File not found, please drag a correct symble table file</string>
+	</dict>
+	<key>analyzeRunning</key>
+	<dict>
+		<key>chinese</key>
+		<string>日志已开始解析,请耐心等待...</string>
+		<key>eng</key>
+		<string>Analyzing is started, please wait for finish</string>
+	</dict>
+	<key>analyzeFailed</key>
+	<dict>
+		<key>chinese</key>
+		<string>解析失败，您可以重新尝试</string>
+		<key>eng</key>
+		<string>Analyze Failed, please try again.</string>
+	</dict>
+	<key>analyzeSucceed</key>
+	<dict>
+		<key>chinese</key>
+		<string>崩溃日志解析已成功100%，您可以拖入新的崩溃日志继续进行解析.</string>
+		<key>eng</key>
+		<string>Analyze Succeed 100%, you can try again with another log.</string>
+	</dict>
+	<key>analyzeTip</key>
+	<dict>
+		<key>chinese</key>
+		<string>您可以拖入一个崩溃日志文件或拷贝具体的崩溃堆栈，点击“开始”。</string>
+		<key>eng</key>
+		<string>You can drag in a crash log file or copy a specific bugly crash stack, click &apos;Start&apos; button.</string>
+	</dict>
+	<key>historyText</key>
+	<dict>
+		<key>chinese</key>
+		<string>历史记录</string>
+		<key>eng</key>
+		<string>History</string>
+	</dict>
+	<key>currentLogInfo</key>
+	<dict>
+		<key>chinese</key>
+		<string>当前崩溃日志发生在</string>
+		<key>eng</key>
+		<string>Current crash log is occurred in</string>
+	</dict>
+	<key>analyzingWillFinishing</key>
+	<dict>
+		<key>chinese</key>
+		<string>解析即将结束请耐心等待， 当前进度</string>
+		<key>eng</key>
+		<string>Analyzing will be finished, please wait a moment. Progress </string>
+	</dict>
+	<key>analyzingDidStarted</key>
+	<dict>
+		<key>chinese</key>
+		<string>符号表获取成功, 日志解析进行中</string>
+		<key>eng</key>
+		<string>Symbol table file is obtained, analyzing started. Progress </string>
+	</dict>
+	<key>symbolPathTip</key>
+	<dict>
+		<key>chinese</key>
+		<string>包含符号表的文件(支持: .app / .dsym / .symbol)</string>
+		<key>eng</key>
+		<string>The file which includes symbol table( supports .app, .dsym, .symbol )</string>
+	</dict>
+</dict>
+</plist>

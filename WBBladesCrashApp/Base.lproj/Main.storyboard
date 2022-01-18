@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -674,7 +675,7 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="WBBladesApp" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="WBBladesCrashApp" customModuleProvider="target"/>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -704,7 +705,7 @@
         <!--View Controller-->
         <scene sceneID="2Jf-8M-SU5">
             <objects>
-                <viewController id="MSO-kv-GfL" customClass="ViewController" customModule="WBBladesApp" sceneMemberID="viewController">
+                <viewController id="MSO-kv-GfL" customClass="ViewController" customModule="WBBladesCrashApp" sceneMemberID="viewController">
                     <view key="view" id="PP3-9F-rzg">
                         <rect key="frame" x="0.0" y="0.0" width="780" height="600"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -713,9 +714,9 @@
                                 <rect key="frame" x="20" y="67" width="740" height="435"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ftY-Q2-Qnx">
                                     <rect key="frame" x="0.0" y="0.0" width="740" height="435"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="gzz-5H-3px" customClass="LogTextView" customModule="WBBrightMirrorProject" customModuleProvider="target">
+                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="gzz-5H-3px" customClass="LogTextView" customModule="WBBladesCrashApp" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="740" height="435"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -736,11 +737,11 @@
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zxq-jz-UTu">
-                                <rect key="frame" x="706" y="555" width="61" height="32"/>
+                                <rect key="frame" x="703" y="555" width="64" height="32"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="20" id="gfp-Jy-t7D"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="开始" alternateTitle="暂停" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AiM-wX-xlq">
+                                <buttonCell key="cell" type="push" title="Start" alternateTitle="Stop" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AiM-wX-xlq">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -985,6 +986,7 @@
                         <outlet property="loadingView" destination="UX5-ze-MPX" id="sKa-ht-Shx"/>
                         <outlet property="logTextView" destination="gzz-5H-3px" id="MUN-Ba-2av"/>
                         <outlet property="logTextViewOriginY" destination="Ofq-ey-bPt" id="3rB-oJ-ufQ"/>
+                        <outlet property="mainTitleLabel" destination="C5M-Jc-kyA" id="muN-6e-jsT"/>
                         <outlet property="progressLabel" destination="ABM-Lt-Ol3" id="ttA-7W-b7o"/>
                         <outlet property="progressView" destination="Lmb-fv-nHs" id="p8c-Bn-pvx"/>
                         <outlet property="startBtn" destination="zxq-jz-UTu" id="8Ws-q7-8Gf"/>

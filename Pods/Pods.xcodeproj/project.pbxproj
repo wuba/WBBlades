@@ -10,34 +10,34 @@
 		0A2CBBDBA00E4F08A2D532C2899173DB /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6C01D8C302446BFFB3F3F415CBC6FA5 /* WBBMScanLogModel.swift */; };
 		2F2E2711210F1ED49D95CC48FCA4A395 /* WBBMScanBuglyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9F98710020B7F444853980C433C418 /* WBBMScanBuglyLog.swift */; };
 		3F492FDB07C1207109C1AF3329DEA808 /* WBBrightMirror-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 6F55AE21B105542B83AB15AC4330B738 /* WBBrightMirror-Bridging-Header.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		454D64F22AF48C1B33FCDE672E31B29D /* Pods-WBBladesCrashApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		4572548D6D19FB8F39CBA9B5C1C6CCB6 /* WBBrightMirror-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B773E7445031FCBD57A59D237D96FF07 /* WBBrightMirror-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		653D97F62285C582BA68D911E5D96026 /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D4BD230913C942007A1F0F5C5DF92FA /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		653D97F62285C582BA68D911E5D96026 /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		65E429B70BB3F4EED6E63FB85A5CBFAA /* WBBMSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467785D8FD07BDF04395427A7B22D046 /* WBBMSymbolTool.swift */; };
 		6DE19C99A371846CA8AEE36A739761A4 /* WBBMScanLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1716748523AF42AB58C1C65B2776B78B /* WBBMScanLogManager.swift */; };
 		7FACAC14C5E184174A287437ED209890 /* WBBrightMirrorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118FEA3836943E697E69D2359D77879B /* WBBrightMirrorModel.swift */; };
 		8CCF1437A5DADFA578771BC4EF6E731C /* WBBMSymbolSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1AE5A07E66CC0534B3E44CE516187BE /* WBBMSymbolSearch.swift */; };
 		9F0A089F1F21709B008131CC7B088828 /* WBBrightMirrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6253D682B5BE4B47132DAAF54F4876B4 /* WBBrightMirrorManager.swift */; };
-		B89F8743DE90763F99BE82F2CB7DF8A6 /* Pods-WBBladesApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 62663EC75F5DA17A927074500EC724B8 /* Pods-WBBladesApp-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A6338DAE29C8FDF0C9AF8D8895E4A3FF /* Pods-WBBladesCrashApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */; };
 		BBF438D2971AA09D337250E4CD204DA1 /* WBBMOutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CF72225F9DE7843E40CE1CAFC3DE66B /* WBBMOutputFile.swift */; };
 		D709EA4C744B45CAAD71356E5D42D8C8 /* WBBMShellObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25B5E6D05ED901B14C338D87E4D75990 /* WBBMShellObject.swift */; };
 		DFBB6570BF8A6E0607C5C0D001E6C100 /* WBBrightMirror-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ED716350C073FBE869727C9E568897AC /* WBBrightMirror-dummy.m */; };
-		E01AE5197B557B18F3813E51F9C22A32 /* Pods-WBBladesApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F69C7BC0A1E08FDF0EDFFE02801A1D91 /* Pods-WBBladesApp-dummy.m */; };
 		F37F540CA647D6CAA244355E27F5F95E /* WBBMScanSystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF74BEE9C41D866F44534FD35DF88442 /* WBBMScanSystemLog.swift */; };
 		FA5EAF30906BE3A5E7ECB430CE90095E /* WBBMSymbolTake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 194DB28BF37CDC2BF8B7B8A18473360F /* WBBMSymbolTake.swift */; };
-		FB362C42B16FD4893B91B807FEE77A80 /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B6E9620DCBB53E58A38A2A25C6826862 /* Pods-WBBlades-dummy.m */; };
+		FB362C42B16FD4893B91B807FEE77A80 /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */; };
 		FBFDA1572775D958090506390EC24C99 /* WBBMScanLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC91FCE4A8005842A2D468D12A458916 /* WBBMScanLogTool.swift */; };
 		FFD26EB40C6680898F56D3637DA03B93 /* WBBMLightSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC66C79E55C21AF39B204E246B5026D4 /* WBBMLightSymbolTool.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0F2FE35B81D0A3555A65AE2D6A0A5190 /* PBXContainerItemProxy */ = {
+		42089DA08B22E717981E46CD1E30A854 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = DC3F0E7B0F31931ABBE1EAF87025EA1B;
 			remoteInfo = WBBrightMirror;
 		};
-		42089DA08B22E717981E46CD1E30A854 /* PBXContainerItemProxy */ = {
+		5A2C9A93913B3700A68C94D11ECBF15D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -47,45 +47,45 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		018B4473544E086BF3B36C285FB9D97C /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
+		0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBladesCrashApp-resources.sh"; sourceTree = "<group>"; };
 		118FEA3836943E697E69D2359D77879B /* WBBrightMirrorModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBrightMirrorModel.swift; path = WBBrightMirror/WBBrightMirrorModel.swift; sourceTree = "<group>"; };
-		155EDA50216D4E3D653B5C561A533BEA /* Pods-WBBladesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesApp.debug.xcconfig"; sourceTree = "<group>"; };
 		1716748523AF42AB58C1C65B2776B78B /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
 		194DB28BF37CDC2BF8B7B8A18473360F /* WBBMSymbolTake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTake.swift; sourceTree = "<group>"; };
 		1BF08DD7B31DBA634A6DD0654A99D24A /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; name = dsymutil; path = WBBrightMirror/Resource/dsymutil; sourceTree = "<group>"; };
-		1E42C5694D072976C2B82FE0832D2657 /* Pods-WBBladesApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBladesApp.modulemap"; sourceTree = "<group>"; };
 		25B5E6D05ED901B14C338D87E4D75990 /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
-		2D4BD230913C942007A1F0F5C5DF92FA /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
+		3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBladesCrashApp-dummy.m"; sourceTree = "<group>"; };
+		44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBlades-dummy.m"; sourceTree = "<group>"; };
 		467785D8FD07BDF04395427A7B22D046 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
 		4CF72225F9DE7843E40CE1CAFC3DE66B /* WBBMOutputFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMOutputFile.swift; sourceTree = "<group>"; };
 		4E9F98710020B7F444853980C433C418 /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
-		5F07FF13B3952D5F07628E92468ABCE7 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBladesCrashApp-umbrella.h"; sourceTree = "<group>"; };
 		6253D682B5BE4B47132DAAF54F4876B4 /* WBBrightMirrorManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBrightMirrorManager.swift; path = WBBrightMirror/WBBrightMirrorManager.swift; sourceTree = "<group>"; };
-		62663EC75F5DA17A927074500EC724B8 /* Pods-WBBladesApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBladesApp-umbrella.h"; sourceTree = "<group>"; };
-		6CD40028AF37C77724495B7D744D2C84 /* Pods-WBBladesApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBladesApp-acknowledgements.plist"; sourceTree = "<group>"; };
 		6F55AE21B105542B83AB15AC4330B738 /* WBBrightMirror-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBrightMirror-Bridging-Header.h"; path = "WBBrightMirror/WBBrightMirror-Bridging-Header.h"; sourceTree = "<group>"; };
-		719FA43CE81045DE2FF494E6AAFE165D /* libPods-WBBladesApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBladesApp.a"; path = "libPods-WBBladesApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		721D8FDBB3AAAB08E561AEB8D2307D91 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
+		71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
+		7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
 		86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libWBBrightMirror.a; path = libWBBrightMirror.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		8AC79B54C2A72489D0C6BCF84FB197AA /* Pods-WBBladesApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBladesApp-acknowledgements.markdown"; sourceTree = "<group>"; };
+		8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
 		99EFDA015C95E25F26B7A2F1C0F0A4E0 /* WBBrightMirror.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBrightMirror.release.xcconfig; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A1B0066FE03262B3C76A6684C32F1147 /* Pods-WBBladesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesApp.release.xcconfig"; sourceTree = "<group>"; };
 		A6C01D8C302446BFFB3F3F415CBC6FA5 /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
 		AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBlades.a"; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBladesCrashApp.modulemap"; sourceTree = "<group>"; };
 		B3A3C82C328688CF552726F5871CEB89 /* WBBrightMirror.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBrightMirror.debug.xcconfig; sourceTree = "<group>"; };
-		B6E9620DCBB53E58A38A2A25C6826862 /* Pods-WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBlades-dummy.m"; sourceTree = "<group>"; };
+		B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
 		B773E7445031FCBD57A59D237D96FF07 /* WBBrightMirror-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBrightMirror-umbrella.h"; sourceTree = "<group>"; };
-		BFBA2DC6F6DD5CE9F384C4216ADCE3DD /* Pods-WBBladesApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBladesApp-resources.sh"; sourceTree = "<group>"; };
-		DBD93E4EDD5023DBC862E0155C03C028 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
-		E15A0A6A3BB00830E04BBA16700A6A2E /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
+		C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBladesCrashApp-acknowledgements.markdown"; sourceTree = "<group>"; };
+		DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBladesCrashApp.a"; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBladesCrashApp-acknowledgements.plist"; sourceTree = "<group>"; };
 		EA52739434A9A978E4A1621D35429D67 /* WBBrightMirror.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBrightMirror.modulemap; sourceTree = "<group>"; };
 		EAF5073D83E90570C573164983845935 /* WBBrightMirror-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBrightMirror-prefix.pch"; sourceTree = "<group>"; };
+		ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
 		ED716350C073FBE869727C9E568897AC /* WBBrightMirror-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBrightMirror-dummy.m"; sourceTree = "<group>"; };
+		EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
 		EF74BEE9C41D866F44534FD35DF88442 /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
 		F1AE5A07E66CC0534B3E44CE516187BE /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
-		F69C7BC0A1E08FDF0EDFFE02801A1D91 /* Pods-WBBladesApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBladesApp-dummy.m"; sourceTree = "<group>"; };
-		F719D70B5D90656AFDBE2726F9CE47F5 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
+		F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
 		FA13548EEAF65BD0E919461B61374318 /* WBBrightMirror.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBrightMirror.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FC66C79E55C21AF39B204E246B5026D4 /* WBBMLightSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMLightSymbolTool.swift; sourceTree = "<group>"; };
 		FC91FCE4A8005842A2D468D12A458916 /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B2224879806F2DD0FB247EE3A2F7EF15 /* Frameworks */ = {
+		7DC30D58AFB48B1A13573300F7BF4222 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -124,21 +124,27 @@
 			name = "Development Pods";
 			sourceTree = "<group>";
 		};
-		2540E501A31B5CF7ED95A0CE2905D17E /* Products */ = {
+		26CB39AE9C86F17044CD26998C0E9AC0 /* Pods-WBBladesCrashApp */ = {
 			isa = PBXGroup;
 			children = (
-				AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */,
-				719FA43CE81045DE2FF494E6AAFE165D /* libPods-WBBladesApp.a */,
-				86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */,
+				B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */,
+				CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */,
+				E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */,
+				3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */,
+				0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */,
+				5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */,
+				7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */,
+				EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */,
 			);
-			name = Products;
+			name = "Pods-WBBladesCrashApp";
+			path = "Target Support Files/Pods-WBBladesCrashApp";
 			sourceTree = "<group>";
 		};
-		461663C2DD16B6064D9FED9AA8E3EEE1 /* Targets Support Files */ = {
+		43341D11A274E069C9E9441F988134A9 /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				C006006E2D968650C4B10E03019AF747 /* Pods-WBBlades */,
-				CD1605EC285867DE403738F4CE91B5E4 /* Pods-WBBladesApp */,
+				ADFF1FCBA1709B4F5532FE42C974B396 /* Pods-WBBlades */,
+				26CB39AE9C86F17044CD26998C0E9AC0 /* Pods-WBBladesCrashApp */,
 			);
 			name = "Targets Support Files";
 			sourceTree = "<group>";
@@ -226,36 +232,30 @@
 			path = "../Pods/Target Support Files/WBBrightMirror";
 			sourceTree = "<group>";
 		};
-		C006006E2D968650C4B10E03019AF747 /* Pods-WBBlades */ = {
+		A405083D14F739E0498AE14F6F20C6DB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E15A0A6A3BB00830E04BBA16700A6A2E /* Pods-WBBlades.modulemap */,
-				018B4473544E086BF3B36C285FB9D97C /* Pods-WBBlades-acknowledgements.markdown */,
-				F719D70B5D90656AFDBE2726F9CE47F5 /* Pods-WBBlades-acknowledgements.plist */,
-				B6E9620DCBB53E58A38A2A25C6826862 /* Pods-WBBlades-dummy.m */,
-				721D8FDBB3AAAB08E561AEB8D2307D91 /* Pods-WBBlades-resources.sh */,
-				2D4BD230913C942007A1F0F5C5DF92FA /* Pods-WBBlades-umbrella.h */,
-				DBD93E4EDD5023DBC862E0155C03C028 /* Pods-WBBlades.debug.xcconfig */,
-				5F07FF13B3952D5F07628E92468ABCE7 /* Pods-WBBlades.release.xcconfig */,
+				AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */,
+				DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */,
+				86F469D3C3FA884C5367B9A48C2C5445 /* libWBBrightMirror.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ADFF1FCBA1709B4F5532FE42C974B396 /* Pods-WBBlades */ = {
+			isa = PBXGroup;
+			children = (
+				F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */,
+				C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */,
+				B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */,
+				44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */,
+				ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */,
+				71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */,
+				8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */,
+				EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */,
 			);
 			name = "Pods-WBBlades";
 			path = "Target Support Files/Pods-WBBlades";
-			sourceTree = "<group>";
-		};
-		CD1605EC285867DE403738F4CE91B5E4 /* Pods-WBBladesApp */ = {
-			isa = PBXGroup;
-			children = (
-				1E42C5694D072976C2B82FE0832D2657 /* Pods-WBBladesApp.modulemap */,
-				8AC79B54C2A72489D0C6BCF84FB197AA /* Pods-WBBladesApp-acknowledgements.markdown */,
-				6CD40028AF37C77724495B7D744D2C84 /* Pods-WBBladesApp-acknowledgements.plist */,
-				F69C7BC0A1E08FDF0EDFFE02801A1D91 /* Pods-WBBladesApp-dummy.m */,
-				BFBA2DC6F6DD5CE9F384C4216ADCE3DD /* Pods-WBBladesApp-resources.sh */,
-				62663EC75F5DA17A927074500EC724B8 /* Pods-WBBladesApp-umbrella.h */,
-				155EDA50216D4E3D653B5C561A533BEA /* Pods-WBBladesApp.debug.xcconfig */,
-				A1B0066FE03262B3C76A6684C32F1147 /* Pods-WBBladesApp.release.xcconfig */,
-			);
-			name = "Pods-WBBladesApp";
-			path = "Target Support Files/Pods-WBBladesApp";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
@@ -264,8 +264,8 @@
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
 				0FC85E51A572D1DB3D05536AC1FB0C29 /* Development Pods */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
-				2540E501A31B5CF7ED95A0CE2905D17E /* Products */,
-				461663C2DD16B6064D9FED9AA8E3EEE1 /* Targets Support Files */,
+				A405083D14F739E0498AE14F6F20C6DB /* Products */,
+				43341D11A274E069C9E9441F988134A9 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
 		};
@@ -288,6 +288,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		24346FB92C0630A206CB502DA2B032DE /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				454D64F22AF48C1B33FCDE672E31B29D /* Pods-WBBladesCrashApp-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		26B1D5240069A16083D854F9B71F8AEC /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -296,33 +304,25 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D07DFE77195DD1E9E8BB102C75F68D48 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B89F8743DE90763F99BE82F2CB7DF8A6 /* Pods-WBBladesApp-umbrella.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		1437AAD24411A7D9DF0E6091C798FDBC /* Pods-WBBladesApp */ = {
+		8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B3634395C0DCC80662ACCEFDF2A9EF70 /* Build configuration list for PBXNativeTarget "Pods-WBBladesApp" */;
+			buildConfigurationList = 00B992B7CD9D2799DF72E15BA2E4B9E4 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */;
 			buildPhases = (
-				D07DFE77195DD1E9E8BB102C75F68D48 /* Headers */,
-				4548658E2E0D1478EE136E4039C3EDA3 /* Sources */,
-				B2224879806F2DD0FB247EE3A2F7EF15 /* Frameworks */,
+				24346FB92C0630A206CB502DA2B032DE /* Headers */,
+				BCC9397A42B07A29365FED5289813CC6 /* Sources */,
+				7DC30D58AFB48B1A13573300F7BF4222 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7437E3592629067D70BC436FC66D1FA7 /* PBXTargetDependency */,
+				8D7767AB40138D88E382D76AA87F6108 /* PBXTargetDependency */,
 			);
-			name = "Pods-WBBladesApp";
-			productName = "Pods-WBBladesApp";
-			productReference = 719FA43CE81045DE2FF494E6AAFE165D /* libPods-WBBladesApp.a */;
+			name = "Pods-WBBladesCrashApp";
+			productName = "Pods-WBBladesCrashApp";
+			productReference = DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */ = {
@@ -379,12 +379,12 @@
 				Base,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = 2540E501A31B5CF7ED95A0CE2905D17E /* Products */;
+			productRefGroup = A405083D14F739E0498AE14F6F20C6DB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */,
-				1437AAD24411A7D9DF0E6091C798FDBC /* Pods-WBBladesApp */,
+				8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */,
 				DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */,
 			);
 		};
@@ -418,11 +418,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		4548658E2E0D1478EE136E4039C3EDA3 /* Sources */ = {
+		BCC9397A42B07A29365FED5289813CC6 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E01AE5197B557B18F3813E51F9C22A32 /* Pods-WBBladesApp-dummy.m in Sources */,
+				A6338DAE29C8FDF0C9AF8D8895E4A3FF /* Pods-WBBladesCrashApp-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -458,11 +458,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		7437E3592629067D70BC436FC66D1FA7 /* PBXTargetDependency */ = {
+		8D7767AB40138D88E382D76AA87F6108 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = WBBrightMirror;
 			target = DC3F0E7B0F31931ABBE1EAF87025EA1B /* WBBrightMirror */;
-			targetProxy = 0F2FE35B81D0A3555A65AE2D6A0A5190 /* PBXContainerItemProxy */;
+			targetProxy = 5A2C9A93913B3700A68C94D11ECBF15D /* PBXContainerItemProxy */;
 		};
 		F157D0D39A9F6981360E7CEF98C7FE97 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -473,9 +473,32 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1BE8DAE7573484B86BFE993D55C012F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
 		27EB83BD7BBDA508AADAF55830BE6258 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5F07FF13B3952D5F07628E92468ABCE7 /* Pods-WBBlades.release.xcconfig */;
+			baseConfigurationReference = EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -588,29 +611,6 @@
 			};
 			name = Release;
 		};
-		BFBD1E214FF144DB91896C0F2AEF712A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1B0066FE03262B3C76A6684C32F1147 /* Pods-WBBladesApp.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				EXECUTABLE_PREFIX = lib;
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesApp/Pods-WBBladesApp.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		C0AB89DB0533D8E2B9201FA6579824B7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -675,7 +675,7 @@
 		};
 		C4A60D8FEE76D3532136D36D82A006F2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DBD93E4EDD5023DBC862E0155C03C028 /* Pods-WBBlades.debug.xcconfig */;
+			baseConfigurationReference = 8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -722,9 +722,9 @@
 			};
 			name = Debug;
 		};
-		FBBA2D3D7FAE83E696A6A4FFE77A953A /* Debug */ = {
+		F2580A377B73CECC7AD5BEFE22F91063 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 155EDA50216D4E3D653B5C561A533BEA /* Pods-WBBladesApp.debug.xcconfig */;
+			baseConfigurationReference = EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
@@ -735,7 +735,7 @@
 				EXECUTABLE_PREFIX = lib;
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesApp/Pods-WBBladesApp.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -743,11 +743,20 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00B992B7CD9D2799DF72E15BA2E4B9E4 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1BE8DAE7573484B86BFE993D55C012F0 /* Debug */,
+				F2580A377B73CECC7AD5BEFE22F91063 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -771,15 +780,6 @@
 			buildConfigurations = (
 				C4A60D8FEE76D3532136D36D82A006F2 /* Debug */,
 				27EB83BD7BBDA508AADAF55830BE6258 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B3634395C0DCC80662ACCEFDF2A9EF70 /* Build configuration list for PBXNativeTarget "Pods-WBBladesApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FBBA2D3D7FAE83E696A6A4FFE77A953A /* Debug */,
-				BFBD1E214FF144DB91896C0F2AEF712A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
