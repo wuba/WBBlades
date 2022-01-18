@@ -1,12 +1,12 @@
 //
 //  ViewController.swift
-//  WBBrightMirrorProject
+//  WBBladesCrashProject
 //
 //  Created by 朴惠姝 on 2021/4/22.
 //
 
 import Cocoa
-import WBBrightMirror
+import WBBladesCrash
 
 let LogTextViewContentChanged:String = "TextViewContentChanged"
 let kInputProcessCacheKey = "kInputProcessCacheKey"
@@ -206,7 +206,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
                 anaTimer.invalidate()
                 anaTimer = nil
             }
-            WBBrightMirrorManager.stopAnalyze(logModel: curLogModel)
+            WBBladesCrashManager.stopAnalyze(logModel: curLogModel)
         }
     }
 
@@ -216,7 +216,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             return
         }
         curLogModel.processName = inputProcessField.stringValue
-        WBBrightMirrorManager.checkBuglyProcessName(logModel: curLogModel)
+        WBBladesCrashManager.checkBuglyProcessName(logModel: curLogModel)
         var processCaches: Array<String> = UserDefaults.standard.object(forKey: kInputProcessCacheKey) as? Array<String> ?? []
         if !processCaches.contains(curLogModel.processName) {
             processCaches.insert(curLogModel.processName, at: 0)
@@ -322,7 +322,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             anaTimer = nil
         }
         
-        guard let logModel: WBBMLogModel = WBBrightMirrorManager.scanLog(logString: self.logTextView.string) else{
+        guard let logModel: WBBMLogModel = WBBladesCrashManager.scanLog(logString: self.logTextView.string) else{
             self.curLogModel = nil
             self.progressLabel.textColor = NSColor.red
             self.progressLabel.stringValue = TextDictionary.valueForKey(key: "notSupportLog")
@@ -393,7 +393,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         self.progressLabel.textColor = NSColor.labelColor
         
         if curLogModel.logType == .BuglyType {
-            WBBrightMirrorManager.checkBuglyAnalzeReady(logModel: curLogModel, symbolPath:curSymbolTable, baseAddress: curLogModel.extendParams["buglyStartAddress"] as? String) { [weak self] ready in
+            WBBladesCrashManager.checkBuglyAnalzeReady(logModel: curLogModel, symbolPath:curSymbolTable, baseAddress: curLogModel.extendParams["buglyStartAddress"] as? String) { [weak self] ready in
                 if(ready){
                     self?.analyzeLog()
                 }
@@ -407,7 +407,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     
     func analyzeLog() -> Void {
         createAnaTimer()
-        WBBrightMirrorManager.startAnalyze(logModel: curLogModel, symbolPath:curSymbolTable) { [weak self] succceed, symbolReady, outputPath in
+        WBBladesCrashManager.startAnalyze(logModel: curLogModel, symbolPath:curSymbolTable) { [weak self] succceed, symbolReady, outputPath in
             if symbolReady {
                 self?.createAnaTimer()
                 self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeRunning")

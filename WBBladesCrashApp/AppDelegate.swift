@@ -1,12 +1,12 @@
 //
 //  AppDelegate.swift
-//  WBBrightMirrorProject
+//  WBBladesCrashProject
 //
 //  Created by 朴惠姝 on 2021/4/22.
 //
 
 import Cocoa
-import WBBrightMirror
+import WBBladesCrash
 
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -25,7 +25,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     //MARK:-
     //MARK:Menu
     @IBAction func cleanAllCache(_ sender: Any) {
-        WBBrightMirrorManager.cleanAllCache()
+        WBBladesCrashManager.cleanAllCache()
         UserDefaults.standard.removeObject(forKey: kInputProcessCacheKey)
         UserDefaults.standard.removeObject(forKey: kInputUUIDCacheKey)
         

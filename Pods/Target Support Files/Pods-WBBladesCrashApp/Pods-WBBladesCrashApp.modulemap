@@ -1,0 +1,6 @@
+module Pods_WBBladesCrashApp {
+  umbrella header "Pods-WBBladesCrashApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import WBBrightMirror
+import WBBladesCrash
 
 @objc public class WBCrashTool: NSObject{
     static var logModel: WBBMLogModel?
@@ -23,7 +23,7 @@ import WBBrightMirror
             return false
         }
         
-        logModel = WBBrightMirrorManager.scanLog(logString: fileString)
+        logModel = WBBladesCrashManager.scanLog(logString: fileString)
         if logModel == nil {
             crashErrorPrint(string: "Analyze log failed, try again.")
             return false
@@ -40,7 +40,7 @@ import WBBrightMirror
             return;
         }
         
-        WBBrightMirrorManager.startAnalyze(logModel: logModel!, symbolPath: path) { succeed, symbolReady, outputPath in
+        WBBladesCrashManager.startAnalyze(logModel: logModel!, symbolPath: path) { succeed, symbolReady, outputPath in
             if symbolReady{
                 crashNormalPrint(string: "Symbol File Ready.")
                 crashNormalPrint(string: "Waiting for symbolicate finish...")

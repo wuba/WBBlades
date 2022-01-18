@@ -80,7 +80,7 @@
 		<key>title</key>
 		<string></string>
 		<key>content</key>
-		<string>2. 在文本框中展示结果以外，会自动弹出结果文件所在文件夹，还可以手动从~/Downloads/WBBrightMirror/output/目录中查找结果文件</string>
+		<string>2. 在文本框中展示结果以外，会自动弹出结果文件所在文件夹，还可以手动从~/Downloads/WBBladesCrash/output/目录中查找结果文件</string>
 	</dict>
 	<dict>
 		<key>type</key>
