@@ -684,8 +684,8 @@
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">
             <objects>
-                <windowController id="B8D-0N-5wS" sceneMemberID="viewController">
-                    <window key="window" title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
+                <windowController storyboardIdentifier="WindowController" id="B8D-0N-5wS" sceneMemberID="viewController">
+                    <window key="window" title="WBBladesCrashApp" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="IQv-IB-iLA">
                         <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
                         <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
                         <rect key="contentRect" x="196" y="240" width="480" height="270"/>
@@ -945,10 +945,32 @@
                                     <constraint firstItem="OMC-xq-fYU" firstAttribute="centerX" secondItem="pfG-N1-FU2" secondAttribute="centerX" id="XD6-8K-E3N"/>
                                 </constraints>
                             </customView>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="v2p-9z-5rX">
+                                <rect key="frame" x="657" y="11" width="107" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="100" id="gNa-GT-USR"/>
+                                    <constraint firstAttribute="height" constant="20" id="kaT-bf-O7O"/>
+                                </constraints>
+                                <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="g9p-EU-pwZ" id="Six-qH-ZGk">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="8pb-iE-1e9">
+                                        <items>
+                                            <menuItem title="Item 1" state="on" id="g9p-EU-pwZ"/>
+                                            <menuItem title="Item 2" id="Frs-W0-hZW"/>
+                                            <menuItem title="Item 3" id="pDv-31-leK"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="languageChangeClicked:" target="MSO-kv-GfL" id="5Hf-OX-3yV"/>
+                                </connections>
+                            </popUpButton>
                         </subviews>
                         <constraints>
                             <constraint firstItem="Lmb-fv-nHs" firstAttribute="leading" secondItem="PP3-9F-rzg" secondAttribute="leading" constant="20" id="7bI-ib-XAA"/>
                             <constraint firstAttribute="trailing" secondItem="Lmb-fv-nHs" secondAttribute="trailing" constant="20" id="9Qe-4E-PJ8"/>
+                            <constraint firstAttribute="trailing" secondItem="v2p-9z-5rX" secondAttribute="trailing" constant="20" id="9uY-kb-ers"/>
                             <constraint firstItem="2fP-bH-7Sp" firstAttribute="top" secondItem="zxq-jz-UTu" secondAttribute="bottom" constant="15" id="CK3-KW-EQ2"/>
                             <constraint firstAttribute="trailing" secondItem="pfG-N1-FU2" secondAttribute="trailing" id="J1y-YO-JaA"/>
                             <constraint firstItem="2fP-bH-7Sp" firstAttribute="leading" secondItem="TtN-gW-icM" secondAttribute="trailing" constant="20" id="Mk8-dQ-Y34"/>
@@ -970,6 +992,7 @@
                             <constraint firstItem="ABM-Lt-Ol3" firstAttribute="leading" secondItem="PP3-9F-rzg" secondAttribute="leading" constant="20" id="rUB-3R-FnT"/>
                             <constraint firstItem="TtN-gW-icM" firstAttribute="leading" secondItem="PP3-9F-rzg" secondAttribute="leading" constant="20" symbolic="YES" id="v6Y-mc-p37"/>
                             <constraint firstItem="Lmb-fv-nHs" firstAttribute="top" secondItem="YNq-Nh-WIA" secondAttribute="bottom" constant="10" id="vlh-aV-Lxi"/>
+                            <constraint firstAttribute="bottom" secondItem="v2p-9z-5rX" secondAttribute="bottom" constant="15" id="wF3-Ec-t0L"/>
                             <constraint firstItem="UX5-ze-MPX" firstAttribute="centerY" secondItem="ABM-Lt-Ol3" secondAttribute="centerY" id="yVe-sr-xnb"/>
                             <constraint firstItem="C5M-Jc-kyA" firstAttribute="leading" secondItem="PP3-9F-rzg" secondAttribute="leading" constant="20" id="yes-pZ-GnJ"/>
                             <constraint firstItem="YNq-Nh-WIA" firstAttribute="top" secondItem="2fP-bH-7Sp" secondAttribute="bottom" constant="15" id="yi5-Wj-7bT"/>
@@ -983,6 +1006,7 @@
                         <outlet property="inputStartAddressField" destination="kQc-9y-4f9" id="ekb-HJ-DWh"/>
                         <outlet property="inputUUIDCacheBtn" destination="fAw-we-eXb" id="LFb-0T-TOw"/>
                         <outlet property="inputUUIDField" destination="xM6-aI-OYk" id="BRf-Sn-BCE"/>
+                        <outlet property="languageChangeBtn" destination="v2p-9z-5rX" id="kHE-sS-wB6"/>
                         <outlet property="loadingView" destination="UX5-ze-MPX" id="sKa-ht-Shx"/>
                         <outlet property="logTextView" destination="gzz-5H-3px" id="MUN-Ba-2av"/>
                         <outlet property="logTextViewOriginY" destination="Ofq-ey-bPt" id="3rB-oJ-ufQ"/>

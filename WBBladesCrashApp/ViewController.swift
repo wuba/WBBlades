@@ -35,6 +35,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     @IBOutlet weak var inputUUIDCacheBtn: NSButton!
     
     @IBOutlet weak var mainTitleLabel: NSTextField!
+    @IBOutlet weak var languageChangeBtn: NSPopUpButton!
     
     var curLogModel: WBBMLogModel!
     var curSymbolTable: String!
@@ -81,6 +82,11 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         loadingView.isHidden = true
         logTextView.registerForDraggedTypes([.fileURL,.string])
         logTextView.delegate = self
+        languageChangeBtn.removeAllItems()
+        languageChangeBtn.addItems(withTitles: ["English","中文"])
+        if TextDictionary.mode == .chinese{
+            languageChangeBtn.selectItem(at: 1)
+        }
         showSymbolTableView(show: false)
         showInputProcess(show: false)
         mainTitleLabel.stringValue = TextDictionary.valueForKey(key: "mainTitle")
@@ -130,8 +136,8 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             symbolTablePathView.isHidden = false
             symbolTablePathView.stringValue = ""
             logTextViewOriginY.constant = 60.0
-            symbolTableTipLabel.stringValue = TextDictionary.valueForKey(key: "inputSymbolPath")
-            progressLabel.stringValue = TextDictionary.valueForKey(key: "symbolPathTip")
+            symbolTableTipLabel.stringValue = TextDictionary.valueForKey(key: "symbolPathTip")
+            progressLabel.stringValue = TextDictionary.valueForKey(key: "inputSymbolPath")
             startBtn.state = .off
             startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
         }else{
@@ -286,7 +292,25 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     
     @IBAction func languageChangeClicked(_ sender: NSPopUpButton) {
         let itemIndex = sender.indexOfSelectedItem
+        if itemIndex == 0{
+            TextDictionary.mode = .english
+        }else{
+            TextDictionary.mode = .chinese
+        }
         
+        //create new vc
+        creatNewViewController()
+        
+        //close last window
+        let lastWindow = self.view.window
+        lastWindow?.close()
+    }
+    
+    func creatNewViewController(){
+        let vcWindow = NSStoryboard.main?.instantiateController(withIdentifier: "WindowController") as? NSWindowController
+        vcWindow?.window?.center()
+        vcWindow?.window?.orderFront(nil)
+        vcWindow?.showWindow(nil)
     }
 
     //MARK:-

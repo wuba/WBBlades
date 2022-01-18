@@ -140,7 +140,7 @@
 		<key>chinese</key>
 		<string>包含符号表的文件(支持: .app / .dsym / .symbol)</string>
 		<key>eng</key>
-		<string>The file which includes symbol table( supports .app, .dsym, .symbol )</string>
+		<string>symbol table files, supports .app, .dsym, .symbol </string>
 	</dict>
 </dict>
 </plist>
