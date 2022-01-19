@@ -441,10 +441,11 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         createAnaTimer()
         WBBladesCrashManager.startAnalyze(logModel: curLogModel, symbolPath:curSymbolTable) { [weak self] succceed, symbolReady, outputPath in
             DispatchQueue.main.async {
+                //symbol table is obtained.
                 if symbolReady {
                     self?.createAnaTimer()
                     self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeRunning")
-                }else{
+                }else{//analyze is finished
                     self?.loadingView.isHidden = true
                     self?.loadingView.stopAnimation(nil)
                     self?.startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
@@ -452,6 +453,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
                     self?.anaTimer?.invalidate()
                     self?.anaTimer = nil
                     
+                    //crash log analyze is failed.
                     if succceed == false || outputPath == nil {
                         self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeFailed")
                         self?.progressView.doubleValue = 0
@@ -485,6 +487,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     var count = 0
     @objc
     func analyzingTimer() -> Void {
+        //progress control
         if self.progressView.doubleValue > 89 && count < 13 {
             self.progressView.doubleValue = 90
             count += 1
@@ -507,10 +510,6 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeTip")
             return
         }
-        
-//        guard self.progressView.doubleValue != 100 && scanCurrentLog(notification:nil) != false else {
-//            return
-//        }
     }
     
     //MARK:-
