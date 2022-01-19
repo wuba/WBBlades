@@ -15,9 +15,9 @@ enum WBBMSystemLogEndLine: String{
 }
 
 class WBBMSystemLogNewTypeLibraryModel{
-    public var libraryName: String = ""
-    public var libraryStartAddress: String = ""
-    public var libraryEndAddress: String = ""
+    public var libraryName: String = ""                     //library name in system crash log
+    public var libraryStartAddress: String = ""             //the start address of library in system crash log
+    public var libraryEndAddress: String = ""               //the end address of library in system crash log
     
     public init() {}
 }

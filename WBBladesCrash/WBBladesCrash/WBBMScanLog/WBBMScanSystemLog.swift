@@ -8,7 +8,10 @@
 import Foundation
 
 class WBBMScanSystemLog {
-    //check
+    /**
+     *  check system crash log
+     *  @param content      crash log contents
+     */
     class func scanSystemLog(content: String) -> WBBMLogModel?{
         
         let logModel = WBBMLogModel.init()
@@ -124,35 +127,36 @@ class WBBMScanSystemLog {
             threadInfoArray.append(backtraceInfo)
         }
         
-        //scan such thread stack
-        var suchThread: Array<String> = Array.init()
-        var suchThreadNum = 0
+        //scan single thread stack
+        var singleThread: Array<String> = Array.init()
+        var singleThreadNum = 0
         for index in lineIndex..<lines.count {
-            let suchline = lines[index]
+            let singleline = lines[index]
             //current thread's end line is next thread's first line
-            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: String(suchline)){
-                if let threadInfo = scanSystemCrashProcessLog(lines: suchThread, processName: processName, libraryDic: libraryDic) as WBBMThreadInfoModel? {
+            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: String(singleline)){
+                if let threadInfo = scanSystemCrashProcessLog(lines: singleThread, processName: processName, libraryDic: libraryDic) as WBBMThreadInfoModel? {
                     threadInfoArray.append(threadInfo)
                 }
-                suchThread.removeAll()
+                singleThread.removeAll()
                 break
             }
             
-            if suchline.count == 0 || suchline.hasPrefix("Thread \(suchThreadNum+1) name:") || suchline.hasPrefix("Thread \(suchThreadNum+1)"){
-                suchThreadNum += 1
-                if let threadInfo = scanSystemCrashProcessLog(lines: suchThread, processName: processName, libraryDic: libraryDic) as WBBMThreadInfoModel? {
+            if singleline.count == 0 || singleline.hasPrefix("Thread \(singleThreadNum+1) name:") || singleline.hasPrefix("Thread \(singleThreadNum+1)"){
+                singleThreadNum += 1
+                if let threadInfo = scanSystemCrashProcessLog(lines: singleThread, processName: processName, libraryDic: libraryDic) as WBBMThreadInfoModel? {
                     threadInfoArray.append(threadInfo)
                 }
-                suchThread.removeAll()
+                singleThread.removeAll()
             }
             
-            suchThread.append(String(suchline))
+            singleThread.append(String(singleline))
         }
         
         logDetailModel.threadInfoArray = threadInfoArray
         return logDetailModel
     }
     
+    //System crash log has "Last Exception Backtrace"
     class func scanSystemCrashAbortedLog(lines: Array<Substring>, _ lastIndex: UnsafeMutablePointer<Int>, processName: String, libraryDic: Dictionary<String,Array<String>>) -> WBBMThreadInfoModel?{
         if lines[lastIndex.pointee].hasPrefix("Thread") || libraryDic.keys.count == 0 {
             return nil
@@ -161,8 +165,8 @@ class WBBMScanSystemLog {
         let abortedString = "Last Exception Backtrace:"
         var foundedBacktrace = false
         for index in lastIndex.pointee..<lines.count {
-            let suchline = lines[index]
-            if suchline.hasPrefix(abortedString) {
+            let singleline = lines[index]
+            if singleline.hasPrefix(abortedString) {
                 foundedBacktrace = true
                 lastIndex.pointee = index+2
                 break
@@ -182,15 +186,15 @@ class WBBMScanSystemLog {
             let backtraceString = String(lines[lastIndex.pointee - 1]).replacingOccurrences(of: "(", with: "").replacingOccurrences(of: ")", with: "")
             let backtraceArray = backtraceString.split(separator: " ")
             var threadIndex = 0
-            for suchAdr in backtraceArray {
-                let suchValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(suchAdr))) ?? 0
+            for singleAdr in backtraceArray {
+                let singleValue = Int(WBBMScanLogTool.hexToDecimal(hex: String(singleAdr))) ?? 0
                 let stackModel = WBBMStackModel.init()
                 stackModel.squence = threadIndex
-                stackModel.address = String(suchAdr)
+                stackModel.address = String(singleAdr)
                 for (key,adrArray) in libraryDic {
                     let startAdr = Int(String(adrArray[0])) ?? 0
                     let endAdr = Int(String(adrArray[1])) ?? 0
-                    if suchValue > startAdr && suchValue < endAdr {
+                    if singleValue > startAdr && singleValue < endAdr {
                         stackModel.library = String(key)
                         stackModel.libraryStartAddress = String(startAdr)
                         stackModel.libraryEndAddress = String(endAdr)
@@ -212,25 +216,25 @@ class WBBMScanSystemLog {
         }else{
             let startIndex = lastIndex.pointee - 1
             for index in startIndex..<lines.count {
-                let suchline = lines[index]
-                if suchline.hasPrefix("Thread ") {
+                let singleline = lines[index]
+                if singleline.hasPrefix("Thread ") {
                     lastIndex.pointee = index
                     break
                 }
-                let suchArray = suchline.split(separator: Character.init(" "))
-                if suchArray.count > 5 {
+                let singleArray = singleline.split(separator: Character.init(" "))
+                if singleArray.count > 5 {
                     let stackModel = WBBMStackModel.init()
-                    stackModel.squence = Int(suchArray[0]) ?? 0
-                    var library = String(suchArray[1])
+                    stackModel.squence = Int(singleArray[0]) ?? 0
+                    var library = String(singleArray[1])
                     if library.contains("???"){
                         library = processName
                     }
                     stackModel.library = library
-                    stackModel.address = String(suchArray[2])
+                    stackModel.address = String(singleArray[2])
                     stackModel.libraryStartAddress = (libraryDic[stackModel.library] ?? []).first ?? ""
                     stackModel.libraryEndAddress = (libraryDic[stackModel.library] ?? []).last ?? ""
-                    stackModel.offset = String(suchArray.last ?? "")
-                    stackModel.analyzeResult = String(suchline)
+                    stackModel.offset = String(singleArray.last ?? "")
+                    stackModel.analyzeResult = String(singleline)
                     threadInfoArray.append(stackModel)
                 }
             }
@@ -240,6 +244,7 @@ class WBBMScanSystemLog {
         return threadInfo
     }
     
+    //scan every thread stacks
     class func scanSystemCrashProcessLog(lines: Array<String>,processName: String, libraryDic:Dictionary<String, Array<String>>) -> WBBMThreadInfoModel {
         let threadInfoModel = WBBMThreadInfoModel.init()
         
@@ -256,21 +261,21 @@ class WBBMScanSystemLog {
             startIndex = 2;
         }
         for index in startIndex..<lines.count {
-            let suchLine = lines[index]
-            let suchArray = suchLine.split(separator: Character.init(" "))
-            if suchArray.count > 5 {
+            let singleLine = lines[index]
+            let singleArray = singleLine.split(separator: Character.init(" "))
+            if singleArray.count > 5 {
                 let stackModel = WBBMStackModel.init()
-                stackModel.squence = Int(suchArray[0]) ?? 0
-                var process = String(suchArray[1])
+                stackModel.squence = Int(singleArray[0]) ?? 0
+                var process = String(singleArray[1])
                 if process.contains("???"){
                     process = processName
                 }
                 stackModel.library = process
-                stackModel.address = String(suchArray[2]).replacingOccurrences(of: "\t", with: "")
+                stackModel.address = String(singleArray[2]).replacingOccurrences(of: "\t", with: "")
                 stackModel.libraryStartAddress = (libraryDic[stackModel.library] ?? []).first ?? ""
                 stackModel.libraryEndAddress = (libraryDic[stackModel.library] ?? []).last ?? ""
-                stackModel.offset = String(suchArray.last ?? "")
-                stackModel.analyzeResult = suchLine
+                stackModel.offset = String(singleArray.last ?? "")
+                stackModel.analyzeResult = singleLine
                 stacks.append(stackModel)
             }
         }
@@ -313,15 +318,15 @@ class WBBMScanSystemLog {
         }
         
         //scan heaviest thread
-        var suchThread: Array<String> = Array.init()
+        var singleThread: Array<String> = Array.init()
         for index in lineIndex..<lines.count {
-            let suchline = String(lines[index])
-            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: suchline) {
+            let singleline = String(lines[index])
+            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: singleline) {
                 break
             }
-            suchThread.append(suchline)
+            singleThread.append(singleline)
         }
-        let threadInfo = scanSystemWakeupProcessLog(lines: suchThread, processName:logDetailModel.processName, libraryDic:libraryDic)
+        let threadInfo = scanSystemWakeupProcessLog(lines: singleThread, processName:logDetailModel.processName, libraryDic:libraryDic)
         logDetailModel.threadInfoArray = [threadInfo]
         return logDetailModel
     }
@@ -330,21 +335,21 @@ class WBBMScanSystemLog {
     class func scanSystemWakeupProcessLog(lines: Array<String>, processName: String, libraryDic:Dictionary<String,Array<String>>) -> WBBMThreadInfoModel {
         
         var stacks: Array<WBBMStackModel> = Array.init()
-        for suchline in lines {
-            let suchArray = suchline.split(separator: Character.init(" "))
-            if suchArray.count > 5 {
+        for singleline in lines {
+            let singleArray = singleline.split(separator: Character.init(" "))
+            if singleArray.count > 5 {
                 let stackModel = WBBMStackModel.init()
-                stackModel.squence = Int(suchArray[0]) ?? 0
-                var library = String(suchArray[2]).replacingOccurrences(of: "(", with: "")
+                stackModel.squence = Int(singleArray[0]) ?? 0
+                var library = String(singleArray[2]).replacingOccurrences(of: "(", with: "")
                 if library.contains("???"){
                     library = processName
                 }
                 stackModel.library = library
-                stackModel.address = String(suchArray[5]).trimmingCharacters(in: CharacterSet.init(charactersIn: "[]"))
+                stackModel.address = String(singleArray[5]).trimmingCharacters(in: CharacterSet.init(charactersIn: "[]"))
                 stackModel.libraryStartAddress = (libraryDic[stackModel.library] ?? []).first ?? ""
                 stackModel.libraryEndAddress = (libraryDic[stackModel.library] ?? []).last ?? ""
-                stackModel.offset = String(suchArray.last ?? "").replacingOccurrences(of: ")", with: "")
-                stackModel.analyzeResult = suchline;
+                stackModel.offset = String(singleArray.last ?? "").replacingOccurrences(of: ")", with: "")
+                stackModel.analyzeResult = singleline;
                 stacks.append(stackModel)
             }
         }
@@ -403,14 +408,14 @@ class WBBMScanSystemLog {
             threadInfoArray.append(backtraceInfo)
         }
         
-        //scan such thread stack
+        //scan single thread stack
         let threads: Array<Dictionary> = detailInfoDic["threads"] as? Array <Dictionary<String, Any>> ?? []
         var threadIndex = 0
-        for suchThread in threads {
+        for singleThread in threads {
             let threadInfo = WBBMThreadInfoModel.init()
             threadInfo.threadSequence = "Thread \(String(threadIndex))"
-            threadInfo.threadName = "Thread Name: \((suchThread["queue"] as? String) ?? (suchThread["name"] as? String) ?? "")"
-            let frames: Array<Any> = suchThread["frames"] as? Array<Any> ?? []
+            threadInfo.threadName = "Thread Name: \((singleThread["queue"] as? String) ?? (singleThread["name"] as? String) ?? "")"
+            let frames: Array<Any> = singleThread["frames"] as? Array<Any> ?? []
             threadInfo.stackArray = scanSystemNewCrashStacks(frames: frames, libraryArray: libraryArray)
             threadInfoArray.append(threadInfo)
             threadIndex += 1
@@ -423,16 +428,16 @@ class WBBMScanSystemLog {
     class func scanSystemNewCrashStacks(frames: Array<Any>, libraryArray:Array<WBBMSystemLogNewTypeLibraryModel>) -> Array<WBBMStackModel> {
         var stacks: Array<WBBMStackModel> = Array()
         var stackIndex = 0
-        for such in frames {
+        for single in frames {
             let stackModel = WBBMStackModel()
             stackModel.squence = stackIndex
             
             var imageIndex = -1
             var offset = -1
-            if let frame = such as? Array<Any> {
+            if let frame = single as? Array<Any> {
                 imageIndex = frame[0] as? Int ?? -1;
                 offset = frame[0] as? Int ?? -1;
-            }else if let frame = such as? Dictionary<String, Any>{
+            }else if let frame = single as? Dictionary<String, Any>{
                 imageIndex = frame["imageIndex"] as? Int ?? -1;
                 offset = frame["imageOffset"] as? Int ?? -1;
             }

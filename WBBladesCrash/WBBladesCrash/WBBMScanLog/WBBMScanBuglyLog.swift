@@ -30,24 +30,24 @@ class WBBMScanBuglyLog{
         
         var stackModel: WBBMStackModel = WBBMStackModel()
         
-        for suchline in lines {
+        for singleline in lines {
             if index%3 == 0 {//first line is squence
-                let suchIndex = Int(suchline)
-                if suchIndex == nil {
+                let singleIndex = Int(singleline)
+                if singleIndex == nil {
                     isBuglyLog = false
                     break
                 }
                 stackModel = WBBMStackModel()
-                stackModel.squence = suchIndex ?? 0
+                stackModel.squence = singleIndex ?? 0
             }else if index%3 == 1 {//second line is library name
-                let array = suchline.split(separator: " ")
+                let array = singleline.split(separator: " ")
                 if array.count == 0 || array.count != 1 {
                     isBuglyLog = false
                     break
                 }
                 stackModel.library = String(array[0])
             }else if index%3 == 2 {//last line
-                let array = suchline.split(separator: " ")
+                let array = singleline.split(separator: " ")
                 if array.count > 1 {
                     let adr = String(array[0])
                     if !adr.hasPrefix("0x") {
@@ -57,7 +57,7 @@ class WBBMScanBuglyLog{
                 }
                 stackModel.address = String(array[0])
                 stackModel.offset =  String(array.last ?? "")
-                stackModel.analyzeResult = "\(stackModel.squence) \(stackModel.library)\t\(suchline)"
+                stackModel.analyzeResult = "\(stackModel.squence) \(stackModel.library)\t\(singleline)"
                 stackArray.append(stackModel)
             }
             index += 1
@@ -131,8 +131,8 @@ class WBBMScanBuglyTool{
                     stackModel.library = logModel.processName
                 }
                 if stackModel.library == logModel.processName {
-                    let suchArray = stackModel.analyzeResult.split(separator: " ")
-                    if suchArray.count > 3 {
+                    let singleArray = stackModel.analyzeResult.split(separator: " ")
+                    if singleArray.count > 3 {
                         var tmpStackAddress = stackModel.address.trimmingCharacters(in: .whitespaces)
 
                         if tmpStackAddress.count > 12 {//correct the high address
@@ -142,7 +142,7 @@ class WBBMScanBuglyTool{
                         let sAdr = Int(WBBMScanLogTool.hexToDecimal(hex: tmpStackAddress )) ?? 0
                         let sOff = Int(stackModel.offset) ?? 0
                         stackAddress = sAdr - sOff
-                        functionName = String(suchArray[2])
+                        functionName = String(singleArray[2])
                         break
                     }
                 }

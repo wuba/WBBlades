@@ -8,27 +8,33 @@
 import Foundation
 
 class WBBMScanSystemLogTool{
+    /**
+     *  check the header of system crash log
+     *  @param lines               crash log contents
+     *  @param lastIndex           return a header last line index
+     *  @param endLine             end line string
+     */
     class func checkLogHeader(lines: Array<Substring>, _ lastIndex: UnsafeMutablePointer<Int>,endLine: String) -> Dictionary<String, Any>{
         var detailInfo = String.init("{")
         var lineIndex = 0;
         
         //crash log info
-        for suchline in lines {
+        for singleline in lines {
             lineIndex += 1
-            if suchline.count > 0 {
-                let lineArray = suchline.split(separator: Character.init(":"))
+            if singleline.count > 0 {
+                let lineArray = singleline.split(separator: Character.init(":"))
                 let key = lineArray.first ?? ""
-                if key == suchline {
+                if key == singleline {
                     continue
                 }
                 detailInfo.append(contentsOf: "\"\(key.trimmingCharacters(in: CharacterSet.whitespaces))\":")
             
-                let start = suchline.index(suchline.startIndex, offsetBy: key.count+1)
-                let value = String.init(suchline[start..<suchline.endIndex]).replacingOccurrences(of: "\"", with: "“")
+                let start = singleline.index(singleline.startIndex, offsetBy: key.count+1)
+                let value = String.init(singleline[start..<singleline.endIndex]).replacingOccurrences(of: "\"", with: "“")
                 detailInfo.append("\"\(value.trimmingCharacters(in: CharacterSet.whitespaces))\",")
             }
             
-            if suchline.hasPrefix(endLine) {
+            if singleline.hasPrefix(endLine) {
                 detailInfo.removeLast()
                 break
             }
@@ -42,6 +48,10 @@ class WBBMScanSystemLogTool{
         return detailInfoDic
     }
     
+    /**
+     *  check the end line of system crash log
+     *  @param line   crash log line
+     */
     class func checkSystemCrashEndLine(line: String) -> Bool{
         if line.hasSuffix(WBBMSystemLogEndLine.CrashedWithArm64State.rawValue) ||
             line.hasSuffix(WBBMSystemLogEndLine.CrashedWithArm32State.rawValue) ||
@@ -52,47 +62,58 @@ class WBBMScanSystemLogTool{
         return false
     }
     
-    //scan the address range of all libraries in the crash log content of the new system
+    /**
+     *  scan the address range of all libraries in the crash log content of the new system
+     *  @param lines                crash log contents
+     *  @param processIdentifier    the identifier of process
+     *  @param processName          the name of process
+     */
     class func scanSystemLibraryAddress(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,Array<String>>{
         var libraryDic: Dictionary<String,Array<String>> = Dictionary.init()
-        for suchline in lines.reversed() {
-            let suchString = String(suchline)
-            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: suchString) {
+        for singleline in lines.reversed() {
+            let singleString = String(singleline)
+            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: singleString) {
                 break;
             }
-            let suchArray = suchString.split(separator: Character.init(" "))
-            if suchArray.count > 4 && suchArray[1] == "-" {
-                var key = String(suchArray[3])
+            let singleArray = singleString.split(separator: Character.init(" "))
+            if singleArray.count > 4 && singleArray[1] == "-" {
+                var key = String(singleArray[3])
                 if key.contains(processIdentifier) {//when the name of process is the same as the process‘s identifier in the binary images
                     key = processName
                 }else if(key.contains("???")){
                     key = processName
                 }
                 
-                let startAddress = WBBMScanLogTool.hexToDecimal(hex: String(suchArray[0]))
-                let endAddress = WBBMScanLogTool.hexToDecimal(hex: String(suchArray[2]))
+                let startAddress = WBBMScanLogTool.hexToDecimal(hex: String(singleArray[0]))
+                let endAddress = WBBMScanLogTool.hexToDecimal(hex: String(singleArray[2]))
                 libraryDic[key] = [startAddress,endAddress]
             }
         }
         return libraryDic
     }
     
+    /**
+     *  scan the uuid of all libraries in the crash log content
+     *  @param lines                crash log contents
+     *  @param processIdentifier    the identifier of process
+     *  @param processName          the name of process
+     */
     class func scanSystemLibraryBinaryUUID(lines: Array<Substring>, processIdentifier: String, processName: String) -> Dictionary<String,String>{
         var libraryDic: Dictionary<String,String> = Dictionary.init()
-        for suchline in lines.reversed() {
-            let suchString = String(suchline)
-            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: suchString) {
+        for singleline in lines.reversed() {
+            let singleString = String(singleline)
+            if WBBMScanSystemLogTool.checkSystemCrashEndLine(line: singleString) {
                 break;
             }
-            let suchArray = suchString.split(separator: Character.init(" "))
-            if suchArray.count > 6 {
-                var key = String(suchArray[3])
+            let singleArray = singleString.split(separator: Character.init(" "))
+            if singleArray.count > 6 {
+                var key = String(singleArray[3])
                 if key.contains(processIdentifier) {//when the name of process is the same as the process‘s identifier in the binary images
                     key = processName
                 }else if(key.contains("???")){
                     key = processName
                 }
-                libraryDic[key] = String(suchArray[5]).replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
+                libraryDic[key] = String(singleArray[5]).replacingOccurrences(of: "<", with: "").replacingOccurrences(of: ">", with: "")
             }
         }
         return libraryDic
@@ -100,7 +121,12 @@ class WBBMScanSystemLogTool{
     
     //MARK: -
     //MARK: New Crash
-    //scan the address range of all libraries in new symtem crash log content
+    /**
+     *  scan the address range of all libraries in new symtem crash log content
+     *  @param detailInfoDic        crash log contents
+     *  @param processIdentifier    the identifier of process
+     *  @param processName          the name of process
+     */
     class func scanSystemLibraryAddressNewType(detailInfoDic: Dictionary<String,Any>,logDetailModel: WBBMLogDetailModel, uuid: String) -> Array<WBBMSystemLogNewTypeLibraryModel>{
         let usedImages = detailInfoDic["usedImages"] as? Array ?? [];
         
@@ -124,8 +150,8 @@ class WBBMScanSystemLogTool{
         var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         
         var startAdr = 0
-        for suchImages in usedImages {
-            let images = suchImages as? Array ?? []
+        for singleImages in usedImages {
+            let images = singleImages as? Array ?? []
             if images.count > 1 {
                 let imageUUID = images.first as? String ?? ""
                 if imageUUID == uuid{
@@ -146,8 +172,8 @@ class WBBMScanSystemLogTool{
             return libraryArray
         }
         
-        for suchExtra in imageExtraInfo {
-            guard let imageExtra = suchExtra as? Dictionary<String,Any> else {
+        for singleExtra in imageExtraInfo {
+            guard let imageExtra = singleExtra as? Dictionary<String,Any> else {
                 continue
             }
             
@@ -176,8 +202,8 @@ class WBBMScanSystemLogTool{
         var libraryArray: Array<WBBMSystemLogNewTypeLibraryModel> = Array();
         
         var hasMain = false
-        for suchImages in usedImages {
-            guard let images = suchImages as? Dictionary<String,Any> else{
+        for singleImages in usedImages {
+            guard let images = singleImages as? Dictionary<String,Any> else{
                 continue
             }
             
