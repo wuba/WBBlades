@@ -22,6 +22,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
     
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+        if !flag {
+            let windows = sender.windows
+            if windows.count > 0 {
+                let window = windows[0]
+                window.makeKeyAndOrderFront(self)
+            }
+        }
+        return true
+    }
+    
     //MARK:-
     //MARK:Menu
     @IBAction func cleanAllCache(_ sender: Any) {
@@ -45,7 +56,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
         
         let tips = NSTextField()
-        tips.stringValue = "缓存已清除完毕！"
+        tips.stringValue = "Cache cleared!"
         tips.isBordered = false
         tips.backgroundColor = NSColor.init(red: 0, green: 0, blue: 0, alpha: 0.6)
         tips.textColor = .white

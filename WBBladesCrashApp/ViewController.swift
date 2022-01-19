@@ -14,32 +14,39 @@ let kInputUUIDCacheKey = "kInputUUIDCacheKey"
 
 class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,NSTableViewDataSource {
     
-    @IBOutlet var logTextView: LogTextView!
-    @IBOutlet weak var logTextViewOriginY: NSLayoutConstraint!
-    @IBOutlet weak var startBtn: NSButton!
+    @IBOutlet var logTextView: LogTextView!                             //crash log text view
+    @IBOutlet weak var mainTitleLabel: NSTextField!                     //main title label
+    @IBOutlet weak var logTextViewOriginY: NSLayoutConstraint!          //crash log text view origin Y
+    @IBOutlet weak var startBtn: NSButton!                              //start button
     
-    @IBOutlet weak var progressView: NSProgressIndicator!
-    @IBOutlet weak var loadingView: NSProgressIndicator!
-    @IBOutlet weak var progressLabel: NSTextField!
+    @IBOutlet weak var progressView: NSProgressIndicator!               //bottom analyze progress view
+    @IBOutlet weak var loadingView: NSProgressIndicator!                //bottom loading view
+    @IBOutlet weak var progressLabel: NSTextField!                      //bottom analyze progress label
     
-    @IBOutlet weak var symbolTableTipLabel: NSTextField!
-    @IBOutlet weak var symbolTablePathView: NSTextField!
+    @IBOutlet weak var symbolTableTipLabel: NSTextField!                //input symbol table path tip label
+    @IBOutlet weak var symbolTablePathView: NSTextField!                //input symbol table path view
     
-    @IBOutlet weak var inputProcessView: NSView!
-    @IBOutlet weak var inputBackgroundView: NSView!
+    @IBOutlet weak var inputProcessView: NSView!                        //input necessary info view
+    @IBOutlet weak var inputBackgroundView: NSView!                     //input necessary info view background
     
-    @IBOutlet weak var inputProcessField: NSTextField!
-    @IBOutlet weak var inputProcessCacheBtn: NSButton!
-    @IBOutlet weak var inputStartAddressField: NSTextField!
-    @IBOutlet weak var inputUUIDField: NSTextField!
-    @IBOutlet weak var inputUUIDCacheBtn: NSButton!
+    @IBOutlet weak var inputProcessField: NSTextField!                  //input process info
+    @IBOutlet weak var inputProcessCacheBtn: NSButton!                  //process cache
+    @IBOutlet weak var inputStartAddressField: NSTextField!             //input the base address of process
+    @IBOutlet weak var inputUUIDField: NSTextField!                     //input the UUID of process
+    @IBOutlet weak var inputUUIDCacheBtn: NSButton!                     //UUID cache
     
-    @IBOutlet weak var mainTitleLabel: NSTextField!
-    @IBOutlet weak var languageChangeBtn: NSPopUpButton!
+    @IBOutlet weak var inputProgressTopTipLabel: NSTextField!
+    @IBOutlet weak var inputProgressNameLabel: NSTextField!
+    @IBOutlet weak var inputProgressBaseAddrLabel: NSTextField!
+    @IBOutlet weak var inputProgressConfirmBtn: NSButton!
     
-    var curLogModel: WBBMLogModel!
-    var curSymbolTable: String!
-    var anaTimer: Timer!
+    @IBOutlet weak var languageChangeBtn: NSPopUpButton!                //select language
+    
+    var curLogModel: WBBMLogModel!                                      //scan crash log return a model
+    var curSymbolTable: String!                                         //symbol table path
+    var anaTimer: Timer!                                                //progress timer
+    var selected = false                                                //start button selected
+    
     lazy var inputCacheView: NSScrollView = {
         let tableview = NSTableView.init(frame: NSMakeRect(0, 0, 144.0, 70.0))
         tableview.wantsLayer = true
@@ -68,7 +75,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        initAllSubviews()//add UI subviews
+        initAllSubviews()//init all subviews
         initNotification()//add notification
     }
 
@@ -78,6 +85,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         }
     }
     
+    //init all subviews
     func initAllSubviews() -> Void {
         loadingView.isHidden = true
         logTextView.registerForDraggedTypes([.fileURL,.string])
@@ -90,11 +98,18 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         showSymbolTableView(show: false)
         showInputProcess(show: false)
         mainTitleLabel.stringValue = TextDictionary.valueForKey(key: "mainTitle")
-        startBtn.state = .on
         startBtn.stringValue = TextDictionary.valueForKey(key: "startButtonNormal")
         progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeTip")
+        inputProgressTopTipLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressTopTipLabel")
+        inputProgressNameLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressNameLabel")
+        inputProgressBaseAddrLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressBaseAddrLabel")
+        inputProgressConfirmBtn.title = TextDictionary.valueForKey(key: "inputProgressConfirmBtn")
     }
     
+    /**
+     *  show input process alert view
+     *  @param show  show alert view
+     */
     func showInputProcess(show: Bool) -> Void {
         if show {
             logTextView.isEditable = false
@@ -127,18 +142,21 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             inputStartAddressField.stringValue = ""
             inputUUIDField.stringValue = ""
         }
-        
     }
     
+    /**
+     *  show symbol table path view
+     *  @param show  show view
+     */
     func showSymbolTableView(show: Bool) -> Void {
         if show {
             symbolTableTipLabel.isHidden = false
             symbolTablePathView.isHidden = false
             symbolTablePathView.stringValue = ""
             logTextViewOriginY.constant = 60.0
+            selected = false
             symbolTableTipLabel.stringValue = TextDictionary.valueForKey(key: "symbolPathTip")
             progressLabel.stringValue = TextDictionary.valueForKey(key: "inputSymbolPath")
-            startBtn.state = .off
             startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
         }else{
             symbolTableTipLabel.isHidden = true
@@ -147,6 +165,10 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         }
     }
     
+    /**
+     *  show tips
+     *  @param tipString  tip string
+     */
     func showTips(tipString: String) -> Void {
         let tips = NSTextField()
         tips.stringValue = tipString
@@ -164,27 +186,27 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         })
     }
     
+    /**
+     *  add notification
+     */
     func initNotification() -> Void {
         NotificationCenter.default.addObserver(self, selector: #selector(scanCurrentLog), name: .init(LogTextViewContentChanged), object: nil)
     }
     
-   
     //MARK:-
     //MARK:Event
     @IBAction func startBtnClicked(_ sender: NSButton) {
-        var selected = false
-        if sender.state.rawValue == 1 {
-            sender.state = .off
+        if selected {
+            selected = false
             sender.title = TextDictionary.valueForKey(key: "startButtonNormal")
         }else{
-            sender.state = .on
             sender.title = TextDictionary.valueForKey(key: "startButtonSelected")
             selected = true
         }
         
         guard canStartAnalyzing() == true else {
             sender.title = TextDictionary.valueForKey(key: "startButtonNormal")
-            sender.state = .off
+            selected = false
             self.progressLabel.textColor = NSColor.red
             return
         }
@@ -243,7 +265,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         self.showInputProcess(show: false)
         if curLogModel.processUUID.count > 0 {
             startBtn.title = TextDictionary.valueForKey(key: "startButtonSelected")
-            startBtn.state = .on
+            selected = true
             self.startAnalyzing()
         }else{
             self.showSymbolTableView(show: true)
@@ -339,6 +361,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         self.progressView.doubleValue = 0
         self.logTextViewOriginY.constant = 20.0
         self.showSymbolTableView(show: false)
+        curSymbolTable = nil
         
         if logModel.logType == .BuglyType {
             self.showInputProcess(show: true)
@@ -349,6 +372,9 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         return true
     }
     
+    /**
+     *  whether the crash log can be analyzed
+     */
     func canStartAnalyzing() -> Bool {
         if curLogModel == nil{
             guard scanCurrentLog(notification:nil) != false else {
@@ -383,6 +409,9 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         return true
     }
     
+    /**
+     *  analyze crash log, judge the crash type
+     */
     func startAnalyzing() -> Void {
         guard canStartAnalyzing() == true else {
             self.progressLabel.textColor = NSColor.red
@@ -405,32 +434,37 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         }
     }
     
+    /**
+     *  analyze crash log start
+     */
     func analyzeLog() -> Void {
         createAnaTimer()
         WBBladesCrashManager.startAnalyze(logModel: curLogModel, symbolPath:curSymbolTable) { [weak self] succceed, symbolReady, outputPath in
-            if symbolReady {
-                self?.createAnaTimer()
-                self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeRunning")
-            }else{
-                self?.loadingView.isHidden = true
-                self?.loadingView.stopAnimation(nil)
-                self?.startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
-                self?.startBtn.state = .off
-                self?.anaTimer?.invalidate()
-                self?.anaTimer = nil
-                
-                if succceed == false || outputPath == nil {
-                    self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeFailed")
-                    self?.progressView.doubleValue = 0
-                    return
-                }
+            DispatchQueue.main.async {
+                if symbolReady {
+                    self?.createAnaTimer()
+                    self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeRunning")
+                }else{
+                    self?.loadingView.isHidden = true
+                    self?.loadingView.stopAnimation(nil)
+                    self?.startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
+                    self?.selected = false
+                    self?.anaTimer?.invalidate()
+                    self?.anaTimer = nil
+                    
+                    if succceed == false || outputPath == nil {
+                        self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeFailed")
+                        self?.progressView.doubleValue = 0
+                        return
+                    }
 
-                self?.progressView.doubleValue = 100
-                self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeSucceed")
-                let resultString = try? String.init(contentsOfFile: outputPath ?? "", encoding: .utf8)
-                self?.logTextView.string = resultString ?? ""
-                self?.logTextView.textColor = NSColor.init(red: 65.0/255.0, green: 105.0/255.0, blue: 225.0/255.0, alpha: 1.0)
-                NSWorkspace.shared.selectFile(outputPath, inFileViewerRootedAtPath: "")
+                    self?.progressView.doubleValue = 100
+                    self?.progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeSucceed")
+                    let resultString = try? String.init(contentsOfFile: outputPath ?? "", encoding: .utf8)
+                    self?.logTextView.string = resultString ?? ""
+                    self?.logTextView.textColor = NSColor.init(red: 65.0/255.0, green: 105.0/255.0, blue: 225.0/255.0, alpha: 1.0)
+                    NSWorkspace.shared.selectFile(outputPath, inFileViewerRootedAtPath: "")
+                }
             }
         }
     }
@@ -474,9 +508,9 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             return
         }
         
-        guard self.progressView.doubleValue != 100 && scanCurrentLog(notification:nil) != false else {
-            return
-        }
+//        guard self.progressView.doubleValue != 100 && scanCurrentLog(notification:nil) != false else {
+//            return
+//        }
     }
     
     //MARK:-

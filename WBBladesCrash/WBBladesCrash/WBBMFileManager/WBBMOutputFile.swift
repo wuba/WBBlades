@@ -77,6 +77,7 @@ class WBBMOutputFile {
      */
     class func resultPath(fileName: String) -> String{
         let outputPath = "\(outputDir)/\(fileName).txt"
+        try? FileManager.default.createDirectory(atPath: (downloadPath), withIntermediateDirectories: true, attributes: nil)
         try? FileManager.default.createDirectory(atPath: (outputDir), withIntermediateDirectories: true, attributes: nil)
         return outputPath
     }

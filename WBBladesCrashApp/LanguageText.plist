@@ -138,9 +138,37 @@
 	<key>symbolPathTip</key>
 	<dict>
 		<key>chinese</key>
-		<string>包含符号表的文件(支持: .app / .dsym / .symbol)</string>
+		<string>包含符号表的文件路径(支持: .app / .dsym / .symbol)</string>
 		<key>eng</key>
-		<string>symbol table files, supports .app, .dsym, .symbol </string>
+		<string>symbol table file path, supports .app, .dsym, .symbol </string>
+	</dict>
+	<key>inputProgressTopTipLabel</key>
+	<dict>
+		<key>chinese</key>
+		<string>目前初步分析为一个线程的堆栈，请您输入需要解析的进程名以及包起始地址</string>
+		<key>eng</key>
+		<string>Input the process name, the base address of process and UUID.</string>
+	</dict>
+	<key>inputProgressNameLabel</key>
+	<dict>
+		<key>chinese</key>
+		<string>进程名</string>
+		<key>eng</key>
+		<string>process name</string>
+	</dict>
+	<key>inputProgressBaseAddrLabel</key>
+	<dict>
+		<key>chinese</key>
+		<string>进程基地址</string>
+		<key>eng</key>
+		<string>base address</string>
+	</dict>
+	<key>inputProgressConfirmBtn</key>
+	<dict>
+		<key>chinese</key>
+		<string>确定</string>
+		<key>eng</key>
+		<string>Confirm</string>
 	</dict>
 </dict>
 </plist>
