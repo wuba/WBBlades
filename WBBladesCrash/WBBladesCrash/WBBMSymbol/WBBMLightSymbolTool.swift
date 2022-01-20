@@ -23,7 +23,7 @@ class WBBMLightSymbolTool {
      *  @param finishHandler       return a light symbol file path
      */
     class func checkLightSymbolPath(path: String?, processName: String, uuid: String, finishHandler:@escaping (String?)->Void) -> Void {
-        guard let symbolPath = path, symbolPath.count > 0 else {
+        guard let symbolPath = path?.replacingOccurrences(of: "\\", with: ""), symbolPath.count > 0 else {
             finishHandler(nil)
             return
         }

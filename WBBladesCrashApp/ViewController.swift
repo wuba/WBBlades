@@ -98,7 +98,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         showSymbolTableView(show: false)
         showInputProcess(show: false)
         mainTitleLabel.stringValue = TextDictionary.valueForKey(key: "mainTitle")
-        startBtn.stringValue = TextDictionary.valueForKey(key: "startButtonNormal")
+        startBtn.title = TextDictionary.valueForKey(key: "startButtonNormal")
         progressLabel.stringValue = TextDictionary.valueForKey(key: "analyzeTip")
         inputProgressTopTipLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressTopTipLabel")
         inputProgressNameLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressNameLabel")
