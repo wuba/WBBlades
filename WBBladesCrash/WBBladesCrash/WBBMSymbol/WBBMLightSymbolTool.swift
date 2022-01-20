@@ -51,7 +51,7 @@ class WBBMLightSymbolTool {
         if symbolPath.lowercased().contains(WBBMSymbolFileDsymType) {
             DispatchQueue.global().async{
                 //strip a light symbol file
-//                Artillery.readDwarf(symbolPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
+                Artillery.readDwarf(symbolPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
                 DispatchQueue.main.async {
                     finishHandler(outputPath)
                 }
@@ -71,7 +71,7 @@ class WBBMLightSymbolTool {
                 //at first, strip a dsym symbol file
                 let _ =  WBBMShellObject.launch(path: fileName, arguments: [exeFile,"-o",dsymTmpPath]) ?? ""
                 //strip a light symbol file
-//                Artillery.readDwarf(dsymTmpPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
+                Artillery.readDwarf(dsymTmpPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
                 try? FileManager.default.removeItem(atPath: dsymTmpPath)
                 DispatchQueue.main.async {
                     finishHandler(outputPath)

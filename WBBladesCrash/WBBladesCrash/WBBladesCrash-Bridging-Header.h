@@ -8,6 +8,6 @@
 #ifndef Header_h
 #define Header_h
 
-//#import<ArtilleryOfItaly/Artillery.h>
+#import<ArtilleryOfItaly/Artillery.h>
 
 #endif /* Header_h */

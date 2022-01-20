@@ -97,9 +97,11 @@ EOM
   esac
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
+  install_resource "${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist"
   install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
+  install_resource "${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist"
   install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
 fi
 

@@ -28,33 +28,33 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface WBBladesSymTabCommand : NSObject
+//@interface WBBladesSymTabCommand : NSObject
+//
+//@property (nonatomic, assign) unsigned int cmd;
+//
+//@property (nonatomic, assign) unsigned int cmdsize;
+//
+//@property (nonatomic, assign) unsigned int symbolOff;
+//
+//@property (nonatomic, assign) unsigned int symbolNum;
+//
+//@property (nonatomic, assign) unsigned int strOff;
+//
+//@property (nonatomic, assign) unsigned int strSize;
+//
+//@property (nonatomic, assign) unsigned int textSize;
+//
+//@property (nonatomic, assign) BOOL withDWARF;
+//
+//@end
 
-@property (nonatomic, assign) unsigned int cmd;
-
-@property (nonatomic, assign) unsigned int cmdsize;
-
-@property (nonatomic, assign) unsigned int symbolOff;
-
-@property (nonatomic, assign) unsigned int symbolNum;
-
-@property (nonatomic, assign) unsigned int strOff;
-
-@property (nonatomic, assign) unsigned int strSize;
-
-@property (nonatomic, assign) unsigned int textSize;
-
-@property (nonatomic, assign) BOOL withDWARF;
-
-@end
-
-@interface WBBladesSymbolRange : NSObject
-
-@property (nonatomic, assign) unsigned long long begin;
-
-@property (nonatomic, assign) unsigned long long end;
-
-@property (nonatomic, copy) NSString *symbol;
-
-@end
+//@interface WBBladesSymbolRange : NSObject
+//
+//@property (nonatomic, assign) unsigned long long begin;
+//
+//@property (nonatomic, assign) unsigned long long end;
+//
+//@property (nonatomic, copy) NSString *symbol;
+//
+//@end
 NS_ASSUME_NONNULL_END

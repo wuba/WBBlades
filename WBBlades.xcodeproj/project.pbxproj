@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2D3BC50E7729E212678B9577 /* libPods-WBBlades.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */; };
 		372935DA22E18AC100C37C02 /* cs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358022E1897E00C37C02 /* cs.c */; };
 		372935DB22E18AC100C37C02 /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358F22E1897E00C37C02 /* SStream.c */; };
 		372935DC22E18AC100C37C02 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729359022E1897E00C37C02 /* utils.c */; };
@@ -46,7 +45,6 @@
 		464A0449278EF3B200390BD1 /* WBBladesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0448278EF3B200390BD1 /* WBBladesAppUITests.swift */; };
 		464A044B278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A044A278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift */; };
 		464A0456278EF3E800390BD1 /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0455278EF3E800390BD1 /* LogTextView.swift */; };
-		464A045A278EF99600390BD1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0459278EF99600390BD1 /* Info.plist */; };
 		464A0469278EFDEF00390BD1 /* HelpViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0465278EFDEF00390BD1 /* HelpViewManager.swift */; };
 		464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0466278EFDEF00390BD1 /* SystemCrash.plist */; };
 		464A046B278EFDEF00390BD1 /* BuglyCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0467278EFDEF00390BD1 /* BuglyCrash.plist */; };
@@ -194,7 +192,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */,
-				2D3BC50E7729E212678B9577 /* libPods-WBBlades.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,7 +585,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464A045A278EF99600390BD1 /* Info.plist in Resources */,
 				464F8C26279008BD006EFD8B /* LanguageText.plist in Resources */,
 				464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */,
 				464A0431278EF3B100390BD1 /* Assets.xcassets in Resources */,
@@ -924,6 +920,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -958,6 +955,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
@@ -992,6 +990,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = ED6C456E3CA002991BFA1A5F /* Pods-WBBladesCrashApp.debug.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1001,14 +1000,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2QGT6KWXK9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 邓竹立. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Wuba. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesCrashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1023,6 +1022,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 36AD1F708A1F67DF72B5B99B /* Pods-WBBladesCrashApp.release.xcconfig */;
 			buildSettings = {
+				ARCHS = x86_64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -1032,14 +1032,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2QGT6KWXK9;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 邓竹立. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Wuba. All rights reserved.";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesCrashApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1054,6 +1054,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = x86_64;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -1065,7 +1066,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1081,6 +1082,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = x86_64;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
@@ -1092,7 +1094,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1108,6 +1110,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = x86_64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1118,7 +1121,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1134,6 +1137,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ARCHS = x86_64;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -1144,7 +1148,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.6;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";

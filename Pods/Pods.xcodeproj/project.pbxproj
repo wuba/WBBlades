@@ -7,37 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		076C0A34D9157CDEA9C3783A3CD2C44A /* WBBMShellObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 541C31F419A0ABAAF2E10748A73FCD5A /* WBBMShellObject.swift */; };
-		0A7A009FE03F5528AD313B10015E16DC /* WBBladesCrash-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 339EE9FEE263EC122480519F9DBB63F8 /* WBBladesCrash-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		175CE61897A040B88CB6FC9BD313F37A /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */; };
-		26082AE81CE53FF87382C989A6323956 /* WBBladesCrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205E18DC215C1551BF952F3536ACE7C8 /* WBBladesCrashManager.swift */; };
-		31A97A35C93D39973F45BE1D1EDB7609 /* WBBladesCrash-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 9CAE8DE282D520E6A93EC42E4E9BB647 /* WBBladesCrash-Bridging-Header.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		44AAB043BC15713EA844A4A33759E245 /* WBBMSymbolTake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82B46DA130A81577F8F7476B27E3FB2F /* WBBMSymbolTake.swift */; };
-		4A720A6B560F3E34F779ECB28819F849 /* WBBMOutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 400DCD2670AA1EA6C12595706EF6134F /* WBBMOutputFile.swift */; };
-		51C82199964D0CC8CBB662EB20BAC631 /* WBBMSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E643EDFF89B15CDECC9190853B6CBDE2 /* WBBMSymbolTool.swift */; };
-		527E08EFD4BD253DE6B4543EC509A6C1 /* WBBMScanLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B91C919466F37BF2E113CE679D4F3FD2 /* WBBMScanLogTool.swift */; };
-		71F4762920D78D85061B3BE04196BAF5 /* WBBMScanBuglyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF2C30814E58788D6B4718CF5669CC8 /* WBBMScanBuglyLog.swift */; };
-		8D658CFF1C66B2C8416A6E7C42609A50 /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		91DB0B3BB1D7FDB86A86C4E710D0FD12 /* WBBMScanSystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 061A3DC15A3170B97AECFE8A18997AAD /* WBBMScanSystemLog.swift */; };
-		966D8B76442FD184016304CAE012BD10 /* WBBMScanLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D8F1D8F1B135A9EA783D3196FF3DED7 /* WBBMScanLogManager.swift */; };
-		9E6B143EEF063AAC59D5A928EC25F799 /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02F719A1C1CE7D750645294431016275 /* WBBMScanLogModel.swift */; };
-		B2557FADA87557BA978572F097B54F1C /* Pods-WBBladesCrashApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */; };
-		C1CDF0012A9697A58E321BD7484CAA91 /* WBBladesCrash-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D22B5783E169B3366336731C43DBE16F /* WBBladesCrash-dummy.m */; };
-		EEB37BE565BC3945A3E765633E5AAE12 /* WBBMSymbolSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C40DCC55C4DCF6F8689E25476C61A5E /* WBBMSymbolSearch.swift */; };
-		F13C6C667D9ED0D25E41B26D1767ACC1 /* Pods-WBBladesCrashApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
-		F46B3A3B54B8D4038AD171011D9DC6EB /* WBBladesCrashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501B3C47613289715FF5D93F6A222638 /* WBBladesCrashModel.swift */; };
-		F7FF44B8C3728FBFF07DF7B0574AD417 /* WBBMLightSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = C454B0664A258772EE72A5FAB7826133 /* WBBMLightSymbolTool.swift */; };
+		0233812576F7E06E67FB280F00B31EA1 /* WBBladesCrash-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5779318CD3D2C73580BB2AA2FD361DC8 /* WBBladesCrash-dummy.m */; };
+		0A9B96540A304A84B47B1EFE0AA85EDB /* WBBladesCrashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BB56E7199E5ECAB389E66C7A3056E2 /* WBBladesCrashModel.swift */; };
+		197F338C27CEC7169C86F70D66DDAC87 /* WBBladesCrash-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3671CCCA85A2982A6C9AEC646349B4C5 /* WBBladesCrash-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2CAC1A43E321C9BAB1F9FE73A275E990 /* ArtilleryOfItaly-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 93A9C1C788AC330568129D92ADC36261 /* ArtilleryOfItaly-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		364A51DD452B051F0737AD64AFC8FE5C /* WBBladesCrash-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = 75C56D138EAA0F7C7B019EC4723FABB7 /* WBBladesCrash-Bridging-Header.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4108F1879811E78BA4A1173EBF880FAC /* Artillery.m in Sources */ = {isa = PBXBuildFile; fileRef = E9446B32197B5008C01E5D598DCF911E /* Artillery.m */; };
+		46F71C888F919D1668CDEACF2F659AF6 /* Pods-WBBladesCrashApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */; };
+		51A21A34788D3936ECEC5B2BC2FA959B /* ArtilleryModels.h in Headers */ = {isa = PBXBuildFile; fileRef = 10578194979DD4765864C5F61081E746 /* ArtilleryModels.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6436D3978C1217CA9EFEC5C62ED21667 /* ArtilleryModels.m in Sources */ = {isa = PBXBuildFile; fileRef = EB8C41B45407647D2E474C2D15B4275C /* ArtilleryModels.m */; };
+		7E4078688CE0613631B877AF3CFED34F /* WBBMSymbolTake.swift in Sources */ = {isa = PBXBuildFile; fileRef = E19F3A038E1B6E46EADFD8DB4671A469 /* WBBMSymbolTake.swift */; };
+		834DCBC9D19246DE7EC33DCAA4E650F4 /* WBBMScanLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB975C27D39325C7FD6623989060BC0 /* WBBMScanLogManager.swift */; };
+		86CC1702422AE1092E8746AE86B4A817 /* ArtilleryOfItaly-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F15BAE2DC67B32659534C0360E69760B /* ArtilleryOfItaly-dummy.m */; };
+		88DE8F8A685C720D4327D606D6574DAD /* WBBMScanLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 955969A09AB7DC9CF9ED86D010D81EB4 /* WBBMScanLogTool.swift */; };
+		A0B72486AC45C9EBD6C1F692A11A1DE3 /* WBBMOutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 656A0FD8E97A4C45E52617C4646CB488 /* WBBMOutputFile.swift */; };
+		A7C1145A15616FEEBB5436E1199800E2 /* WBBladesCrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2505BF146982FCE0EBD9B7D2EB72E5F /* WBBladesCrashManager.swift */; };
+		B07456DE36F04E3855320FCCD6B3AC58 /* Pods-WBBladesCrashApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B379AD03BDC0EBCD20B3BD49DEF882AC /* libdwarf.h in Headers */ = {isa = PBXBuildFile; fileRef = 85DB2E6660622C58406F8EDAB06F0715 /* libdwarf.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B5918EA376D39FAA63E65BF70EE9B164 /* WBBMScanSystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE2795489F94D3D47BC116CC59F06E7 /* WBBMScanSystemLog.swift */; };
+		B77B4D630E0F5A71172A84968AB591B1 /* WBBMLightSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDC85F304922B2E3207971D575A445C /* WBBMLightSymbolTool.swift */; };
+		B93D921524A064C202A61D7E65E81A8C /* WBBMSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = D311D9ECF7F5CEEE1896D2274F494819 /* WBBMSymbolTool.swift */; };
+		E7A3AAE0F97BC4D79ED156CD90B1F711 /* WBBMScanBuglyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F4D1CEFDBC53B1D1509FB310E0AB272 /* WBBMScanBuglyLog.swift */; };
+		EB1D8082ECAF01CB401A39CD8A4858A1 /* dwarf.h in Headers */ = {isa = PBXBuildFile; fileRef = DCAE97C91504A71A1EAED6545D8B6153 /* dwarf.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EE488577FF24615A380654290C9DF76B /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EEFAEBA1C67FEC71D0D07255D505E833 /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */; };
+		F562168031D1E6C3D0B83F7516AB1C9E /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D32FBB8665368B9128E8C5EC8C8DC2E /* WBBMScanLogModel.swift */; };
+		F5D65F80B86070BE77520176F021EA55 /* WBBMSymbolSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = B69574215FB00F2BB84DA9A22894CDF4 /* WBBMSymbolSearch.swift */; };
+		FC89824959B7F7E89E4D29D0F877FD03 /* Artillery.h in Headers */ = {isa = PBXBuildFile; fileRef = 5103898CF1CECD02E6DF3634DCEF9457 /* Artillery.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		FCCD21A0B79874BD5BC333DF023F1CE2 /* WBBMShellObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15F6AB535EC89BCDAD4491948AF5B716 /* WBBMShellObject.swift */; };
+		FCE4163029A0C10063479178FEB809E2 /* ArtilleryOfItaly.h in Headers */ = {isa = PBXBuildFile; fileRef = DF8D2F9007F70EFCBFDE0CBA14F216FF /* ArtilleryOfItaly.h */; settings = {ATTRIBUTES = (Project, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7A5F894AA356E1D117645470E7B0E0CF /* PBXContainerItemProxy */ = {
+		08D0E201514A5AC4886CB6A552B5921C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B378281B801AFD517BEAC3EBC7B6F27B;
+			remoteInfo = ArtilleryOfItaly;
+		};
+		16AADA9FC2A9D81E70585D636698A09F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B378281B801AFD517BEAC3EBC7B6F27B;
+			remoteInfo = ArtilleryOfItaly;
+		};
+		F0251FFABC5FC5843A165BD5B44878F8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 0476538A94CBD3DE8CDA74B633333B0D;
 			remoteInfo = WBBladesCrash;
 		};
-		7E6C6ECEA48C2BB6D37AD44F70777CA9 /* PBXContainerItemProxy */ = {
+		FAB1B2A15F678E3066BBCDA2DD58BFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -47,66 +70,90 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		02F719A1C1CE7D750645294431016275 /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
-		061A3DC15A3170B97AECFE8A18997AAD /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
 		0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBladesCrashApp-resources.sh"; sourceTree = "<group>"; };
-		205E18DC215C1551BF952F3536ACE7C8 /* WBBladesCrashManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashManager.swift; path = WBBladesCrash/WBBladesCrashManager.swift; sourceTree = "<group>"; };
-		339EE9FEE263EC122480519F9DBB63F8 /* WBBladesCrash-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-umbrella.h"; sourceTree = "<group>"; };
+		0B074CA600B3AA6995724C5126F785CC /* ArtilleryOfItaly.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = ArtilleryOfItaly.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0E22DF0F948C989C59B0CEDCE6058EE7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ArtilleryOfItaly/ArtilleryOfItaly/Info.plist; sourceTree = "<group>"; };
+		10578194979DD4765864C5F61081E746 /* ArtilleryModels.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ArtilleryModels.h; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryModels.h; sourceTree = "<group>"; };
+		15F6AB535EC89BCDAD4491948AF5B716 /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
+		17823F5A39F189C48753B16E3BC5D4D1 /* WBBladesCrash.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBladesCrash.modulemap; sourceTree = "<group>"; };
+		23187E51A2E7ECA104924040FD4D47B7 /* WBBladesCrash.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = WBBladesCrash.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		2DE2795489F94D3D47BC116CC59F06E7 /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
+		3671CCCA85A2982A6C9AEC646349B4C5 /* WBBladesCrash-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-umbrella.h"; sourceTree = "<group>"; };
 		3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBladesCrashApp-dummy.m"; sourceTree = "<group>"; };
-		400DCD2670AA1EA6C12595706EF6134F /* WBBMOutputFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMOutputFile.swift; sourceTree = "<group>"; };
+		3D32FBB8665368B9128E8C5EC8C8DC2E /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
 		44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBlades-dummy.m"; sourceTree = "<group>"; };
-		501B3C47613289715FF5D93F6A222638 /* WBBladesCrashModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashModel.swift; path = WBBladesCrash/WBBladesCrashModel.swift; sourceTree = "<group>"; };
+		4AAB1B8056972F72FBA916F48C0D52B6 /* ArtilleryOfItaly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.debug.xcconfig; sourceTree = "<group>"; };
+		4CB975C27D39325C7FD6623989060BC0 /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
+		4EA5F0ECF7A8172F3C8CBD2D1576FB73 /* WBBladesCrash-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-prefix.pch"; sourceTree = "<group>"; };
+		50BAC9C0DAD121B30A82E2A6CE6FDF3F /* WBBladesCrash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.release.xcconfig; sourceTree = "<group>"; };
+		5103898CF1CECD02E6DF3634DCEF9457 /* Artillery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Artillery.h; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.h; sourceTree = "<group>"; };
 		5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBladesCrashApp-umbrella.h"; sourceTree = "<group>"; };
-		541C31F419A0ABAAF2E10748A73FCD5A /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
-		579E1A9E23A47D95AFB315BAB8CACDDF /* WBBladesCrash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.release.xcconfig; sourceTree = "<group>"; };
-		5CC07CA6A32C93BE27BEC344CC5A932A /* WBBladesCrash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.debug.xcconfig; sourceTree = "<group>"; };
+		5779318CD3D2C73580BB2AA2FD361DC8 /* WBBladesCrash-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBladesCrash-dummy.m"; sourceTree = "<group>"; };
+		5D6F18B22C0A6BEC3D98DFFEE30B802A /* ArtilleryOfItaly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.release.xcconfig; sourceTree = "<group>"; };
+		5F4D1CEFDBC53B1D1509FB310E0AB272 /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
+		656A0FD8E97A4C45E52617C4646CB488 /* WBBMOutputFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMOutputFile.swift; sourceTree = "<group>"; };
 		71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
-		7C40DCC55C4DCF6F8689E25476C61A5E /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
+		72CDE7A38AEF594231A1CC73D5C181B9 /* libArtilleryOfItaly.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libArtilleryOfItaly.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		75C56D138EAA0F7C7B019EC4723FABB7 /* WBBladesCrash-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesCrash-Bridging-Header.h"; path = "WBBladesCrash/WBBladesCrash-Bridging-Header.h"; sourceTree = "<group>"; };
+		76A835C21DF4AA1740683AA110BB7522 /* ArtilleryOfItaly.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = ArtilleryOfItaly.modulemap; sourceTree = "<group>"; };
 		7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
-		82B46DA130A81577F8F7476B27E3FB2F /* WBBMSymbolTake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTake.swift; sourceTree = "<group>"; };
-		86737A67BDAAD98BA1FB56E3B8D77E1D /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; name = dsymutil; path = WBBladesCrash/Resource/dsymutil; sourceTree = "<group>"; };
-		8D8F1D8F1B135A9EA783D3196FF3DED7 /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
+		85DB2E6660622C58406F8EDAB06F0715 /* libdwarf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = libdwarf.h; path = ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.h; sourceTree = "<group>"; };
+		87A34455C6A20FC8F78B23FE7D93EA4D /* libdwarf.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libdwarf.a; path = ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.a; sourceTree = "<group>"; };
+		8B6AF902559AD34C4D04EC169165CCDB /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "compiled.mach-o.executable"; name = dsymutil; path = WBBladesCrash/Resource/dsymutil; sourceTree = "<group>"; };
 		8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
-		9673E216FED50B36D572098AF437BD5B /* WBBladesCrash-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-prefix.pch"; sourceTree = "<group>"; };
-		9CAE8DE282D520E6A93EC42E4E9BB647 /* WBBladesCrash-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesCrash-Bridging-Header.h"; path = "WBBladesCrash/WBBladesCrash-Bridging-Header.h"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A32EA906E639A926E7D472BD38FFE563 /* WBBladesCrash.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBladesCrash.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBlades.a"; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABFBA6E0620ECD4E64D4B6B12E55B616 /* WBBladesCrash.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBladesCrash.modulemap; sourceTree = "<group>"; };
-		AEF2C30814E58788D6B4718CF5669CC8 /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
+		93A9C1C788AC330568129D92ADC36261 /* ArtilleryOfItaly-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ArtilleryOfItaly-umbrella.h"; sourceTree = "<group>"; };
+		955969A09AB7DC9CF9ED86D010D81EB4 /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A5EB724853C90D7B46171B0B20483471 /* WBBladesCrash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.debug.xcconfig; sourceTree = "<group>"; };
+		AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B2505BF146982FCE0EBD9B7D2EB72E5F /* WBBladesCrashManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashManager.swift; path = WBBladesCrash/WBBladesCrashManager.swift; sourceTree = "<group>"; };
 		B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBladesCrashApp.modulemap"; sourceTree = "<group>"; };
+		B69574215FB00F2BB84DA9A22894CDF4 /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
 		B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
-		B91C919466F37BF2E113CE679D4F3FD2 /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
-		C454B0664A258772EE72A5FAB7826133 /* WBBMLightSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMLightSymbolTool.swift; sourceTree = "<group>"; };
 		C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
 		CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBladesCrashApp-acknowledgements.markdown"; sourceTree = "<group>"; };
-		D22B5783E169B3366336731C43DBE16F /* WBBladesCrash-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBladesCrash-dummy.m"; sourceTree = "<group>"; };
-		DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "libPods-WBBladesCrashApp.a"; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2BB56E7199E5ECAB389E66C7A3056E2 /* WBBladesCrashModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashModel.swift; path = WBBladesCrash/WBBladesCrashModel.swift; sourceTree = "<group>"; };
+		D311D9ECF7F5CEEE1896D2274F494819 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
+		D988FD3C3B07C2C5364402DC69D0E3B8 /* ArtilleryOfItaly-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ArtilleryOfItaly-prefix.pch"; sourceTree = "<group>"; };
+		DCAE97C91504A71A1EAED6545D8B6153 /* dwarf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dwarf.h; path = ArtilleryOfItaly/ArtilleryOfItaly/dwarf.h; sourceTree = "<group>"; };
+		DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DF8D2F9007F70EFCBFDE0CBA14F216FF /* ArtilleryOfItaly.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ArtilleryOfItaly.h; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly.h; sourceTree = "<group>"; };
+		E19F3A038E1B6E46EADFD8DB4671A469 /* WBBMSymbolTake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTake.swift; sourceTree = "<group>"; };
 		E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBladesCrashApp-acknowledgements.plist"; sourceTree = "<group>"; };
-		E643EDFF89B15CDECC9190853B6CBDE2 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
+		E9446B32197B5008C01E5D598DCF911E /* Artillery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Artillery.m; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.m; sourceTree = "<group>"; };
+		EB8C41B45407647D2E474C2D15B4275C /* ArtilleryModels.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ArtilleryModels.m; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryModels.m; sourceTree = "<group>"; };
 		ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
 		EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
 		EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
-		F338D1F16C33E5F6F50DAEA7117F4084 /* libWBBladesCrash.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = libWBBladesCrash.a; path = libWBBladesCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F15BAE2DC67B32659534C0360E69760B /* ArtilleryOfItaly-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ArtilleryOfItaly-dummy.m"; sourceTree = "<group>"; };
+		F338D1F16C33E5F6F50DAEA7117F4084 /* libWBBladesCrash.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWBBladesCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
+		FFDC85F304922B2E3207971D575A445C /* WBBMLightSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMLightSymbolTool.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		1A7C3FCF8289EE9DB35DD94561045FE2 /* Frameworks */ = {
+		413323230D170DC518CF046FEC487206 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		6BABE135480F141C6F4DAB12FB91CE70 /* Frameworks */ = {
+		5A6FB3843D418D47CC34DF9E55C5E1B4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BF2269B9B04258FC9E6D36B6BFC690ED /* Frameworks */ = {
+		C25388EE8DFAD39EA497E19F35346B02 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FEBA231D25123378EB86DC5E41AAE8D4 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -116,6 +163,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0338EA5AE821D57961F2BA5C2BC17D27 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				87A34455C6A20FC8F78B23FE7D93EA4D /* libdwarf.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		26CB39AE9C86F17044CD26998C0E9AC0 /* Pods-WBBladesCrashApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -141,68 +196,83 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		436F3581FD4DDD102C3650EF1B0143A8 /* WBBMAnalyze */ = {
+		4D3F53F466CAFE40957E00D97333B59F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				541C31F419A0ABAAF2E10748A73FCD5A /* WBBMShellObject.swift */,
+				72CDE7A38AEF594231A1CC73D5C181B9 /* libArtilleryOfItaly.a */,
+				AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */,
+				DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */,
+				F338D1F16C33E5F6F50DAEA7117F4084 /* libWBBladesCrash.a */,
 			);
-			name = WBBMAnalyze;
-			path = WBBladesCrash/WBBMAnalyze;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		6C2BE68552A61C98A9B276D6B82BF0FD /* WBBMSymbol */ = {
+		518FC5DB42B25AF8360DF0DB9018CD08 /* ArtilleryOfItaly */ = {
 			isa = PBXGroup;
 			children = (
-				C454B0664A258772EE72A5FAB7826133 /* WBBMLightSymbolTool.swift */,
-				7C40DCC55C4DCF6F8689E25476C61A5E /* WBBMSymbolSearch.swift */,
-				82B46DA130A81577F8F7476B27E3FB2F /* WBBMSymbolTake.swift */,
-				E643EDFF89B15CDECC9190853B6CBDE2 /* WBBMSymbolTool.swift */,
+				5103898CF1CECD02E6DF3634DCEF9457 /* Artillery.h */,
+				E9446B32197B5008C01E5D598DCF911E /* Artillery.m */,
+				10578194979DD4765864C5F61081E746 /* ArtilleryModels.h */,
+				EB8C41B45407647D2E474C2D15B4275C /* ArtilleryModels.m */,
+				DF8D2F9007F70EFCBFDE0CBA14F216FF /* ArtilleryOfItaly.h */,
+				DCAE97C91504A71A1EAED6545D8B6153 /* dwarf.h */,
+				0E22DF0F948C989C59B0CEDCE6058EE7 /* Info.plist */,
+				85DB2E6660622C58406F8EDAB06F0715 /* libdwarf.h */,
+				0338EA5AE821D57961F2BA5C2BC17D27 /* Frameworks */,
+				ED5B1B0F34FA5B7C1CCC713B2E826BEC /* Pod */,
+				7FEDEDE9853F9A1B39C598C64B0DAAC7 /* Support Files */,
 			);
-			name = WBBMSymbol;
-			path = WBBladesCrash/WBBMSymbol;
+			name = ArtilleryOfItaly;
+			path = ../ArtilleryOfItaly;
 			sourceTree = "<group>";
 		};
-		742B9B295524D0AA1AD9CAE82DBE33EA /* Development Pods */ = {
+		589DCA5A7A6CC7411395E709FA26099D /* WBBladesCrash */ = {
 			isa = PBXGroup;
 			children = (
-				DF6422776090C4A4EDD8A4BD5E2F806E /* WBBladesCrash */,
+				8B6AF902559AD34C4D04EC169165CCDB /* dsymutil */,
+				75C56D138EAA0F7C7B019EC4723FABB7 /* WBBladesCrash-Bridging-Header.h */,
+				B2505BF146982FCE0EBD9B7D2EB72E5F /* WBBladesCrashManager.swift */,
+				D2BB56E7199E5ECAB389E66C7A3056E2 /* WBBladesCrashModel.swift */,
+				5D6ED574F49254138A401E02CF3AC2E4 /* Pod */,
+				AE369AF205A46A555343FBF53D649AA0 /* Support Files */,
+				E44A5026C6976B4EBCE2BACC280C16BB /* WBBMAnalyze */,
+				7F67598131886CF311C1EE79518976B7 /* WBBMFileManager */,
+				FE457009B3624A012A721993ADD8348D /* WBBMScanLog */,
+				FAAD573576740A81365EBED62C477D00 /* WBBMSymbol */,
 			);
-			name = "Development Pods";
+			name = WBBladesCrash;
+			path = ../WBBladesCrash;
 			sourceTree = "<group>";
 		};
-		8DE81F7353769DBE863A6160903677CF /* WBBMScanLog */ = {
+		5D6ED574F49254138A401E02CF3AC2E4 /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				AEF2C30814E58788D6B4718CF5669CC8 /* WBBMScanBuglyLog.swift */,
-				8D8F1D8F1B135A9EA783D3196FF3DED7 /* WBBMScanLogManager.swift */,
-				02F719A1C1CE7D750645294431016275 /* WBBMScanLogModel.swift */,
-				B91C919466F37BF2E113CE679D4F3FD2 /* WBBMScanLogTool.swift */,
-				061A3DC15A3170B97AECFE8A18997AAD /* WBBMScanSystemLog.swift */,
-			);
-			name = WBBMScanLog;
-			path = WBBladesCrash/WBBMScanLog;
-			sourceTree = "<group>";
-		};
-		9A7B42DA333039B6036F7854EC4CD839 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				ABFBA6E0620ECD4E64D4B6B12E55B616 /* WBBladesCrash.modulemap */,
-				D22B5783E169B3366336731C43DBE16F /* WBBladesCrash-dummy.m */,
-				9673E216FED50B36D572098AF437BD5B /* WBBladesCrash-prefix.pch */,
-				339EE9FEE263EC122480519F9DBB63F8 /* WBBladesCrash-umbrella.h */,
-				5CC07CA6A32C93BE27BEC344CC5A932A /* WBBladesCrash.debug.xcconfig */,
-				579E1A9E23A47D95AFB315BAB8CACDDF /* WBBladesCrash.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Pods/Target Support Files/WBBladesCrash";
-			sourceTree = "<group>";
-		};
-		9ABFB997C68EC08EC92A60BA4DA64712 /* Pod */ = {
-			isa = PBXGroup;
-			children = (
-				A32EA906E639A926E7D472BD38FFE563 /* WBBladesCrash.podspec */,
+				23187E51A2E7ECA104924040FD4D47B7 /* WBBladesCrash.podspec */,
 			);
 			name = Pod;
+			sourceTree = "<group>";
+		};
+		7F67598131886CF311C1EE79518976B7 /* WBBMFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				656A0FD8E97A4C45E52617C4646CB488 /* WBBMOutputFile.swift */,
+			);
+			name = WBBMFileManager;
+			path = WBBladesCrash/WBBMFileManager;
+			sourceTree = "<group>";
+		};
+		7FEDEDE9853F9A1B39C598C64B0DAAC7 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				76A835C21DF4AA1740683AA110BB7522 /* ArtilleryOfItaly.modulemap */,
+				F15BAE2DC67B32659534C0360E69760B /* ArtilleryOfItaly-dummy.m */,
+				D988FD3C3B07C2C5364402DC69D0E3B8 /* ArtilleryOfItaly-prefix.pch */,
+				93A9C1C788AC330568129D92ADC36261 /* ArtilleryOfItaly-umbrella.h */,
+				4AAB1B8056972F72FBA916F48C0D52B6 /* ArtilleryOfItaly.debug.xcconfig */,
+				5D6F18B22C0A6BEC3D98DFFEE30B802A /* ArtilleryOfItaly.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/ArtilleryOfItaly";
 			sourceTree = "<group>";
 		};
 		ADFF1FCBA1709B4F5532FE42C974B396 /* Pods-WBBlades */ = {
@@ -221,23 +291,36 @@
 			path = "Target Support Files/Pods-WBBlades";
 			sourceTree = "<group>";
 		};
-		C0E308D988936C0F5A702E7C37B65CBC /* Products */ = {
+		AE369AF205A46A555343FBF53D649AA0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				AA47E488197FC2C82D7000B340C52A3E /* libPods-WBBlades.a */,
-				DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */,
-				F338D1F16C33E5F6F50DAEA7117F4084 /* libWBBladesCrash.a */,
+				17823F5A39F189C48753B16E3BC5D4D1 /* WBBladesCrash.modulemap */,
+				5779318CD3D2C73580BB2AA2FD361DC8 /* WBBladesCrash-dummy.m */,
+				4EA5F0ECF7A8172F3C8CBD2D1576FB73 /* WBBladesCrash-prefix.pch */,
+				3671CCCA85A2982A6C9AEC646349B4C5 /* WBBladesCrash-umbrella.h */,
+				A5EB724853C90D7B46171B0B20483471 /* WBBladesCrash.debug.xcconfig */,
+				50BAC9C0DAD121B30A82E2A6CE6FDF3F /* WBBladesCrash.release.xcconfig */,
 			);
-			name = Products;
+			name = "Support Files";
+			path = "../Pods/Target Support Files/WBBladesCrash";
+			sourceTree = "<group>";
+		};
+		CBE244B9E519DFB88BE262F9834A33CA /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				518FC5DB42B25AF8360DF0DB9018CD08 /* ArtilleryOfItaly */,
+				589DCA5A7A6CC7411395E709FA26099D /* WBBladesCrash */,
+			);
+			name = "Development Pods";
 			sourceTree = "<group>";
 		};
 		CF1408CF629C7361332E53B88F7BD30C = {
 			isa = PBXGroup;
 			children = (
 				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				742B9B295524D0AA1AD9CAE82DBE33EA /* Development Pods */,
+				CBE244B9E519DFB88BE262F9834A33CA /* Development Pods */,
 				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
-				C0E308D988936C0F5A702E7C37B65CBC /* Products */,
+				4D3F53F466CAFE40957E00D97333B59F /* Products */,
 				43341D11A274E069C9E9441F988134A9 /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -249,58 +332,86 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DF6422776090C4A4EDD8A4BD5E2F806E /* WBBladesCrash */ = {
+		E44A5026C6976B4EBCE2BACC280C16BB /* WBBMAnalyze */ = {
 			isa = PBXGroup;
 			children = (
-				86737A67BDAAD98BA1FB56E3B8D77E1D /* dsymutil */,
-				9CAE8DE282D520E6A93EC42E4E9BB647 /* WBBladesCrash-Bridging-Header.h */,
-				205E18DC215C1551BF952F3536ACE7C8 /* WBBladesCrashManager.swift */,
-				501B3C47613289715FF5D93F6A222638 /* WBBladesCrashModel.swift */,
-				9ABFB997C68EC08EC92A60BA4DA64712 /* Pod */,
-				9A7B42DA333039B6036F7854EC4CD839 /* Support Files */,
-				436F3581FD4DDD102C3650EF1B0143A8 /* WBBMAnalyze */,
-				E12EC8E09054D3674DC6F770466AE5D3 /* WBBMFileManager */,
-				8DE81F7353769DBE863A6160903677CF /* WBBMScanLog */,
-				6C2BE68552A61C98A9B276D6B82BF0FD /* WBBMSymbol */,
+				15F6AB535EC89BCDAD4491948AF5B716 /* WBBMShellObject.swift */,
 			);
-			name = WBBladesCrash;
-			path = ../WBBladesCrash;
+			name = WBBMAnalyze;
+			path = WBBladesCrash/WBBMAnalyze;
 			sourceTree = "<group>";
 		};
-		E12EC8E09054D3674DC6F770466AE5D3 /* WBBMFileManager */ = {
+		ED5B1B0F34FA5B7C1CCC713B2E826BEC /* Pod */ = {
 			isa = PBXGroup;
 			children = (
-				400DCD2670AA1EA6C12595706EF6134F /* WBBMOutputFile.swift */,
+				0B074CA600B3AA6995724C5126F785CC /* ArtilleryOfItaly.podspec */,
 			);
-			name = WBBMFileManager;
-			path = WBBladesCrash/WBBMFileManager;
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		FAAD573576740A81365EBED62C477D00 /* WBBMSymbol */ = {
+			isa = PBXGroup;
+			children = (
+				FFDC85F304922B2E3207971D575A445C /* WBBMLightSymbolTool.swift */,
+				B69574215FB00F2BB84DA9A22894CDF4 /* WBBMSymbolSearch.swift */,
+				E19F3A038E1B6E46EADFD8DB4671A469 /* WBBMSymbolTake.swift */,
+				D311D9ECF7F5CEEE1896D2274F494819 /* WBBMSymbolTool.swift */,
+			);
+			name = WBBMSymbol;
+			path = WBBladesCrash/WBBMSymbol;
+			sourceTree = "<group>";
+		};
+		FE457009B3624A012A721993ADD8348D /* WBBMScanLog */ = {
+			isa = PBXGroup;
+			children = (
+				5F4D1CEFDBC53B1D1509FB310E0AB272 /* WBBMScanBuglyLog.swift */,
+				4CB975C27D39325C7FD6623989060BC0 /* WBBMScanLogManager.swift */,
+				3D32FBB8665368B9128E8C5EC8C8DC2E /* WBBMScanLogModel.swift */,
+				955969A09AB7DC9CF9ED86D010D81EB4 /* WBBMScanLogTool.swift */,
+				2DE2795489F94D3D47BC116CC59F06E7 /* WBBMScanSystemLog.swift */,
+			);
+			name = WBBMScanLog;
+			path = WBBladesCrash/WBBMScanLog;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		8C417A003A678E85B278AD64B95E37EE /* Headers */ = {
+		4EC2522B4C03F312B9B7B3E1BD65FE19 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D658CFF1C66B2C8416A6E7C42609A50 /* Pods-WBBlades-umbrella.h in Headers */,
+				B07456DE36F04E3855320FCCD6B3AC58 /* Pods-WBBladesCrashApp-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		AF4E83282A9401FB3C876E72E04548AC /* Headers */ = {
+		6A3EBA3672DEADB8895CB827FFF950A4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31A97A35C93D39973F45BE1D1EDB7609 /* WBBladesCrash-Bridging-Header.h in Headers */,
-				0A7A009FE03F5528AD313B10015E16DC /* WBBladesCrash-umbrella.h in Headers */,
+				FC89824959B7F7E89E4D29D0F877FD03 /* Artillery.h in Headers */,
+				51A21A34788D3936ECEC5B2BC2FA959B /* ArtilleryModels.h in Headers */,
+				FCE4163029A0C10063479178FEB809E2 /* ArtilleryOfItaly.h in Headers */,
+				2CAC1A43E321C9BAB1F9FE73A275E990 /* ArtilleryOfItaly-umbrella.h in Headers */,
+				EB1D8082ECAF01CB401A39CD8A4858A1 /* dwarf.h in Headers */,
+				B379AD03BDC0EBCD20B3BD49DEF882AC /* libdwarf.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BC24290F32FAA910917BE2132594898E /* Headers */ = {
+		7C3BCD9E41FF8E3BDE5CC78E72E561D2 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F13C6C667D9ED0D25E41B26D1767ACC1 /* Pods-WBBladesCrashApp-umbrella.h in Headers */,
+				364A51DD452B051F0737AD64AFC8FE5C /* WBBladesCrash-Bridging-Header.h in Headers */,
+				197F338C27CEC7169C86F70D66DDAC87 /* WBBladesCrash-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9C3832A35B970BB47FB1D70FA66600B5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE488577FF24615A380654290C9DF76B /* Pods-WBBlades-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,12 +420,12 @@
 /* Begin PBXNativeTarget section */
 		0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B71CB67C3E765816BF4FC26A447F258D /* Build configuration list for PBXNativeTarget "WBBladesCrash" */;
+			buildConfigurationList = 641B7938C6A7AD22FBE6B20EF2FC739F /* Build configuration list for PBXNativeTarget "WBBladesCrash" */;
 			buildPhases = (
-				AF4E83282A9401FB3C876E72E04548AC /* Headers */,
-				8CB05D8C722F21B2422D469540CD8BE6 /* Sources */,
-				6BABE135480F141C6F4DAB12FB91CE70 /* Frameworks */,
-				A5FAE71FD97E08E497DDEF96A59BE240 /* Copy generated compatibility header */,
+				7C3BCD9E41FF8E3BDE5CC78E72E561D2 /* Headers */,
+				F0DE8D6F29807F541F904E8E54EC293F /* Sources */,
+				5A6FB3843D418D47CC34DF9E55C5E1B4 /* Frameworks */,
+				E6686B12B9063FE4C506914DD2D67D6E /* Copy generated compatibility header */,
 			);
 			buildRules = (
 			);
@@ -327,34 +438,53 @@
 		};
 		8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0003580C88CAE2A4F4421A5CB28AAA61 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */;
+			buildConfigurationList = 791C18DB946945FDE26D988B5EBA6FC8 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */;
 			buildPhases = (
-				BC24290F32FAA910917BE2132594898E /* Headers */,
-				CAAD04790F3FC01A9ABF571488C4B5B8 /* Sources */,
-				1A7C3FCF8289EE9DB35DD94561045FE2 /* Frameworks */,
+				4EC2522B4C03F312B9B7B3E1BD65FE19 /* Headers */,
+				9F647890E44B86B1FC9928D50900EA4D /* Sources */,
+				FEBA231D25123378EB86DC5E41AAE8D4 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				C22090918B4826F9B953BC9F8C6F0BCC /* PBXTargetDependency */,
+				724B0D38B7B41E4A9A4D35F59C0CAC71 /* PBXTargetDependency */,
+				0B45ADF60809AACC7A9C8B164DB237E6 /* PBXTargetDependency */,
 			);
 			name = "Pods-WBBladesCrashApp";
 			productName = "Pods-WBBladesCrashApp";
 			productReference = DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* libPods-WBBladesCrashApp.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */ = {
+		B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A7E2A75D672A9D462DF6FFC611B9F02A /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */;
+			buildConfigurationList = 49FCDA920635915E5E3E355D91598DC8 /* Build configuration list for PBXNativeTarget "ArtilleryOfItaly" */;
 			buildPhases = (
-				8C417A003A678E85B278AD64B95E37EE /* Headers */,
-				56CEADC4DE9BF21D566F75911793F5F8 /* Sources */,
-				BF2269B9B04258FC9E6D36B6BFC690ED /* Frameworks */,
+				6A3EBA3672DEADB8895CB827FFF950A4 /* Headers */,
+				B3E45199EE7A88D5BF4C95FAD0413A7F /* Sources */,
+				413323230D170DC518CF046FEC487206 /* Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				3679B4E4B612F5BE5FA1CA2BAAEA148F /* PBXTargetDependency */,
+			);
+			name = ArtilleryOfItaly;
+			productName = ArtilleryOfItaly;
+			productReference = 72CDE7A38AEF594231A1CC73D5C181B9 /* libArtilleryOfItaly.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3DDA19F44F79DED715C58D3988AA6083 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */;
+			buildPhases = (
+				9C3832A35B970BB47FB1D70FA66600B5 /* Headers */,
+				39CBA7398117F9644D5DAE26F460D775 /* Sources */,
+				C25388EE8DFAD39EA497E19F35346B02 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				75D6B7881B23ED9421DF85DB7F3A3B02 /* PBXTargetDependency */,
+				19643AEDD3CAF1A1A4B46A53B0ECAD8A /* PBXTargetDependency */,
 			);
 			name = "Pods-WBBlades";
 			productName = "Pods-WBBlades";
@@ -367,22 +497,23 @@
 		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1100;
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
 			};
 			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 10.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = C0E308D988936C0F5A702E7C37B65CBC /* Products */;
+			productRefGroup = 4D3F53F466CAFE40957E00D97333B59F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */,
 				F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */,
 				8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */,
 				0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */,
@@ -391,7 +522,7 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		A5FAE71FD97E08E497DDEF96A59BE240 /* Copy generated compatibility header */ = {
+		E6686B12B9063FE4C506914DD2D67D6E /* Copy generated compatibility header */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -418,67 +549,167 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		56CEADC4DE9BF21D566F75911793F5F8 /* Sources */ = {
+		39CBA7398117F9644D5DAE26F460D775 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				175CE61897A040B88CB6FC9BD313F37A /* Pods-WBBlades-dummy.m in Sources */,
+				EEFAEBA1C67FEC71D0D07255D505E833 /* Pods-WBBlades-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		8CB05D8C722F21B2422D469540CD8BE6 /* Sources */ = {
+		9F647890E44B86B1FC9928D50900EA4D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1CDF0012A9697A58E321BD7484CAA91 /* WBBladesCrash-dummy.m in Sources */,
-				26082AE81CE53FF87382C989A6323956 /* WBBladesCrashManager.swift in Sources */,
-				F46B3A3B54B8D4038AD171011D9DC6EB /* WBBladesCrashModel.swift in Sources */,
-				F7FF44B8C3728FBFF07DF7B0574AD417 /* WBBMLightSymbolTool.swift in Sources */,
-				4A720A6B560F3E34F779ECB28819F849 /* WBBMOutputFile.swift in Sources */,
-				71F4762920D78D85061B3BE04196BAF5 /* WBBMScanBuglyLog.swift in Sources */,
-				966D8B76442FD184016304CAE012BD10 /* WBBMScanLogManager.swift in Sources */,
-				9E6B143EEF063AAC59D5A928EC25F799 /* WBBMScanLogModel.swift in Sources */,
-				527E08EFD4BD253DE6B4543EC509A6C1 /* WBBMScanLogTool.swift in Sources */,
-				91DB0B3BB1D7FDB86A86C4E710D0FD12 /* WBBMScanSystemLog.swift in Sources */,
-				076C0A34D9157CDEA9C3783A3CD2C44A /* WBBMShellObject.swift in Sources */,
-				EEB37BE565BC3945A3E765633E5AAE12 /* WBBMSymbolSearch.swift in Sources */,
-				44AAB043BC15713EA844A4A33759E245 /* WBBMSymbolTake.swift in Sources */,
-				51C82199964D0CC8CBB662EB20BAC631 /* WBBMSymbolTool.swift in Sources */,
+				46F71C888F919D1668CDEACF2F659AF6 /* Pods-WBBladesCrashApp-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CAAD04790F3FC01A9ABF571488C4B5B8 /* Sources */ = {
+		B3E45199EE7A88D5BF4C95FAD0413A7F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2557FADA87557BA978572F097B54F1C /* Pods-WBBladesCrashApp-dummy.m in Sources */,
+				4108F1879811E78BA4A1173EBF880FAC /* Artillery.m in Sources */,
+				6436D3978C1217CA9EFEC5C62ED21667 /* ArtilleryModels.m in Sources */,
+				86CC1702422AE1092E8746AE86B4A817 /* ArtilleryOfItaly-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F0DE8D6F29807F541F904E8E54EC293F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0233812576F7E06E67FB280F00B31EA1 /* WBBladesCrash-dummy.m in Sources */,
+				A7C1145A15616FEEBB5436E1199800E2 /* WBBladesCrashManager.swift in Sources */,
+				0A9B96540A304A84B47B1EFE0AA85EDB /* WBBladesCrashModel.swift in Sources */,
+				B77B4D630E0F5A71172A84968AB591B1 /* WBBMLightSymbolTool.swift in Sources */,
+				A0B72486AC45C9EBD6C1F692A11A1DE3 /* WBBMOutputFile.swift in Sources */,
+				E7A3AAE0F97BC4D79ED156CD90B1F711 /* WBBMScanBuglyLog.swift in Sources */,
+				834DCBC9D19246DE7EC33DCAA4E650F4 /* WBBMScanLogManager.swift in Sources */,
+				F562168031D1E6C3D0B83F7516AB1C9E /* WBBMScanLogModel.swift in Sources */,
+				88DE8F8A685C720D4327D606D6574DAD /* WBBMScanLogTool.swift in Sources */,
+				B5918EA376D39FAA63E65BF70EE9B164 /* WBBMScanSystemLog.swift in Sources */,
+				FCCD21A0B79874BD5BC333DF023F1CE2 /* WBBMShellObject.swift in Sources */,
+				F5D65F80B86070BE77520176F021EA55 /* WBBMSymbolSearch.swift in Sources */,
+				7E4078688CE0613631B877AF3CFED34F /* WBBMSymbolTake.swift in Sources */,
+				B93D921524A064C202A61D7E65E81A8C /* WBBMSymbolTool.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		3679B4E4B612F5BE5FA1CA2BAAEA148F /* PBXTargetDependency */ = {
+		0B45ADF60809AACC7A9C8B164DB237E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = WBBladesCrash;
 			target = 0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */;
-			targetProxy = 7A5F894AA356E1D117645470E7B0E0CF /* PBXContainerItemProxy */;
+			targetProxy = FAB1B2A15F678E3066BBCDA2DD58BFAC /* PBXContainerItemProxy */;
 		};
-		C22090918B4826F9B953BC9F8C6F0BCC /* PBXTargetDependency */ = {
+		19643AEDD3CAF1A1A4B46A53B0ECAD8A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = WBBladesCrash;
 			target = 0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */;
-			targetProxy = 7E6C6ECEA48C2BB6D37AD44F70777CA9 /* PBXContainerItemProxy */;
+			targetProxy = F0251FFABC5FC5843A165BD5B44878F8 /* PBXContainerItemProxy */;
+		};
+		724B0D38B7B41E4A9A4D35F59C0CAC71 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ArtilleryOfItaly;
+			target = B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */;
+			targetProxy = 08D0E201514A5AC4886CB6A552B5921C /* PBXContainerItemProxy */;
+		};
+		75D6B7881B23ED9421DF85DB7F3A3B02 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ArtilleryOfItaly;
+			target = B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */;
+			targetProxy = 16AADA9FC2A9D81E70585D636698A09F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		02D50F366B686FBAE16FBD5F92501522 /* Debug */ = {
+		24F90D2BF6D157A2BD1E3321617025EA /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50BAC9C0DAD121B30A82E2A6CE6FDF3F /* WBBladesCrash.release.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBladesCrash;
+				PRODUCT_NAME = WBBladesCrash;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Release;
+		};
+		4F2670BCAC70C0AF104DC2E031E9E735 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4AAB1B8056972F72FBA916F48C0D52B6 /* ArtilleryOfItaly.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/ArtilleryOfItaly/ArtilleryOfItaly-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/ArtilleryOfItaly/ArtilleryOfItaly.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = ArtilleryOfItaly;
+				PRODUCT_NAME = ArtilleryOfItaly;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5248DC78C12CE9019C55A387025E5899 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A5EB724853C90D7B46171B0B20483471 /* WBBladesCrash.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = x86_64;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBladesCrash;
+				PRODUCT_NAME = WBBladesCrash;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Debug;
+		};
+		71A5768D2BAAACB6AEA8818A7BEE3C04 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -496,33 +727,11 @@
 			};
 			name = Debug;
 		};
-		2B900BF0038C64A726FD176741B3EFAA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				EXECUTABLE_PREFIX = lib;
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
 		7599BD86FD28576C20F8B9B6B5ACBEC9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -585,29 +794,52 @@
 			};
 			name = Debug;
 		};
-		BBA94A825F0102F512255DFBD7B53FC9 /* Release */ = {
+		7AD7ED9D1E4386C0F849452A4385DABE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 579E1A9E23A47D95AFB315BAB8CACDDF /* WBBladesCrash.release.xcconfig */;
+			baseConfigurationReference = 5D6F18B22C0A6BEC3D98DFFEE30B802A /* ArtilleryOfItaly.release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
 				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
+				GCC_PREFIX_HEADER = "Target Support Files/ArtilleryOfItaly/ArtilleryOfItaly-prefix.pch";
 				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
+				MODULEMAP_FILE = Headers/Public/ArtilleryOfItaly/ArtilleryOfItaly.modulemap;
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = WBBladesCrash;
-				PRODUCT_NAME = WBBladesCrash;
+				PRODUCT_MODULE_NAME = ArtilleryOfItaly;
+				PRODUCT_NAME = ArtilleryOfItaly;
 				PUBLIC_HEADERS_FOLDER_PATH = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.3;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9F506155724854DB57E890227F8BCD95 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = x86_64;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
 			};
 			name = Release;
 		};
@@ -615,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = x86_64;
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -673,12 +906,12 @@
 			};
 			name = Release;
 		};
-		C108221A4D9853B01EC19044E1B1C398 /* Release */ = {
+		C464200885D784804D9D1197A5CB391F /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */;
+			baseConfigurationReference = 8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = x86_64;
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -687,6 +920,29 @@
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D423137E6295D9B9E66255D53865E8BF /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = x86_64;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -696,63 +952,14 @@
 			};
 			name = Release;
 		};
-		CBB6FAC539D52CACD34A631C6A938F2A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				EXECUTABLE_PREFIX = lib;
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		E955CA4C945411171F9D6D10478E7AA4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5CC07CA6A32C93BE27BEC344CC5A932A /* WBBladesCrash.debug.xcconfig */;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				EXECUTABLE_PREFIX = lib;
-				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
-				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = WBBladesCrash;
-				PRODUCT_NAME = WBBladesCrash;
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.3;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0003580C88CAE2A4F4421A5CB28AAA61 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */ = {
+		3DDA19F44F79DED715C58D3988AA6083 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				02D50F366B686FBAE16FBD5F92501522 /* Debug */,
-				2B900BF0038C64A726FD176741B3EFAA /* Release */,
+				C464200885D784804D9D1197A5CB391F /* Debug */,
+				9F506155724854DB57E890227F8BCD95 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -766,20 +973,29 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A7E2A75D672A9D462DF6FFC611B9F02A /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */ = {
+		49FCDA920635915E5E3E355D91598DC8 /* Build configuration list for PBXNativeTarget "ArtilleryOfItaly" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				CBB6FAC539D52CACD34A631C6A938F2A /* Debug */,
-				C108221A4D9853B01EC19044E1B1C398 /* Release */,
+				4F2670BCAC70C0AF104DC2E031E9E735 /* Debug */,
+				7AD7ED9D1E4386C0F849452A4385DABE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B71CB67C3E765816BF4FC26A447F258D /* Build configuration list for PBXNativeTarget "WBBladesCrash" */ = {
+		641B7938C6A7AD22FBE6B20EF2FC739F /* Build configuration list for PBXNativeTarget "WBBladesCrash" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E955CA4C945411171F9D6D10478E7AA4 /* Debug */,
-				BBA94A825F0102F512255DFBD7B53FC9 /* Release */,
+				5248DC78C12CE9019C55A387025E5899 /* Debug */,
+				24F90D2BF6D157A2BD1E3321617025EA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		791C18DB946945FDE26D988B5EBA6FC8 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71A5768D2BAAACB6AEA8818A7BEE3C04 /* Debug */,
+				D423137E6295D9B9E66255D53865E8BF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

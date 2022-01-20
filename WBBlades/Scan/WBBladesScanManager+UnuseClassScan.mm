@@ -22,6 +22,7 @@
 #import "WBBladesDefines.h"
 #import "capstone.h"
 #import "WBBladesCMD.h"
+#import "ArtilleryModels.h"
 
 @implementation WBBladesScanManager (UnuseClassScan)
 

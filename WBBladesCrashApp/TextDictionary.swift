@@ -10,8 +10,8 @@ import Foundation
 import AppKit
 
 enum Language: NSInteger{
-    case english = 0
-    case chinese
+    case chinese = 0
+    case english
 }
 class TextDictionary {
     static var _mode: Language?
@@ -30,10 +30,10 @@ class TextDictionary {
             self.languageKey = languageKey
         }
         get{
-            return _mode ?? .english
+            return _mode ?? .chinese
         }
     }
-    static var languageKey: String = "eng"
+    static var languageKey: String = "chinese"
     static var textDictionary: Dictionary<String,Any>?
     
     class func valueForKey(key: String) -> String{
