@@ -28,6 +28,7 @@ class WBBMOutputFile {
         
         var resultString = String()
         resultString.append("\(detailModel.headerLogString)\n\n")
+        resultString.append("Triggered Thread: \(logResultModel.detailModel.triggeredThread)\n\n")
         
         //appending the string
         for threadModel in detailModel.threadInfoArray  {

@@ -71,10 +71,17 @@ open class WBBladesCrashManager{
         }
     }
     
+    /**
+     *  stop analyzing
+     *  @param logModel              analyzed log model
+     */
     open class func stopAnalyze(logModel: WBBMLogModel) -> Void{
         WBBMSymbolTool.stopAnalyze(logModel: logModel)
     }
     
+    /**
+     *  clean all caches
+     */
     open class func cleanAllCache() -> Void{
         WBBMOutputFile.cleanAllCache()
     }
