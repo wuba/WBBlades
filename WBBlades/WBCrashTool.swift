@@ -12,6 +12,10 @@ import WBBladesCrash
 @objc public class WBCrashTool: NSObject{
     static var logModel: WBBMLogModel?
     
+    /**
+     *  scan the log type
+     *  @param  logPath          the original log path
+     */
     @objc class func scanCrash(logPath: NSString?) -> Bool{
         guard let path = logPath, path.length > 0 else{
             crashErrorPrint(string: "No such file or directory.")
@@ -34,6 +38,10 @@ import WBBladesCrash
         return true
     }
     
+    /**
+     *  analyze the crash log
+     *  @param  symbolPath          the symbol table file path
+     */
     @objc class func startSymbolicate(symbolPath: NSString?){
         guard let path = symbolPath as String?, path.count > 0 else{
             print("No such file or directory.")
@@ -58,11 +66,19 @@ import WBBladesCrash
         }
     }
     
+    /**
+     *  console print error message
+     *  @param  string         message
+     */
     class func crashErrorPrint(string: String){
         let redColor = "\u{001B}[0;31m"
         print(redColor + string);
     }
     
+    /**
+     *  console print normal message
+     *  @param  string         message
+     */
     class func crashNormalPrint(string: String){
         let whiteColor = "\u{001B}[0;37m"
         print(whiteColor + string);

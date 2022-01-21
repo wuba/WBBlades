@@ -1,16 +1,21 @@
 PODS:
-  - WBBrightMirror (1.0)
+  - ArtilleryOfItaly (1.0)
+  - WBBladesCrash (1.0)
 
 DEPENDENCIES:
-  - WBBrightMirror (from `./WBBrightMirror`)
+  - ArtilleryOfItaly (from `./ArtilleryOfItaly`)
+  - WBBladesCrash (from `./WBBladesCrash`)
 
 EXTERNAL SOURCES:
-  WBBrightMirror:
-    :path: "./WBBrightMirror"
+  ArtilleryOfItaly:
+    :path: "./ArtilleryOfItaly"
+  WBBladesCrash:
+    :path: "./WBBladesCrash"
 
 SPEC CHECKSUMS:
-  WBBrightMirror: d329fce16d782019505a0d807ce45eead19c7c3b
+  ArtilleryOfItaly: 7c7fb0a3a7551c45991bb10bcbe779d2a54ca8e6
+  WBBladesCrash: 9a717e5d9ed91c572f0e166ed5b70c728c26738b
 
-PODFILE CHECKSUM: b91852cfaf0db83653308ec6e7daa795fdd69aa0
+PODFILE CHECKSUM: 360bb39d8b38c1647c3183b43c40f98abc9205e5
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

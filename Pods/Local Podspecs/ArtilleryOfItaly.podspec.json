@@ -1,0 +1,29 @@
+{
+  "name": "ArtilleryOfItaly",
+  "version": "1.0",
+  "summary": "ArtilleryOfItaly",
+  "description": "xxxxxx",
+  "homepage": "git@igit.58corp.com:dengzhuli/ArtilleryOfItaly.git",
+  "source": {
+    "git": "git@igit.58corp.com:dengzhuli/ArtilleryOfItaly.git",
+    "branch": "1.0"
+  },
+  "license": {
+    "type": "58license",
+    "text": "\n"
+  },
+  "authors": "58tongcheng",
+  "requires_arc": true,
+  "platforms": {
+    "osx": "10.12"
+  },
+  "libraries": "z",
+  "resources": "ArtilleryOfItaly/ArtilleryOfItaly/Info.plist",
+  "source_files": "ArtilleryOfItaly/ArtilleryOfItaly/*.{h,m}",
+  "vendored_libraries": "ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.a",
+  "module_name": "ArtilleryOfItaly",
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBrightMirror",
+    "DEFINES_MODULE": "YES"
+  }
+}
