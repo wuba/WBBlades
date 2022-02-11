@@ -17,7 +17,13 @@ let package = Package(
     targets: [
         .target(
             name: "libCapstone",
-            path: "WBBlades/Capstone"
+            path: "WBBlades/Capstone",
+            cSettings: [
+                .define("__STDC_CONSTANT_MACROS"),
+                .define("__STDC_LIMIT_MACROS"),
+                .define("__STDC_FORMAT_MACROS"),
+                .define("CAPSTONE_HAS_ARM64")
+            ]
         ),
         .target(
             name: "blades",
@@ -30,6 +36,9 @@ let package = Package(
                 .headerSearchPath("Model"),
                 .headerSearchPath("Link"),
                 .headerSearchPath("Scan")
+            ],
+            linkerSettings: [
+                .linkedLibrary("swiftDemangle")
             ]
         )
     ],
