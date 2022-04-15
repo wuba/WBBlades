@@ -194,6 +194,9 @@ static NSArray *symbols;
             if ([usedClasses containsObject:demangleName] && demangleName.length > 0) {
                 [usedClasses addObject:className];
             }
+        } else if ([className hasPrefix:@"PodsDummy_"]) {
+            //过滤掉PodsDummy_开头的无效类
+            [usedClasses addObject:className];
         }
     }];
         
