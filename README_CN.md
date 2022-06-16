@@ -66,16 +66,6 @@ $ sudo make install
 - 如果你的app是debug包或者没有剥离符号表的包，那么可以通过`dsymutil app -o xx.dSYM `来提取符号表。然后用符号表进行日志符号化。
 - 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化。
 
-
-
-## Developing for WBBlades
-
-邓竹立
-
-## Contributing for WBBlades
-
-邓竹立，彭飞，朴惠姝，曾庆隆，林雅明
-
 ## 如何贡献&反馈问题
 
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
