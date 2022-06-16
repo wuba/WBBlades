@@ -73,14 +73,6 @@ In the case of losing the dSYM file, try to restore the log via `blades -symbol`
 
 - This tool only supports ObjC, and its principle is to determine the function of the crash by analyzing the address of the ObjC method in Mach-O. Therefore, it is not suitable for Swfit, C, and C++. In addition, tools are not omnipotent, and are only used as emergency supplementary technical means. In daily situations, it is recommended to use symbol tables for log symbolization.
 
-## Developer for WBBlades
-
-邓竹立
-
-## Contributors for WBBlades
-
-邓竹立，彭飞，朴惠姝，曾庆隆，林雅明
-
 ## Contributing & Feedback
 
 We sincerely hope that developers can provide valuable comments and suggestions, and developers can provide feedback on suggestions and problems by submitting PR or Issue.
