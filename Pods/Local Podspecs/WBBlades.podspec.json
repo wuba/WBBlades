@@ -1,0 +1,61 @@
+{
+  "name": "WBBlades",
+  "version": "11.2.0",
+  "summary": "WBBlades",
+  "homepage": "http",
+  "description": "WBBlades",
+  "license": {
+    "type": "license",
+    "text": "\n"
+  },
+  "header_dir": "WBBlades",
+  "authors": "WBBlades",
+  "platforms": {
+    "osx": "10.12"
+  },
+  "requires_arc": true,
+  "source": {
+    "git": "xxx@xxx.xxx.com:xxx/xxx.git",
+    "branch": "11.2.0"
+  },
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBlades"
+  },
+  "dependencies": {
+    "WBBladesCrash": [
+
+    ]
+  },
+  "subspecs": [
+    {
+      "name": "Capstone",
+      "source_files": "Capstone/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "private_header_files": "Capstone/**/*.{h}",
+      "xcconfig": {
+        "GCC_PREPROCESSOR_DEFINITIONS": "$(inherited) CAPSTONE_HAS_ARM64=1"
+      },
+      "requires_arc": true
+    },
+    {
+      "name": "Link",
+      "source_files": "Link/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "requires_arc": true
+    },
+    {
+      "name": "Model",
+      "source_files": "Model/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "requires_arc": true
+    },
+    {
+      "name": "Scan",
+      "source_files": "Scan/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "requires_arc": true
+    },
+    {
+      "name": "Tools",
+      "source_files": "Tools/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "private_header_files": "Tools/WBBladesTool.h",
+      "requires_arc": true
+    }
+  ]
+}

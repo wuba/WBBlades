@@ -23,12 +23,12 @@
 + (NSArray *)readStrings:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
     range = NSMakeRange(NSMaxRange(range), len);
     NSMutableArray *strings = [NSMutableArray array];
-    
+
     unsigned long size = 0;
     uint8_t *buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
     [fileData getBytes:buffer range:range];
     uint8_t *p = buffer;
-    
+
     while (size < len) {
         NSString *str = NSSTRING(p);
         str = [self replaceEscapeCharsInString:str];
@@ -62,23 +62,23 @@
 + (int64_t)readSLEB128:(NSRange &)range fromFile:(NSData *)fileData{
     range.location = NSMaxRange(range);
     uint8_t * p = (uint8_t *)[fileData bytes] + range.location, *start = p;
-    
+
     int64_t result = 0;
     int bit = 0;
     uint8_t byte;
-    
+
     do {
         byte = *p++;
         result |= ((byte & 0x7f) << bit);
         bit += 7;
     } while (byte & 0x80);
-    
+
     // sign extend negative numbers
     if ( (byte & 0x40) != 0 )
     {
         result |= (-1LL) << bit;
     }
-    
+
     range.length = (p - start);
     return result;
 }
@@ -86,13 +86,13 @@
 + (uint64_t)readULEB128:(NSRange &)range fromFile:(NSData *)fileData{
     range.location = NSMaxRange(range);
     uint8_t * p = (uint8_t *)[fileData bytes] + range.location, *start = p;
-    
+
     uint64_t result = 0;
     int bit = 0;
-    
+
     do {
         uint64_t slice = *p & 0x7f;
-        
+
         if (bit >= 64 || slice << bit >> bit != slice)
             [NSException raise:@"uleb128 error" format:@"uleb128 too big"];
         else {
@@ -101,7 +101,7 @@
         }
     }
     while (*p++ & 0x80);
-    
+
     range.length = (p - start);
     return result;
 }
@@ -136,7 +136,7 @@
 }
 
 + (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size {
-    
+    NSLog(@"fileData lenth is %d begin:%d  size:%d",fileData.length, begin, size);
     // Get compilation.
     csh cs_handle = 0;
     cs_err cserr;
@@ -148,10 +148,10 @@
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
     //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-    
+
     unsigned long long ins_count = size / 4;
     unsigned long long step = ins_count / 8;
-    
+
     static cs_insn* tmp[8];
     static size_t tmp_count[8];
     dispatch_apply(8, dispatch_get_global_queue(0, 0), ^(size_t index) {
@@ -180,7 +180,7 @@
         memmove(start, tmp[i+1], tmp_count[i+1] * sizeof(cs_insn));
         free(tmp[i+1]);
     }
-    
+
     return all;
 }
 
@@ -194,12 +194,12 @@
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
+
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             if (index == i) {
-                
+
                 free(cmd);
                 return segmentCommand.vmaddr;
             }
@@ -214,18 +214,18 @@
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     dyld_info_command dyldInfoCmd;
-    
+
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
+
         if (cmd->cmd == LC_DYLD_INFO ||
             cmd->cmd == LC_DYLD_INFO_ONLY) {
             dyld_info_command segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(dyld_info_command))];
             dyldInfoCmd = segmentCommand;
-            
+
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -242,7 +242,7 @@
 
 
 + (NSDictionary *)dynamicBindingInfoWithOffset:(unsigned long long)offset size:(unsigned long long)size isLazyBind:(BOOL)isLazyBind fromFile:(NSData *)fileData{
-    
+
     NSMutableDictionary *bindInfoDic = [NSMutableDictionary dictionary];
     //code from macoview
     uint8_t byte;
@@ -256,10 +256,10 @@
             range.location = NSMaxRange(range);
             range.length = 1;
             [fileData getBytes:&byte range:range];
-            
+
             uint8_t opcode = byte & BIND_OPCODE_MASK;
             uint8_t immediate = byte & BIND_IMMEDIATE_MASK;
-            
+
             switch (opcode) {
                 case BIND_OPCODE_DONE:{
                     end = isLazyBind?YES:NO;
@@ -345,15 +345,15 @@
 }
 
 + (unsigned long long)getOffsetFromVmAddress:(unsigned long long )address fileData:(NSData *)fileData{
-    
+
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
-    
+
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
+
         if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
@@ -365,12 +365,12 @@
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
-    
+
     return address;
 }
 
 + (section_64)getTEXTConst:(unsigned long long )address fileData:(NSData *)fileData{
-    
+
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
     section_64 textConst = {0};
@@ -378,7 +378,7 @@
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command cmd;// (load_command *)malloc(sizeof(load_command));
         [fileData getBytes:&cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-        
+
         if (cmd.cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
             segment_command_64 segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
@@ -398,13 +398,13 @@
         }
         currentLcLocation += cmd.cmdsize;
     }
-    
+
     return textConst;
 }
 
 //judge whether the file is supported
 + (BOOL)isSupport:(NSData *)fileData {
-    
+
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic) {
         case FAT_MAGIC: //fat binary file
@@ -414,13 +414,13 @@
         {
             NSLog(@"fat binary");
         } break;
-            
+
         case MH_MAGIC: //32 bit mach-o
         case MH_CIGAM:
         {
             NSLog(@"32位 Mach-O");
         } break;
-            
+
         case MH_MAGIC_64://64 bit mach-o
         case MH_CIGAM_64:
         {
@@ -443,7 +443,7 @@
 }
 
 + (BOOL)isMachO:(NSData *)fileData {
-    
+
     uint32_t magic = *(uint32_t*)((uint8_t *)[fileData bytes]);
     switch (magic) {
         case FAT_MAGIC: //fat binary file
@@ -487,7 +487,7 @@
     }else if((type.Flag & 0x1f) == SwiftKindOpaqueType){
         return SwiftKindOpaqueType;
     }
-    
+
     return SwiftKindUnknown;
 }
 
@@ -539,7 +539,7 @@
 
 + (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData{
     SwiftKind kindType = [WBBladesTool getSwiftType:type];
-    
+
     uintptr_t typeNameOffset = 0;
     uintptr_t typeParent = 0;
     if (kindType == SwiftKindClass) {
@@ -547,7 +547,7 @@
         NSRange range = NSMakeRange(offset, 0);
         NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassTypeNoMethods) fromFile:fileData];
         [data getBytes:&classType length:sizeof(SwiftClassTypeNoMethods)];
-        
+
         typeNameOffset = classType.Name;
         typeParent = offset + 4 + classType.Parent;
     }else if(kindType == SwiftKindStruct){
@@ -555,7 +555,7 @@
         NSRange range = NSMakeRange(offset, 0);
         NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftStructType) fromFile:fileData];
         [data getBytes:&structType length:sizeof(SwiftStructType)];
-        
+
         typeNameOffset = structType.Name;
         typeParent = offset + 4 + structType.Parent;
     }else if(kindType == SwiftKindEnum){
@@ -563,7 +563,7 @@
         NSRange range = NSMakeRange(offset, 0);
         NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftEnumType) fromFile:fileData];
         [data getBytes:&enumType length:sizeof(SwiftEnumType)];
-        
+
         typeNameOffset = enumType.Name;
         typeParent = offset + 4 + enumType.Parent;
     }else if(kindType == SwiftKindProtocol){
@@ -571,31 +571,31 @@
         NSRange range = NSMakeRange(offset, 0);
         NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftProtocolType) fromFile:fileData];
         [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
-        
+
         typeNameOffset = protosType.Name;
         typeParent = offset + 4 + protosType.Parent;
     }
-    
+
     uintptr_t  nameOffset = offset + 8 + typeNameOffset;
-    
+
     if (nameOffset > fileData.length) {
         return @"";
     }
-    
+
     uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
     [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
     NSString *typeName = NSSTRING(buffer);
     free(buffer);
-    
+
     if (typeParent > vm) {
         typeParent = typeParent - vm;
     }
-    
+
     SwiftType parentType = {0};
     NSRange range = NSMakeRange(typeParent, 0);
     NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
     [data getBytes:&parentType length:sizeof(SwiftType)];
-    
+
     SwiftKind parentKindType = [WBBladesTool getSwiftType:parentType];
     if (parentKindType != SwiftKindModule) {
        NSString *parentName = [self getSwiftTypeNameWithSwiftType:parentType Offset:typeParent vm:vm fileData:fileData];
@@ -603,7 +603,7 @@
             typeName = [NSString stringWithFormat:@"%@.%@",parentName,typeName];
         }
     }
-    
+
     return typeName;
 }
 
@@ -626,7 +626,7 @@
 
 + (NSString *)getDemangleName:(NSString *)mangleName{
     int (*swift_demangle_getDemangledName)(const char *,char *,int ) = (int (*)(const char *,char *,int))dlsym(RTLD_DEFAULT, "swift_demangle_getDemangledName");
-    
+
     if (swift_demangle_getDemangledName) {
         char *demangleName = (char *)malloc(201);
         memset(demangleName, 0, 201);
@@ -642,7 +642,7 @@
 
 + (NSString *)getDemangleNameWithCString:(char *)mangleName{
     int (*swift_demangle_getDemangledName)(const char *,char *,int ) = (int (*)(const char *,char *,int))dlsym(RTLD_DEFAULT, "swift_demangle_getDemangledName");
-    
+
     if (swift_demangle_getDemangledName) {
         char *demangleName = (char *)malloc(201);
         int length = 201;
@@ -664,10 +664,10 @@
     for (uintptr_t i = 0; i < length; i++) {
         ptr1 = result + i;
         ptr2 = data + (length - i - 1);
-        
+
         memset(ptr1, (UInt8)*(char*)ptr2, 1);
     }
-    
+
     return result;
 }
 
@@ -683,10 +683,10 @@
  3 * 4 * (requeireCount) B
  */
 + (short)addPlaceholderWithGeneric:(unsigned long long)typeOffset fileData:(NSData*)fileData{
-    
+
     SwiftType swiftType;
     [fileData getBytes:&swiftType range:NSMakeRange(typeOffset, sizeof(SwiftType))];
-    
+
     if (![self isGeneric:swiftType]) {
         return 0;
     }
@@ -704,16 +704,16 @@
     }else{
         return 0;
     }
-    
+
     short paramsCount = 0;
     short requeireCount = 0;
-    
+
     [fileData getBytes:&paramsCount range:NSMakeRange(typeOffset + front, sizeof(short))];
     [fileData getBytes:&requeireCount range:NSMakeRange(typeOffset + front + 2, sizeof(short))];
-    
+
     //4字节对齐
     short pandding = (unsigned)-paramsCount & 3;
-    
+
     return (header  + paramsCount + pandding + 3 * 4 * (requeireCount));
 //    return (16 + paramsCount + pandding + 3 * 4 * (requeireCount) + 4);
 
@@ -739,7 +739,7 @@
 }
 
 + (UInt32)sectionFlagsWithIndex:(int)index fileData:(NSData *)fileData{
-    
+
     static NSMutableDictionary *sectionDic = @{}.mutableCopy;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -750,7 +750,7 @@
         for (int i = 0; i < mhHeader.ncmds; i++) {
             load_command* cmd = (load_command *)malloc(sizeof(load_command));
             [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
-            
+
             if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
                 segment_command_64 segmentCommand;
                 [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
@@ -771,3 +771,4 @@
 }
 
 @end
+

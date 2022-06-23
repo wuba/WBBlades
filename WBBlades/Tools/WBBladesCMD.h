@@ -15,8 +15,8 @@ extern "C" {
 /**
  * Input file path, strip the symbol table.
  */
-void stripFile(NSString *filePath);
-
+void stripBitCode(NSString *filePath);
+void stripDysmSymbol(NSString *filePath);
 /**
  * Input file path, copy the file.
  */
@@ -41,10 +41,6 @@ void removeCopyFile(NSString *filePath);
  * Compile xcassert resources.
  */
 void compileXcassets(NSString *path);
-/**
- app slicing 3X for Assets.Car
- */
-void appSlicing3XAssetsCar(NSString *path, NSString *thinName);
 
 /**
  * Color printing to console.

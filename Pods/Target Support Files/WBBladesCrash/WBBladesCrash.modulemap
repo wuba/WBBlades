@@ -1,0 +1,6 @@
+module WBBladesCrash {
+  umbrella header "WBBladesCrash-umbrella.h"
+
+  export *
+  module * { export * }
+}

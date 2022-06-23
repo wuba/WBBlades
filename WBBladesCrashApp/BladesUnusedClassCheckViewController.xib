@@ -1,0 +1,409 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BladesUnusedClassCheckViewController" customModule="WBBladesCrashApp" customModuleProvider="target">
+            <connections>
+                <outlet property="appPathTextField" destination="EBg-zO-1Ef" id="n5n-Hk-14N"/>
+                <outlet property="helpIconBtn" destination="JP1-Zo-H0U" id="O7r-Sr-AXV"/>
+                <outlet property="helpLinkBtn" destination="cfr-wJ-DM7" id="d4w-pg-elm"/>
+                <outlet property="progressTipsLabel" destination="cN7-EX-R47" id="Ptc-Le-jF8"/>
+                <outlet property="resetButton" destination="TBX-oL-VIL" id="IsR-iF-6JE"/>
+                <outlet property="resultLogTextView" destination="qNW-A0-RYq" id="wpW-cD-JB9"/>
+                <outlet property="selectedLibPathTextField" destination="9Iu-cv-Z9o" id="hcX-Iv-42Y"/>
+                <outlet property="selectedLibPathTextView" destination="6PV-9g-h6B" id="JeR-0L-WXx"/>
+                <outlet property="specfiedLibDescLabel2" destination="7Gk-cM-qSI" id="4FF-WT-C6v"/>
+                <outlet property="specifiedLibDescLabel" destination="AcY-iJ-di1" id="nco-cr-tF6"/>
+                <outlet property="startCheckButton" destination="6wj-l9-4Pf" id="eXD-nQ-dZb"/>
+                <outlet property="unusedClassCheckTitleLabel" destination="wfk-IW-upT" id="trE-80-Fyz"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="780" height="600"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button verticalHuggingPriority="750" id="NGg-KO-4Ls">
+                    <rect key="frame" x="20" y="563" width="15" height="20"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSGoBackTemplate" imagePosition="only" imageScaling="proportionallyUpOrDown" inset="2" id="T7Y-XG-Qny">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <color key="contentTintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <action selector="goback:" target="-2" id="6t2-yB-eQd"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="EBg-zO-1Ef">
+                    <rect key="frame" x="20" y="503" width="600" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="UXk-r3-u34"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="请拖入待检测的.app或.ipa文件" drawsBackground="YES" id="FOq-f8-DdG">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wfk-IW-upT">
+                    <rect key="frame" x="355" y="561" width="71" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="无用类检测" id="s2v-n1-L8n">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.84705882352941175" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0y8-2m-DaC">
+                    <rect key="frame" x="20" y="40" width="600" height="391"/>
+                    <clipView key="contentView" drawsBackground="NO" id="6rU-6B-lnt">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="391"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="qNW-A0-RYq">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="391"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="600" height="391"/>
+                                <size key="maxSize" width="714" height="10000000"/>
+                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="b2F-JQ-pUA">
+                        <rect key="frame" x="-100" y="-100" width="699" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="ItY-Ne-0qZ">
+                        <rect key="frame" x="-100" y="-100" width="15" height="405"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="886-xx-GUO" customClass="SYFlatButton">
+                    <rect key="frame" x="211" y="449" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="30" id="AnP-Ab-xo9"/>
+                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="30" id="RZS-Gr-8aQ"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyUpOrDown" inset="2" id="48G-bg-6Pb">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <integer key="value" value="15"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="2"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="imageNormalColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="imageHighlightColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="0.0" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="0.20000000000000001" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="spacing">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="addSlectedLibPathAction:" target="-2" id="uhG-jn-ujl"/>
+                    </connections>
+                </button>
+                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gzS-1A-2Vr">
+                    <rect key="frame" x="369" y="445" width="251" height="34"/>
+                    <clipView key="contentView" drawsBackground="NO" id="p0i-Lb-7vA">
+                        <rect key="frame" x="0.0" y="0.0" width="251" height="34"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="6PV-9g-h6B">
+                                <rect key="frame" x="0.0" y="0.0" width="251" height="34"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="251" height="34"/>
+                                <size key="maxSize" width="602" height="10000000"/>
+                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="34" id="gFi-UN-HGi"/>
+                    </constraints>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="FsY-ft-rjP">
+                        <rect key="frame" x="-100" y="-100" width="225" height="15"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="3Sx-yY-AFV">
+                        <rect key="frame" x="-100" y="-100" width="15" height="38"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <customView translatesAutoresizingMaskIntoConstraints="NO" id="Ybh-zy-Ys9">
+                    <rect key="frame" x="20" y="0.0" width="600" height="32"/>
+                    <subviews>
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cN7-EX-R47">
+                            <rect key="frame" x="-2" y="0.0" width="248" height="27"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="244" id="9NF-dV-zVn"/>
+                            </constraints>
+                            <textFieldCell key="cell" lineBreakMode="clipping" id="df9-9K-6db">
+                                <font key="font" usesAppearanceFont="YES"/>
+                                <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <button verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cfr-wJ-DM7" customClass="SYFlatButton">
+                            <rect key="frame" x="160" y="-5" width="151" height="32"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="140" id="dZA-QQ-pDb"/>
+                                <constraint firstAttribute="height" constant="32" id="zdY-1F-Plc"/>
+                            </constraints>
+                            <buttonCell key="cell" type="square" title="     如何使用无用类" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="BJL-y7-JLr">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" size="13" name=".PingFangSC-Regular"/>
+                            </buttonCell>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                                <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                                    <real key="value" value="0.25"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                                    <real key="value" value="0.25"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                    <real key="value" value="4"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                                    <real key="value" value="1"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                                    <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                                    <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                                    <color key="value" red="0.0" green="0.40000000000000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                                <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                                    <color key="value" red="0.20000000000000001" green="0.59999999999999998" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                </userDefinedRuntimeAttribute>
+                            </userDefinedRuntimeAttributes>
+                            <connections>
+                                <action selector="helpLinkBtnClick:" target="-2" id="7Wb-Mi-VUY"/>
+                            </connections>
+                        </button>
+                        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JP1-Zo-H0U">
+                            <rect key="frame" x="165" y="-3" width="25" height="25"/>
+                            <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xq1-VW-ov0">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                    </subviews>
+                    <constraints>
+                        <constraint firstItem="cfr-wJ-DM7" firstAttribute="centerY" secondItem="Ybh-zy-Ys9" secondAttribute="centerY" id="1rA-v0-SzQ"/>
+                        <constraint firstAttribute="bottom" secondItem="cN7-EX-R47" secondAttribute="bottom" id="3ba-gu-Xa2"/>
+                        <constraint firstItem="cfr-wJ-DM7" firstAttribute="top" secondItem="Ybh-zy-Ys9" secondAttribute="top" constant="5" id="7MP-Lq-AD8"/>
+                        <constraint firstAttribute="height" constant="32" id="MZV-h2-y0b"/>
+                        <constraint firstItem="JP1-Zo-H0U" firstAttribute="centerY" secondItem="cfr-wJ-DM7" secondAttribute="centerY" id="Plx-Ja-1bL"/>
+                        <constraint firstItem="cN7-EX-R47" firstAttribute="top" secondItem="Ybh-zy-Ys9" secondAttribute="top" constant="5" id="YKS-jd-Ibh"/>
+                        <constraint firstItem="cN7-EX-R47" firstAttribute="leading" secondItem="Ybh-zy-Ys9" secondAttribute="leading" id="wrI-3u-q3k"/>
+                    </constraints>
+                </customView>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Iu-cv-Z9o">
+                    <rect key="frame" x="20" y="445" width="174" height="38"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="174" id="1gl-lj-JG3"/>
+                        <constraint firstAttribute="height" constant="38" id="ElA-nt-B7B"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="ZQg-7z-8xx">
+                        <font key="font" metaFont="system"/>
+                        <string key="placeholderString">请拖入指定静态库(可选)
+并点击右侧添加按钮</string>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AcY-iJ-di1">
+                    <rect key="frame" x="245" y="460" width="111" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="添加后从指定的静" id="hw4-Hg-VTl">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="6wj-l9-4Pf" customClass="SYFlatButton">
+                    <rect key="frame" x="660" y="502" width="74" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="74" id="TBm-ho-L7M"/>
+                        <constraint firstAttribute="height" constant="38" id="cpm-Gc-bWd"/>
+                    </constraints>
+                    <buttonCell key="cell" type="smallSquare" title="开始检测" bezelStyle="smallSquare" image="NSAddTemplate" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="R3K-Ut-uYk">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                            <color key="value" red="0.91764705882352937" green="0.25882352941176467" blue="0.21568627450980393" alpha="0.5162458609271523" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                            <color key="value" red="0.91764705882352937" green="0.25882352941176467" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="0.94509803921568625" green="0.5725490196078431" blue="0.22745098039215686" alpha="0.5490196078431373" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="0.94509803921568625" green="0.5725490196078431" blue="0.22745098039215686" alpha="0.54901960780000003" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="beginScanUnusedClass:" target="-2" id="aVS-TS-BYO"/>
+                    </connections>
+                </button>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Gk-cM-qSI">
+                    <rect key="frame" x="245" y="443" width="124" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" lineBreakMode="truncatingTail" title="态库中分析无用类:" id="FWG-2m-bJ4">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="TBX-oL-VIL" customClass="SYFlatButton">
+                    <rect key="frame" x="660" y="442" width="74" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="38" id="C5j-cb-ZDH"/>
+                        <constraint firstAttribute="width" constant="74" id="Suk-vp-dbg"/>
+                    </constraints>
+                    <buttonCell key="cell" type="smallSquare" title="重置" bezelStyle="smallSquare" image="NSAddTemplate" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="B9s-iQ-thD">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                            <color key="value" red="0.68235294117647061" green="0.35523084232517005" blue="0.30515800069047616" alpha="0.51624586090000002" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                            <color key="value" red="0.86580288362993196" green="0.33514155661088429" blue="0.29780505952380953" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="0.94509803920000002" green="0.52514255701496604" blue="0.5812721963863946" alpha="0.54901960780000003" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="0.94509803920000002" green="0.7518910689197279" blue="0.54537189876734693" alpha="0.54901960780000003" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="resetButtonDidClick:" target="-2" id="tiV-GI-Gn7"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="9Iu-cv-Z9o" firstAttribute="top" secondItem="EBg-zO-1Ef" secondAttribute="bottom" constant="20" id="0OD-p9-egM"/>
+                <constraint firstItem="EBg-zO-1Ef" firstAttribute="trailing" secondItem="Hz6-mo-xeY" secondAttribute="trailing" constant="-160" id="0lq-vc-kzP"/>
+                <constraint firstItem="gzS-1A-2Vr" firstAttribute="right" secondItem="Hz6-mo-xeY" secondAttribute="right" constant="-160" id="3b8-v7-5BY"/>
+                <constraint firstItem="wfk-IW-upT" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="23" id="54K-lS-ynR"/>
+                <constraint firstItem="0y8-2m-DaC" firstAttribute="trailing" secondItem="Hz6-mo-xeY" secondAttribute="trailing" constant="-160" id="5nf-Aa-ew0"/>
+                <constraint firstItem="TBX-oL-VIL" firstAttribute="centerY" secondItem="gzS-1A-2Vr" secondAttribute="centerY" id="D4Z-Xe-mhM"/>
+                <constraint firstItem="886-xx-GUO" firstAttribute="centerY" secondItem="9Iu-cv-Z9o" secondAttribute="centerY" id="Fdk-2q-qD0"/>
+                <constraint firstItem="EBg-zO-1Ef" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="J3I-zr-GE8"/>
+                <constraint firstItem="9Iu-cv-Z9o" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="N3H-Ea-tH5"/>
+                <constraint firstAttribute="trailing" secondItem="6wj-l9-4Pf" secondAttribute="trailing" constant="46" id="PBi-5t-0ZX"/>
+                <constraint firstItem="0y8-2m-DaC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="Qfh-Cg-qGd"/>
+                <constraint firstItem="gzS-1A-2Vr" firstAttribute="centerY" secondItem="886-xx-GUO" secondAttribute="centerY" constant="2" id="TYN-Rv-ZzQ"/>
+                <constraint firstItem="EBg-zO-1Ef" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="59" id="X40-pB-E13"/>
+                <constraint firstItem="Ybh-zy-Ys9" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="20" id="ZUd-UP-BZa"/>
+                <constraint firstItem="Ybh-zy-Ys9" firstAttribute="trailing" secondItem="Hz6-mo-xeY" secondAttribute="trailing" constant="-160" id="duh-dM-NJ5"/>
+                <constraint firstItem="0y8-2m-DaC" firstAttribute="bottom" secondItem="Hz6-mo-xeY" secondAttribute="bottom" constant="-40" id="eRk-u9-Q51"/>
+                <constraint firstItem="Ybh-zy-Ys9" firstAttribute="bottom" secondItem="Hz6-mo-xeY" secondAttribute="bottom" id="fms-OD-aOT"/>
+                <constraint firstItem="gzS-1A-2Vr" firstAttribute="leading" secondItem="886-xx-GUO" secondAttribute="trailing" constant="128" id="geo-wh-Wh4"/>
+                <constraint firstItem="wfk-IW-upT" firstAttribute="centerX" secondItem="Hz6-mo-xeY" secondAttribute="centerX" id="gnP-1w-8dJ"/>
+                <constraint firstItem="6wj-l9-4Pf" firstAttribute="centerY" secondItem="EBg-zO-1Ef" secondAttribute="centerY" id="quf-qR-29Z"/>
+                <constraint firstItem="0y8-2m-DaC" firstAttribute="top" secondItem="9Iu-cv-Z9o" secondAttribute="bottom" constant="14" id="rvf-Mo-8IV"/>
+                <constraint firstAttribute="trailing" secondItem="TBX-oL-VIL" secondAttribute="trailing" constant="46" id="wzM-EV-DqH"/>
+                <constraint firstItem="886-xx-GUO" firstAttribute="leading" secondItem="9Iu-cv-Z9o" secondAttribute="trailing" constant="17" id="zsR-iO-fgQ"/>
+            </constraints>
+            <point key="canvasLocation" x="139" y="114"/>
+        </customView>
+        <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="UTJ-GU-3B4">
+            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fnB-KP-Bfo">
+                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                <font key="font" metaFont="system"/>
+            </buttonCell>
+            <point key="canvasLocation" x="54" y="496"/>
+        </button>
+    </objects>
+    <resources>
+        <image name="NSAddTemplate" width="14" height="13"/>
+        <image name="NSGoBackTemplate" width="10" height="14"/>
+    </resources>
+</document>

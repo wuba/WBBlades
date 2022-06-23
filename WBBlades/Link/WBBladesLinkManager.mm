@@ -59,6 +59,7 @@ typedef struct wb_objc_classdata {
 
 - (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects {
     self.linkSize = 0;
+    self.unixData = [NSMutableDictionary dictionary];
     for (WBBladesObject *object in objects) {
         self.linkSize += object.objectMachO.size;
 

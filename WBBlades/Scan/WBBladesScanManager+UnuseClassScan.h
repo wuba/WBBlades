@@ -16,8 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
  * scan specified file to find unused classes
  * @param fileData binary data
  * @param aimClasses specified class
+ * @param scanProgressBlock provide some progress info
  */
-+ (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses;
++ (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses progressBlock:(void (^)(NSString *progressInfo))scanProgressBlock;
 
 /*
 * dump binary file's classes

@@ -1,0 +1,17 @@
+
+platform :macos, "10.13"
+
+target "WBBlades" do
+   pod 'WBBladesCrash', :path => './WBBladesCrash'
+   pod 'ArtilleryOfItaly', :path => './ArtilleryOfItaly'
+   pod 'WBBlades', :path => './WBBlades'
+
+end
+
+
+target "WBBladesCrashApp" do
+   pod 'WBBladesCrash', :path => './WBBladesCrash'
+   pod 'ArtilleryOfItaly', :path => './ArtilleryOfItaly'
+   pod 'WBBlades', :path => './WBBlades'
+end
+

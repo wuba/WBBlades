@@ -1,0 +1,75 @@
+//
+//  BladesDispatchViewController.swift
+//  WBBladesCrashApp
+//
+//  Created by 竹林七闲 on 2022/4/11.
+//
+
+import Cocoa
+
+class BladesDispatchViewController: NSViewController {
+
+    @IBOutlet weak var welcomeLabel: NSTextField!
+    @IBOutlet var introduceTextView: NSTextView!
+    @IBOutlet weak var functionLabel: NSTextField!
+    @IBOutlet weak var githubStarBtn: SYFlatButton!
+    @IBOutlet weak var unusedClassBtn: SYFlatButton!
+    @IBOutlet weak var libarySizeBtn: SYFlatButton!
+    @IBOutlet weak var crashParseBtn: SYFlatButton!
+    @IBOutlet weak var libarayDependency: SYFlatButton!
+    @IBOutlet weak var languageChangeBtn: NSPopUpButton!
+    var imageView: NSImageView?
+    var backGroundView: NSView?
+    override func viewDidLoad() {
+
+        // Do view setup here.
+        super.viewDidLoad()
+        unusedClassBtn.title = TextDictionary.valueForKey(key: "unusedClassBtnTitle")
+        libarySizeBtn.title = TextDictionary.valueForKey(key: "libarySizeBtnTitle")
+        crashParseBtn.title = TextDictionary.valueForKey(key: "crashParseBtnTitle")
+        libarayDependency.title = TextDictionary.valueForKey(key: "libarayDependencyTitle")
+        functionLabel.stringValue = TextDictionary.valueForKey(key: "functionLabelTitle")
+        introduceTextView.string = TextDictionary.valueForKey(key: "introduceTextViewTitle")
+        welcomeLabel.stringValue = TextDictionary.valueForKey(key: "welcome")
+        githubStarBtn.title = TextDictionary.valueForKey(key: "gitHub")
+        languageChangeBtn.removeAllItems()
+        languageChangeBtn.addItems(withTitles: ["English","中文"])
+        if TextDictionary.mode == .chinese{
+            languageChangeBtn.selectItem(at: 1)
+        }
+        self.setBackgroudColor(color:.init(red: CGFloat(247)/CGFloat(255), green: CGFloat(247)/CGFloat(255), blue: CGFloat(247)/CGFloat(255), alpha: 1.0))
+    }
+    
+    @IBAction func libraryParseBegin(_ sender: Any) {
+        self.view.window?.contentViewController = BladesLibrarySizeViewController()
+    }
+
+    @IBAction func crashParseBegin(_ sender: Any) {
+        self.view.window?.contentViewController = NSStoryboard.main?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("ViewController")) as? NSViewController
+    }
+    
+    @IBAction func unusedClassCheck(_ sender: Any) {
+        self.view.window?.contentViewController = BladesUnusedClassCheckViewController()
+    }
+
+    @IBAction func dependencyLibsCheck(_ sender: Any) {
+        let vc = BladesLibrarySizeViewController()
+        vc.type = .dependency
+        self.view.window?.contentViewController = vc
+    }
+    
+    @IBAction func githubStarBegin(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string:"https://github.com/wuba/WBBlades")!)
+    }
+
+    @IBAction func languageChangeClicked(_ sender: NSPopUpButton) {
+        let itemIndex = sender.indexOfSelectedItem
+        if itemIndex == 0{
+            TextDictionary.mode = .english
+        }else{
+            TextDictionary.mode = .chinese
+        }
+
+        self.goBack()
+    }
+}

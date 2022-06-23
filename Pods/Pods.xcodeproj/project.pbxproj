@@ -1,0 +1,1711 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00519DB1FB534B35B77BE5B8B7624902 /* arm64.h in Headers */ = {isa = PBXBuildFile; fileRef = 90C0E40554A85086D82A00361F66C08E /* arm64.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0129B3F39B721C3A3A88BD2613DB92AC /* ArtilleryModels.m in Sources */ = {isa = PBXBuildFile; fileRef = 97049D6365E5086E385AD15179014BDC /* ArtilleryModels.m */; };
+		01FD5284066022D48955F086D1426B68 /* LEB128.h in Headers */ = {isa = PBXBuildFile; fileRef = 11329B6A983016964696B78329BA3081 /* LEB128.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0214376E300F4732C8809DEFFB4369D2 /* WBBMScanLogTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE2424DC2A4C3A60CF56080AEDB7684 /* WBBMScanLogTool.swift */; };
+		02AAAEB04A6D1FE273215FC8632580FE /* WBBladesCMD.h in Headers */ = {isa = PBXBuildFile; fileRef = 589ECBE395FA44F120E5A715DBF5ACB6 /* WBBladesCMD.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		03919E4C91BC26474C3DFB5A604D70AE /* WBBladesFileManager+StaticLibs.mm in Sources */ = {isa = PBXBuildFile; fileRef = CF4FE45322276CAA210D1C2DCAD3F90B /* WBBladesFileManager+StaticLibs.mm */; };
+		049E47860D3EFE2BB847CE29AA46DF09 /* PPCInstPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = EBBEB04466B6B30AFD5D841CCFFC0AE4 /* PPCInstPrinter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0C838CD6E9AC985D9B3C19ABA29DF763 /* AArch64InstPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = DEA0760D5F959DB5E63F77904ACBFB8F /* AArch64InstPrinter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		0DF507EBDDB6ADE7A4DE5EDC350D1721 /* Pods-WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */; };
+		10A126AEBD7DF442F886984787093DF7 /* AArch64Disassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = DB6E6FF19D64B95F49DD14A15E738623 /* AArch64Disassembler.c */; };
+		1244DEB2A3288501525A82BF9BC61919 /* WBBladesStringTab.h in Headers */ = {isa = PBXBuildFile; fileRef = D66EFC46B84BA5B11435D8B182561608 /* WBBladesStringTab.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1657F9EE187488328474A3ABD3CAD253 /* WBBladesObjectHeader.h in Headers */ = {isa = PBXBuildFile; fileRef = 022402EB89367558B2BDBE8902CC52AD /* WBBladesObjectHeader.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		17CD61C600D1603C92F0A864C9946A5C /* ARMAddressingModes.h in Headers */ = {isa = PBXBuildFile; fileRef = C69CF97E5752048F001C22EBDEB16B1E /* ARMAddressingModes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		189F56E6B598ABD327FE69F94220A0D7 /* X86Module.c in Sources */ = {isa = PBXBuildFile; fileRef = B21B6293DB854480914C530DD69F7021 /* X86Module.c */; };
+		1A902F0218DCDAED8B0CC2E9D330B9AD /* SStream.h in Headers */ = {isa = PBXBuildFile; fileRef = C698AECCFA90EC256D109B5DE744D56E /* SStream.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1BC9C88FB8C6444D0147B32FE111DBE6 /* X86InstPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C2969B085D8FA92321593D648F99A25 /* X86InstPrinter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		1D84F83E305938CC22570AB14EC918CE /* WBBlades-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = C810A7DBD4F0D802A7375D9A2DFA4D8A /* WBBlades-dummy.m */; };
+		1E87B408AA96D4F432D62885C34C3F8C /* ARMMapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 1E9CE0615CEBEC5E3E3D6413C5B6187C /* ARMMapping.c */; };
+		1FA55249B385EF9BE3DE4501B50EE15E /* utils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3F674530767BE62D872BB182A4E2E35A /* utils.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2131CFBF036103812F6DEF6C902D6B0B /* cs.c in Sources */ = {isa = PBXBuildFile; fileRef = 1B2D6281EC82DCF4AE6876EAE80AC393 /* cs.c */; };
+		23D715C43CCD72FF249F7995AAECB8D7 /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 58AE22F066ED0B32E1E142421EA1E94D /* WBBladesScanManager+CrashSymbol.mm */; };
+		25B07D6F037DA780674F557F58EDB391 /* MCDisassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7C632117D49C931C534601D9E635D9C6 /* MCDisassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		25F40FE831F46B1C4B97DE45C194F075 /* X86Mapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 26C3EB0AFB587E9DB7C51F2647190ED4 /* X86Mapping.c */; };
+		272A7498541A161761B68E61FC7837F0 /* MCRegisterInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = C932CA8457C3EB9D5D003C06C6577144 /* MCRegisterInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		2743A7574402917D46834DBEB4B9D14B /* ArtilleryOfItaly.h in Headers */ = {isa = PBXBuildFile; fileRef = F4318D751CE2ED19B9FEC5857F2DD540 /* ArtilleryOfItaly.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		29F94BE9B383391F3C6BA2C641289AF9 /* WBBMScanBuglyLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC01388CED7CC7E69F78AF7BC7F52999 /* WBBMScanBuglyLog.swift */; };
+		2D8C2EEFC143B1CDA1AB226BA66992EE /* X86ATTInstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = FF98C868A6A5A8502571E2C063022AF8 /* X86ATTInstPrinter.c */; };
+		2EDB9E174B48A6B27B75DB3E1FFF0026 /* X86Disassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = 84C1171A7767C74FCA1D54F59D1F3B54 /* X86Disassembler.c */; };
+		30C641044F52DF20626E7AA480C0A293 /* AArch64Disassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 21F03EA449DC3D830E5965E5DF81E3D4 /* AArch64Disassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		32D5E740BB0485693FA5CBF91BC1B03E /* capstone.h in Headers */ = {isa = PBXBuildFile; fileRef = 914185595ED12FC000AD8A4E1756F504 /* capstone.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		362797A66EB4607C6339DEAF28669463 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 097128AE9EE66D0641E465130697BEF3 /* utils.c */; };
+		3744FA5689F60534A2C8C875D5237F0C /* WBBladesCrash-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 3EC8B3CC4255853E98820726F3C77EEB /* WBBladesCrash-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3920D158277BB14558C40ED9B0ED8A62 /* ARMInstPrinter.h in Headers */ = {isa = PBXBuildFile; fileRef = CE2323AD1773B39DA0582DB0C68D31AB /* ARMInstPrinter.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3AF723E307626349633BEA87002512B2 /* MathExtras.h in Headers */ = {isa = PBXBuildFile; fileRef = DE242078080B059185DD01A469975F81 /* MathExtras.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3C5F367342DE34A390F0BF02BA82E881 /* inttypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CA6B0F15FFDE8DEDC9356F11A9CB24D /* inttypes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3CA1561F188B894E659A305C79760FDC /* X86DisassemblerDecoder.c in Sources */ = {isa = PBXBuildFile; fileRef = 82D190F0033A42283BF8683786E24561 /* X86DisassemblerDecoder.c */; };
+		3EA7B8E1BB704D17B245F5BB38A6EBE7 /* WBBladesCrashManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BC358FBED42B55843327C6B77A6E6F6 /* WBBladesCrashManager.swift */; };
+		3EF86414DDF94CE4F9178F2B75C99C68 /* libdwarf.h in Headers */ = {isa = PBXBuildFile; fileRef = 0764677A9C20EB98CB1D97A1562D27D3 /* libdwarf.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		3F0FC58F2AD5B43C2FEAA01B7B99A2F7 /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFAAD9D231001C2F7ED33C4EAD0AF7 /* WBBladesLinkManager.mm */; };
+		4286A83EF070F00A6EF13E16CAF90644 /* WBBladesCrash-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = F4A4B79EEFB361DBE7D9E15EE2EC40F1 /* WBBladesCrash-Bridging-Header.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4618BBC1889320F9049CCD653D0DE972 /* sparc.h in Headers */ = {isa = PBXBuildFile; fileRef = C27CDAD2742302925C95386057DB711F /* sparc.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4A55DB173E357F8CBE037CAAC777CD6B /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8360C3EBF1A725E7F23A77751A8213E1 /* WBBladesCMD.mm */; };
+		4B9C5C876007691BC0D33F04B43FACCD /* systemz.h in Headers */ = {isa = PBXBuildFile; fileRef = 01CC5A0471EF171F1428604C0EEB2372 /* systemz.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4D1986FB80870CB46792F19C6D0B9C92 /* WBBladesScanManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 0C4BA28E12AC8EBD875D53A26D86A190 /* WBBladesScanManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4D5684C8EF53382A96AE002A9E960EB3 /* X86Disassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 691916C96DA9DE95BD0B00B055CF6862 /* X86Disassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		4E26D953BE9DE763B4CB678C3FF4E40E /* ARMDisassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = 6BB19C46E851CBB557B4D3CD2FF49213 /* ARMDisassembler.c */; };
+		50F0B163F9D2F552EF833C6470CDF9FD /* X86Mapping.h in Headers */ = {isa = PBXBuildFile; fileRef = C3FEEA964022E81E1523D354110F495A /* X86Mapping.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		5651566F0C82A33ABC5DF0C4F8FE710E /* platform.h in Headers */ = {isa = PBXBuildFile; fileRef = 72C10B37CD22808D1F4BB231B1436A52 /* platform.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		578C0F4DDFA19425B7D4087ACF4BD353 /* WBBMOutputFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2355BED506E9234ED185CAA6CD171F42 /* WBBMOutputFile.swift */; };
+		58ACD98A9A439FED7B6F23D4F64589E3 /* WBBladesSymTab.h in Headers */ = {isa = PBXBuildFile; fileRef = 48DC71B53F34AF4C932AAFD5A75FCF2E /* WBBladesSymTab.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		5D04643D0D4A2CABF464F56668330D76 /* WBBladesScanManager+UnuseClassScan.h in Headers */ = {isa = PBXBuildFile; fileRef = 91D137CD59112A9D1E536FE52368FF7E /* WBBladesScanManager+UnuseClassScan.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		5DBACFCB4C7B6EFFDA5FA044D6BF4155 /* ArtilleryOfItaly-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D278CF0B3FA498CACBB3515FC1308899 /* ArtilleryOfItaly-dummy.m */; };
+		5E5D22CEE2C51BB509B4BA4C7A0D0B49 /* ArtilleryModels.h in Headers */ = {isa = PBXBuildFile; fileRef = AE47501236085C242F100976640A0A07 /* ArtilleryModels.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6006DC63D122D8FDA67169AF66FABF7A /* WBCrashTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9009AF74D21BF774EC86DF64DA0C9B /* WBCrashTool.swift */; };
+		608CBC468E1823C61815D7F03AB94F8C /* Artillery.m in Sources */ = {isa = PBXBuildFile; fileRef = 36EA518C95E1E0A37690D2E9F3B0F24E /* Artillery.m */; };
+		61A277DCE29AF844DAB4726EF00F3005 /* X86IntelInstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = 0E8CB77AF9518418FC4508DA06860221 /* X86IntelInstPrinter.c */; };
+		61C429C02C45186040EA9E97C038126C /* MCInstrDesc.h in Headers */ = {isa = PBXBuildFile; fileRef = FD6645B78FD66B9E8B70ACC78612DB6E /* MCInstrDesc.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		64BE8AB7C5DABD8EAD0F69AD3BF954E7 /* WBBladesInterface.h in Headers */ = {isa = PBXBuildFile; fileRef = F543769C8B6775BE5A639DBB4D80C71F /* WBBladesInterface.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		66177C0EE2033F84BA68AF46E385DF3C /* PPCMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 897C5BFA1B96BBDADAF9170AD7865378 /* PPCMapping.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		665E7F957D22CF1151B365F9305B8B47 /* WBBladesScanManager+StaticLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E7ACDE8069C638A820709D2DDFFC23E /* WBBladesScanManager+StaticLibs.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		679DEED0FB60B0CAEB34DC315F320755 /* dwarf.h in Headers */ = {isa = PBXBuildFile; fileRef = F7E95D85F979DEB7B3A8FDA3D902705D /* dwarf.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		69D229C4158C0A5B5836E1F76AF19701 /* X86DisassemblerDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7E10CF8ADCB42E270661C7FEA57B6ECB /* X86DisassemblerDecoder.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		6E7298E66B117C7D1E6827031F7C1353 /* WBBladesScanManager+CrashSymbol.h in Headers */ = {isa = PBXBuildFile; fileRef = 8ABD573AEEEC4C24F0D5E5DE44A60BDE /* WBBladesScanManager+CrashSymbol.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		7210CB50EF0A9E9FE4A9C1FA1615AF7B /* MCInst.h in Headers */ = {isa = PBXBuildFile; fileRef = 9301EE524D82782F16908C618E638BAF /* MCInst.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		737F9550CAF98362C2FE3FB5EF638625 /* PPCDisassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = 446331F8661622EB185CF9E95E22C9C1 /* PPCDisassembler.c */; };
+		7778A3600B6C08586A81518C9D44366C /* AArch64Mapping.h in Headers */ = {isa = PBXBuildFile; fileRef = D2358F7258B5C7CDC86B46E5CB65D167 /* AArch64Mapping.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		79C85F184FF02F307492C064038B94DE /* STPrivilegedTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 532BCE7E324E5A6D2AE9B1B6130EB043 /* STPrivilegedTask.m */; };
+		7D5B559941605AC8B9195877940232F1 /* AArch64InstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = C8D01B6174FD0D3B918C234ADA572D9E /* AArch64InstPrinter.c */; };
+		7F0A5B6C0AE07CE82AFBA885DFF74114 /* WBBladesFileManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 83C0814571B03AD53FFF10D28211CB8B /* WBBladesFileManager.mm */; };
+		7F7F27589BF7AA0107751C10ABDE59E8 /* WBBMScanLogManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618E80F3B9AB9A92D79A47EF2FAAB600 /* WBBMScanLogManager.swift */; };
+		8042A3418BA61E13B29B564EA632F3A5 /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FA4714B5E864A076E4ACA56BE99BAF /* WBBMScanLogModel.swift */; };
+		8061167322D777E26F461ECF81C6D551 /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 40423F3AD46294FE17618509A3C8630B /* SStream.c */; };
+		829254EAB0E17777170D815163101176 /* Pods-WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8566065337C08CC7860C41D9B2F807FD /* MCInst.c in Sources */ = {isa = PBXBuildFile; fileRef = 5B14925DDFD4A16118BFFF5F08FD9454 /* MCInst.c */; };
+		8636215670D3FAABA3B1691C6F47BC4E /* Artillery.h in Headers */ = {isa = PBXBuildFile; fileRef = 4279F7F6C5BDB62A83E93C9D14D42ED4 /* Artillery.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		8967C30EB225DE509D42E6B08D4C74D2 /* WBBMSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A4114AFEB6DE108E3BFC6FE24ACF09 /* WBBMSymbolTool.swift */; };
+		8F53CB0B678380110BFB73BDCEB56C5B /* PPCModule.c in Sources */ = {isa = PBXBuildFile; fileRef = B16087D71CECA30D0BBBFAA3B07D5BFB /* PPCModule.c */; };
+		904235C12F135CC0EDD71726D4B2623B /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = F25E41F3866B17E712D814091531D7D4 /* WBBladesTool.mm */; };
+		9367813B525311F53C2DDA0D86B985C2 /* PPCInstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = FE44CC4BDB05CDA759F5F2135762322B /* PPCInstPrinter.c */; };
+		95974FE4B95FB39A440601E80BE92CF1 /* WBBladesObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 9D075FA4CC2E559AC07C219F1EBE9811 /* WBBladesObject.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		964485393DFB1F56381EDB10963D978B /* arm.h in Headers */ = {isa = PBXBuildFile; fileRef = A74DDD8571F4C5836EE15C3C0DFB9E0B /* arm.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		96E8AA17BF82069AF8EBF70C7D1DA7DB /* WBBladesObjectHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = E0201CBBDCA7E9270622C314B0910CC4 /* WBBladesObjectHeader.m */; };
+		985E8656CD433398B3CE5AEF4F811807 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = AAE36F159815A5A57AF60F2CF2925651 /* WBBladesScanManager+UnuseClassScan.mm */; };
+		9903D720A4F579A75D4B0EEE27315D5B /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = E06CA6FF43AA9DDCB521F53276E1BF55 /* WBBladesStringTab.m */; };
+		9904968439ECDBB30AAC31B541BE0208 /* Pods-WBBladesCrashApp-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		9BAD20052D6557687B72D32774592A3D /* PPCPredicates.h in Headers */ = {isa = PBXBuildFile; fileRef = EAE6C4646AD749A05E884300E89CB3F3 /* PPCPredicates.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		9BED428B49330C5584C41A084DBFA062 /* xcore.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A260E9B65A8BE74BAE8A24C5D3E561A /* xcore.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A0BBD64E0E6B7E557E6EEB9E3B0AFA43 /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = D9382059CDB1B8F72E2D7F34671B235B /* WBBladesObject.m */; };
+		A37751991833E5A91D55E02F5638003B /* AArch64BaseInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = F5080BF165312B7C47FF5A8EAB2332A2 /* AArch64BaseInfo.c */; };
+		A3F1B2E25A53D718ADB6CD3AB4370D97 /* MCFixedLenDisassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 708F51C17C1E922AD6BCDFE440D09BFB /* MCFixedLenDisassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A4C9BAFE53288BB8DA4293D833C57F6E /* ARMMapping.h in Headers */ = {isa = PBXBuildFile; fileRef = 04FAF5B55401C38C81A933DC5CA1C6DF /* ARMMapping.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A68034529D3D7B3EC4B2DE52E4F5E009 /* PPCMapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 64413A19E608D1E85FA0FBCB78F84BE8 /* PPCMapping.c */; };
+		A93C001E0819E58302BF275370B7512C /* WBBladesTool.h in Headers */ = {isa = PBXBuildFile; fileRef = E9B6A6D8285B4D7BB7AC66DA486AF25E /* WBBladesTool.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		A9FDB9E9342DABC76BCF0AEFCF91A1D7 /* STPrivilegedTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 7D3C8CC223CFE363D7D82AAD9CC32A5E /* STPrivilegedTask.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		AB88198A697966858836720647C3BC2C /* mips.h in Headers */ = {isa = PBXBuildFile; fileRef = F81003A7723F52DDD47BAAE0DEFC4CAE /* mips.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		ABC5F14753116AAD2391EFE4C1A0A554 /* ppc.h in Headers */ = {isa = PBXBuildFile; fileRef = C13A60A928CF7831C64BCC69AD5B5923 /* ppc.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		AF82C0FC7C7E0E9700B4C4F2198B90AD /* WBBMSymbolSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = E42974786E2DD9477C034D5D85433545 /* WBBMSymbolSearch.swift */; };
+		B4D414D3394381DC5F74CE4C437321CE /* AArch64BaseInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 39ED86152F957C36985DFD8832B0C770 /* AArch64BaseInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B632DE2F1794FF00FFD0FE09F6A20E91 /* WBBladesDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = F353CD620A4B35117CD96CFA0E51D492 /* WBBladesDefines.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		B6F1A7CB0B77637324AD44E6EF8E2601 /* cs_priv.h in Headers */ = {isa = PBXBuildFile; fileRef = DCDCB06C4835A69E1BA0489063F52DF5 /* cs_priv.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		BC87504FFA0A37612428F36927E813E7 /* PPCDisassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C688902874B34A0115B9C3AB1B87F73 /* PPCDisassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		C0E8246CA77AA8A5C9D6A767B88F8151 /* WBBladesInterface.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C705AA130CDD848E64649448647D6AF /* WBBladesInterface.m */; };
+		C485F2952BAC9177E72AAC3B4A5865A9 /* WBBladesLinkManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7CFE0464D4FAD3331BEC09332D345D54 /* WBBladesLinkManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		C80EA5A10F39974B9DF76A7EE6551093 /* AArch64Mapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 88FAFF81F9C1B4D02A79005AB35530CC /* AArch64Mapping.c */; };
+		C8722AEE3EAE7065C7D4E96DD6E168D3 /* WBBMShellObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C42551F923A456FEA2F7DD4B5BE6EAB /* WBBMShellObject.swift */; };
+		C8B5CAB79C1AA058831EDE9E847F77A0 /* WBBladesFileManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D74C7A716E0B10761ED648AF36785845 /* WBBladesFileManager.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		CA6B5FCEE4AA35114B82C9B424931968 /* WBBMSymbolTake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C085031941D7E43C0912DF30AA18A86 /* WBBMSymbolTake.swift */; };
+		CB60005B3D5E575E1C7D7D37BD3093FA /* WBBMScanSystemLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18672BBCE97B03C32A7D6C75EE8C3F09 /* WBBMScanSystemLog.swift */; };
+		D06ECA9B5F585432D8B3F95EDC315A2F /* MCInstrDesc.c in Sources */ = {isa = PBXBuildFile; fileRef = B6678D738923C1D7D4C9737685D440A4 /* MCInstrDesc.c */; };
+		D4642A6006269A61DD52ED12CC76B1EF /* myinttypes.h in Headers */ = {isa = PBXBuildFile; fileRef = B2F3A7CA679CFD194F889D4E581EE998 /* myinttypes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D61D9E20A273E3981857AA646D6ADEE4 /* MCRegisterInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 019E7588456E2A692917DD7609E15AA1 /* MCRegisterInfo.c */; };
+		D691320C5E111DFFBC01F3E0893CFB33 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D2FCE687FF66216E8C3AB408F2E6FD1 /* WBBladesScanManager.mm */; };
+		D6EF9735490A3C93B9D2D5560641AA0E /* WBBladesStaticLibraryModel.h in Headers */ = {isa = PBXBuildFile; fileRef = 04A012735F4D258D572E49C6BB6324A7 /* WBBladesStaticLibraryModel.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D7B54BDEF7BC3A3ADC684F1ED7E84CCC /* osxkernel_inttypes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D5E52FBA7F64334D71DC0BADD3625C0 /* osxkernel_inttypes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		D8E1AF13B5639CD6350D778A85F0271A /* Pods-WBBladesCrashApp-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */; };
+		DA16E0CA04DCB20BA1E5BD8E22D570C9 /* WBBladesStaticLibraryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3B40E347AA1FCAD5B611CA8DF563256B /* WBBladesStaticLibraryModel.m */; };
+		DAF99F2B21F44F22E135C7F6CC848E52 /* WBBladesScanManager+StaticLibs.mm in Sources */ = {isa = PBXBuildFile; fileRef = CB984B93AA112AA1432FFA4CEE58FF51 /* WBBladesScanManager+StaticLibs.mm */; };
+		DBE7AE18FFEC34C27E43CD5FCF86E9C2 /* ARMInstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = 84B342E151CB1508E8FB8EA1EC5BB811 /* ARMInstPrinter.c */; };
+		E4DB01FD699EE51C3CB1E17C10A14ACA /* AArch64AddressingModes.h in Headers */ = {isa = PBXBuildFile; fileRef = AD5C74A3559A2D13039E249DE334FF78 /* AArch64AddressingModes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EB4D158A81279379F7473C5549B2A6C4 /* X86DisassemblerDecoderCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = 2F732A7CF8F15829935C3C2F0514EB8A /* X86DisassemblerDecoderCommon.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EE2DBDB8CE7FA1F54621B0AB4F94A70C /* WBBladesCrash-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EA9C3531791C824500D800E732EC1829 /* WBBladesCrash-dummy.m */; };
+		EE4578B1CCDF0D6BFA31B7E0F8ACF953 /* WBBladesFileManager+StaticLibs.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF905065F13A0B4AB3B3A1ADDC47A2 /* WBBladesFileManager+StaticLibs.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		EE67C35E5DF4EA78D5437FC08C9F086F /* ARMModule.c in Sources */ = {isa = PBXBuildFile; fileRef = E1B9DDDE7250B2DC905BA109FA2B45D3 /* ARMModule.c */; };
+		EF4C886AC47EEEF67EBAAB2591144401 /* AArch64Module.c in Sources */ = {isa = PBXBuildFile; fileRef = 57B50C7C411CACDBDE6252060752EB88 /* AArch64Module.c */; };
+		EF64A3B74D94505E2EFE5D35B201BB27 /* X86BaseInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = AE7172ED75AFC7EB499BB8A977546E7C /* X86BaseInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F043902B23AEB8103DDA19DB78698F1D /* WBBMLightSymbolTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43FFBECD8E559EE103EC49A9D3412B1D /* WBBMLightSymbolTool.swift */; };
+		F29AB88EF7041D7F3404F658360BCC11 /* ARMBaseInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = A1D1144612207D7676C497E5349683F0 /* ARMBaseInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F388685AFFC94D81E7DE4FF9DD007ADE /* x86.h in Headers */ = {isa = PBXBuildFile; fileRef = 945D2772B9299BFD3C8F69CD53D3A083 /* x86.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		F4026895C5FF74021164D7A2DC47321D /* WBBladesCrashModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7436D3467AECDC5D14937BF7930D8A1B /* WBBladesCrashModel.swift */; };
+		FA8B7076CA79E665E548E14EDEB898BB /* WBBladesSymTab.m in Sources */ = {isa = PBXBuildFile; fileRef = B7F073F8142AE31A58294C9BEF39FCD0 /* WBBladesSymTab.m */; };
+		FEA123AB6BCF57C3332D87A02892FBC6 /* ARMDisassembler.h in Headers */ = {isa = PBXBuildFile; fileRef = F4555F1543BA9689C68B2ADA5724F3EA /* ARMDisassembler.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		FFB385E7087A75F54A742D778F13C936 /* WBBlades-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AA5046926F3ED50C004A59F5827764E0 /* WBBlades-umbrella.h */; settings = {ATTRIBUTES = (Project, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0350887CB4AC023168F23D864F90FE20 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0476538A94CBD3DE8CDA74B633333B0D;
+			remoteInfo = WBBladesCrash;
+		};
+		0DB1EA5A45AC9CB4E0E4FD8EDAD9E570 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0476538A94CBD3DE8CDA74B633333B0D;
+			remoteInfo = WBBladesCrash;
+		};
+		5A24D4B40C0B2975CE9250B91FE05619 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6A142AEB1B8D4431EF8F850124A0910;
+			remoteInfo = WBBlades;
+		};
+		7DABE396992A5576F84FA6F255B31414 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B378281B801AFD517BEAC3EBC7B6F27B;
+			remoteInfo = ArtilleryOfItaly;
+		};
+		AAE08794B3199E799EDD507E8C1DAC30 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0476538A94CBD3DE8CDA74B633333B0D;
+			remoteInfo = WBBladesCrash;
+		};
+		F07B8254197E15426D16A33A32B44DC9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A6A142AEB1B8D4431EF8F850124A0910;
+			remoteInfo = WBBlades;
+		};
+		FF4B346B8B385B0FD897E904F6FC8099 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B378281B801AFD517BEAC3EBC7B6F27B;
+			remoteInfo = ArtilleryOfItaly;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		00E220273221BBE40613B9A43B58D02D /* WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBlades.debug.xcconfig; sourceTree = "<group>"; };
+		019E7588456E2A692917DD7609E15AA1 /* MCRegisterInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCRegisterInfo.c; path = Capstone/MCRegisterInfo.c; sourceTree = "<group>"; };
+		01CC5A0471EF171F1428604C0EEB2372 /* systemz.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = systemz.h; sourceTree = "<group>"; };
+		022402EB89367558B2BDBE8902CC52AD /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesObjectHeader.h; path = Model/WBBladesObjectHeader.h; sourceTree = "<group>"; };
+		03FA4714B5E864A076E4ACA56BE99BAF /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
+		045ED4B79BD7C291DE5CACDED6203697 /* WBBlades.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBlades.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		04A012735F4D258D572E49C6BB6324A7 /* WBBladesStaticLibraryModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesStaticLibraryModel.h; path = Tools/WBBladesStaticLibraryModel.h; sourceTree = "<group>"; };
+		04FAF5B55401C38C81A933DC5CA1C6DF /* ARMMapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMMapping.h; sourceTree = "<group>"; };
+		0764677A9C20EB98CB1D97A1562D27D3 /* libdwarf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = libdwarf.h; path = ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.h; sourceTree = "<group>"; };
+		097128AE9EE66D0641E465130697BEF3 /* utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = utils.c; path = Capstone/utils.c; sourceTree = "<group>"; };
+		0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBladesCrashApp-resources.sh"; sourceTree = "<group>"; };
+		0C4BA28E12AC8EBD875D53A26D86A190 /* WBBladesScanManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesScanManager.h; path = Scan/WBBladesScanManager.h; sourceTree = "<group>"; };
+		0E8CB77AF9518418FC4508DA06860221 /* X86IntelInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86IntelInstPrinter.c; sourceTree = "<group>"; };
+		11329B6A983016964696B78329BA3081 /* LEB128.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LEB128.h; path = Capstone/LEB128.h; sourceTree = "<group>"; };
+		1760CD96B9E9D7F2730518271E3C490E /* WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBlades.modulemap; sourceTree = "<group>"; };
+		18672BBCE97B03C32A7D6C75EE8C3F09 /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
+		1A260E9B65A8BE74BAE8A24C5D3E561A /* xcore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = xcore.h; sourceTree = "<group>"; };
+		1B2D6281EC82DCF4AE6876EAE80AC393 /* cs.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cs.c; path = Capstone/cs.c; sourceTree = "<group>"; };
+		1BEF905065F13A0B4AB3B3A1ADDC47A2 /* WBBladesFileManager+StaticLibs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesFileManager+StaticLibs.h"; path = "Tools/WBBladesFileManager+StaticLibs.h"; sourceTree = "<group>"; };
+		1E7ACDE8069C638A820709D2DDFFC23E /* WBBladesScanManager+StaticLibs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesScanManager+StaticLibs.h"; path = "Scan/WBBladesScanManager+StaticLibs.h"; sourceTree = "<group>"; };
+		1E9CE0615CEBEC5E3E3D6413C5B6187C /* ARMMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMMapping.c; sourceTree = "<group>"; };
+		21F03EA449DC3D830E5965E5DF81E3D4 /* AArch64Disassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64Disassembler.h; sourceTree = "<group>"; };
+		2355BED506E9234ED185CAA6CD171F42 /* WBBMOutputFile.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMOutputFile.swift; sourceTree = "<group>"; };
+		26C3EB0AFB587E9DB7C51F2647190ED4 /* X86Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Mapping.c; sourceTree = "<group>"; };
+		2930CADB92B9EE7425B350A3D962CAE8 /* ArtilleryOfItaly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.debug.xcconfig; sourceTree = "<group>"; };
+		2C688902874B34A0115B9C3AB1B87F73 /* PPCDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCDisassembler.h; sourceTree = "<group>"; };
+		2CA6B0F15FFDE8DEDC9356F11A9CB24D /* inttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = inttypes.h; path = Capstone/inttypes.h; sourceTree = "<group>"; };
+		2E528F5DDF5838F8EFCCB295082DA9FE /* libdwarf.a */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = archive.ar; name = libdwarf.a; path = ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.a; sourceTree = "<group>"; };
+		2F732A7CF8F15829935C3C2F0514EB8A /* X86DisassemblerDecoderCommon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86DisassemblerDecoderCommon.h; sourceTree = "<group>"; };
+		32FB19E016BE98175D6B03A207DB806A /* WBBladesCrash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.release.xcconfig; sourceTree = "<group>"; };
+		36EA518C95E1E0A37690D2E9F3B0F24E /* Artillery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Artillery.m; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.m; sourceTree = "<group>"; };
+		39ED86152F957C36985DFD8832B0C770 /* AArch64BaseInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64BaseInfo.h; sourceTree = "<group>"; };
+		3B40E347AA1FCAD5B611CA8DF563256B /* WBBladesStaticLibraryModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesStaticLibraryModel.m; path = Tools/WBBladesStaticLibraryModel.m; sourceTree = "<group>"; };
+		3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBladesCrashApp-dummy.m"; sourceTree = "<group>"; };
+		3D2FCE687FF66216E8C3AB408F2E6FD1 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesScanManager.mm; path = Scan/WBBladesScanManager.mm; sourceTree = "<group>"; };
+		3EC8B3CC4255853E98820726F3C77EEB /* WBBladesCrash-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-umbrella.h"; sourceTree = "<group>"; };
+		3F674530767BE62D872BB182A4E2E35A /* utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = utils.h; path = Capstone/utils.h; sourceTree = "<group>"; };
+		40423F3AD46294FE17618509A3C8630B /* SStream.c */ = {isa = PBXFileReference; includeInIndex = 1; name = SStream.c; path = Capstone/SStream.c; sourceTree = "<group>"; };
+		4279F7F6C5BDB62A83E93C9D14D42ED4 /* Artillery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Artillery.h; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.h; sourceTree = "<group>"; };
+		43FFBECD8E559EE103EC49A9D3412B1D /* WBBMLightSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMLightSymbolTool.swift; sourceTree = "<group>"; };
+		446331F8661622EB185CF9E95E22C9C1 /* PPCDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCDisassembler.c; sourceTree = "<group>"; };
+		44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBlades-dummy.m"; sourceTree = "<group>"; };
+		48DC71B53F34AF4C932AAFD5A75FCF2E /* WBBladesSymTab.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesSymTab.h; path = Model/WBBladesSymTab.h; sourceTree = "<group>"; };
+		4DBFAAD9D231001C2F7ED33C4EAD0AF7 /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesLinkManager.mm; path = Link/WBBladesLinkManager.mm; sourceTree = "<group>"; };
+		532BCE7E324E5A6D2AE9B1B6130EB043 /* STPrivilegedTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = STPrivilegedTask.m; path = Tools/STPrivilegedTask.m; sourceTree = "<group>"; };
+		5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBladesCrashApp-umbrella.h"; sourceTree = "<group>"; };
+		57B50C7C411CACDBDE6252060752EB88 /* AArch64Module.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Module.c; sourceTree = "<group>"; };
+		589ECBE395FA44F120E5A715DBF5ACB6 /* WBBladesCMD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesCMD.h; path = Tools/WBBladesCMD.h; sourceTree = "<group>"; };
+		58AE22F066ED0B32E1E142421EA1E94D /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+CrashSymbol.mm"; path = "Scan/WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
+		5B14925DDFD4A16118BFFF5F08FD9454 /* MCInst.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCInst.c; path = Capstone/MCInst.c; sourceTree = "<group>"; };
+		5C085031941D7E43C0912DF30AA18A86 /* WBBMSymbolTake.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTake.swift; sourceTree = "<group>"; };
+		5D5E52FBA7F64334D71DC0BADD3625C0 /* osxkernel_inttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = osxkernel_inttypes.h; path = Capstone/osxkernel_inttypes.h; sourceTree = "<group>"; };
+		618E80F3B9AB9A92D79A47EF2FAAB600 /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
+		64413A19E608D1E85FA0FBCB78F84BE8 /* PPCMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCMapping.c; sourceTree = "<group>"; };
+		66563D09CDE74E9DF1F7539F9D45F8E0 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ArtilleryOfItaly/ArtilleryOfItaly/Info.plist; sourceTree = "<group>"; };
+		691916C96DA9DE95BD0B00B055CF6862 /* X86Disassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86Disassembler.h; sourceTree = "<group>"; };
+		6BB19C46E851CBB557B4D3CD2FF49213 /* ARMDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMDisassembler.c; sourceTree = "<group>"; };
+		6BC358FBED42B55843327C6B77A6E6F6 /* WBBladesCrashManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashManager.swift; path = WBBladesCrash/WBBladesCrashManager.swift; sourceTree = "<group>"; };
+		6F98821E672A32AD779AA698CDA2841C /* WBBladesCrash.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBladesCrash.modulemap; sourceTree = "<group>"; };
+		708F51C17C1E922AD6BCDFE440D09BFB /* MCFixedLenDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCFixedLenDisassembler.h; path = Capstone/MCFixedLenDisassembler.h; sourceTree = "<group>"; };
+		71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
+		72C10B37CD22808D1F4BB231B1436A52 /* platform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
+		72CDE7A38AEF594231A1CC73D5C181B9 /* ArtilleryOfItaly */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = ArtilleryOfItaly; path = libArtilleryOfItaly.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		7436D3467AECDC5D14937BF7930D8A1B /* WBBladesCrashModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashModel.swift; path = WBBladesCrash/WBBladesCrashModel.swift; sourceTree = "<group>"; };
+		7C2969B085D8FA92321593D648F99A25 /* X86InstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86InstPrinter.h; sourceTree = "<group>"; };
+		7C5D919E27DBE11AD2921F9E6B0F54EA /* ArtilleryOfItaly-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ArtilleryOfItaly-prefix.pch"; sourceTree = "<group>"; };
+		7C632117D49C931C534601D9E635D9C6 /* MCDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCDisassembler.h; path = Capstone/MCDisassembler.h; sourceTree = "<group>"; };
+		7CFE0464D4FAD3331BEC09332D345D54 /* WBBladesLinkManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesLinkManager.h; path = Link/WBBladesLinkManager.h; sourceTree = "<group>"; };
+		7D3C8CC223CFE363D7D82AAD9CC32A5E /* STPrivilegedTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPrivilegedTask.h; path = Tools/STPrivilegedTask.h; sourceTree = "<group>"; };
+		7E10CF8ADCB42E270661C7FEA57B6ECB /* X86DisassemblerDecoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86DisassemblerDecoder.h; sourceTree = "<group>"; };
+		7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
+		82D190F0033A42283BF8683786E24561 /* X86DisassemblerDecoder.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86DisassemblerDecoder.c; sourceTree = "<group>"; };
+		8360C3EBF1A725E7F23A77751A8213E1 /* WBBladesCMD.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesCMD.mm; path = Tools/WBBladesCMD.mm; sourceTree = "<group>"; };
+		83C0814571B03AD53FFF10D28211CB8B /* WBBladesFileManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesFileManager.mm; path = Tools/WBBladesFileManager.mm; sourceTree = "<group>"; };
+		84B342E151CB1508E8FB8EA1EC5BB811 /* ARMInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMInstPrinter.c; sourceTree = "<group>"; };
+		84C1171A7767C74FCA1D54F59D1F3B54 /* X86Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Disassembler.c; sourceTree = "<group>"; };
+		88FAFF81F9C1B4D02A79005AB35530CC /* AArch64Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Mapping.c; sourceTree = "<group>"; };
+		897C5BFA1B96BBDADAF9170AD7865378 /* PPCMapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCMapping.h; sourceTree = "<group>"; };
+		8ABD573AEEEC4C24F0D5E5DE44A60BDE /* WBBladesScanManager+CrashSymbol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesScanManager+CrashSymbol.h"; path = "Scan/WBBladesScanManager+CrashSymbol.h"; sourceTree = "<group>"; };
+		8C705AA130CDD848E64649448647D6AF /* WBBladesInterface.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesInterface.m; path = Tools/WBBladesInterface.m; sourceTree = "<group>"; };
+		8E99619128440D9308D74370503A60D2 /* WBBlades-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBlades-prefix.pch"; sourceTree = "<group>"; };
+		8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
+		901433A4AED510E13951F82F341C5B0A /* WBBladesCrash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.debug.xcconfig; sourceTree = "<group>"; };
+		90C0E40554A85086D82A00361F66C08E /* arm64.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = arm64.h; sourceTree = "<group>"; };
+		914185595ED12FC000AD8A4E1756F504 /* capstone.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = capstone.h; sourceTree = "<group>"; };
+		91D137CD59112A9D1E536FE52368FF7E /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesScanManager+UnuseClassScan.h"; path = "Scan/WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
+		9301EE524D82782F16908C618E638BAF /* MCInst.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCInst.h; path = Capstone/MCInst.h; sourceTree = "<group>"; };
+		94464FD630CD1EB8B0BAAAB31A290F93 /* ArtilleryOfItaly.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = ArtilleryOfItaly.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		945D2772B9299BFD3C8F69CD53D3A083 /* x86.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = x86.h; sourceTree = "<group>"; };
+		97049D6365E5086E385AD15179014BDC /* ArtilleryModels.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ArtilleryModels.m; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryModels.m; sourceTree = "<group>"; };
+		9C42551F923A456FEA2F7DD4B5BE6EAB /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
+		9D075FA4CC2E559AC07C219F1EBE9811 /* WBBladesObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesObject.h; path = Model/WBBladesObject.h; sourceTree = "<group>"; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9F2488ECC500788442B66F8C1AE575EC /* WBBladesCrash.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBladesCrash.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		A1D1144612207D7676C497E5349683F0 /* ARMBaseInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMBaseInfo.h; sourceTree = "<group>"; };
+		A74DDD8571F4C5836EE15C3C0DFB9E0B /* arm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = arm.h; sourceTree = "<group>"; };
+		AA47E488197FC2C82D7000B340C52A3E /* Pods-WBBlades */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-WBBlades"; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA5046926F3ED50C004A59F5827764E0 /* WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBlades-umbrella.h"; sourceTree = "<group>"; };
+		AAE2424DC2A4C3A60CF56080AEDB7684 /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
+		AAE36F159815A5A57AF60F2CF2925651 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+UnuseClassScan.mm"; path = "Scan/WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
+		AC01388CED7CC7E69F78AF7BC7F52999 /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
+		AD5C74A3559A2D13039E249DE334FF78 /* AArch64AddressingModes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64AddressingModes.h; sourceTree = "<group>"; };
+		AE47501236085C242F100976640A0A07 /* ArtilleryModels.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ArtilleryModels.h; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryModels.h; sourceTree = "<group>"; };
+		AE7172ED75AFC7EB499BB8A977546E7C /* X86BaseInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86BaseInfo.h; sourceTree = "<group>"; };
+		B16087D71CECA30D0BBBFAA3B07D5BFB /* PPCModule.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCModule.c; sourceTree = "<group>"; };
+		B21B6293DB854480914C530DD69F7021 /* X86Module.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Module.c; sourceTree = "<group>"; };
+		B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBladesCrashApp.modulemap"; sourceTree = "<group>"; };
+		B2F3A7CA679CFD194F889D4E581EE998 /* myinttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = myinttypes.h; path = Capstone/myinttypes.h; sourceTree = "<group>"; };
+		B5A4114AFEB6DE108E3BFC6FE24ACF09 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
+		B6678D738923C1D7D4C9737685D440A4 /* MCInstrDesc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCInstrDesc.c; path = Capstone/MCInstrDesc.c; sourceTree = "<group>"; };
+		B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
+		B7F073F8142AE31A58294C9BEF39FCD0 /* WBBladesSymTab.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesSymTab.m; path = Model/WBBladesSymTab.m; sourceTree = "<group>"; };
+		BDFB89E4422676E5431C1B403B39754C /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; name = dsymutil; path = WBBladesCrash/Resource/dsymutil; sourceTree = "<group>"; };
+		BF9009AF74D21BF774EC86DF64DA0C9B /* WBCrashTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBCrashTool.swift; path = Tools/WBCrashTool.swift; sourceTree = "<group>"; };
+		C13A60A928CF7831C64BCC69AD5B5923 /* ppc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ppc.h; sourceTree = "<group>"; };
+		C27CDAD2742302925C95386057DB711F /* sparc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = sparc.h; sourceTree = "<group>"; };
+		C301AEF2212038FAB3057B5D8B9E2357 /* ArtilleryOfItaly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.release.xcconfig; sourceTree = "<group>"; };
+		C3FEEA964022E81E1523D354110F495A /* X86Mapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86Mapping.h; sourceTree = "<group>"; };
+		C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
+		C698AECCFA90EC256D109B5DE744D56E /* SStream.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SStream.h; path = Capstone/SStream.h; sourceTree = "<group>"; };
+		C69CF97E5752048F001C22EBDEB16B1E /* ARMAddressingModes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMAddressingModes.h; sourceTree = "<group>"; };
+		C810A7DBD4F0D802A7375D9A2DFA4D8A /* WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBlades-dummy.m"; sourceTree = "<group>"; };
+		C8D01B6174FD0D3B918C234ADA572D9E /* AArch64InstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64InstPrinter.c; sourceTree = "<group>"; };
+		C932CA8457C3EB9D5D003C06C6577144 /* MCRegisterInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCRegisterInfo.h; path = Capstone/MCRegisterInfo.h; sourceTree = "<group>"; };
+		CB984B93AA112AA1432FFA4CEE58FF51 /* WBBladesScanManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+StaticLibs.mm"; path = "Scan/WBBladesScanManager+StaticLibs.mm"; sourceTree = "<group>"; };
+		CE2323AD1773B39DA0582DB0C68D31AB /* ARMInstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMInstPrinter.h; sourceTree = "<group>"; };
+		CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBladesCrashApp-acknowledgements.markdown"; sourceTree = "<group>"; };
+		CF4FE45322276CAA210D1C2DCAD3F90B /* WBBladesFileManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesFileManager+StaticLibs.mm"; path = "Tools/WBBladesFileManager+StaticLibs.mm"; sourceTree = "<group>"; };
+		D2358F7258B5C7CDC86B46E5CB65D167 /* AArch64Mapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64Mapping.h; sourceTree = "<group>"; };
+		D278CF0B3FA498CACBB3515FC1308899 /* ArtilleryOfItaly-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ArtilleryOfItaly-dummy.m"; sourceTree = "<group>"; };
+		D5358B09355E2AACC7C8BD0144926150 /* WBBladesCrash-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-prefix.pch"; sourceTree = "<group>"; };
+		D66EFC46B84BA5B11435D8B182561608 /* WBBladesStringTab.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesStringTab.h; path = Model/WBBladesStringTab.h; sourceTree = "<group>"; };
+		D74C7A716E0B10761ED648AF36785845 /* WBBladesFileManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesFileManager.h; path = Tools/WBBladesFileManager.h; sourceTree = "<group>"; };
+		D9382059CDB1B8F72E2D7F34671B235B /* WBBladesObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesObject.m; path = Model/WBBladesObject.m; sourceTree = "<group>"; };
+		DB6E6FF19D64B95F49DD14A15E738623 /* AArch64Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Disassembler.c; sourceTree = "<group>"; };
+		DCDCB06C4835A69E1BA0489063F52DF5 /* cs_priv.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = cs_priv.h; path = Capstone/cs_priv.h; sourceTree = "<group>"; };
+		DE242078080B059185DD01A469975F81 /* MathExtras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MathExtras.h; path = Capstone/MathExtras.h; sourceTree = "<group>"; };
+		DEA0760D5F959DB5E63F77904ACBFB8F /* AArch64InstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64InstPrinter.h; sourceTree = "<group>"; };
+		DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* Pods-WBBladesCrashApp */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-WBBladesCrashApp"; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E0201CBBDCA7E9270622C314B0910CC4 /* WBBladesObjectHeader.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesObjectHeader.m; path = Model/WBBladesObjectHeader.m; sourceTree = "<group>"; };
+		E06CA6FF43AA9DDCB521F53276E1BF55 /* WBBladesStringTab.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesStringTab.m; path = Model/WBBladesStringTab.m; sourceTree = "<group>"; };
+		E1B9DDDE7250B2DC905BA109FA2B45D3 /* ARMModule.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMModule.c; sourceTree = "<group>"; };
+		E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBladesCrashApp-acknowledgements.plist"; sourceTree = "<group>"; };
+		E42974786E2DD9477C034D5D85433545 /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
+		E9B6A6D8285B4D7BB7AC66DA486AF25E /* WBBladesTool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesTool.h; path = Tools/WBBladesTool.h; sourceTree = "<group>"; };
+		EA9C3531791C824500D800E732EC1829 /* WBBladesCrash-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBladesCrash-dummy.m"; sourceTree = "<group>"; };
+		EAE6C4646AD749A05E884300E89CB3F3 /* PPCPredicates.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCPredicates.h; sourceTree = "<group>"; };
+		EBBEB04466B6B30AFD5D841CCFFC0AE4 /* PPCInstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCInstPrinter.h; sourceTree = "<group>"; };
+		ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
+		EEA55522C65D45C2EE32FFFEE5A9F546 /* WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBlades.release.xcconfig; sourceTree = "<group>"; };
+		EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
+		F25E41F3866B17E712D814091531D7D4 /* WBBladesTool.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesTool.mm; path = Tools/WBBladesTool.mm; sourceTree = "<group>"; };
+		F338D1F16C33E5F6F50DAEA7117F4084 /* WBBladesCrash */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = WBBladesCrash; path = libWBBladesCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F353CD620A4B35117CD96CFA0E51D492 /* WBBladesDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesDefines.h; path = Tools/WBBladesDefines.h; sourceTree = "<group>"; };
+		F4318D751CE2ED19B9FEC5857F2DD540 /* ArtilleryOfItaly.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ArtilleryOfItaly.h; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly.h; sourceTree = "<group>"; };
+		F4555F1543BA9689C68B2ADA5724F3EA /* ARMDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMDisassembler.h; sourceTree = "<group>"; };
+		F4A4B79EEFB361DBE7D9E15EE2EC40F1 /* WBBladesCrash-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesCrash-Bridging-Header.h"; path = "WBBladesCrash/WBBladesCrash-Bridging-Header.h"; sourceTree = "<group>"; };
+		F5080BF165312B7C47FF5A8EAB2332A2 /* AArch64BaseInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64BaseInfo.c; sourceTree = "<group>"; };
+		F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
+		F543769C8B6775BE5A639DBB4D80C71F /* WBBladesInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesInterface.h; path = Tools/WBBladesInterface.h; sourceTree = "<group>"; };
+		F7E95D85F979DEB7B3A8FDA3D902705D /* dwarf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = dwarf.h; path = ArtilleryOfItaly/ArtilleryOfItaly/dwarf.h; sourceTree = "<group>"; };
+		F81003A7723F52DDD47BAAE0DEFC4CAE /* mips.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = mips.h; sourceTree = "<group>"; };
+		FA742A571754FE11148C30EC85F31D98 /* WBBlades */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = WBBlades; path = libWBBlades.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		FD6645B78FD66B9E8B70ACC78612DB6E /* MCInstrDesc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCInstrDesc.h; path = Capstone/MCInstrDesc.h; sourceTree = "<group>"; };
+		FE44CC4BDB05CDA759F5F2135762322B /* PPCInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCInstPrinter.c; sourceTree = "<group>"; };
+		FF98C868A6A5A8502571E2C063022AF8 /* X86ATTInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86ATTInstPrinter.c; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		29A56722133DC8F2B9E38EA66C325AC4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3B3A72F9EDA9A34626F880F045AD68D1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD19531BD9721B7FE593B25F57A182C1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFDD9ADF628D2CEDE24E9FDB7BAFF5DC /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F8BF44236DA0B62A37BD118769553FDA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0D38A097B33CD3EEDFEF44DE3269223B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				9D075FA4CC2E559AC07C219F1EBE9811 /* WBBladesObject.h */,
+				D9382059CDB1B8F72E2D7F34671B235B /* WBBladesObject.m */,
+				022402EB89367558B2BDBE8902CC52AD /* WBBladesObjectHeader.h */,
+				E0201CBBDCA7E9270622C314B0910CC4 /* WBBladesObjectHeader.m */,
+				D66EFC46B84BA5B11435D8B182561608 /* WBBladesStringTab.h */,
+				E06CA6FF43AA9DDCB521F53276E1BF55 /* WBBladesStringTab.m */,
+				48DC71B53F34AF4C932AAFD5A75FCF2E /* WBBladesSymTab.h */,
+				B7F073F8142AE31A58294C9BEF39FCD0 /* WBBladesSymTab.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		10BBEC8385DFD26DBD3A31890F0CFE35 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				7D3C8CC223CFE363D7D82AAD9CC32A5E /* STPrivilegedTask.h */,
+				532BCE7E324E5A6D2AE9B1B6130EB043 /* STPrivilegedTask.m */,
+				589ECBE395FA44F120E5A715DBF5ACB6 /* WBBladesCMD.h */,
+				8360C3EBF1A725E7F23A77751A8213E1 /* WBBladesCMD.mm */,
+				F353CD620A4B35117CD96CFA0E51D492 /* WBBladesDefines.h */,
+				D74C7A716E0B10761ED648AF36785845 /* WBBladesFileManager.h */,
+				83C0814571B03AD53FFF10D28211CB8B /* WBBladesFileManager.mm */,
+				1BEF905065F13A0B4AB3B3A1ADDC47A2 /* WBBladesFileManager+StaticLibs.h */,
+				CF4FE45322276CAA210D1C2DCAD3F90B /* WBBladesFileManager+StaticLibs.mm */,
+				F543769C8B6775BE5A639DBB4D80C71F /* WBBladesInterface.h */,
+				8C705AA130CDD848E64649448647D6AF /* WBBladesInterface.m */,
+				04A012735F4D258D572E49C6BB6324A7 /* WBBladesStaticLibraryModel.h */,
+				3B40E347AA1FCAD5B611CA8DF563256B /* WBBladesStaticLibraryModel.m */,
+				E9B6A6D8285B4D7BB7AC66DA486AF25E /* WBBladesTool.h */,
+				F25E41F3866B17E712D814091531D7D4 /* WBBladesTool.mm */,
+				BF9009AF74D21BF774EC86DF64DA0C9B /* WBCrashTool.swift */,
+			);
+			name = Tools;
+			sourceTree = "<group>";
+		};
+		26CB39AE9C86F17044CD26998C0E9AC0 /* Pods-WBBladesCrashApp */ = {
+			isa = PBXGroup;
+			children = (
+				B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */,
+				CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */,
+				E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */,
+				3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */,
+				0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */,
+				5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */,
+				7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */,
+				EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */,
+			);
+			name = "Pods-WBBladesCrashApp";
+			path = "Target Support Files/Pods-WBBladesCrashApp";
+			sourceTree = "<group>";
+		};
+		28D43BFD36E2C94747FB188FA0A2B023 /* X86 */ = {
+			isa = PBXGroup;
+			children = (
+				FF98C868A6A5A8502571E2C063022AF8 /* X86ATTInstPrinter.c */,
+				AE7172ED75AFC7EB499BB8A977546E7C /* X86BaseInfo.h */,
+				84C1171A7767C74FCA1D54F59D1F3B54 /* X86Disassembler.c */,
+				691916C96DA9DE95BD0B00B055CF6862 /* X86Disassembler.h */,
+				82D190F0033A42283BF8683786E24561 /* X86DisassemblerDecoder.c */,
+				7E10CF8ADCB42E270661C7FEA57B6ECB /* X86DisassemblerDecoder.h */,
+				2F732A7CF8F15829935C3C2F0514EB8A /* X86DisassemblerDecoderCommon.h */,
+				7C2969B085D8FA92321593D648F99A25 /* X86InstPrinter.h */,
+				0E8CB77AF9518418FC4508DA06860221 /* X86IntelInstPrinter.c */,
+				26C3EB0AFB587E9DB7C51F2647190ED4 /* X86Mapping.c */,
+				C3FEEA964022E81E1523D354110F495A /* X86Mapping.h */,
+				B21B6293DB854480914C530DD69F7021 /* X86Module.c */,
+			);
+			name = X86;
+			path = X86;
+			sourceTree = "<group>";
+		};
+		2D36F32A5D94672C817EC6507A4B3227 /* WBBlades */ = {
+			isa = PBXGroup;
+			children = (
+				6A86AC7FB0EA3FC6D27896BB5F4E69CB /* Capstone */,
+				847C76240987D792E1F951F21E073391 /* Link */,
+				0D38A097B33CD3EEDFEF44DE3269223B /* Model */,
+				95FC4940F5FBD575EEEA5C2C184DB2F7 /* Pod */,
+				3CF23F380F7CB3F48E256D9F4C685E4A /* Scan */,
+				EA6E36268FFDF07C14EEF73F2F6DB43C /* Support Files */,
+				10BBEC8385DFD26DBD3A31890F0CFE35 /* Tools */,
+			);
+			name = WBBlades;
+			path = ../WBBlades;
+			sourceTree = "<group>";
+		};
+		302AAC83364D100A5A2B0AA152151D61 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				94464FD630CD1EB8B0BAAAB31A290F93 /* ArtilleryOfItaly.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		30BC524C498CF24486543007D72BD832 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				9F2488ECC500788442B66F8C1AE575EC /* WBBladesCrash.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		39C35DE49DA4F9858AD3B6FAEB6B7FAB /* WBBMFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				2355BED506E9234ED185CAA6CD171F42 /* WBBMOutputFile.swift */,
+			);
+			name = WBBMFileManager;
+			path = WBBladesCrash/WBBMFileManager;
+			sourceTree = "<group>";
+		};
+		3CF23F380F7CB3F48E256D9F4C685E4A /* Scan */ = {
+			isa = PBXGroup;
+			children = (
+				0C4BA28E12AC8EBD875D53A26D86A190 /* WBBladesScanManager.h */,
+				3D2FCE687FF66216E8C3AB408F2E6FD1 /* WBBladesScanManager.mm */,
+				8ABD573AEEEC4C24F0D5E5DE44A60BDE /* WBBladesScanManager+CrashSymbol.h */,
+				58AE22F066ED0B32E1E142421EA1E94D /* WBBladesScanManager+CrashSymbol.mm */,
+				1E7ACDE8069C638A820709D2DDFFC23E /* WBBladesScanManager+StaticLibs.h */,
+				CB984B93AA112AA1432FFA4CEE58FF51 /* WBBladesScanManager+StaticLibs.mm */,
+				91D137CD59112A9D1E536FE52368FF7E /* WBBladesScanManager+UnuseClassScan.h */,
+				AAE36F159815A5A57AF60F2CF2925651 /* WBBladesScanManager+UnuseClassScan.mm */,
+			);
+			name = Scan;
+			sourceTree = "<group>";
+		};
+		3E5B79E12A5F04294927405553763D96 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D278CF0B3FA498CACBB3515FC1308899 /* ArtilleryOfItaly-dummy.m */,
+				7C5D919E27DBE11AD2921F9E6B0F54EA /* ArtilleryOfItaly-prefix.pch */,
+				2930CADB92B9EE7425B350A3D962CAE8 /* ArtilleryOfItaly.debug.xcconfig */,
+				C301AEF2212038FAB3057B5D8B9E2357 /* ArtilleryOfItaly.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/ArtilleryOfItaly";
+			sourceTree = "<group>";
+		};
+		43341D11A274E069C9E9441F988134A9 /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				ADFF1FCBA1709B4F5532FE42C974B396 /* Pods-WBBlades */,
+				26CB39AE9C86F17044CD26998C0E9AC0 /* Pods-WBBladesCrashApp */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		6A86AC7FB0EA3FC6D27896BB5F4E69CB /* Capstone */ = {
+			isa = PBXGroup;
+			children = (
+				1B2D6281EC82DCF4AE6876EAE80AC393 /* cs.c */,
+				DCDCB06C4835A69E1BA0489063F52DF5 /* cs_priv.h */,
+				2CA6B0F15FFDE8DEDC9356F11A9CB24D /* inttypes.h */,
+				11329B6A983016964696B78329BA3081 /* LEB128.h */,
+				DE242078080B059185DD01A469975F81 /* MathExtras.h */,
+				7C632117D49C931C534601D9E635D9C6 /* MCDisassembler.h */,
+				708F51C17C1E922AD6BCDFE440D09BFB /* MCFixedLenDisassembler.h */,
+				5B14925DDFD4A16118BFFF5F08FD9454 /* MCInst.c */,
+				9301EE524D82782F16908C618E638BAF /* MCInst.h */,
+				B6678D738923C1D7D4C9737685D440A4 /* MCInstrDesc.c */,
+				FD6645B78FD66B9E8B70ACC78612DB6E /* MCInstrDesc.h */,
+				019E7588456E2A692917DD7609E15AA1 /* MCRegisterInfo.c */,
+				C932CA8457C3EB9D5D003C06C6577144 /* MCRegisterInfo.h */,
+				B2F3A7CA679CFD194F889D4E581EE998 /* myinttypes.h */,
+				5D5E52FBA7F64334D71DC0BADD3625C0 /* osxkernel_inttypes.h */,
+				40423F3AD46294FE17618509A3C8630B /* SStream.c */,
+				C698AECCFA90EC256D109B5DE744D56E /* SStream.h */,
+				097128AE9EE66D0641E465130697BEF3 /* utils.c */,
+				3F674530767BE62D872BB182A4E2E35A /* utils.h */,
+				9BEE7729D54191051F75920272F0C1DA /* arch */,
+				B4F3562AD9509D99A07D56D988F815AC /* include */,
+			);
+			name = Capstone;
+			sourceTree = "<group>";
+		};
+		7AE13AD8D8536F58D4C36CF49422C09D /* WBBMScanLog */ = {
+			isa = PBXGroup;
+			children = (
+				AC01388CED7CC7E69F78AF7BC7F52999 /* WBBMScanBuglyLog.swift */,
+				618E80F3B9AB9A92D79A47EF2FAAB600 /* WBBMScanLogManager.swift */,
+				03FA4714B5E864A076E4ACA56BE99BAF /* WBBMScanLogModel.swift */,
+				AAE2424DC2A4C3A60CF56080AEDB7684 /* WBBMScanLogTool.swift */,
+				18672BBCE97B03C32A7D6C75EE8C3F09 /* WBBMScanSystemLog.swift */,
+			);
+			name = WBBMScanLog;
+			path = WBBladesCrash/WBBMScanLog;
+			sourceTree = "<group>";
+		};
+		847C76240987D792E1F951F21E073391 /* Link */ = {
+			isa = PBXGroup;
+			children = (
+				7CFE0464D4FAD3331BEC09332D345D54 /* WBBladesLinkManager.h */,
+				4DBFAAD9D231001C2F7ED33C4EAD0AF7 /* WBBladesLinkManager.mm */,
+			);
+			name = Link;
+			sourceTree = "<group>";
+		};
+		95FC4940F5FBD575EEEA5C2C184DB2F7 /* Pod */ = {
+			isa = PBXGroup;
+			children = (
+				045ED4B79BD7C291DE5CACDED6203697 /* WBBlades.podspec */,
+			);
+			name = Pod;
+			sourceTree = "<group>";
+		};
+		97058496337AF626070D4687C2BDD7AE /* WBBMAnalyze */ = {
+			isa = PBXGroup;
+			children = (
+				9C42551F923A456FEA2F7DD4B5BE6EAB /* WBBMShellObject.swift */,
+			);
+			name = WBBMAnalyze;
+			path = WBBladesCrash/WBBMAnalyze;
+			sourceTree = "<group>";
+		};
+		9BEE7729D54191051F75920272F0C1DA /* arch */ = {
+			isa = PBXGroup;
+			children = (
+				A6DB073EDC767E1CCA228D8140A33DFE /* AArch64 */,
+				9DDDD1B8CBA5172D901BF29FBD8D84CF /* ARM */,
+				B467F562C9B647684ABDB76C47440656 /* PowerPC */,
+				28D43BFD36E2C94747FB188FA0A2B023 /* X86 */,
+			);
+			name = arch;
+			path = Capstone/arch;
+			sourceTree = "<group>";
+		};
+		9DDDD1B8CBA5172D901BF29FBD8D84CF /* ARM */ = {
+			isa = PBXGroup;
+			children = (
+				C69CF97E5752048F001C22EBDEB16B1E /* ARMAddressingModes.h */,
+				A1D1144612207D7676C497E5349683F0 /* ARMBaseInfo.h */,
+				6BB19C46E851CBB557B4D3CD2FF49213 /* ARMDisassembler.c */,
+				F4555F1543BA9689C68B2ADA5724F3EA /* ARMDisassembler.h */,
+				84B342E151CB1508E8FB8EA1EC5BB811 /* ARMInstPrinter.c */,
+				CE2323AD1773B39DA0582DB0C68D31AB /* ARMInstPrinter.h */,
+				1E9CE0615CEBEC5E3E3D6413C5B6187C /* ARMMapping.c */,
+				04FAF5B55401C38C81A933DC5CA1C6DF /* ARMMapping.h */,
+				E1B9DDDE7250B2DC905BA109FA2B45D3 /* ARMModule.c */,
+			);
+			name = ARM;
+			path = ARM;
+			sourceTree = "<group>";
+		};
+		A6DB073EDC767E1CCA228D8140A33DFE /* AArch64 */ = {
+			isa = PBXGroup;
+			children = (
+				AD5C74A3559A2D13039E249DE334FF78 /* AArch64AddressingModes.h */,
+				F5080BF165312B7C47FF5A8EAB2332A2 /* AArch64BaseInfo.c */,
+				39ED86152F957C36985DFD8832B0C770 /* AArch64BaseInfo.h */,
+				DB6E6FF19D64B95F49DD14A15E738623 /* AArch64Disassembler.c */,
+				21F03EA449DC3D830E5965E5DF81E3D4 /* AArch64Disassembler.h */,
+				C8D01B6174FD0D3B918C234ADA572D9E /* AArch64InstPrinter.c */,
+				DEA0760D5F959DB5E63F77904ACBFB8F /* AArch64InstPrinter.h */,
+				88FAFF81F9C1B4D02A79005AB35530CC /* AArch64Mapping.c */,
+				D2358F7258B5C7CDC86B46E5CB65D167 /* AArch64Mapping.h */,
+				57B50C7C411CACDBDE6252060752EB88 /* AArch64Module.c */,
+			);
+			name = AArch64;
+			path = AArch64;
+			sourceTree = "<group>";
+		};
+		ACC68659E8ABDFFE723B8DC63D0DA3CE /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				6F98821E672A32AD779AA698CDA2841C /* WBBladesCrash.modulemap */,
+				EA9C3531791C824500D800E732EC1829 /* WBBladesCrash-dummy.m */,
+				D5358B09355E2AACC7C8BD0144926150 /* WBBladesCrash-prefix.pch */,
+				3EC8B3CC4255853E98820726F3C77EEB /* WBBladesCrash-umbrella.h */,
+				901433A4AED510E13951F82F341C5B0A /* WBBladesCrash.debug.xcconfig */,
+				32FB19E016BE98175D6B03A207DB806A /* WBBladesCrash.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/WBBladesCrash";
+			sourceTree = "<group>";
+		};
+		ADFF1FCBA1709B4F5532FE42C974B396 /* Pods-WBBlades */ = {
+			isa = PBXGroup;
+			children = (
+				F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */,
+				C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */,
+				B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */,
+				44F27A2BF2AD3D564CCB90C9A96A05AA /* Pods-WBBlades-dummy.m */,
+				ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */,
+				71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */,
+				8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */,
+				EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */,
+			);
+			name = "Pods-WBBlades";
+			path = "Target Support Files/Pods-WBBlades";
+			sourceTree = "<group>";
+		};
+		B467F562C9B647684ABDB76C47440656 /* PowerPC */ = {
+			isa = PBXGroup;
+			children = (
+				446331F8661622EB185CF9E95E22C9C1 /* PPCDisassembler.c */,
+				2C688902874B34A0115B9C3AB1B87F73 /* PPCDisassembler.h */,
+				FE44CC4BDB05CDA759F5F2135762322B /* PPCInstPrinter.c */,
+				EBBEB04466B6B30AFD5D841CCFFC0AE4 /* PPCInstPrinter.h */,
+				64413A19E608D1E85FA0FBCB78F84BE8 /* PPCMapping.c */,
+				897C5BFA1B96BBDADAF9170AD7865378 /* PPCMapping.h */,
+				B16087D71CECA30D0BBBFAA3B07D5BFB /* PPCModule.c */,
+				EAE6C4646AD749A05E884300E89CB3F3 /* PPCPredicates.h */,
+			);
+			name = PowerPC;
+			path = PowerPC;
+			sourceTree = "<group>";
+		};
+		B4F3562AD9509D99A07D56D988F815AC /* include */ = {
+			isa = PBXGroup;
+			children = (
+				A74DDD8571F4C5836EE15C3C0DFB9E0B /* arm.h */,
+				90C0E40554A85086D82A00361F66C08E /* arm64.h */,
+				914185595ED12FC000AD8A4E1756F504 /* capstone.h */,
+				F81003A7723F52DDD47BAAE0DEFC4CAE /* mips.h */,
+				72C10B37CD22808D1F4BB231B1436A52 /* platform.h */,
+				C13A60A928CF7831C64BCC69AD5B5923 /* ppc.h */,
+				C27CDAD2742302925C95386057DB711F /* sparc.h */,
+				01CC5A0471EF171F1428604C0EEB2372 /* systemz.h */,
+				945D2772B9299BFD3C8F69CD53D3A083 /* x86.h */,
+				1A260E9B65A8BE74BAE8A24C5D3E561A /* xcore.h */,
+			);
+			name = include;
+			path = Capstone/include;
+			sourceTree = "<group>";
+		};
+		BB3D5DAEB96543BBBA31DA9747C94A1E /* Development Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EFC92C9AD38EAF469BE7AF8E30DD9AF1 /* ArtilleryOfItaly */,
+				2D36F32A5D94672C817EC6507A4B3227 /* WBBlades */,
+				E2A4CCAA616186ADE104BC4BFDC970AD /* WBBladesCrash */,
+			);
+			name = "Development Pods";
+			sourceTree = "<group>";
+		};
+		CF1408CF629C7361332E53B88F7BD30C = {
+			isa = PBXGroup;
+			children = (
+				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
+				BB3D5DAEB96543BBBA31DA9747C94A1E /* Development Pods */,
+				D89477F20FB1DE18A04690586D7808C4 /* Frameworks */,
+				D857DC60A4CFF2F141CFA56D22AB8070 /* Products */,
+				43341D11A274E069C9E9441F988134A9 /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		D857DC60A4CFF2F141CFA56D22AB8070 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				72CDE7A38AEF594231A1CC73D5C181B9 /* ArtilleryOfItaly */,
+				AA47E488197FC2C82D7000B340C52A3E /* Pods-WBBlades */,
+				DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* Pods-WBBladesCrashApp */,
+				FA742A571754FE11148C30EC85F31D98 /* WBBlades */,
+				F338D1F16C33E5F6F50DAEA7117F4084 /* WBBladesCrash */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D89477F20FB1DE18A04690586D7808C4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E0EEC6365EA3EAEC72DE1AD3FF9ED3F4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E528F5DDF5838F8EFCCB295082DA9FE /* libdwarf.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E2A4CCAA616186ADE104BC4BFDC970AD /* WBBladesCrash */ = {
+			isa = PBXGroup;
+			children = (
+				BDFB89E4422676E5431C1B403B39754C /* dsymutil */,
+				F4A4B79EEFB361DBE7D9E15EE2EC40F1 /* WBBladesCrash-Bridging-Header.h */,
+				6BC358FBED42B55843327C6B77A6E6F6 /* WBBladesCrashManager.swift */,
+				7436D3467AECDC5D14937BF7930D8A1B /* WBBladesCrashModel.swift */,
+				30BC524C498CF24486543007D72BD832 /* Pod */,
+				ACC68659E8ABDFFE723B8DC63D0DA3CE /* Support Files */,
+				97058496337AF626070D4687C2BDD7AE /* WBBMAnalyze */,
+				39C35DE49DA4F9858AD3B6FAEB6B7FAB /* WBBMFileManager */,
+				7AE13AD8D8536F58D4C36CF49422C09D /* WBBMScanLog */,
+				ED4ED76D7180CD1FF66FEA0BEF879FFC /* WBBMSymbol */,
+			);
+			name = WBBladesCrash;
+			path = ../WBBladesCrash;
+			sourceTree = "<group>";
+		};
+		EA6E36268FFDF07C14EEF73F2F6DB43C /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1760CD96B9E9D7F2730518271E3C490E /* WBBlades.modulemap */,
+				C810A7DBD4F0D802A7375D9A2DFA4D8A /* WBBlades-dummy.m */,
+				8E99619128440D9308D74370503A60D2 /* WBBlades-prefix.pch */,
+				AA5046926F3ED50C004A59F5827764E0 /* WBBlades-umbrella.h */,
+				00E220273221BBE40613B9A43B58D02D /* WBBlades.debug.xcconfig */,
+				EEA55522C65D45C2EE32FFFEE5A9F546 /* WBBlades.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Pods/Target Support Files/WBBlades";
+			sourceTree = "<group>";
+		};
+		ED4ED76D7180CD1FF66FEA0BEF879FFC /* WBBMSymbol */ = {
+			isa = PBXGroup;
+			children = (
+				43FFBECD8E559EE103EC49A9D3412B1D /* WBBMLightSymbolTool.swift */,
+				E42974786E2DD9477C034D5D85433545 /* WBBMSymbolSearch.swift */,
+				5C085031941D7E43C0912DF30AA18A86 /* WBBMSymbolTake.swift */,
+				B5A4114AFEB6DE108E3BFC6FE24ACF09 /* WBBMSymbolTool.swift */,
+			);
+			name = WBBMSymbol;
+			path = WBBladesCrash/WBBMSymbol;
+			sourceTree = "<group>";
+		};
+		EFC92C9AD38EAF469BE7AF8E30DD9AF1 /* ArtilleryOfItaly */ = {
+			isa = PBXGroup;
+			children = (
+				4279F7F6C5BDB62A83E93C9D14D42ED4 /* Artillery.h */,
+				36EA518C95E1E0A37690D2E9F3B0F24E /* Artillery.m */,
+				AE47501236085C242F100976640A0A07 /* ArtilleryModels.h */,
+				97049D6365E5086E385AD15179014BDC /* ArtilleryModels.m */,
+				F4318D751CE2ED19B9FEC5857F2DD540 /* ArtilleryOfItaly.h */,
+				F7E95D85F979DEB7B3A8FDA3D902705D /* dwarf.h */,
+				66563D09CDE74E9DF1F7539F9D45F8E0 /* Info.plist */,
+				0764677A9C20EB98CB1D97A1562D27D3 /* libdwarf.h */,
+				E0EEC6365EA3EAEC72DE1AD3FF9ED3F4 /* Frameworks */,
+				302AAC83364D100A5A2B0AA152151D61 /* Pod */,
+				3E5B79E12A5F04294927405553763D96 /* Support Files */,
+			);
+			name = ArtilleryOfItaly;
+			path = ../ArtilleryOfItaly;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		3E1EB81FCAB9FB4AAAD4EF8B8EA32428 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E4DB01FD699EE51C3CB1E17C10A14ACA /* AArch64AddressingModes.h in Headers */,
+				B4D414D3394381DC5F74CE4C437321CE /* AArch64BaseInfo.h in Headers */,
+				30C641044F52DF20626E7AA480C0A293 /* AArch64Disassembler.h in Headers */,
+				0C838CD6E9AC985D9B3C19ABA29DF763 /* AArch64InstPrinter.h in Headers */,
+				7778A3600B6C08586A81518C9D44366C /* AArch64Mapping.h in Headers */,
+				964485393DFB1F56381EDB10963D978B /* arm.h in Headers */,
+				00519DB1FB534B35B77BE5B8B7624902 /* arm64.h in Headers */,
+				17CD61C600D1603C92F0A864C9946A5C /* ARMAddressingModes.h in Headers */,
+				F29AB88EF7041D7F3404F658360BCC11 /* ARMBaseInfo.h in Headers */,
+				FEA123AB6BCF57C3332D87A02892FBC6 /* ARMDisassembler.h in Headers */,
+				3920D158277BB14558C40ED9B0ED8A62 /* ARMInstPrinter.h in Headers */,
+				A4C9BAFE53288BB8DA4293D833C57F6E /* ARMMapping.h in Headers */,
+				32D5E740BB0485693FA5CBF91BC1B03E /* capstone.h in Headers */,
+				B6F1A7CB0B77637324AD44E6EF8E2601 /* cs_priv.h in Headers */,
+				3C5F367342DE34A390F0BF02BA82E881 /* inttypes.h in Headers */,
+				01FD5284066022D48955F086D1426B68 /* LEB128.h in Headers */,
+				3AF723E307626349633BEA87002512B2 /* MathExtras.h in Headers */,
+				25B07D6F037DA780674F557F58EDB391 /* MCDisassembler.h in Headers */,
+				A3F1B2E25A53D718ADB6CD3AB4370D97 /* MCFixedLenDisassembler.h in Headers */,
+				7210CB50EF0A9E9FE4A9C1FA1615AF7B /* MCInst.h in Headers */,
+				61C429C02C45186040EA9E97C038126C /* MCInstrDesc.h in Headers */,
+				272A7498541A161761B68E61FC7837F0 /* MCRegisterInfo.h in Headers */,
+				AB88198A697966858836720647C3BC2C /* mips.h in Headers */,
+				D4642A6006269A61DD52ED12CC76B1EF /* myinttypes.h in Headers */,
+				D7B54BDEF7BC3A3ADC684F1ED7E84CCC /* osxkernel_inttypes.h in Headers */,
+				5651566F0C82A33ABC5DF0C4F8FE710E /* platform.h in Headers */,
+				ABC5F14753116AAD2391EFE4C1A0A554 /* ppc.h in Headers */,
+				BC87504FFA0A37612428F36927E813E7 /* PPCDisassembler.h in Headers */,
+				049E47860D3EFE2BB847CE29AA46DF09 /* PPCInstPrinter.h in Headers */,
+				66177C0EE2033F84BA68AF46E385DF3C /* PPCMapping.h in Headers */,
+				9BAD20052D6557687B72D32774592A3D /* PPCPredicates.h in Headers */,
+				4618BBC1889320F9049CCD653D0DE972 /* sparc.h in Headers */,
+				1A902F0218DCDAED8B0CC2E9D330B9AD /* SStream.h in Headers */,
+				A9FDB9E9342DABC76BCF0AEFCF91A1D7 /* STPrivilegedTask.h in Headers */,
+				4B9C5C876007691BC0D33F04B43FACCD /* systemz.h in Headers */,
+				1FA55249B385EF9BE3DE4501B50EE15E /* utils.h in Headers */,
+				FFB385E7087A75F54A742D778F13C936 /* WBBlades-umbrella.h in Headers */,
+				02AAAEB04A6D1FE273215FC8632580FE /* WBBladesCMD.h in Headers */,
+				B632DE2F1794FF00FFD0FE09F6A20E91 /* WBBladesDefines.h in Headers */,
+				C8B5CAB79C1AA058831EDE9E847F77A0 /* WBBladesFileManager.h in Headers */,
+				EE4578B1CCDF0D6BFA31B7E0F8ACF953 /* WBBladesFileManager+StaticLibs.h in Headers */,
+				64BE8AB7C5DABD8EAD0F69AD3BF954E7 /* WBBladesInterface.h in Headers */,
+				C485F2952BAC9177E72AAC3B4A5865A9 /* WBBladesLinkManager.h in Headers */,
+				95974FE4B95FB39A440601E80BE92CF1 /* WBBladesObject.h in Headers */,
+				1657F9EE187488328474A3ABD3CAD253 /* WBBladesObjectHeader.h in Headers */,
+				4D1986FB80870CB46792F19C6D0B9C92 /* WBBladesScanManager.h in Headers */,
+				6E7298E66B117C7D1E6827031F7C1353 /* WBBladesScanManager+CrashSymbol.h in Headers */,
+				665E7F957D22CF1151B365F9305B8B47 /* WBBladesScanManager+StaticLibs.h in Headers */,
+				5D04643D0D4A2CABF464F56668330D76 /* WBBladesScanManager+UnuseClassScan.h in Headers */,
+				D6EF9735490A3C93B9D2D5560641AA0E /* WBBladesStaticLibraryModel.h in Headers */,
+				1244DEB2A3288501525A82BF9BC61919 /* WBBladesStringTab.h in Headers */,
+				58ACD98A9A439FED7B6F23D4F64589E3 /* WBBladesSymTab.h in Headers */,
+				A93C001E0819E58302BF275370B7512C /* WBBladesTool.h in Headers */,
+				F388685AFFC94D81E7DE4FF9DD007ADE /* x86.h in Headers */,
+				EF64A3B74D94505E2EFE5D35B201BB27 /* X86BaseInfo.h in Headers */,
+				4D5684C8EF53382A96AE002A9E960EB3 /* X86Disassembler.h in Headers */,
+				69D229C4158C0A5B5836E1F76AF19701 /* X86DisassemblerDecoder.h in Headers */,
+				EB4D158A81279379F7473C5549B2A6C4 /* X86DisassemblerDecoderCommon.h in Headers */,
+				1BC9C88FB8C6444D0147B32FE111DBE6 /* X86InstPrinter.h in Headers */,
+				50F0B163F9D2F552EF833C6470CDF9FD /* X86Mapping.h in Headers */,
+				9BED428B49330C5584C41A084DBFA062 /* xcore.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		419BE46E986517E14321F0BEB0FDB075 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8636215670D3FAABA3B1691C6F47BC4E /* Artillery.h in Headers */,
+				5E5D22CEE2C51BB509B4BA4C7A0D0B49 /* ArtilleryModels.h in Headers */,
+				2743A7574402917D46834DBEB4B9D14B /* ArtilleryOfItaly.h in Headers */,
+				679DEED0FB60B0CAEB34DC315F320755 /* dwarf.h in Headers */,
+				3EF86414DDF94CE4F9178F2B75C99C68 /* libdwarf.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9422F6C444B7BEEE829CBB3B9120B6F8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9904968439ECDBB30AAC31B541BE0208 /* Pods-WBBladesCrashApp-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B57F84308DFFF367D53468EEEF2FCC1D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				829254EAB0E17777170D815163101176 /* Pods-WBBlades-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ED0BB96D5A6E4BA0557FF7F7AF8BC3EC /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4286A83EF070F00A6EF13E16CAF90644 /* WBBladesCrash-Bridging-Header.h in Headers */,
+				3744FA5689F60534A2C8C875D5237F0C /* WBBladesCrash-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9000C3D5FB40332F64FD9B139F6E6CE2 /* Build configuration list for PBXNativeTarget "WBBladesCrash" */;
+			buildPhases = (
+				ED0BB96D5A6E4BA0557FF7F7AF8BC3EC /* Headers */,
+				FCA993AD86A50D7E6AC4E2810A47A9DF /* Sources */,
+				DFDD9ADF628D2CEDE24E9FDB7BAFF5DC /* Frameworks */,
+				BAC1833C52B92CF525FB2DEB84DFC820 /* Copy generated compatibility header */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WBBladesCrash;
+			productName = WBBladesCrash;
+			productReference = F338D1F16C33E5F6F50DAEA7117F4084 /* WBBladesCrash */;
+			productType = "com.apple.product-type.library.static";
+		};
+		8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8B8DA550D2B35398463B9383BBCBB551 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */;
+			buildPhases = (
+				9422F6C444B7BEEE829CBB3B9120B6F8 /* Headers */,
+				3493CEF37CE7918557A0069ACCDB7CC8 /* Sources */,
+				F8BF44236DA0B62A37BD118769553FDA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8ED30F700C26CE62EE2AED7492A775EE /* PBXTargetDependency */,
+				15FE0EAAE8418894DA988388D7E838B3 /* PBXTargetDependency */,
+				4864D625182B3BCDB1914C324F0E41E2 /* PBXTargetDependency */,
+			);
+			name = "Pods-WBBladesCrashApp";
+			productName = "Pods-WBBladesCrashApp";
+			productReference = DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* Pods-WBBladesCrashApp */;
+			productType = "com.apple.product-type.library.static";
+		};
+		A6A142AEB1B8D4431EF8F850124A0910 /* WBBlades */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D4215A687C73823024909D98AA40E0C0 /* Build configuration list for PBXNativeTarget "WBBlades" */;
+			buildPhases = (
+				3E1EB81FCAB9FB4AAAD4EF8B8EA32428 /* Headers */,
+				63877514409E464BA9A5B6F0E4733B60 /* Sources */,
+				29A56722133DC8F2B9E38EA66C325AC4 /* Frameworks */,
+				DF6C4187BF5BD4C0C7B6F1F459F637E8 /* Copy generated compatibility header */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				45BC5A4D6ACDC88EE901CEAC052D04F3 /* PBXTargetDependency */,
+			);
+			name = WBBlades;
+			productName = WBBlades;
+			productReference = FA742A571754FE11148C30EC85F31D98 /* WBBlades */;
+			productType = "com.apple.product-type.library.static";
+		};
+		B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7F20BC602D7F049E776CE8868C7D8D09 /* Build configuration list for PBXNativeTarget "ArtilleryOfItaly" */;
+			buildPhases = (
+				419BE46E986517E14321F0BEB0FDB075 /* Headers */,
+				79F80561F177E0EBC79FB4FD7F66E4FC /* Sources */,
+				DD19531BD9721B7FE593B25F57A182C1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ArtilleryOfItaly;
+			productName = ArtilleryOfItaly;
+			productReference = 72CDE7A38AEF594231A1CC73D5C181B9 /* ArtilleryOfItaly */;
+			productType = "com.apple.product-type.library.static";
+		};
+		F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = E2ADE5E0E8C8449C46A83C39247C1A48 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */;
+			buildPhases = (
+				B57F84308DFFF367D53468EEEF2FCC1D /* Headers */,
+				60C04D71144BDA9F9F4EDC7E09AAA322 /* Sources */,
+				3B3A72F9EDA9A34626F880F045AD68D1 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9AB0CA33F4356FB11B21F88548F82EFD /* PBXTargetDependency */,
+				2FB4BB657F563E27EF530B55786FD445 /* PBXTargetDependency */,
+				1E2D3E4AA7AF695D947EE8B938D69FCF /* PBXTargetDependency */,
+			);
+			name = "Pods-WBBlades";
+			productName = "Pods-WBBlades";
+			productReference = AA47E488197FC2C82D7000B340C52A3E /* Pods-WBBlades */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+			};
+			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			productRefGroup = D857DC60A4CFF2F141CFA56D22AB8070 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */,
+				F7B7AC5648816C76F1D426BAE372AF44 /* Pods-WBBlades */,
+				8115144DAD18E52C2CAE6F99BC926121 /* Pods-WBBladesCrashApp */,
+				A6A142AEB1B8D4431EF8F850124A0910 /* WBBlades */,
+				0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BAC1833C52B92CF525FB2DEB84DFC820 /* Copy generated compatibility header */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
+				"${PODS_ROOT}/Headers/Public/WBBladesCrash/WBBladesCrash.modulemap",
+				"${PODS_ROOT}/Headers/Public/WBBladesCrash/WBBladesCrash-umbrella.h",
+			);
+			name = "Copy generated compatibility header";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
+				"${BUILT_PRODUCTS_DIR}/WBBladesCrash-umbrella.h",
+				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBladesCrash/WBBladesCrash.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBladesCrash/WBBladesCrash-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
+		};
+		DF6C4187BF5BD4C0C7B6F1F459F637E8 /* Copy generated compatibility header */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h",
+				"${PODS_ROOT}/Headers/Public/WBBlades/WBBlades.modulemap",
+				"${PODS_ROOT}/Headers/Public/WBBlades/WBBlades-umbrella.h",
+			);
+			name = "Copy generated compatibility header";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap",
+				"${BUILT_PRODUCTS_DIR}/WBBlades-umbrella.h",
+				"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "COMPATIBILITY_HEADER_PATH=\"${BUILT_PRODUCTS_DIR}/Swift Compatibility Header/${PRODUCT_MODULE_NAME}-Swift.h\"\nMODULE_MAP_PATH=\"${BUILT_PRODUCTS_DIR}/${PRODUCT_MODULE_NAME}.modulemap\"\n\nditto \"${DERIVED_SOURCES_DIR}/${PRODUCT_MODULE_NAME}-Swift.h\" \"${COMPATIBILITY_HEADER_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBlades/WBBlades.modulemap\" \"${MODULE_MAP_PATH}\"\nditto \"${PODS_ROOT}/Headers/Public/WBBlades/WBBlades-umbrella.h\" \"${BUILT_PRODUCTS_DIR}\"\nprintf \"\\n\\nmodule ${PRODUCT_MODULE_NAME}.Swift {\\n  header \\\"${COMPATIBILITY_HEADER_PATH}\\\"\\n  requires objc\\n}\\n\" >> \"${MODULE_MAP_PATH}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3493CEF37CE7918557A0069ACCDB7CC8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D8E1AF13B5639CD6350D778A85F0271A /* Pods-WBBladesCrashApp-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		60C04D71144BDA9F9F4EDC7E09AAA322 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0DF507EBDDB6ADE7A4DE5EDC350D1721 /* Pods-WBBlades-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		63877514409E464BA9A5B6F0E4733B60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A37751991833E5A91D55E02F5638003B /* AArch64BaseInfo.c in Sources */,
+				10A126AEBD7DF442F886984787093DF7 /* AArch64Disassembler.c in Sources */,
+				7D5B559941605AC8B9195877940232F1 /* AArch64InstPrinter.c in Sources */,
+				C80EA5A10F39974B9DF76A7EE6551093 /* AArch64Mapping.c in Sources */,
+				EF4C886AC47EEEF67EBAAB2591144401 /* AArch64Module.c in Sources */,
+				4E26D953BE9DE763B4CB678C3FF4E40E /* ARMDisassembler.c in Sources */,
+				DBE7AE18FFEC34C27E43CD5FCF86E9C2 /* ARMInstPrinter.c in Sources */,
+				1E87B408AA96D4F432D62885C34C3F8C /* ARMMapping.c in Sources */,
+				EE67C35E5DF4EA78D5437FC08C9F086F /* ARMModule.c in Sources */,
+				2131CFBF036103812F6DEF6C902D6B0B /* cs.c in Sources */,
+				8566065337C08CC7860C41D9B2F807FD /* MCInst.c in Sources */,
+				D06ECA9B5F585432D8B3F95EDC315A2F /* MCInstrDesc.c in Sources */,
+				D61D9E20A273E3981857AA646D6ADEE4 /* MCRegisterInfo.c in Sources */,
+				737F9550CAF98362C2FE3FB5EF638625 /* PPCDisassembler.c in Sources */,
+				9367813B525311F53C2DDA0D86B985C2 /* PPCInstPrinter.c in Sources */,
+				A68034529D3D7B3EC4B2DE52E4F5E009 /* PPCMapping.c in Sources */,
+				8F53CB0B678380110BFB73BDCEB56C5B /* PPCModule.c in Sources */,
+				8061167322D777E26F461ECF81C6D551 /* SStream.c in Sources */,
+				79C85F184FF02F307492C064038B94DE /* STPrivilegedTask.m in Sources */,
+				362797A66EB4607C6339DEAF28669463 /* utils.c in Sources */,
+				1D84F83E305938CC22570AB14EC918CE /* WBBlades-dummy.m in Sources */,
+				4A55DB173E357F8CBE037CAAC777CD6B /* WBBladesCMD.mm in Sources */,
+				7F0A5B6C0AE07CE82AFBA885DFF74114 /* WBBladesFileManager.mm in Sources */,
+				03919E4C91BC26474C3DFB5A604D70AE /* WBBladesFileManager+StaticLibs.mm in Sources */,
+				C0E8246CA77AA8A5C9D6A767B88F8151 /* WBBladesInterface.m in Sources */,
+				3F0FC58F2AD5B43C2FEAA01B7B99A2F7 /* WBBladesLinkManager.mm in Sources */,
+				A0BBD64E0E6B7E557E6EEB9E3B0AFA43 /* WBBladesObject.m in Sources */,
+				96E8AA17BF82069AF8EBF70C7D1DA7DB /* WBBladesObjectHeader.m in Sources */,
+				D691320C5E111DFFBC01F3E0893CFB33 /* WBBladesScanManager.mm in Sources */,
+				23D715C43CCD72FF249F7995AAECB8D7 /* WBBladesScanManager+CrashSymbol.mm in Sources */,
+				DAF99F2B21F44F22E135C7F6CC848E52 /* WBBladesScanManager+StaticLibs.mm in Sources */,
+				985E8656CD433398B3CE5AEF4F811807 /* WBBladesScanManager+UnuseClassScan.mm in Sources */,
+				DA16E0CA04DCB20BA1E5BD8E22D570C9 /* WBBladesStaticLibraryModel.m in Sources */,
+				9903D720A4F579A75D4B0EEE27315D5B /* WBBladesStringTab.m in Sources */,
+				FA8B7076CA79E665E548E14EDEB898BB /* WBBladesSymTab.m in Sources */,
+				904235C12F135CC0EDD71726D4B2623B /* WBBladesTool.mm in Sources */,
+				6006DC63D122D8FDA67169AF66FABF7A /* WBCrashTool.swift in Sources */,
+				2D8C2EEFC143B1CDA1AB226BA66992EE /* X86ATTInstPrinter.c in Sources */,
+				2EDB9E174B48A6B27B75DB3E1FFF0026 /* X86Disassembler.c in Sources */,
+				3CA1561F188B894E659A305C79760FDC /* X86DisassemblerDecoder.c in Sources */,
+				61A277DCE29AF844DAB4726EF00F3005 /* X86IntelInstPrinter.c in Sources */,
+				25F40FE831F46B1C4B97DE45C194F075 /* X86Mapping.c in Sources */,
+				189F56E6B598ABD327FE69F94220A0D7 /* X86Module.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		79F80561F177E0EBC79FB4FD7F66E4FC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				608CBC468E1823C61815D7F03AB94F8C /* Artillery.m in Sources */,
+				0129B3F39B721C3A3A88BD2613DB92AC /* ArtilleryModels.m in Sources */,
+				5DBACFCB4C7B6EFFDA5FA044D6BF4155 /* ArtilleryOfItaly-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCA993AD86A50D7E6AC4E2810A47A9DF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE2DBDB8CE7FA1F54621B0AB4F94A70C /* WBBladesCrash-dummy.m in Sources */,
+				3EA7B8E1BB704D17B245F5BB38A6EBE7 /* WBBladesCrashManager.swift in Sources */,
+				F4026895C5FF74021164D7A2DC47321D /* WBBladesCrashModel.swift in Sources */,
+				F043902B23AEB8103DDA19DB78698F1D /* WBBMLightSymbolTool.swift in Sources */,
+				578C0F4DDFA19425B7D4087ACF4BD353 /* WBBMOutputFile.swift in Sources */,
+				29F94BE9B383391F3C6BA2C641289AF9 /* WBBMScanBuglyLog.swift in Sources */,
+				7F7F27589BF7AA0107751C10ABDE59E8 /* WBBMScanLogManager.swift in Sources */,
+				8042A3418BA61E13B29B564EA632F3A5 /* WBBMScanLogModel.swift in Sources */,
+				0214376E300F4732C8809DEFFB4369D2 /* WBBMScanLogTool.swift in Sources */,
+				CB60005B3D5E575E1C7D7D37BD3093FA /* WBBMScanSystemLog.swift in Sources */,
+				C8722AEE3EAE7065C7D4E96DD6E168D3 /* WBBMShellObject.swift in Sources */,
+				AF82C0FC7C7E0E9700B4C4F2198B90AD /* WBBMSymbolSearch.swift in Sources */,
+				CA6B5FCEE4AA35114B82C9B424931968 /* WBBMSymbolTake.swift in Sources */,
+				8967C30EB225DE509D42E6B08D4C74D2 /* WBBMSymbolTool.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		15FE0EAAE8418894DA988388D7E838B3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBlades;
+			target = A6A142AEB1B8D4431EF8F850124A0910 /* WBBlades */;
+			targetProxy = F07B8254197E15426D16A33A32B44DC9 /* PBXContainerItemProxy */;
+		};
+		1E2D3E4AA7AF695D947EE8B938D69FCF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBladesCrash;
+			target = 0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */;
+			targetProxy = AAE08794B3199E799EDD507E8C1DAC30 /* PBXContainerItemProxy */;
+		};
+		2FB4BB657F563E27EF530B55786FD445 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBlades;
+			target = A6A142AEB1B8D4431EF8F850124A0910 /* WBBlades */;
+			targetProxy = 5A24D4B40C0B2975CE9250B91FE05619 /* PBXContainerItemProxy */;
+		};
+		45BC5A4D6ACDC88EE901CEAC052D04F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBladesCrash;
+			target = 0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */;
+			targetProxy = 0350887CB4AC023168F23D864F90FE20 /* PBXContainerItemProxy */;
+		};
+		4864D625182B3BCDB1914C324F0E41E2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WBBladesCrash;
+			target = 0476538A94CBD3DE8CDA74B633333B0D /* WBBladesCrash */;
+			targetProxy = 0DB1EA5A45AC9CB4E0E4FD8EDAD9E570 /* PBXContainerItemProxy */;
+		};
+		8ED30F700C26CE62EE2AED7492A775EE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ArtilleryOfItaly;
+			target = B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */;
+			targetProxy = 7DABE396992A5576F84FA6F255B31414 /* PBXContainerItemProxy */;
+		};
+		9AB0CA33F4356FB11B21F88548F82EFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ArtilleryOfItaly;
+			target = B378281B801AFD517BEAC3EBC7B6F27B /* ArtilleryOfItaly */;
+			targetProxy = FF4B346B8B385B0FD897E904F6FC8099 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01DA4217AFECFB379360BE310C763338 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C301AEF2212038FAB3057B5D8B9E2357 /* ArtilleryOfItaly.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/ArtilleryOfItaly/ArtilleryOfItaly-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = ArtilleryOfItaly;
+				PRODUCT_NAME = ArtilleryOfItaly;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		196DC159BABF6BD48085A32E0952D2EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 901433A4AED510E13951F82F341C5B0A /* WBBladesCrash.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBladesCrash;
+				PRODUCT_NAME = WBBladesCrash;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Debug;
+		};
+		2BDDF8655EF0FB8B4CBB3DE9D33794DC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		349DAC7294D94E2E0BF34185B0913FCA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		47702D7B9D45EAE3B428542F998929A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBlades/Pods-WBBlades.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		7599BD86FD28576C20F8B9B6B5ACBEC9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_DEBUG=1",
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		79BF99223677FCA0D3C09DE98EC963AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		B6446B9FA425311D2C1628A71456C2C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 32FB19E016BE98175D6B03A207DB806A /* WBBladesCrash.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBladesCrash/WBBladesCrash-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBladesCrash/WBBladesCrash.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBladesCrash;
+				PRODUCT_NAME = WBBladesCrash;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.3;
+			};
+			name = Release;
+		};
+		C0AB89DB0533D8E2B9201FA6579824B7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		C4B07F49584038ECEF8A79A136EED35B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 00E220273221BBE40613B9A43B58D02D /* WBBlades.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBlades/WBBlades-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBlades/WBBlades.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBlades;
+				PRODUCT_NAME = WBBlades;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CCC2D545E7D62CACDABD24D893CA8DE5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EEA55522C65D45C2EE32FFFEE5A9F546 /* WBBlades.release.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/WBBlades/WBBlades-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MODULEMAP_FILE = Headers/Public/WBBlades/WBBlades.modulemap;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = WBBlades;
+				PRODUCT_NAME = WBBlades;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		D0870868057AC0B926E76FF2DA5A06F0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 2930CADB92B9EE7425B350A3D962CAE8 /* ArtilleryOfItaly.debug.xcconfig */;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				EXECUTABLE_PREFIX = lib;
+				GCC_PREFIX_HEADER = "Target Support Files/ArtilleryOfItaly/ArtilleryOfItaly-prefix.pch";
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = ArtilleryOfItaly;
+				PRODUCT_NAME = ArtilleryOfItaly;
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7599BD86FD28576C20F8B9B6B5ACBEC9 /* Debug */,
+				C0AB89DB0533D8E2B9201FA6579824B7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7F20BC602D7F049E776CE8868C7D8D09 /* Build configuration list for PBXNativeTarget "ArtilleryOfItaly" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D0870868057AC0B926E76FF2DA5A06F0 /* Debug */,
+				01DA4217AFECFB379360BE310C763338 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8B8DA550D2B35398463B9383BBCBB551 /* Build configuration list for PBXNativeTarget "Pods-WBBladesCrashApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				349DAC7294D94E2E0BF34185B0913FCA /* Debug */,
+				79BF99223677FCA0D3C09DE98EC963AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9000C3D5FB40332F64FD9B139F6E6CE2 /* Build configuration list for PBXNativeTarget "WBBladesCrash" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				196DC159BABF6BD48085A32E0952D2EB /* Debug */,
+				B6446B9FA425311D2C1628A71456C2C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D4215A687C73823024909D98AA40E0C0 /* Build configuration list for PBXNativeTarget "WBBlades" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C4B07F49584038ECEF8A79A136EED35B /* Debug */,
+				CCC2D545E7D62CACDABD24D893CA8DE5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		E2ADE5E0E8C8449C46A83C39247C1A48 /* Build configuration list for PBXNativeTarget "Pods-WBBlades" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2BDDF8655EF0FB8B4CBB3DE9D33794DC /* Debug */,
+				47702D7B9D45EAE3B428542F998929A8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+}

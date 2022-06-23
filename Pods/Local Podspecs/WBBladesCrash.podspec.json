@@ -1,0 +1,37 @@
+{
+  "name": "WBBladesCrash",
+  "version": "1.0",
+  "summary": "WBBladesCrash",
+  "description": "xxxxxx",
+  "homepage": "WBBladesCrash.git",
+  "source": {
+    "git": "WBBladesCrash.git",
+    "branch": "1.0"
+  },
+  "license": {
+    "type": "license",
+    "text": "\n"
+  },
+  "authors": "58tongcheng",
+  "requires_arc": true,
+  "platforms": {
+    "osx": "10.12"
+  },
+  "resources": "WBBladesCrash/Resource/*",
+  "source_files": [
+    "WBBladesCrash/*.{swift,h}",
+    "WBBladesCrash/**/*.{swift}"
+  ],
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBladesCrash",
+    "DEFINES_MODULE": "YES"
+  },
+  "module_name": "WBBladesCrash",
+  "swift_versions": [
+    "5.0",
+    "5.1",
+    "5.2",
+    "5.3"
+  ],
+  "swift_version": "5.3"
+}
