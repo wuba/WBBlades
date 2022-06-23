@@ -51,6 +51,13 @@ NS_ASSUME_NONNULL_BEGIN
 + (WBBladesObject *)scanObject:(NSData *)fileData range:(NSRange)range;
 
 /**
+ *  scan object file header and return model
+ *  @param fileData binary data
+ *  @param range range
+ */
++ (WBBladesObjectMachO *)scanObjectMachO:(NSData *)fileData range:(NSRange)range;
+
+/**
 *  use eight-bytes alignment
 *  @param range range
 */

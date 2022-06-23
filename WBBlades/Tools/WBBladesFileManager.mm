@@ -24,7 +24,7 @@
 }
 
 + (NSData *)readArm64FromFile:(NSString *)filePath {
-    
+
     // Path correction for the app file.
     NSString *lastPathComponent = [filePath lastPathComponent];
     NSArray *tmp = [lastPathComponent componentsSeparatedByString:@"."];
@@ -35,20 +35,20 @@
             filePath = [filePath stringByAppendingPathComponent:fileName];
         }
     }
-    
+
     removeCopyFile(filePath);
-    
+
     copyFile(filePath);
-    
+
     thinFile(filePath);    // Remove architectures which are not arm64.
-    
+
     NSURL *tmpURL = [NSURL fileURLWithPath:[NSString stringWithFormat:@"%@_copy", filePath]];
     NSData *fileData = [NSMutableData dataWithContentsOfURL:tmpURL
                                                     options:NSDataReadingMappedIfSafe
                                                       error:NULL];
     removeCopyFile(filePath);
     uint32_t cputype = *(uint32_t*)((uint8_t *)[fileData bytes] + 4);
-    
+
     if (!fileData || cputype != CPU_TYPE_ARM64) {
         NSLog(@"文件读取失败，请输入使用arm64真机的debug包");
         return nil;

@@ -17,10 +17,10 @@ static NSData * cmd(NSString *cmd) {
     [task setArguments: arguments];
     NSPipe *pipe = [NSPipe pipe];
     [task setStandardOutput: pipe];
-    
+
     NSFileHandle *file = [pipe fileHandleForReading];  // Start task
     [task launch];
-    
+
     NSData *data = [file readDataToEndOfFile];    // Get execution results.
     return data;
 }
@@ -37,9 +37,9 @@ void rmAppIfIpa(NSString *filePath){
 }
 
 NSString* getAppPathIfIpa(NSString *filePath){
-    
+
     rmAppIfIpa(filePath);
-    
+
     NSString *fileName = filePath.lastPathComponent;
     NSString *fileType = [fileName componentsSeparatedByString:@"."].lastObject;
     if ([fileType isEqualToString:@"ipa"]) {
@@ -50,19 +50,19 @@ NSString* getAppPathIfIpa(NSString *filePath){
         NSString *copyPath = [tmpPath stringByAppendingString:@"copy.ipa"];
 
         cmd([NSString stringWithFormat:@"mkdir %@",tmpPath]);
-        
+
         //解压
         [manager copyItemAtPath:filePath toPath:copyPath error:NULL];
-        
+
         cmd([NSString stringWithFormat:@"unzip -d %@ %@",tmpPath,copyPath]);
-        
+
         __block NSString *lastFilePath = filePath;
         NSString *payloadPath = [tmpPath stringByAppendingFormat:@"Payload/"];
         BOOL isDirectory;
         if([manager fileExistsAtPath:payloadPath isDirectory:&isDirectory]){
             NSArray *files = [manager contentsOfDirectoryAtPath:payloadPath error:NULL];
             [files enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-               
+
                 NSString *file = (NSString *)obj;
                 if ([file hasSuffix:@".app"]) {
                     lastFilePath = [payloadPath stringByAppendingString:file];
@@ -76,7 +76,7 @@ NSString* getAppPathIfIpa(NSString *filePath){
     return filePath;
 }
 
-void stripFile(NSString *filePath) {
+void stripBitCode(NSString *filePath) {
 
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     if (fileData.length < sizeof(uint32_t) ) {
@@ -88,7 +88,13 @@ void stripFile(NSString *filePath) {
     NSLog(@"正在去除bitcode中间码...");    // Remove bitcode information.
     NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
     cmd(bitcodeCmd);
-    
+
+//    NSLog(@"正在剥离符号表..."); // Strip symbol table.
+//    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x -S %@_copy",filePath];
+//    cmd(stripCmd);
+}
+
+void stripDysmSymbol(NSString *filePath) {
     NSLog(@"正在剥离符号表..."); // Strip symbol table.
     NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x -S %@_copy",filePath];
     cmd(stripCmd);
@@ -100,7 +106,7 @@ void copyFile(NSString *filePath) {
 }
 
 void thinFile(NSString *filePath) {
-    
+
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     if (fileData.length < sizeof(uint32_t) ) {
         return;
@@ -137,20 +143,15 @@ void compileXcassets(NSString *path) {
     cmd(complieCmd);
 }
 
-// 对已有的Assets.car文件进行3X分片
-void appSlicing3XAssetsCar(NSString *path, NSString *thinCarPath) {
-    NSString *thinCmd = [NSString stringWithFormat:@"assetutil --idiom phone --subtype 570 --scale 3 --display-gamut srgb --graphicsclass MTL2,2 --graphicsclassfallbacks MTL1,2:GLES2,0 --memory 1 --hostedidioms car,watch %@ -o %@", path, thinCarPath];
-    cmd(thinCmd);
-}
-
 #pragma mark Tools
 void colorPrint(NSString *info) {
-    
+
     NSTask *task = [[NSTask alloc] init];
     [task setLaunchPath: @"/bin/bash"];
     NSString *cmd = [NSString stringWithFormat:@"echo -e '\e[1;36m %@ \e[0m'",info];
     NSArray *arguments = [NSArray arrayWithObjects: @"-c", cmd, nil];
     [task setArguments: arguments];
-    
+
     [task launch];
 }
+

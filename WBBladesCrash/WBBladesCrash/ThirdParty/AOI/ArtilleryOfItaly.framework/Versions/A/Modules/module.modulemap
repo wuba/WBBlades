@@ -1,0 +1,6 @@
+framework module ArtilleryOfItaly {
+  umbrella header "ArtilleryOfItaly.h"
+
+  export *
+  module * { export * }
+}

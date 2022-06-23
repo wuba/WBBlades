@@ -4,27 +4,26 @@
 
 ## Introduction
 
-WBBlades is a tool set based on Mach-O file parsing, including unused code detection (supporting ObjC and Swift), app size analysis, and log recovery without dSYM file.
+WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries ..
 
 ## Installation
 
 ```
 $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
-$ sudo make install
+$ pod install
 ```
 
-Build with SwiftPM
+### Usage of Visualization Tool
+Target selects "WBBladesCrashApp"， If your MacBook is arm architecture，be sure to select "My Mac (Rosetta)".
 
-```
-swift build -c release --arch arm64 --arch x86_64
-sudo cp .build/apple/Products/Release/blades /usr/local/bin
-```
+Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
 
-**If you see some message like `[1] 70390 killed blades` ,please `make install`again.**
+### Usage for Mac Command Line
+Target selects "WBBlades"，Compile and build to generate command line tools
+Copy the generated product "blades" to /usr/local/bin，as follows：
+sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
-
-## Usage
 
 - Unused Code Detection ObjC & Swift
 
@@ -73,6 +72,7 @@ In the case of losing the dSYM file, try to restore the log via `blades -symbol`
 
 - This tool only supports ObjC, and its principle is to determine the function of the crash by analyzing the address of the ObjC method in Mach-O. Therefore, it is not suitable for Swfit, C, and C++. In addition, tools are not omnipotent, and are only used as emergency supplementary technical means. In daily situations, it is recommended to use symbol tables for log symbolization.
 
+
 ## Contributing & Feedback
 
 We sincerely hope that developers can provide valuable comments and suggestions, and developers can provide feedback on suggestions and problems by submitting PR or Issue.
@@ -87,4 +87,6 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 
 ## Thanks
 
-GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone") 
+GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
+
+GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")   
