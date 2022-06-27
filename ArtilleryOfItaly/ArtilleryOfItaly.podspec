@@ -19,8 +19,8 @@ Pod::Spec.new do |s|
   s.libraries           = "z"
 
   s.resources = "ArtilleryOfItaly/ArtilleryOfItaly/Info.plist"
-  s.source_files = 'ArtilleryOfItaly/ArtilleryOfItaly/*.{h,m}'
-  s.vendored_library  = 'ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.a'
+  s.source_files = 'ArtilleryOfItaly/ArtilleryOfItaly/*.{h,m}','ArtilleryOfItaly/ArtilleryOfItaly/Header Files/*.{h}','ArtilleryOfItaly/ArtilleryOfItaly/Source Files/*.{c}'
+#  s.vendored_library  = 'ArtilleryOfItaly/ArtilleryOfItaly/libdwarf.a'
 
   s.xcconfig = {
     'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/WBBrightMirror",

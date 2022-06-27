@@ -6,7 +6,7 @@
 //
 
 #import "Artillery.h"
-#import "dwarf.h"
+#import "../dwarf.h"
 #import "ArtilleryModels.h"
 #import <mach-o/loader.h>
 #import <mach-o/fat.h>
@@ -244,23 +244,21 @@ static void writefile(NSString *string ,NSString *filePath){
     [self writeSymbols:symbols];
     
     dwarf_types_dealloc(dbg, types, count);
-    dwarf_finish(dbg, NULL);
+    dwarf_finish(dbg);
     fileData = nil;
     outPath = nil;
 }
 
 + (Dwarf_Debug)getDebug:(NSString *)filepath{
     Dwarf_Debug dbg = 0;
-    char realPath[MACHO_PATH_LEN];
-    realPath[0] = 0;
+//    char realPath[MACHO_PATH_LEN];
+//    realPath[0] = 0;
     int res = DW_DLV_ERROR;
     
     res = dwarf_init_path(filepath.UTF8String,
-                          realPath,
-                          MACHO_PATH_LEN,
-                          DW_DLC_READ,
-                          DW_GROUPNUMBER_ANY,NULL,NULL,&dbg,
-                          0,0,0,NULL);
+                          0,
+                          0,
+                          DW_GROUPNUMBER_ANY,0,0,&dbg,NULL);
     if(res != DW_DLV_OK) {
         dbg = 0;
     }
@@ -303,8 +301,10 @@ static void writefile(NSString *string ,NSString *filePath){
             res = dwarf_siblingof_b(dbg,noDie,TRUE,&cuDie,&error);
             [self getDieAndSiblings:dbg die:cuDie];
             resetSrcfiles(dbg,&sf);
-            dwarf_dealloc(dbg,cuDie,DW_DLA_DIE);
-            dwarf_dealloc(dbg,noDie,DW_DLA_DIE);
+            dwarf_dealloc_die(noDie);
+            dwarf_dealloc_die(cuDie);
+//            dwarf_dealloc(dbg,cuDie,DW_DLA_DIE);
+//            dwarf_dealloc(dbg,noDie,DW_DLA_DIE);
         }
     }
 }
@@ -395,6 +395,7 @@ static NSMutableArray *lineInfos;
     dwarf_dealloc(dbg,error,DW_DLA_ERROR);
 }
 
+
 + (void)readDieData:(Dwarf_Debug)dbg die:(Dwarf_Die)die{
     Dwarf_Half tag = 0;
     Dwarf_Error error = 0;
@@ -408,12 +409,17 @@ static NSMutableArray *lineInfos;
     if (tag == DW_TAG_compile_unit){
         
         Dwarf_Error error = 0;
+        Dwarf_Unsigned versionCount = 0;
+        Dwarf_Signed lineCount = 0;
+        Dwarf_Line_Context lineContext;
+        Dwarf_Small dw_table_count = 0;
         Dwarf_Line *lines = NULL;
+        int res = dwarf_srclines_b(die,&versionCount, &dw_table_count,  &lineContext, &error);
+        res = dwarf_srclines_from_linecontext(lineContext, &lines, &lineCount, &error);
         
-        int res = dwarf_srclines(die,&lines, &symbolsCount, &error);
-        
-        for (int i = 0 ; i < symbolsCount; i++) {
+        for (int i = 0 ; i < lineCount; i++) {
             Dwarf_Line line = lines[i];
+//            lines[i];
             char *filepath = 0;
             Dwarf_Addr address = 0;
             Dwarf_Unsigned lineno = 0;
@@ -431,7 +437,8 @@ static NSMutableArray *lineInfos;
             dwarf_dealloc(dbg,filepath, DW_DLA_STRING);
             [lineInfos addObject:info];
         }
-        dwarf_srclines_dealloc(dbg, lines,symbolsCount);
+        dwarf_srclines_dealloc_b(lineContext);
+//        dwarf_srclines_dealloc(dbg, lines,symbolsCount);
         
     }
 //    else if (tag == DW_TAG_subprogram){

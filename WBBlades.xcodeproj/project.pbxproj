@@ -7,15 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */; };
 		3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06FDB18122F049E93366912D /* libPods-WBBlades.a */; };
 		769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */; };
 		769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */; };
 		769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
 		769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
-		AE04812DB7EE878EFC6151DB /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */; };
 		B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */; };
 		B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAC280058E400D7A1A2 /* ViewController.swift */; };
 		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
+		B682E9192865D52200AC56AC /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */; };
 		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
 		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
 		B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BE2803D70D00576C5A /* TextDictionary.swift */; };
@@ -30,9 +31,7 @@
 		B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */; };
 		B68D40E02804147600576C5A /* BladesLibrarySizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */; };
 		B68D40E22804161700576C5A /* NSViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40E12804161700576C5A /* NSViewController+Extension.swift */; };
-		B6C3D47E28005AC70052D543 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C3D47D28005ABC0052D543 /* libstdc++.6.0.9.tbd */; };
 		B6D6010628005CEB00286E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D6010528005CEB00286E6A /* main.m */; };
-		B6D6010C28006C6000286E6A /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B6C3D47D28005ABC0052D543 /* libstdc++.6.0.9.tbd */; };
 		B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B5628068CA4006BAA34 /* Utilities.swift */; };
 		B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B582806901A006BAA34 /* SYFlatButton.m */; };
 /* End PBXBuildFile section */
@@ -66,6 +65,7 @@
 		B60E1EAE280058E600D7A1A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		B614F81C2809611500F21403 /* WBBladesCrashAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashAppDebug.entitlements; sourceTree = "<group>"; };
+		B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		B68D40BA2803D4C900576C5A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B68D40BC2803D70900576C5A /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
 		B68D40BE2803D70D00576C5A /* TextDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
@@ -81,7 +81,6 @@
 		B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesLibrarySizeViewController.xib; sourceTree = "<group>"; };
 		B68D40E12804161700576C5A /* NSViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Extension.swift"; sourceTree = "<group>"; };
 		B68D40E3280423FC00576C5A /* WBBladesCrashApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrashApp-Bridging-Header.h"; sourceTree = "<group>"; };
-		B6C3D47D28005ABC0052D543 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		B6D6010328005CEB00286E6A /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D6010528005CEB00286E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B6E06C78280968B000F7A0E5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -97,8 +96,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */,
-				AE04812DB7EE878EFC6151DB /* libPods-WBBladesCrashApp.a in Frameworks */,
-				B6C3D47E28005AC70052D543 /* libstdc++.6.0.9.tbd in Frameworks */,
+				B682E9192865D52200AC56AC /* libstdc++.6.0.9.tbd in Frameworks */,
+				1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,7 +107,6 @@
 			files = (
 				769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */,
 				3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */,
-				B6D6010C28006C6000286E6A /* libstdc++.6.0.9.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,8 +127,8 @@
 		66FD5F89F9E47AAF8EBA1018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */,
 				769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */,
-				B6C3D47D28005ABC0052D543 /* libstdc++.6.0.9.tbd */,
 				06FDB18122F049E93366912D /* libPods-WBBlades.a */,
 				B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */,
 			);
@@ -424,11 +422,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ANALYZER_USE_AFTER_MOVE = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_TIDY_BUGPRONE_MOVE_FORWARDING_REFERENCE = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -486,11 +486,13 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ANALYZER_USE_AFTER_MOVE = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_TIDY_BUGPRONE_MOVE_FORWARDING_REFERENCE = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -541,6 +543,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashAppDebug.entitlements;
 				CODE_SIGN_STYLE = Automatic;
@@ -548,6 +552,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WBBladesCrashApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -560,6 +565,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/WBBladesCrashApp",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiangyan.app.WBBlades;
@@ -577,6 +583,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashApp.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -585,6 +593,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = EJA352Y795;
 				ENABLE_APP_SANDBOX = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = WBBladesCrashApp/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -597,6 +606,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/WBBladesCrashApp",
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.WBBlades;
