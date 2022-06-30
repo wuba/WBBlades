@@ -4,7 +4,9 @@
 
 ## Introduction
 
-WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries ..
+WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), point-to-point crash analysis ( analyse system crash log, based on symbol file and without symbol files). It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.
+
+Version 3.0 implements a comprehensive visual implementation of the toolset based on the original command-line-based operation of the above tools, and is designed for R&D efficiency improvement. In addition, in the analysis of difficult crashes, for some crashes that are not easy to reproduce and cannot be collected by general tools (the app process is directly killed by the operating system), a point-to-point crash analysis is provided.
 
 ## Installation
 
@@ -89,4 +91,7 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 
 GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
 
-GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")   
+GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton") 
+
+DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
+  
