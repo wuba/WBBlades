@@ -15,7 +15,7 @@
   "authors": "58tongcheng",
   "requires_arc": true,
   "platforms": {
-    "osx": "10.12"
+    "osx": "10.15"
   },
   "resources": "WBBladesCrash/Resource/*",
   "source_files": [

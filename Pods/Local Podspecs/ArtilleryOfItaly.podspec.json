@@ -15,7 +15,7 @@
   "authors": "",
   "requires_arc": true,
   "platforms": {
-    "osx": "10.12"
+    "osx": "10.15"
   },
   "libraries": "z",
   "resources": "ArtilleryOfItaly/ArtilleryOfItaly/Info.plist",

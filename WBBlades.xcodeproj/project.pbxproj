@@ -16,6 +16,7 @@
 		B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */; };
 		B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAC280058E400D7A1A2 /* ViewController.swift */; };
 		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
+		B650F2D5286D834F003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */; };
 		B682E9192865D52200AC56AC /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */; };
 		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
 		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
@@ -106,6 +107,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */,
+				B650F2D5286D834F003007A0 /* libstdc++.6.0.9.tbd in Frameworks */,
 				3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -547,9 +549,10 @@
 				CLANG_CXX_LIBRARY = "compiler-default";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashAppDebug.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_APP_SANDBOX = NO;
 				ENABLE_HARDENED_RUNTIME = NO;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
@@ -567,9 +570,11 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(PROJECT_DIR)/WBBladesCrashApp",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.jiangyan.app.WBBlades;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "WBBladesCrashApp/WBBladesCrashApp-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -608,6 +613,7 @@
 					"$(SDKROOT)/usr/lib/swift",
 					"$(PROJECT_DIR)/WBBladesCrashApp",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.app.WBBlades;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -627,6 +633,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = blades;
 			};
 			name = Debug;
@@ -641,6 +648,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_NAME = blades;
 			};
 			name = Release;

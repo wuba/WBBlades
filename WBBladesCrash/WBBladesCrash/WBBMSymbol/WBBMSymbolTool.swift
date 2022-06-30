@@ -117,6 +117,7 @@ open class WBBMSymbolTool: NSObject {
     private func dismantleLog(logModel: WBBMLogModel, _ addressTable: String, _ completionHandler: @escaping (_ isComplete: Bool,_ logModel: WBBMLogModel) -> Void) {
 
         self.symbolTables = addressTable.components(separatedBy: "\n")
+        self.symbolTables.remove(at: self.symbolTables.count - 1)
 
         guard let detailModel = logModel.detailModel, !detailModel.threadInfoArray.isEmpty else {
             if !stopped {

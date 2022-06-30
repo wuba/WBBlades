@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   }
   s.author              = "58tongcheng"
   s.requires_arc        = true
-  s.platform            = :macos, "10.12"
+  s.platform            = :macos, "10.15"
 
 
   s.resources = "WBBladesCrash/Resource/*"

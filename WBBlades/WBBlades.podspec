@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   }
   s.header_dir = 'WBBlades'
   s.authors      = "WBBlades"
-  s.platform            = :macos, "10.12"
+  s.platform            = :macos, "10.15"
   s.requires_arc        = true
   s.source              = { :git => "xxx@xxx.xxx.com:xxx/xxx.git" , :branch => "#{s.version}"}
   s.xcconfig = {

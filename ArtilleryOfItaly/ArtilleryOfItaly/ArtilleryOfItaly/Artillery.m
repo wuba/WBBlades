@@ -361,6 +361,7 @@ static NSMutableArray *lineInfos;
     }
     array = nil;
     [lineInfos removeAllObjects];
+    writefile(@"-the end-",outPath);
 }
 
 + (void)getDieAndSiblings:(Dwarf_Debug)dbg die:(Dwarf_Die)inDie {
