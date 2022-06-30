@@ -14,7 +14,7 @@ $ pod install
 ```
 ## 使用
 ### 可视化工具用法
-target选择：WBBladesCrashApp， 如果Mac是arm架构，一定要选择My Mac (Rosetta)
+target选择：WBBladesCrashApp
 
 点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
 > 可视化工具详细介绍: [可视化工具详细介绍](UsageDetail.md)

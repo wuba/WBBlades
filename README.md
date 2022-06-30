@@ -15,7 +15,7 @@ $ pod install
 ```
 
 ### Usage of Visualization Tool
-Target selects "WBBladesCrashApp"， If your MacBook is arm architecture，be sure to select "My Mac (Rosetta)".
+Target selects "WBBladesCrashApp".
 
 Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
 
