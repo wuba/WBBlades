@@ -210,17 +210,17 @@
 		<key>chinese</key>
 		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下
 1、无用类检测
-根据分析__Text中汇编代码， 提取方法调用关系集合， 同时与Mach-O中所有的类集合进行差集计算。通过无用类工具， 可以将无用类的结果输出；
+根据分析__Text中汇编代码， 提取方法调用关系集合， 同时与Mach-O中所有的类集合进行差集计算。通过无用类工具， 可以将无用类的结果输出。但不适用于NSClassFromString的运行时方法调用的检测；
 
 2、包大小分析
-支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地路径到工具中即可（静态库大小检测工具）；
+支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地地址到工具中即可（静态库大小检测工具）；
 
-3、崩溃解析（无符号表日志符号化工具）
-支持多种系统崩溃日志(ips文件)的符号还原，若你有崩溃日志所对应的符号表，可以直接拖入符号表的路径，当然你可以直接拖入系统符号表.dsym文件，我们还支持Product中.app文件自动剥离符号表，可以拖入.app的路径。若你.app文件已经剥离了符号表文件，但是又找不到该符号表文件时，你可以直接拖入.app文件，我们通过无符号解析尝试帮你还原，该功能目前仅支持OC场景。 原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段
+3、崩溃解析（无符号解析与疑难崩溃解析）
+无符号解析：在没有dSYM符号表的情况下， 可以拖入App可执行文件，工具会自动提取Mach-O中OC方法的地址，对ips崩溃文件中的函数地址进行还原；
+疑难崩溃解析：针对系统WatchDog、Wakeup等类型的崩溃三方SDK无法捕获信号，拖入手机中对应类型的ips文件和可执行或者dSYM文件，工具提供解析能力；
 
 4、静态库之间依赖关系
-主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中。
-</string>
+主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中。</string>
 		<key>eng</key>
 		<string>WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries .
 
