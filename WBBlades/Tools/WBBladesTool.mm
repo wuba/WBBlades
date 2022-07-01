@@ -119,7 +119,8 @@
     NSUInteger len = [orig length];
     NSMutableString *str = [[NSMutableString alloc] init];
     SEL sel = @selector(characterAtIndex:);
-    unichar (*charAtIdx)(id, SEL, NSUInteger) = (typeof(charAtIdx)) [orig methodForSelector:sel];
+    IMP imp = [orig methodForSelector:sel];
+    unichar (*charAtIdx)(id, SEL, NSUInteger) = (unichar (*)(id, SEL, NSUInteger))imp;
     for (NSUInteger i = 0; i < len; i++)
     {
         unichar c = charAtIdx(orig, sel, i);

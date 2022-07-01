@@ -16,8 +16,7 @@
 		B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */; };
 		B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAC280058E400D7A1A2 /* ViewController.swift */; };
 		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
-		B650F2D5286D834F003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */; };
-		B682E9192865D52200AC56AC /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */; };
+		B650F3AB286E8C00003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */; };
 		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
 		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
 		B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BE2803D70D00576C5A /* TextDictionary.swift */; };
@@ -66,6 +65,9 @@
 		B60E1EAE280058E600D7A1A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
 		B614F81C2809611500F21403 /* WBBladesCrashAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashAppDebug.entitlements; sourceTree = "<group>"; };
+		B650F3A4286E8ADD003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "../../libstdc--master/3/libstdc++.6.tbd"; sourceTree = "<group>"; };
+		B650F3A6286E8B06003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libstdc++.6.0.9.tbd"; sourceTree = "<group>"; };
 		B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		B68D40BA2803D4C900576C5A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B68D40BC2803D70900576C5A /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
@@ -97,8 +99,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */,
-				B682E9192865D52200AC56AC /* libstdc++.6.0.9.tbd in Frameworks */,
 				1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */,
+				B650F3AB286E8C00003007A0 /* libstdc++.6.0.9.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -107,7 +109,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */,
-				B650F2D5286D834F003007A0 /* libstdc++.6.0.9.tbd in Frameworks */,
 				3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -129,6 +130,8 @@
 		66FD5F89F9E47AAF8EBA1018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B650F3A4286E8ADD003007A0 /* libstdc++.6.tbd */,
+				B650F3A6286E8B06003007A0 /* libstdc++.6.tbd */,
 				B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */,
 				769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */,
 				06FDB18122F049E93366912D /* libPods-WBBlades.a */,
@@ -140,6 +143,7 @@
 		B60E1E9E280058E400D7A1A2 = {
 			isa = PBXGroup;
 			children = (
+				B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */,
 				B60E1EA9280058E400D7A1A2 /* WBBladesCrashApp */,
 				B6D6010428005CEB00286E6A /* WBBlades */,
 				B60E1EA8280058E400D7A1A2 /* Products */,
@@ -180,9 +184,9 @@
 				B6F86B592806901A006BAA34 /* SYFlatButton.h */,
 				B6F86B582806901A006BAA34 /* SYFlatButton.m */,
 				B68D40C12803D75600576C5A /* Help */,
-				B68D40C02803D75600576C5A /* LanguageText.plist */,
 				B60E1EAE280058E600D7A1A2 /* Assets.xcassets */,
 				B68D40BA2803D4C900576C5A /* Main.storyboard */,
+				B68D40C02803D75600576C5A /* LanguageText.plist */,
 				B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */,
 			);
 			path = WBBladesCrashApp;
@@ -545,8 +549,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashAppDebug.entitlements;
 				CODE_SIGN_STYLE = Manual;
@@ -569,6 +573,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
 					"$(PROJECT_DIR)/WBBladesCrashApp",
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
@@ -588,8 +593,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
-				CLANG_CXX_LIBRARY = "compiler-default";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashApp.entitlements;
 				CODE_SIGN_IDENTITY = "-";
@@ -612,6 +617,7 @@
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
 					"$(PROJECT_DIR)/WBBladesCrashApp",
+					"$(PROJECT_DIR)",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
