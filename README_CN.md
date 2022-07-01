@@ -3,7 +3,9 @@
 
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析、无符号表日志符号化。
+WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）。主要利用了__Text汇编代码分析、架构提取、符号表剥离、DYSM文件提取、崩溃文件(ips)解析等技术手段实现。
+
+3.0版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
 ## 安装
 
@@ -14,7 +16,7 @@ $ pod install
 ```
 ## 使用
 ### 可视化工具用法
-target选择：WBBladesCrashApp， 如果Mac是arm架构，一定要选择My Mac (Rosetta)
+target选择：WBBladesCrashApp
 
 点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
 > 可视化工具详细介绍: [可视化工具详细介绍](UsageDetail.md)
@@ -91,5 +93,6 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 GitHub地址：[https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
 
-GitHub地址：[https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")  
+GitHub地址：[https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")
 
+DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 

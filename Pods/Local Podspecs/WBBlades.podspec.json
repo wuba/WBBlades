@@ -11,7 +11,7 @@
   "header_dir": "WBBlades",
   "authors": "WBBlades",
   "platforms": {
-    "osx": "10.12"
+    "osx": "10.15"
   },
   "requires_arc": true,
   "source": {

@@ -24,10 +24,12 @@ class WBBMLightSymbolTool {
      */
     class func checkLightSymbolPath(path: String?, processName: String, uuid: String, finishHandler:@escaping (String?)->Void) -> Void {
         let outputPath = WBBMOutputFile.downloadPath + "/buglySymbol&" + processName + "&" + "arm64&" + uuid.replacingOccurrences(of: "-", with: "") + WBBMSymbolFileSymbolType
-        if FileManager.default.fileExists(atPath: outputPath) {
+        if FileManager.default.fileExists(atPath: outputPath) && checkSymbolFileCorrect(filePath: outputPath){
             finishHandler(outputPath)
             return
         }
+        try? FileManager.default.removeItem(atPath: outputPath)
+        
 
         guard let symbolPath = path?.replacingOccurrences(of: "\\", with: ""), symbolPath.count > 0 else {
             finishHandler(nil)
@@ -35,7 +37,7 @@ class WBBMLightSymbolTool {
         }
         
         //whether the file exists
-        if !FileManager.default.fileExists(atPath: symbolPath) {
+        if !FileManager.default.fileExists(atPath: symbolPath){
             finishHandler(nil)
             return
         }
@@ -56,8 +58,14 @@ class WBBMLightSymbolTool {
             DispatchQueue.global().async{
                 //strip a light symbol file
                 Artillery.readDwarf(symbolPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
+                let correct = checkSymbolFileCorrect(filePath: outputPath)
                 DispatchQueue.main.async {
-                    finishHandler(outputPath)
+                    if(correct){
+                        finishHandler(outputPath)
+                    }else{
+                        finishHandler(nil)
+                    }
+                    
                 }
             }
             return
@@ -77,13 +85,39 @@ class WBBMLightSymbolTool {
                 //strip a light symbol file
                 Artillery.readDwarf(dsymTmpPath+"/Contents/Resources/DWARF/\(processName)", outputPath: outputPath)
                 try? FileManager.default.removeItem(atPath: dsymTmpPath)
+                let correct = checkSymbolFileCorrect(filePath: outputPath)
                 DispatchQueue.main.async {
-                    finishHandler(outputPath)
+                    if(correct){
+                        finishHandler(outputPath)
+                    }else{
+                        finishHandler(nil)
+                    }
                 }
             }
             return
         }
         
         finishHandler(nil)
+    }
+    
+    class func checkSymbolFileCorrect(filePath: String) -> Bool{
+        if !FileManager.default.fileExists(atPath: filePath) {
+            return false
+        }
+        
+        let fileHandle = FileHandle.init(forUpdatingAtPath: filePath)
+        let fileLength = fileHandle?.seekToEndOfFile() ?? 0;
+        try? fileHandle?.seek(toOffset: fileLength - 9)
+        
+        guard let lastData = fileHandle?.readData(ofLength: 9) else { return false };
+        
+        let lastString = String.init(data: lastData, encoding: .utf8) ?? ""
+        if !lastString.contains("-the end-") {
+            try? FileManager.default.removeItem(atPath: filePath)
+            try? fileHandle?.close()
+            return false
+        }
+        try? fileHandle?.close()
+        return true
     }
 }
