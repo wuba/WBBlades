@@ -1,6 +1,5 @@
 
-
-> Chinese Readme: [中文版readme](README_CN.md).
+[简体中文](./README_CN.md) | **English**
 
 ## Introduction
 

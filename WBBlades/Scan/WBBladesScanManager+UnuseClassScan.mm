@@ -94,6 +94,7 @@ static NSArray *symbols;
 
         if (mhHeader.filetype != MH_EXECUTE && mhHeader.filetype != MH_DYLIB) {
             NSLog(@"参数异常，-unused 参数不是可执行文件");
+            ScanUnusedClassLogInfo(@"参数异常，传入的不是可执行文件");
             return nil;
         }
         section_64 classList = {0};
@@ -180,32 +181,37 @@ static NSArray *symbols;
         NSMutableSet *classrefSet = [NSMutableSet set];
 
         //read nlclslist
-         [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
-    NSLog(@"readNLClsList classrefSet is %@", classrefSet);
+        ScanUnusedClassLogInfo(@"开始读取nlclslist section，读取包含load方法的类...");
+        [self readNLClsList:nlclsList set:classrefSet fileData:fileData];
+    
         //read nlcatlist
+        ScanUnusedClassLogInfo(@"开始读取nlcatlist section，读取包含load方法的分类...");
         [self readNLCatList:nlcatList set:classrefSet fileData:fileData];
 
         //read classref
+        ScanUnusedClassLogInfo(@"开始读取classref section...");
         [self readClsRefList:classrefList aimClasses:aimClasses set:classrefSet fileData:fileData];
 
         //read __cstring
+        ScanUnusedClassLogInfo(@"开始读取__cfstring section...");
         [self readCStringList:cfstringList set:classrefSet fileData:fileData];
 
         //read swift5Types
+        ScanUnusedClassLogInfo(@"开始读取swift5Types section...");
+        ScanUnusedClassLogInfo(@"在反汇编指令中查找Swift的accessfunc...");
         NSArray *swiftGenericTypes = [self readSwiftTypes:swift5Types set:classrefSet fileData:fileData];
-     NSLog(@"swiftGenericTypes  is %@", classrefSet);
 
         //read classlist - OBJC
+        ScanUnusedClassLogInfo(@"开始读取classlist section...");
         NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData];
     //    73317
         //泛型参数约束
         [self readSwiftGenericRequire:classrefSet fileData:fileData];
-    NSLog(@"readSwiftGenericRequire  is %@", classrefSet);
 
         //泛型不在classlist里
         [classSet addObjectsFromArray:swiftGenericTypes];
 
-
+        ScanUnusedClassLogInfo(@"读取完毕，开始检测无用类...");
         return [self diffClasses:classSet used:classrefSet];
     }
 /**

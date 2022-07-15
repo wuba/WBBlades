@@ -217,9 +217,13 @@ static BOOL isResource(NSString *type) {//resource type
     thinFile(filePath);//arm64 file
     [self shareInstance].libarySizeInfos = [NSString stringWithFormat:@"%@\n%@", [self shareInstance].libarySizeInfos, @"正在去除bitcode中间码..."];
     stripBitCode(filePath);//strip file
-    [self shareInstance].libarySizeInfos = [NSString stringWithFormat:@"%@\n%@", [self shareInstance].libarySizeInfos, @"正在剥离符号表..."];
-    stripDysmSymbol(filePath);
 
+    NSArray *array = [[filePath lowercaseString] componentsSeparatedByString:@"."];
+    NSString *fileType = [array lastObject];
+    if ([fileType isEqualToString:@"a"]) { //动态库不剥离符号表，静态库剥离， 因为通常AppStore包会剥离。但AppStore包不会自动剥离动态库的符号表，所有这里忽略动态库
+        [self shareInstance].libarySizeInfos = [NSString stringWithFormat:@"%@\n%@", [self shareInstance].libarySizeInfos, @"正在剥离符号表..."];
+        stripDysmSymbol(filePath);
+    }
     //read mach-o file and calculate size
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
     NSData *fileData = [WBBladesFileManager readFromFile:copyPath];
