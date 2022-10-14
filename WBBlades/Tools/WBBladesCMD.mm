@@ -25,6 +25,20 @@ static NSData * cmd(NSString *cmd) {
     return data;
 }
 
+static int i = 0;
+NSString* createDeskTempDirectory() {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDesktopDirectory, NSUserDomainMask, YES);
+    NSString *theDesktopPath = [paths.firstObject stringByAppendingFormat:@"/wbbladestmp"];
+    NSTimeInterval timeInterval =  [[NSDate date] timeIntervalSince1970];
+    theDesktopPath = [theDesktopPath stringByAppendingFormat:@"/%@%@", @(timeInterval), @(i++)];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL direct;
+    if (![fileManager fileExistsAtPath:theDesktopPath isDirectory:&direct]) {
+        [fileManager createDirectoryAtPath:theDesktopPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    return theDesktopPath;
+}
+
 void rmAppIfIpa(NSString *filePath){
     NSString *fileName = filePath.lastPathComponent;
     NSString *fileType = [fileName componentsSeparatedByString:@"."].lastObject;
@@ -32,7 +46,9 @@ void rmAppIfIpa(NSString *filePath){
         //创建同级目录
         NSString *parentPath = filePath.stringByDeletingLastPathComponent;
         NSString *tmpPath = [parentPath stringByAppendingFormat:@"/tmp/"];
-        cmd([NSString stringWithFormat:@"rm -rf %@",tmpPath]);
+//        cmd([NSString stringWithFormat:@"rm -rf %@",tmpPath]);
+        NSString *theDesktopPath = createDeskTempDirectory();
+        cmd([NSString stringWithFormat:@"mv -f %@ %@",tmpPath, theDesktopPath]);
     }
 }
 
@@ -126,13 +142,19 @@ void thinFile(NSString *filePath) {
 }
 
 void removeFile(NSString *filePath) {
-    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@", filePath];
-    cmd(rmCmd);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSString *theDesktopPath = createDeskTempDirectory();
+        NSString *rmCmd = [NSString stringWithFormat:@"mv -f %@ %@", filePath, theDesktopPath];
+        cmd(rmCmd);
+    }
 }
 
 void removeCopyFile(NSString *filePath) {
-    NSString *rmCmd = [NSString stringWithFormat:@"rm -rf %@_copy",filePath];
-    cmd(rmCmd);
+    if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@_copy", filePath]]) {
+        NSString *theDesktopPath = createDeskTempDirectory();
+        NSString *rmCmd = [NSString stringWithFormat:@"mv -f %@_copy %@",filePath, theDesktopPath];
+        cmd(rmCmd);
+    }
 }
 
 /**

@@ -57,6 +57,13 @@ class BladesDispatchViewController: NSViewController {
         vc.type = .dependency
         self.view.window?.contentViewController = vc
     }
+
+    @IBAction func autoHookBegin(_ sender: Any) {
+        let vc = BladesAutoHookViewController()
+        self.view.window?.contentViewController = vc
+    }
+
+
     
     @IBAction func githubStarBegin(_ sender: Any) {
         NSWorkspace.shared.open(URL(string:"https://github.com/wuba/WBBlades")!)

@@ -22,6 +22,7 @@
 #import "WBBladesDefines.h"
 #import "capstone.h"
 #import "WBBladesCMD.h"
+#import "ChainFixUpsHelper.h"
 //#import "ArtilleryModels.h"
 
 #define ScanUnusedClassLogInfo(log) \
@@ -89,6 +90,7 @@ static NSArray *symbols;
         if (aimClasses.count != 0) {
             NSLog(@"在给定的%ld个类中搜索",aimClasses.count);
         }
+        [[ChainFixUpsHelper shareInstance] fileLoaderWithFileData:fileData];
         mach_header_64 mhHeader;
         [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
 
@@ -269,11 +271,13 @@ static NSArray *symbols;
     }
     unsigned long long maxText = textList.addr + textList.size;
     end = MIN(maxText, end);
+    if(begin>end){return NO;}//需要针对符号区间不在text的做判断，下方为dowhile，不然可能存在越界
     //enumerate function instruction
     do {
         unsigned long long index = (begin - textList.addr) / 4;
         char *dataStr = s_cs_insn[index].op_str;
         asmStr = s_cs_insn[index].mnemonic;
+       
         if (asmStr == NULL || strcmp(".byte",asmStr) == 0) {
             return NO;
         }
@@ -330,25 +334,30 @@ static NSArray *symbols;
                 //superclass info
                 if (targetClass.superClass != 0) {
                     class64 superClass = {0};
-                    NSRange superClassRange = NSMakeRange([WBBladesTool getOffsetFromVmAddress:targetClass.superClass fileData:fileData], 0);
-                    data = [WBBladesTool readBytes:superClassRange length:sizeof(class64) fromFile:fileData];
-                    [data getBytes:&superClass length:sizeof(class64)];
-
-                    class64Info superClassInfo = {0};
-                    unsigned long long superClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:superClass.data fileData:fileData];
-                    superClassInfoOffset = (superClassInfoOffset / 8) * 8;
-                    NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
-                    data = [WBBladesTool readBytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
-                    [data getBytes:&superClassInfo length:sizeof(class64Info)];
-                    unsigned long long superClassNameOffset = [WBBladesTool getOffsetFromVmAddress:superClassInfo.name fileData:fileData];
-
-                    //class name 50 bytes maximum
-                    uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
-                    [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, CLASSNAME_MAX_LEN)];
-                    NSString * superClassName = NSSTRING(buffer);
-                    free(buffer);
-                    if (superClassName) {
-                        [classrefSet addObject:superClassName];
+                    unsigned long long superClassOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.superClass fileData:fileData];
+                    // superClass 需要判断是否存在本Mach-O文件中，有可能是系统类，依赖bind ，校验区间地址的合法性
+                    if([[ChainFixUpsHelper shareInstance] validateSectionWithFileoffset:superClassOffset sectionName:@"__objc_data"]){
+                        NSRange superClassRange = NSMakeRange(superClassOffset, 0);
+                        data = [WBBladesTool readBytes:superClassRange length:sizeof(class64) fromFile:fileData];
+                        [data getBytes:&superClass length:sizeof(class64)];
+                        
+                        class64Info superClassInfo = {0};
+                        unsigned long long superClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:superClass.data fileData:fileData];
+                        superClassInfoOffset = (superClassInfoOffset / 8) * 8;
+                        NSRange superClassInfoRange = NSMakeRange(superClassInfoOffset, 0);
+                        data = [WBBladesTool readBytes:superClassInfoRange length:sizeof(class64Info) fromFile:fileData];
+                        [data getBytes:&superClassInfo length:sizeof(class64Info)];
+                        
+                        unsigned long long superClassNameOffset = [WBBladesTool getOffsetFromVmAddress: superClassInfo.name fileData:fileData];
+                        
+                        //class name 50 bytes maximum
+                        uint8_t * buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
+                        [fileData getBytes:buffer range:NSMakeRange(superClassNameOffset, CLASSNAME_MAX_LEN)];
+                        NSString * superClassName = NSSTRING(buffer);
+                        free(buffer);
+                        if (superClassName) {
+                            [classrefSet addObject:superClassName];
+                        }
                     }
                 }
 
@@ -438,6 +447,10 @@ static NSArray *symbols;
                NSData *data = [WBBladesTool readBytes:range length:8 fromFile:fileData];
                [data getBytes:&classAddress range:NSMakeRange(0, 8)];
                classAddress = [WBBladesTool getOffsetFromVmAddress:classAddress fileData:fileData];
+               if(![[ChainFixUpsHelper shareInstance]validateSectionWithFileoffset:classAddress sectionName:@"__objc_data"]){
+                   //如果该地址经过运算的取值在importSymbolPool范围内则为外部动态库的类
+                   continue;
+               }
                //method name 150 bytes maximum
                if (classAddress > 0 && classAddress < max) {
 
@@ -495,8 +508,13 @@ static NSArray *symbols;
                     continue;
                 }
                 class64 targetClass;
-                [fileData getBytes:&targetClass range:NSMakeRange([WBBladesTool getOffsetFromVmAddress:targetCategory.cls fileData:fileData],sizeof(class64))];
-
+                unsigned long long classAddressOffset = [WBBladesTool getOffsetFromVmAddress:targetCategory.cls fileData:fileData];
+                if(![[ChainFixUpsHelper shareInstance] validateSectionWithFileoffset:classAddressOffset sectionName:@"__objc_data"]){
+                    //如果该地址经过运算的取值在importSymbolPool范围内则为外部动态库的类
+                    continue;
+                }
+                [fileData getBytes:&targetClass range:NSMakeRange(classAddressOffset,sizeof(class64))];
+                
                 class64Info targetClassInfo = {0};
                 unsigned long long targetClassInfoOffset = [WBBladesTool getOffsetFromVmAddress:targetClass.data fileData:fileData];
                 targetClassInfoOffset = (targetClassInfoOffset / 8) * 8;
@@ -578,6 +596,8 @@ static NSArray *symbols;
     symbols = [self getSortedSymbolList:fileData];
     //计算vm
     unsigned long long vm = swift5Types.addr - swift5Types.offset;
+    //解决动态库中vm从零开始的问题
+    vm = vm ? vm : 0x100000000;
     NSUInteger textTypesSize = swift5Types.size;
 
     NSMutableArray *genericTypes = [NSMutableArray array];
@@ -605,6 +625,7 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
         });
 
         SwiftType type = {0};
+        if (typeOffset > vm) typeOffset -= vm;
         range = NSMakeRange(typeOffset, sizeof(SwiftType));
         [fileData getBytes:&type range:range];
 
@@ -970,6 +991,8 @@ __vmAddress = (__vmAddress>(2*vm))?(__vmAddress-vm):__vmAddress;
 
                     CORRECT_ADDRESS(contextAddress)
                     unsigned long long contextOff = [WBBladesTool getOffsetFromVmAddress:contextAddress fileData:fileData];
+                    //进行是否为外部符号的判定
+                    if(contextOff < [ChainFixUpsHelper shareInstance].importSymbolPool.count)continue;
                     [fileData getBytes:&typeContext range:NSMakeRange(contextOff,sizeof(SwiftBaseType))];
 
                     isGenericFiled = isGenericFiled | [WBBladesTool isGenericType:typeContext];

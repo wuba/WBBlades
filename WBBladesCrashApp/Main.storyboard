@@ -724,15 +724,15 @@
                             <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YNq-Nh-WIA">
                                 <rect key="frame" x="20" y="67" width="740" height="432"/>
                                 <clipView key="contentView" drawsBackground="NO" id="ftY-Q2-Qnx">
-                                    <rect key="frame" x="0.0" y="0.0" width="740" height="432"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="725" height="432"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" allowsUndo="YES" spellingCorrection="YES" smartInsertDelete="YES" id="gzz-5H-3px" customClass="LogTextView" customModule="WBBladesCrashApp" customModuleProvider="target">
-                                            <rect key="frame" x="0.0" y="0.0" width="740" height="432"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="725" height="432"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                            <size key="minSize" width="740" height="432"/>
+                                            <size key="minSize" width="725" height="432"/>
                                             <size key="maxSize" width="740" height="10000000"/>
                                             <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                         </textView>
@@ -743,7 +743,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="OCd-Je-KXr">
-                                    <rect key="frame" x="724" y="0.0" width="16" height="432"/>
+                                    <rect key="frame" x="725" y="0.0" width="15" height="432"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

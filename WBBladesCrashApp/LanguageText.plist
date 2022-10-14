@@ -215,12 +215,15 @@
 2、包大小分析
 支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地地址到工具中即可（静态库大小检测工具）；
 
-3、崩溃解析（无符号解析与疑难崩溃解析）
-无符号解析：在没有dSYM符号表的情况下， 可以拖入App可执行文件，工具会自动提取Mach-O中OC方法的地址，对ips崩溃文件中的函数地址进行还原；
-疑难崩溃解析：针对系统WatchDog、Wakeup等类型的崩溃三方SDK无法捕获信号，拖入手机中对应类型的ips文件和可执行或者dSYM文件，工具提供解析能力；
+3、崩溃解析（无符号表日志符号化工具）
+在丢失dSYM文件的情况，可通过崩溃解析工具进行符号化。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用**。工具使用前应先注意几点：
+- 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化；
 
 4、静态库之间依赖关系
-主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中。</string>
+主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中; 
+
+5、Mach-O类Hook
+自动提取ipa中可执行文件或者动态库中可执行文件(Mach-O)中的OC类,自动Hook类中所有的方法。</string>
 		<key>eng</key>
 		<string>WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries .
 
@@ -261,6 +264,13 @@ Dependencies Between Multiple Static Libraries Detection is mainly based on the 
 		<key>eng</key>
 		<string>Please drag into the folder where the dynamic library or static library to be detected.</string>
 	</dict>
+	<key>MachOText</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入待检测的动态库或Mach-O的文件</string>
+		<key>eng</key>
+		<string>Please drag into the file where the dynamic library or Mach-O to be detected.</string>
+	</dict>
 	<key>open</key>
 	<dict>
 		<key>chinese</key>
@@ -274,6 +284,13 @@ Dependencies Between Multiple Static Libraries Detection is mainly based on the 
 		<string>点击检测可以开始</string>
 		<key>eng</key>
 		<string>Click detect to start</string>
+	</dict>
+	<key>startDetectMachO</key>
+	<dict>
+		<key>chinese</key>
+		<string>拖入Mach-O文件点击开始，将自动提取所有OC Class 并自动Hook</string>
+		<key>eng</key>
+		<string>Drag in the Mach-O file and click Start. All OC Classes will be automatically extracted and Hook will be automatically performed.</string>
 	</dict>
 	<key>Detecting</key>
 	<dict>

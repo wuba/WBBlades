@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="BladesAutoHookViewController" customModule="WBBladesCrashApp" customModuleProvider="target">
+            <connections>
+                <outlet property="librarySizeTextView" destination="Y77-LD-04M" id="ZRC-T9-Eho"/>
+                <outlet property="librayPathTextFiled" destination="IBy-6X-1Sk" id="8Ut-S4-ACP"/>
+                <outlet property="openBtn" destination="Xn0-dl-ccX" id="TkN-z9-7XS"/>
+                <outlet property="resultTipsView" destination="cjT-si-4vq" id="v1J-R1-PCc"/>
+                <outlet property="startButton" destination="hnB-YU-PjX" id="DK6-iJ-IRL"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="801" height="690"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="IBy-6X-1Sk">
+                    <rect key="frame" x="40" y="578" width="576" height="56"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="56" id="qcn-Kb-6Qi"/>
+                    </constraints>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="请拖入Mach-O或者动态库" drawsBackground="YES" id="RKZ-16-Vlx">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hnB-YU-PjX" customClass="SYFlatButton">
+                    <rect key="frame" x="675" y="591" width="82" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="82" id="BtB-kd-jfm"/>
+                        <constraint firstAttribute="height" constant="30" id="ooh-RP-cjS"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="检测" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="EVG-ca-9m8">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                            <color key="value" red="1" green="0.39908120089999999" blue="0.2967267676" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="0.0"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                            <color key="value" red="1" green="0.40000000000000002" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="startAnalzing:" target="-2" id="WAO-Jq-2oU"/>
+                    </connections>
+                </button>
+                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rn9-QM-2Dq">
+                    <rect key="frame" x="41" y="74" width="576" height="459"/>
+                    <clipView key="contentView" drawsBackground="NO" id="ia1-sb-4yG">
+                        <rect key="frame" x="0.0" y="0.0" width="561" height="459"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Y77-LD-04M">
+                                <rect key="frame" x="0.0" y="0.0" width="561" height="459"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                <size key="minSize" width="561" height="459"/>
+                                <size key="maxSize" width="576" height="10000000"/>
+                                <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            </textView>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="CGJ-AE-24Z">
+                        <rect key="frame" x="-100" y="-100" width="240" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="0xa-Kn-Sna">
+                        <rect key="frame" x="561" y="0.0" width="15" height="459"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                </scrollView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="cjT-si-4vq">
+                    <rect key="frame" x="39" y="28" width="427" height="18"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" alignment="left" title="当前数据已保存在桌面，详见WBBladesResult.plist" id="tO3-T9-X4a">
+                        <font key="font" size="15" name="STSong"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xn0-dl-ccX" customClass="SYFlatButton">
+                    <rect key="frame" x="648" y="21" width="81" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="81" id="8or-Dn-DnH"/>
+                        <constraint firstAttribute="height" constant="32" id="Tpj-Kl-QtN"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="打开" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="bxs-ZF-hCi">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundNormalColor">
+                            <color key="value" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="backgroundHighlightColor">
+                            <color key="value" red="1" green="0.40000000000000002" blue="0.29803921570000003" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="1" green="0.20000000000000001" blue="0.80000000000000004" alpha="0.0" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="openSaveFile:" target="-2" id="vP1-ax-kmt"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" id="rhZ-z5-yY7">
+                    <rect key="frame" x="14" y="652" width="15" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSGoBackTemplate" imagePosition="only" imageScaling="proportionallyUpOrDown" inset="2" id="SkW-Ts-B7w">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <color key="contentTintColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <connections>
+                        <action selector="goBack:" target="-2" id="w84-LP-EVz"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="hnB-YU-PjX" firstAttribute="leading" secondItem="IBy-6X-1Sk" secondAttribute="trailing" constant="59" id="4jD-Jy-mRm"/>
+                <constraint firstAttribute="trailing" secondItem="IBy-6X-1Sk" secondAttribute="trailing" constant="185" id="DKm-8c-yhj"/>
+                <constraint firstItem="Xn0-dl-ccX" firstAttribute="leading" secondItem="cjT-si-4vq" secondAttribute="trailing" constant="184" id="FUD-tS-Chc"/>
+                <constraint firstItem="hnB-YU-PjX" firstAttribute="centerY" secondItem="IBy-6X-1Sk" secondAttribute="centerY" id="HV4-Qf-S9A"/>
+                <constraint firstItem="rn9-QM-2Dq" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="41" id="KpT-sJ-PGe"/>
+                <constraint firstItem="rn9-QM-2Dq" firstAttribute="top" secondItem="IBy-6X-1Sk" secondAttribute="bottom" constant="45" id="Mwb-pd-Cz1"/>
+                <constraint firstAttribute="trailing" secondItem="Xn0-dl-ccX" secondAttribute="trailing" constant="72" id="WvF-FO-2Qp"/>
+                <constraint firstAttribute="bottom" secondItem="cjT-si-4vq" secondAttribute="bottom" constant="28" id="XCT-8x-pE9"/>
+                <constraint firstItem="cjT-si-4vq" firstAttribute="top" secondItem="rn9-QM-2Dq" secondAttribute="bottom" constant="28" id="ZkC-19-XcX"/>
+                <constraint firstItem="IBy-6X-1Sk" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="40" id="aD6-Yb-I6g"/>
+                <constraint firstAttribute="trailing" secondItem="rn9-QM-2Dq" secondAttribute="trailing" constant="184" id="dci-wK-0m5"/>
+                <constraint firstItem="cjT-si-4vq" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="41" id="g4a-VE-3WO"/>
+                <constraint firstItem="IBy-6X-1Sk" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="56" id="hz4-yU-Rvc"/>
+                <constraint firstItem="Xn0-dl-ccX" firstAttribute="centerY" secondItem="cjT-si-4vq" secondAttribute="centerY" id="jL0-Bx-2UA"/>
+            </constraints>
+            <point key="canvasLocation" x="60.5" y="154"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="NSGoBackTemplate" width="10" height="14"/>
+    </resources>
+</document>

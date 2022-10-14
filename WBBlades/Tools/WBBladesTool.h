@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 * bind info
 */
 + (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData;
-
++ (NSArray *)dylibNamesFromFile:(NSData *)fileData;
 /**
 * convert address from vm to offset
 */

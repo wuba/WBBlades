@@ -2,12 +2,15 @@ PODS:
   - ArtilleryOfItaly (1.0)
   - WBBlades (11.2.0):
     - WBBlades/Capstone (= 11.2.0)
+    - WBBlades/ClassDump (= 11.2.0)
     - WBBlades/Link (= 11.2.0)
     - WBBlades/Model (= 11.2.0)
     - WBBlades/Scan (= 11.2.0)
     - WBBlades/Tools (= 11.2.0)
     - WBBladesCrash
   - WBBlades/Capstone (11.2.0):
+    - WBBladesCrash
+  - WBBlades/ClassDump (11.2.0):
     - WBBladesCrash
   - WBBlades/Link (11.2.0):
     - WBBladesCrash
@@ -34,7 +37,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   ArtilleryOfItaly: d2dee0039f638396206bf4a36776e373433888bc
-  WBBlades: 2f63bda8ec1adcd3a998f486d06275f82c84e2db
+  WBBlades: e514083b8a5bc7468b4c85baf433b5ea35332707
   WBBladesCrash: 4ea4ef821e8de2e2b2da6a6f56af0df7ec9e0281
 
 PODFILE CHECKSUM: a0acbcc1191fd45d624497e2b186e0c357c045b4

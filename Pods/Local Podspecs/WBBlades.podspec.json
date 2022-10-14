@@ -56,6 +56,11 @@
       "source_files": "Tools/**/*.{h,m,mm,swift,c,cc,cpp}",
       "private_header_files": "Tools/WBBladesTool.h",
       "requires_arc": true
+    },
+    {
+      "name": "ClassDump",
+      "source_files": "ClassDump/**/*.{h,m,mm,swift,c,cc,cpp}",
+      "requires_arc": true
     }
   ]
 }

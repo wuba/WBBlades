@@ -20,6 +20,7 @@
 #import <WBBlades/WBBladesFileManager.h>
 #import <WBBlades/WBBladesLinkManager.h>
 #import <WBBlades/WBBladesScanManager+UnuseClassScan.h>
+#import <WBBlades/WBBladesScanManager+AutoHook.h>
 #import <WBBlades/WBBladesScanManager+CrashSymbol.h>
 #import <WBBlades/WBBladesFileManager+StaticLibs.h>
 
@@ -238,6 +239,13 @@ static BOOL isResource(NSString *type) {//resource type
     if (size > 0) {
         [sizeResult setValue:[NSString stringWithFormat:@"%.2f MB",size / 1024.0 / 1024] forKey:name];
     }
+}
+
++ (void)autoHookByInputPaths:(NSString *)filePath {
+    [self shareInstance].autoHookInfos = @"";
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [WBBladesScanManager getAllOCClasses:filePath];
+    });
 }
 
 + (void)scanStaticLibraryByInputPath:(NSString *)libPath {

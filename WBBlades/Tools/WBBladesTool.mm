@@ -11,6 +11,7 @@
 #import <mach-o/fat.h>
 #import <dlfcn.h>
 #import <string.h>
+#import "ChainFixUpsHelper.h"
 
 @implementation WBBladesTool
 
@@ -211,11 +212,34 @@
     return 0;
 }
 
++ (NSArray *)dylibNamesFromFile:(NSData *)fileData {
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    NSMutableArray *dylibNames = [@[] mutableCopy];
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        if (cmd->cmd == LC_LOAD_DYLIB || cmd->cmd == LC_LOAD_WEAK_DYLIB || LC_LOAD_UPWARD_DYLIB == cmd->cmd || LC_LOAD_DYLINKER == cmd->cmd){
+            //记录外部依赖的动态库
+            struct dylib_command dylibs;
+            [fileData getBytes:&dylibs range:NSMakeRange(currentLcLocation, sizeof(dylibs))];
+            uint8_t *dylid_name = (uint8_t *)malloc(150);
+            [fileData getBytes:dylid_name range:NSMakeRange(currentLcLocation +dylibs.dylib.name.offset, 150)];
+            NSString *dylid_name_string = [NSString stringWithFormat:@"%s",dylid_name];
+            [dylibNames addObject:dylid_name_string];
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    return [dylibNames copy];
+}
+
 + (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData{
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
-    dyld_info_command dyldInfoCmd;
-
+    dyld_info_command dyldInfoCmd = {0};
+    NSMutableArray *dylibNames = [@[] mutableCopy];
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
@@ -226,15 +250,23 @@
             dyld_info_command segmentCommand;
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(dyld_info_command))];
             dyldInfoCmd = segmentCommand;
-
+        }else if (cmd->cmd == LC_LOAD_DYLIB || cmd->cmd == LC_LOAD_WEAK_DYLIB || LC_LOAD_UPWARD_DYLIB == cmd->cmd || LC_LOAD_DYLINKER == cmd->cmd){
+            //记录外部依赖的动态库
+            struct dylib_command dylibs;
+            [fileData getBytes:&dylibs range:NSMakeRange(currentLcLocation, sizeof(dylibs))];
+            uint8_t *dylid_name = (uint8_t *)malloc(150);
+            [fileData getBytes:dylid_name range:NSMakeRange(currentLcLocation +dylibs.dylib.name.offset, 150)];
+            NSString *dylid_name_string = [NSString stringWithFormat:@"%s",dylid_name];
+            [dylibNames addObject:dylid_name_string];
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
+
     NSMutableDictionary *allBindInfoDic = [NSMutableDictionary dictionary];
-    NSDictionary *bindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.bind_off size:dyldInfoCmd.bind_size isLazyBind:NO fromFile:fileData];
-    NSDictionary *weakBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.weak_bind_off size:dyldInfoCmd.weak_bind_size isLazyBind:NO fromFile:fileData];
-    NSDictionary *lazyBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.lazy_bind_off size:dyldInfoCmd.lazy_bind_size isLazyBind:YES fromFile:fileData];
+    NSDictionary *bindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.bind_off size:dyldInfoCmd.bind_size isLazyBind:NO fromFile:fileData dylibNames:[dylibNames copy]];
+    NSDictionary *weakBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.weak_bind_off size:dyldInfoCmd.weak_bind_size isLazyBind:NO fromFile:fileData dylibNames: dylibNames];
+    NSDictionary *lazyBindInfoDic = [self dynamicBindingInfoWithOffset:dyldInfoCmd.lazy_bind_off size:dyldInfoCmd.lazy_bind_size isLazyBind:YES fromFile:fileData dylibNames: dylibNames];
     [allBindInfoDic addEntriesFromDictionary:bindInfoDic];
     [allBindInfoDic addEntriesFromDictionary:weakBindInfoDic];
     [allBindInfoDic addEntriesFromDictionary:lazyBindInfoDic];
@@ -242,7 +274,7 @@
 }
 
 
-+ (NSDictionary *)dynamicBindingInfoWithOffset:(unsigned long long)offset size:(unsigned long long)size isLazyBind:(BOOL)isLazyBind fromFile:(NSData *)fileData{
++ (NSDictionary *)dynamicBindingInfoWithOffset:(unsigned long long)offset size:(unsigned long long)size isLazyBind:(BOOL)isLazyBind fromFile:(NSData *)fileData dylibNames:(NSArray *)dylibNames{
 
     NSMutableDictionary *bindInfoDic = [NSMutableDictionary dictionary];
     //code from macoview
@@ -250,6 +282,7 @@
     BOOL end = NO;
     unsigned long long address = 0;
     NSString *symbolName = @"";
+    NSString *dylibName = @"";
     unsigned long long dylibIndex = 0;
     NSRange range = NSMakeRange(offset, 0);
     while (!end && range.location < offset + size) {
@@ -282,20 +315,20 @@
                     break;
                 }
                 case BIND_OPCODE_DO_BIND:{
-                    [bindInfoDic setObject:symbolName forKey:@(address)];
+                    [bindInfoDic setObject:@{@"symbolName":symbolName, @"dylibName": dylibName} forKey:@(address)];
                     address += 8;
                     break;
                 }
                 case BIND_OPCODE_DO_BIND_ADD_ADDR_ULEB:{
                     unsigned long long val = [self readULEB128:range fromFile:fileData];
-                    [bindInfoDic setObject:symbolName forKey:@(address)];
+                    [bindInfoDic setObject:@{@"symbolName":symbolName, @"dylibName": dylibName} forKey:@(address)];
 
                     address += 8 + val;
                     break;
                 }
                 case BIND_OPCODE_DO_BIND_ADD_ADDR_IMM_SCALED:{
                     uint32_t scale = immediate;
-                    [bindInfoDic setObject:symbolName forKey:@(address)];
+                    [bindInfoDic setObject:@{@"symbolName":symbolName, @"dylibName": dylibName} forKey:@(address)];
 
                     address += 8 + scale * 8;
                     break;
@@ -304,7 +337,7 @@
                     unsigned long long count = [self readULEB128:range fromFile:fileData];
                     unsigned long long skip = [self readULEB128:range fromFile:fileData];
                     for (unsigned long long index = 0; index < count; index++){
-                        [bindInfoDic setObject:symbolName forKey:@(address)];
+                        [bindInfoDic setObject:@{@"symbolName":symbolName, @"dylibName": dylibName} forKey:@(address)];
 
                         address += 8 + skip;
                     }
@@ -312,18 +345,30 @@
                 }
                 case BIND_OPCODE_SET_DYLIB_ORDINAL_IMM:{
                     dylibIndex = immediate;
+                    if (dylibIndex <=   dylibNames.count) {
+                        dylibName = dylibNames[dylibIndex - 1];
+                    }
                     break;
                 }
                 case BIND_OPCODE_SET_DYLIB_ORDINAL_ULEB:{
                     dylibIndex = [self readULEB128:range fromFile:fileData];
+                    if (dylibIndex <=   dylibNames.count) {
+                        dylibName = dylibNames[dylibIndex - 1];
+                    }
                     break;
                 }
                 case BIND_OPCODE_SET_DYLIB_SPECIAL_IMM:{
                     if (immediate == 0){
                         dylibIndex = 0;
+                        if (dylibIndex <=   dylibNames.count) {
+                            dylibName = dylibNames[dylibIndex - 1];
+                        }
                     }else{
                         int8_t signExtended = immediate | BIND_OPCODE_MASK;
                         dylibIndex = signExtended;
+                        if (dylibIndex <=  dylibNames.count) {
+                            dylibName = dylibNames[dylibIndex - 1];
+                        }
                     }
                     break;
                 }
@@ -337,8 +382,9 @@
                     break;
                 }
                 default:
-                    [NSException raise:@"Bind info" format:@"Unknown opcode (%u %u)",
-                     ((uint32_t)-1 & opcode), ((uint32_t)-1 & immediate)];
+                    break;
+//                    [NSException raise:@"Bind info" format:@"Unknown opcode (%u %u)",
+//                     ((uint32_t)-1 & opcode), ((uint32_t)-1 & immediate)];
             }
         }
     }
@@ -349,7 +395,7 @@
 
     mach_header_64 mhHeader;
     [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
-
+    BOOL chainFixUps = [ChainFixUpsHelper shareInstance].isChainFixups;
     unsigned long long currentLcLocation = sizeof(mach_header_64);
     for (int i = 0; i < mhHeader.ncmds; i++) {
         load_command* cmd = (load_command *)malloc(sizeof(load_command));
@@ -360,14 +406,15 @@
             [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
             if (address >= segmentCommand.vmaddr && address <= segmentCommand.vmaddr + segmentCommand.vmsize) {
                 free(cmd);
-                return address - (segmentCommand.vmaddr - segmentCommand.fileoff);
+                unsigned long long  returnValue = (address - (segmentCommand.vmaddr - segmentCommand.fileoff));
+                return chainFixUps?(returnValue & ChainFixUpsRawvalueMask):returnValue;
             }
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
     }
-
-    return address;
+    unsigned long long  returnValue = address;
+    return chainFixUps?(returnValue & ChainFixUpsRawvalueMask):returnValue;;
 }
 
 + (section_64)getTEXTConst:(unsigned long long )address fileData:(NSData *)fileData{
