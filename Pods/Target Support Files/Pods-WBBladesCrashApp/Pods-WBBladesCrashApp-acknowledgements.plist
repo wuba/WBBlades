@@ -17,7 +17,7 @@
 			<string>
 </string>
 			<key>License</key>
-			<string>58license</string>
+			<string>license</string>
 			<key>Title</key>
 			<string>ArtilleryOfItaly</string>
 			<key>Type</key>
@@ -28,7 +28,18 @@
 			<string>
 </string>
 			<key>License</key>
-			<string>58license</string>
+			<string>license</string>
+			<key>Title</key>
+			<string>WBBlades</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>
+</string>
+			<key>License</key>
+			<string>license</string>
 			<key>Title</key>
 			<string>WBBladesCrash</string>
 			<key>Type</key>

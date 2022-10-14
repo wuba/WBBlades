@@ -36,6 +36,12 @@ open class WBBladesCrashManager{
         }
     }
     
+    open class func checkSymbolPath(processName: String, uuid: String, _ completeHandler:@escaping (_ symbolPath: String?) -> Void ){
+        WBBMLightSymbolTool.checkLightSymbolPath(path: nil, processName: processName, uuid: uuid) { lightSymbolPath in
+            completeHandler(lightSymbolPath)
+        }
+    }
+    
     /**
      *  analyzing start
      *  @param logModel              analyzed log model

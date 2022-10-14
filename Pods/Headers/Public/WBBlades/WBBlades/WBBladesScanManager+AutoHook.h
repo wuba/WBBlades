@@ -1,0 +1,1 @@
+../../../../../WBBlades/Tools/WBBladesScanManager+AutoHook.h

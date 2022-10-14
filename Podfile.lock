@@ -1,16 +1,45 @@
 PODS:
-  - WBBrightMirror (1.0)
+  - ArtilleryOfItaly (1.0)
+  - WBBlades (11.2.0):
+    - WBBlades/Capstone (= 11.2.0)
+    - WBBlades/ClassDump (= 11.2.0)
+    - WBBlades/Link (= 11.2.0)
+    - WBBlades/Model (= 11.2.0)
+    - WBBlades/Scan (= 11.2.0)
+    - WBBlades/Tools (= 11.2.0)
+    - WBBladesCrash
+  - WBBlades/Capstone (11.2.0):
+    - WBBladesCrash
+  - WBBlades/ClassDump (11.2.0):
+    - WBBladesCrash
+  - WBBlades/Link (11.2.0):
+    - WBBladesCrash
+  - WBBlades/Model (11.2.0):
+    - WBBladesCrash
+  - WBBlades/Scan (11.2.0):
+    - WBBladesCrash
+  - WBBlades/Tools (11.2.0):
+    - WBBladesCrash
+  - WBBladesCrash (1.0)
 
 DEPENDENCIES:
-  - WBBrightMirror (from `./WBBrightMirror`)
+  - ArtilleryOfItaly (from `./ArtilleryOfItaly`)
+  - WBBlades (from `./WBBlades`)
+  - WBBladesCrash (from `./WBBladesCrash`)
 
 EXTERNAL SOURCES:
-  WBBrightMirror:
-    :path: "./WBBrightMirror"
+  ArtilleryOfItaly:
+    :path: "./ArtilleryOfItaly"
+  WBBlades:
+    :path: "./WBBlades"
+  WBBladesCrash:
+    :path: "./WBBladesCrash"
 
 SPEC CHECKSUMS:
-  WBBrightMirror: d329fce16d782019505a0d807ce45eead19c7c3b
+  ArtilleryOfItaly: d2dee0039f638396206bf4a36776e373433888bc
+  WBBlades: e514083b8a5bc7468b4c85baf433b5ea35332707
+  WBBladesCrash: 4ea4ef821e8de2e2b2da6a6f56af0df7ec9e0281
 
-PODFILE CHECKSUM: b91852cfaf0db83653308ec6e7daa795fdd69aa0
+PODFILE CHECKSUM: a0acbcc1191fd45d624497e2b186e0c357c045b4
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.3

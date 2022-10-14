@@ -76,26 +76,7 @@ open class WBBMSymbolTool: NSObject {
                     return
                 }
                 
-                //look for symbol table
-                var  symbolTableArr = [String]()
-                //read symbol table in cache
-                if let cacheSymbolTaleDict = UserDefaults.standard.value(forKey: "kWB_Symbol_Table") as? [String:[String]] {
-                    if let cacheSymbolTables = cacheSymbolTaleDict[logModel.processUUID],
-                       !cacheSymbolTables.isEmpty {
-                        symbolTableArr = cacheSymbolTables
-                    } else {
-                        symbolTableArr = content.components(separatedBy: "Symbol table:")
-                        self.symbolTableDict[logModel.processUUID] = symbolTableArr
-                        UserDefaults.standard.setValue(self.symbolTableDict, forKey: "kWB_Symbol_Table")
-                        UserDefaults.standard .synchronize();
-                    }
-                } else {
-                    symbolTableArr = content.components(separatedBy: "Symbol table:")
-                    self.symbolTableDict[logModel.processUUID] = symbolTableArr
-                    UserDefaults.standard.setValue(self.symbolTableDict, forKey: "kWB_Symbol_Table")
-                    UserDefaults.standard .synchronize();
-                }
-
+                let symbolTableArr = content.components(separatedBy: "Symbol table:")
 
                 guard let symbolUUID = WBBMSymbolTake.obtainSymbolUUID(symbolTableArr[0]) else {
                     completionHandler(false,logModel)
@@ -136,6 +117,7 @@ open class WBBMSymbolTool: NSObject {
     private func dismantleLog(logModel: WBBMLogModel, _ addressTable: String, _ completionHandler: @escaping (_ isComplete: Bool,_ logModel: WBBMLogModel) -> Void) {
 
         self.symbolTables = addressTable.components(separatedBy: "\n")
+        self.symbolTables.remove(at: self.symbolTables.count - 1)
 
         guard let detailModel = logModel.detailModel, !detailModel.threadInfoArray.isEmpty else {
             if !stopped {

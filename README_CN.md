@@ -1,20 +1,30 @@
 
-> Language Switch: [English](README.md)
+**简体中文** | [English](./README.md)
 
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析、无符号表日志符号化。
+WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）、基于Mach-O的Class自动提取并Hook能力。主要利用了__Text汇编代码分析、架构提取、符号表剥离、DYSM文件提取、崩溃文件(ips)解析、等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于  dyld_chained_fixups的处理。
+
+3.0版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
 ## 安装
 
 ```
 $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
-$ make install
+$ pod install
 ```
-如果出现类似`[1]    70390 killed     blades`提示，可以尝试重新`make install`
-
 ## 使用
+### 可视化工具用法
+target选择：WBBladesCrashApp
+
+点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
+> 可视化工具详细介绍: [可视化工具详细介绍](UsageDetail.md)
+
+### 命令行工具blades用法
+target选择：WBBlades，编译运行，生成命令行工具
+将生成的产物blades 拷贝至 /usr/local/bin 下，具体操作如：
+sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 - 无用代码检测 `OC` & `Swift`
 
@@ -67,15 +77,6 @@ $ make install
 - 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化。
 
 
-
-## Developing for WBBlades
-
-邓竹立
-
-## Contributing for WBBlades
-
-邓竹立，彭飞，朴惠姝，曾庆隆，林雅明
-
 ## 如何贡献&反馈问题
 
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
@@ -91,3 +92,10 @@ $ make install
 ## 致谢
 
 GitHub地址：[https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
+
+GitHub地址：[https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")
+
+GitHub地址：[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
+
+DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
+

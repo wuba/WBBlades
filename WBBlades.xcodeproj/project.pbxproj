@@ -3,79 +3,48 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 55;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		372935DA22E18AC100C37C02 /* cs.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358022E1897E00C37C02 /* cs.c */; };
-		372935DB22E18AC100C37C02 /* SStream.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729358F22E1897E00C37C02 /* SStream.c */; };
-		372935DC22E18AC100C37C02 /* utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 3729359022E1897E00C37C02 /* utils.c */; };
-		372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */; };
-		372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935CC22E1897E00C37C02 /* AArch64Mapping.c */; };
-		372935DF22E18AC100C37C02 /* AArch64GenDisassemblerTables.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */; };
-		372935E022E18AC100C37C02 /* AArch64GenSubtargetInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */; };
-		372935E122E18AC100C37C02 /* AArch64Disassembler.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935CF22E1897E00C37C02 /* AArch64Disassembler.c */; };
-		372935E222E18AC100C37C02 /* AArch64InstPrinter.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D022E1897E00C37C02 /* AArch64InstPrinter.c */; };
-		372935E322E18AC100C37C02 /* AArch64BaseInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D122E1897E00C37C02 /* AArch64BaseInfo.c */; };
-		372935E422E18AC100C37C02 /* AArch64GenRegisterInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */; };
-		372935E522E18AC100C37C02 /* AArch64GenInstrInfo.inc in Sources */ = {isa = PBXBuildFile; fileRef = 372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */; };
-		372935E622E18AC100C37C02 /* AArch64Module.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D522E1897E00C37C02 /* AArch64Module.c */; };
-		372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D622E1897E00C37C02 /* MCInstrDesc.c */; };
-		372935E822E18AC100C37C02 /* MCInst.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D822E1897E00C37C02 /* MCInst.c */; };
-		372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */ = {isa = PBXBuildFile; fileRef = 372935D922E1897E00C37C02 /* MCRegisterInfo.c */; };
-		3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82322B48849002062FE /* WBBladesObjectHeader.m */; };
-		3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82622B48EC4002062FE /* WBBladesSymTab.m */; };
-		3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82922B4A6D3002062FE /* WBBladesStringTab.m */; };
-		3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3733D82C22B4BB15002062FE /* WBBladesObject.m */; };
-		3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */; };
-		3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 3749FF6426359D3800E90888 /* libswiftDemangle.tbd */; };
-		37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37561F3D23B392F10020CF02 /* WBBladesCMD.mm */; };
-		3794EE7C22B3C71300D5DFA4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE7B22B3C71300D5DFA4 /* main.m */; };
-		3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */; };
-		3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */; };
-		37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */; };
-		37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37CF3F1423B9EC05006D814F /* WBBladesTool.mm */; };
-		37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */; };
-		463EA374277C40950011FF55 /* WBCrashTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 463EA373277C40950011FF55 /* WBCrashTool.swift */; };
-		464A042D278EF3B000390BD1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A042C278EF3B000390BD1 /* AppDelegate.swift */; };
-		464A042F278EF3B000390BD1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A042E278EF3B000390BD1 /* ViewController.swift */; };
-		464A0431278EF3B100390BD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 464A0430278EF3B100390BD1 /* Assets.xcassets */; };
-		464A0434278EF3B100390BD1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 464A0432278EF3B100390BD1 /* Main.storyboard */; };
-		464A043F278EF3B200390BD1 /* WBBladesAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A043E278EF3B200390BD1 /* WBBladesAppTests.swift */; };
-		464A0449278EF3B200390BD1 /* WBBladesAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0448278EF3B200390BD1 /* WBBladesAppUITests.swift */; };
-		464A044B278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A044A278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift */; };
-		464A0456278EF3E800390BD1 /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0455278EF3E800390BD1 /* LogTextView.swift */; };
-		464A0469278EFDEF00390BD1 /* HelpViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0465278EFDEF00390BD1 /* HelpViewManager.swift */; };
-		464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0466278EFDEF00390BD1 /* SystemCrash.plist */; };
-		464A046B278EFDEF00390BD1 /* BuglyCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464A0467278EFDEF00390BD1 /* BuglyCrash.plist */; };
-		464A046C278EFDEF00390BD1 /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464A0468278EFDEF00390BD1 /* HelpViewController.swift */; };
-		464F8C26279008BD006EFD8B /* LanguageText.plist in Resources */ = {isa = PBXBuildFile; fileRef = 464F8C25279008BD006EFD8B /* LanguageText.plist */; };
-		464F8C2827900A20006EFD8B /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464F8C2727900A20006EFD8B /* TextDictionary.swift */; };
-		A8BA4BEF936EDA3FC3BE51D6 /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F749A7B81F8B1C65A73B50DF /* libPods-WBBladesCrashApp.a */; };
+		1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */; };
+		3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06FDB18122F049E93366912D /* libPods-WBBlades.a */; };
+		769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */; };
+		769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */; };
+		769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
+		769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
+		B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */; };
+		B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAC280058E400D7A1A2 /* ViewController.swift */; };
+		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
+		B650F3AB286E8C00003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */; };
+		B650F3AC286E94F3003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */; };
+		B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */; };
+		B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */; };
+		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
+		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
+		B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BE2803D70D00576C5A /* TextDictionary.swift */; };
+		B68D40C62803D75700576C5A /* LanguageText.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68D40C02803D75600576C5A /* LanguageText.plist */; };
+		B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40C22803D75600576C5A /* HelpViewManager.swift */; };
+		B68D40C82803D75700576C5A /* SystemCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68D40C32803D75600576C5A /* SystemCrash.plist */; };
+		B68D40C92803D75700576C5A /* BuglyCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68D40C42803D75600576C5A /* BuglyCrash.plist */; };
+		B68D40CA2803D75700576C5A /* HelpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40C52803D75600576C5A /* HelpViewController.swift */; };
+		B68D40CC2803D7BD00576C5A /* BladesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40CB2803D7BD00576C5A /* BladesViewController.swift */; };
+		B68D40D7280402D800576C5A /* BladesDispatchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40D5280402D800576C5A /* BladesDispatchViewController.swift */; };
+		B68D40D8280402D800576C5A /* BladesDispatchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */; };
+		B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */; };
+		B68D40E02804147600576C5A /* BladesLibrarySizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */; };
+		B68D40E22804161700576C5A /* NSViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40E12804161700576C5A /* NSViewController+Extension.swift */; };
+		B6D6010628005CEB00286E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D6010528005CEB00286E6A /* main.m */; };
+		B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B5628068CA4006BAA34 /* Utilities.swift */; };
+		B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B582806901A006BAA34 /* SYFlatButton.m */; };
+		B6FA8D3228C74593001CE971 /* CaptainHook.txt in Resources */ = {isa = PBXBuildFile; fileRef = B6FA8D3128C74593001CE971 /* CaptainHook.txt */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		464A043B278EF3B200390BD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3794EE7022B3C71300D5DFA4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 464A0429278EF3B000390BD1;
-			remoteInfo = WBBladesApp;
-		};
-		464A0445278EF3B200390BD1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3794EE7022B3C71300D5DFA4 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 464A0429278EF3B000390BD1;
-			remoteInfo = WBBladesApp;
-		};
-/* End PBXContainerItemProxy section */
-
 /* Begin PBXCopyFilesBuildPhase section */
-		3794EE7622B3C71300D5DFA4 /* CopyFiles */ = {
+		B6D6010128005CEB00286E6A /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1;
+			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
 			);
@@ -84,389 +53,207 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.debug.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
-		36AD1F708A1F67DF72B5B99B /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.release.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
-		3726270122DC47EE009B6117 /* WBBladesDefines.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesDefines.h; sourceTree = "<group>"; };
-		3729357822E1897E00C37C02 /* utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
-		3729357922E1897E00C37C02 /* inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = inttypes.h; sourceTree = "<group>"; };
-		3729357A22E1897E00C37C02 /* SStream.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SStream.h; sourceTree = "<group>"; };
-		3729357B22E1897E00C37C02 /* myinttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = myinttypes.h; sourceTree = "<group>"; };
-		3729357C22E1897E00C37C02 /* MathExtras.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathExtras.h; sourceTree = "<group>"; };
-		3729357D22E1897E00C37C02 /* LEB128.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LEB128.h; sourceTree = "<group>"; };
-		3729357E22E1897E00C37C02 /* MCFixedLenDisassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCFixedLenDisassembler.h; sourceTree = "<group>"; };
-		3729357F22E1897E00C37C02 /* cs_priv.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = cs_priv.h; sourceTree = "<group>"; };
-		3729358022E1897E00C37C02 /* cs.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = cs.c; sourceTree = "<group>"; };
-		3729358222E1897E00C37C02 /* capstone.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = capstone.h; sourceTree = "<group>"; };
-		3729358322E1897E00C37C02 /* mips.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = mips.h; sourceTree = "<group>"; };
-		3729358422E1897E00C37C02 /* sparc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sparc.h; sourceTree = "<group>"; };
-		3729358522E1897E00C37C02 /* systemz.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = systemz.h; sourceTree = "<group>"; };
-		3729358622E1897E00C37C02 /* arm.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arm.h; sourceTree = "<group>"; };
-		3729358722E1897E00C37C02 /* x86.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = x86.h; sourceTree = "<group>"; };
-		3729358822E1897E00C37C02 /* ppc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ppc.h; sourceTree = "<group>"; };
-		3729358922E1897E00C37C02 /* arm64.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = arm64.h; sourceTree = "<group>"; };
-		3729358A22E1897E00C37C02 /* xcore.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = xcore.h; sourceTree = "<group>"; };
-		3729358B22E1897E00C37C02 /* platform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
-		3729358C22E1897E00C37C02 /* MCInstrDesc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCInstrDesc.h; sourceTree = "<group>"; };
-		3729358D22E1897E00C37C02 /* MCRegisterInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCRegisterInfo.h; sourceTree = "<group>"; };
-		3729358E22E1897E00C37C02 /* MCInst.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCInst.h; sourceTree = "<group>"; };
-		3729358F22E1897E00C37C02 /* SStream.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = SStream.c; sourceTree = "<group>"; };
-		3729359022E1897E00C37C02 /* utils.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = utils.c; sourceTree = "<group>"; };
-		3729359122E1897E00C37C02 /* MCDisassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MCDisassembler.h; sourceTree = "<group>"; };
-		372935C722E1897E00C37C02 /* AArch64Disassembler.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64Disassembler.h; sourceTree = "<group>"; };
-		372935C822E1897E00C37C02 /* AArch64BaseInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64BaseInfo.h; sourceTree = "<group>"; };
-		372935C922E1897E00C37C02 /* AArch64AddressingModes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64AddressingModes.h; sourceTree = "<group>"; };
-		372935CA22E1897E00C37C02 /* AArch64InstPrinter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64InstPrinter.h; sourceTree = "<group>"; };
-		372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenAsmWriter.inc; sourceTree = "<group>"; };
-		372935CC22E1897E00C37C02 /* AArch64Mapping.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Mapping.c; sourceTree = "<group>"; };
-		372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenDisassemblerTables.inc; sourceTree = "<group>"; };
-		372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenSubtargetInfo.inc; sourceTree = "<group>"; };
-		372935CF22E1897E00C37C02 /* AArch64Disassembler.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Disassembler.c; sourceTree = "<group>"; };
-		372935D022E1897E00C37C02 /* AArch64InstPrinter.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64InstPrinter.c; sourceTree = "<group>"; };
-		372935D122E1897E00C37C02 /* AArch64BaseInfo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64BaseInfo.c; sourceTree = "<group>"; };
-		372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenRegisterInfo.inc; sourceTree = "<group>"; };
-		372935D322E1897E00C37C02 /* AArch64Mapping.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AArch64Mapping.h; sourceTree = "<group>"; };
-		372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.pascal; path = AArch64GenInstrInfo.inc; sourceTree = "<group>"; };
-		372935D522E1897E00C37C02 /* AArch64Module.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = AArch64Module.c; sourceTree = "<group>"; };
-		372935D622E1897E00C37C02 /* MCInstrDesc.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCInstrDesc.c; sourceTree = "<group>"; };
-		372935D722E1897E00C37C02 /* osxkernel_inttypes.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = osxkernel_inttypes.h; sourceTree = "<group>"; };
-		372935D822E1897E00C37C02 /* MCInst.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCInst.c; sourceTree = "<group>"; };
-		372935D922E1897E00C37C02 /* MCRegisterInfo.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = MCRegisterInfo.c; sourceTree = "<group>"; };
-		3733D82222B48849002062FE /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObjectHeader.h; sourceTree = "<group>"; };
-		3733D82322B48849002062FE /* WBBladesObjectHeader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObjectHeader.m; sourceTree = "<group>"; };
-		3733D82522B48EC4002062FE /* WBBladesSymTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesSymTab.h; sourceTree = "<group>"; };
-		3733D82622B48EC4002062FE /* WBBladesSymTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesSymTab.m; sourceTree = "<group>"; };
-		3733D82822B4A6D3002062FE /* WBBladesStringTab.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesStringTab.h; sourceTree = "<group>"; };
-		3733D82922B4A6D3002062FE /* WBBladesStringTab.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesStringTab.m; sourceTree = "<group>"; };
-		3733D82B22B4BB15002062FE /* WBBladesObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesObject.h; sourceTree = "<group>"; };
-		3733D82C22B4BB15002062FE /* WBBladesObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBBladesObject.m; sourceTree = "<group>"; };
-		3733D83122B4ED82002062FE /* WBBladesLinkManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesLinkManager.h; sourceTree = "<group>"; };
-		3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesLinkManager.mm; sourceTree = "<group>"; };
-		3749FF6426359D3800E90888 /* libswiftDemangle.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftDemangle.tbd; path = usr/lib/swift/libswiftDemangle.tbd; sourceTree = SDKROOT; };
-		37561F3C23B392F10020CF02 /* WBBladesCMD.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesCMD.h; sourceTree = "<group>"; };
-		37561F3D23B392F10020CF02 /* WBBladesCMD.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesCMD.mm; sourceTree = "<group>"; };
-		3794EE7822B3C71300D5DFA4 /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
-		3794EE7B22B3C71300D5DFA4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesScanManager.h; sourceTree = "<group>"; };
-		3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesScanManager.mm; sourceTree = "<group>"; };
-		3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesFileManager.h; sourceTree = "<group>"; };
-		3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesFileManager.mm; sourceTree = "<group>"; };
-		37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+CrashSymbol.h"; sourceTree = "<group>"; };
-		37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
-		37CF3F1323B9EC05006D814F /* WBBladesTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBBladesTool.h; sourceTree = "<group>"; };
-		37CF3F1423B9EC05006D814F /* WBBladesTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = WBBladesTool.mm; sourceTree = "<group>"; };
-		37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
-		37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = "WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
-		3BD4D90B0929F4341A5CB521 /* Pods-WBBladesApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesApp.release.xcconfig"; path = "Target Support Files/Pods-WBBladesApp/Pods-WBBladesApp.release.xcconfig"; sourceTree = "<group>"; };
-		463EA372277C40950011FF55 /* WBBlades-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBlades-Bridging-Header.h"; sourceTree = "<group>"; };
-		463EA373277C40950011FF55 /* WBCrashTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WBCrashTool.swift; sourceTree = "<group>"; };
-		463EA375277C409E0011FF55 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		464A042A278EF3B000390BD1 /* WBBladesCrashApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBBladesCrashApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		464A042C278EF3B000390BD1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		464A042E278EF3B000390BD1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		464A0430278EF3B100390BD1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		464A0433278EF3B100390BD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		464A0435278EF3B100390BD1 /* WBBladesCrashApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashApp.entitlements; sourceTree = "<group>"; };
-		464A043A278EF3B100390BD1 /* WBBladesAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBBladesAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		464A043E278EF3B200390BD1 /* WBBladesAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBladesAppTests.swift; sourceTree = "<group>"; };
-		464A0444278EF3B200390BD1 /* WBBladesAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WBBladesAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		464A0448278EF3B200390BD1 /* WBBladesAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBladesAppUITests.swift; sourceTree = "<group>"; };
-		464A044A278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBladesAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		464A0455278EF3E800390BD1 /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
-		464A0459278EF99600390BD1 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		464A0465278EFDEF00390BD1 /* HelpViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewManager.swift; sourceTree = "<group>"; };
-		464A0466278EFDEF00390BD1 /* SystemCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SystemCrash.plist; sourceTree = "<group>"; };
-		464A0467278EFDEF00390BD1 /* BuglyCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BuglyCrash.plist; sourceTree = "<group>"; };
-		464A0468278EFDEF00390BD1 /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
-		464F8C25279008BD006EFD8B /* LanguageText.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = LanguageText.plist; sourceTree = "<group>"; };
-		464F8C2727900A20006EFD8B /* TextDictionary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
-		6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.release.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
-		C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		C7E7AE5270639A9C5C7A925F /* Pods-WBBladesApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesApp.debug.xcconfig"; path = "Target Support Files/Pods-WBBladesApp/Pods-WBBladesApp.debug.xcconfig"; sourceTree = "<group>"; };
-		ED6C456E3CA002991BFA1A5F /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.debug.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
-		F749A7B81F8B1C65A73B50DF /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		06FDB18122F049E93366912D /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		090B6012A2DBEEE073206387 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.debug.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
+		33D9340F0B739868BBFB3E57 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.release.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
+		769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesUnusedClassCheckViewController.swift; sourceTree = "<group>"; };
+		769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesUnusedClassCheckViewController.xib; sourceTree = "<group>"; };
+		769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftDemangle.tbd; path = usr/lib/swift/libswiftDemangle.tbd; sourceTree = SDKROOT; };
+		8BF5130117F4725AFFD3A177 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.debug.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
+		B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B602FBF2280966FB00D7E923 /* WBBladesCrashApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashApp.entitlements; sourceTree = "<group>"; };
+		B602FBF32809671200D7E923 /* WBBladesRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesRelease.entitlements; sourceTree = "<group>"; };
+		B60E1EA7280058E400D7A1A2 /* WBBladesCrashApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WBBladesCrashApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B60E1EAC280058E400D7A1A2 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B60E1EAE280058E600D7A1A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBlades.entitlements; sourceTree = "<group>"; };
+		B614F81C2809611500F21403 /* WBBladesCrashAppDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashAppDebug.entitlements; sourceTree = "<group>"; };
+		B650F3A4286E8ADD003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "../../libstdc--master/3/libstdc++.6.tbd"; sourceTree = "<group>"; };
+		B650F3A6286E8B06003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libstdc++.6.0.9.tbd"; sourceTree = "<group>"; };
+		B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesAutoHookViewController.swift; sourceTree = "<group>"; };
+		B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesAutoHookViewController.xib; sourceTree = "<group>"; };
+		B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		B68D40BA2803D4C900576C5A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		B68D40BC2803D70900576C5A /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
+		B68D40BE2803D70D00576C5A /* TextDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
+		B68D40C02803D75600576C5A /* LanguageText.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LanguageText.plist; sourceTree = "<group>"; };
+		B68D40C22803D75600576C5A /* HelpViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewManager.swift; sourceTree = "<group>"; };
+		B68D40C32803D75600576C5A /* SystemCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SystemCrash.plist; sourceTree = "<group>"; };
+		B68D40C42803D75600576C5A /* BuglyCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = BuglyCrash.plist; sourceTree = "<group>"; };
+		B68D40C52803D75600576C5A /* HelpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewController.swift; sourceTree = "<group>"; };
+		B68D40CB2803D7BD00576C5A /* BladesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesViewController.swift; sourceTree = "<group>"; };
+		B68D40D5280402D800576C5A /* BladesDispatchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesDispatchViewController.swift; sourceTree = "<group>"; };
+		B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesDispatchViewController.xib; sourceTree = "<group>"; };
+		B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesLibrarySizeViewController.swift; sourceTree = "<group>"; };
+		B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesLibrarySizeViewController.xib; sourceTree = "<group>"; };
+		B68D40E12804161700576C5A /* NSViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Extension.swift"; sourceTree = "<group>"; };
+		B68D40E3280423FC00576C5A /* WBBladesCrashApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrashApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		B6D6010328005CEB00286E6A /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6D6010528005CEB00286E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B6E06C78280968B000F7A0E5 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B6F86B5628068CA4006BAA34 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		B6F86B582806901A006BAA34 /* SYFlatButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYFlatButton.m; sourceTree = "<group>"; };
+		B6F86B592806901A006BAA34 /* SYFlatButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYFlatButton.h; sourceTree = "<group>"; };
+		B6FA8D3128C74593001CE971 /* CaptainHook.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CaptainHook.txt; path = WBBlades/CaptainHook.txt; sourceTree = SOURCE_ROOT; };
+		C52B6F9D8034FFD07637D05B /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.release.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		3794EE7522B3C71300D5DFA4 /* Frameworks */ = {
+		B60E1EA4280058E400D7A1A2 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3749FF6526359D3800E90888 /* libswiftDemangle.tbd in Frameworks */,
+				769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */,
+				1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */,
+				B650F3AB286E8C00003007A0 /* libstdc++.6.0.9.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		464A0427278EF3B000390BD1 /* Frameworks */ = {
+		B6D6010028005CEB00286E6A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8BA4BEF936EDA3FC3BE51D6 /* libPods-WBBladesCrashApp.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0437278EF3B100390BD1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0441278EF3B200390BD1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */,
+				3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */,
+				B650F3AC286E94F3003007A0 /* libstdc++.6.0.9.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3729357722E1897E00C37C02 /* Capstone */ = {
+		0205252FF908A4373B673D24 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3729357822E1897E00C37C02 /* utils.h */,
-				3729357922E1897E00C37C02 /* inttypes.h */,
-				3729357A22E1897E00C37C02 /* SStream.h */,
-				3729357B22E1897E00C37C02 /* myinttypes.h */,
-				3729357C22E1897E00C37C02 /* MathExtras.h */,
-				3729357D22E1897E00C37C02 /* LEB128.h */,
-				3729357E22E1897E00C37C02 /* MCFixedLenDisassembler.h */,
-				3729357F22E1897E00C37C02 /* cs_priv.h */,
-				3729358022E1897E00C37C02 /* cs.c */,
-				3729358122E1897E00C37C02 /* include */,
-				3729358C22E1897E00C37C02 /* MCInstrDesc.h */,
-				3729358D22E1897E00C37C02 /* MCRegisterInfo.h */,
-				3729358E22E1897E00C37C02 /* MCInst.h */,
-				3729358F22E1897E00C37C02 /* SStream.c */,
-				3729359022E1897E00C37C02 /* utils.c */,
-				3729359122E1897E00C37C02 /* MCDisassembler.h */,
-				3729359222E1897E00C37C02 /* arch */,
-				372935D622E1897E00C37C02 /* MCInstrDesc.c */,
-				372935D722E1897E00C37C02 /* osxkernel_inttypes.h */,
-				372935D822E1897E00C37C02 /* MCInst.c */,
-				372935D922E1897E00C37C02 /* MCRegisterInfo.c */,
-			);
-			path = Capstone;
-			sourceTree = "<group>";
-		};
-		3729358122E1897E00C37C02 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				3729358222E1897E00C37C02 /* capstone.h */,
-				3729358322E1897E00C37C02 /* mips.h */,
-				3729358422E1897E00C37C02 /* sparc.h */,
-				3729358522E1897E00C37C02 /* systemz.h */,
-				3729358622E1897E00C37C02 /* arm.h */,
-				3729358722E1897E00C37C02 /* x86.h */,
-				3729358822E1897E00C37C02 /* ppc.h */,
-				3729358922E1897E00C37C02 /* arm64.h */,
-				3729358A22E1897E00C37C02 /* xcore.h */,
-				3729358B22E1897E00C37C02 /* platform.h */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		3729359222E1897E00C37C02 /* arch */ = {
-			isa = PBXGroup;
-			children = (
-				372935C622E1897E00C37C02 /* AArch64 */,
-			);
-			path = arch;
-			sourceTree = "<group>";
-		};
-		372935C622E1897E00C37C02 /* AArch64 */ = {
-			isa = PBXGroup;
-			children = (
-				372935C722E1897E00C37C02 /* AArch64Disassembler.h */,
-				372935C822E1897E00C37C02 /* AArch64BaseInfo.h */,
-				372935C922E1897E00C37C02 /* AArch64AddressingModes.h */,
-				372935CA22E1897E00C37C02 /* AArch64InstPrinter.h */,
-				372935CB22E1897E00C37C02 /* AArch64GenAsmWriter.inc */,
-				372935CC22E1897E00C37C02 /* AArch64Mapping.c */,
-				372935CD22E1897E00C37C02 /* AArch64GenDisassemblerTables.inc */,
-				372935CE22E1897E00C37C02 /* AArch64GenSubtargetInfo.inc */,
-				372935CF22E1897E00C37C02 /* AArch64Disassembler.c */,
-				372935D022E1897E00C37C02 /* AArch64InstPrinter.c */,
-				372935D122E1897E00C37C02 /* AArch64BaseInfo.c */,
-				372935D222E1897E00C37C02 /* AArch64GenRegisterInfo.inc */,
-				372935D322E1897E00C37C02 /* AArch64Mapping.h */,
-				372935D422E1897E00C37C02 /* AArch64GenInstrInfo.inc */,
-				372935D522E1897E00C37C02 /* AArch64Module.c */,
-			);
-			path = AArch64;
-			sourceTree = "<group>";
-		};
-		3749FF6326359D3800E90888 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				3749FF6426359D3800E90888 /* libswiftDemangle.tbd */,
-				C63B4B4FA86CDCA16AD46009 /* libPods-WBBlades.a */,
-				F749A7B81F8B1C65A73B50DF /* libPods-WBBladesCrashApp.a */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3794EE6F22B3C71300D5DFA4 = {
-			isa = PBXGroup;
-			children = (
-				3794EE7A22B3C71300D5DFA4 /* WBBlades */,
-				464A042B278EF3B000390BD1 /* WBBladesCrashApp */,
-				464A043D278EF3B200390BD1 /* WBBladesAppTests */,
-				464A0447278EF3B200390BD1 /* WBBladesAppUITests */,
-				3794EE7922B3C71300D5DFA4 /* Products */,
-				3749FF6326359D3800E90888 /* Frameworks */,
-				40D424E6E737EEAB0E0AE94A /* Pods */,
-			);
-			sourceTree = "<group>";
-		};
-		3794EE7922B3C71300D5DFA4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				3794EE7822B3C71300D5DFA4 /* blades */,
-				464A042A278EF3B000390BD1 /* WBBladesCrashApp.app */,
-				464A043A278EF3B100390BD1 /* WBBladesAppTests.xctest */,
-				464A0444278EF3B200390BD1 /* WBBladesAppUITests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		3794EE7A22B3C71300D5DFA4 /* WBBlades */ = {
-			isa = PBXGroup;
-			children = (
-				37FA62BF23CEFE85008BCBAF /* Model */,
-				37FA62BE23CEFE71008BCBAF /* Tools */,
-				37FA62BD23CEFE5D008BCBAF /* Link */,
-				37FA62BC23CEFDA2008BCBAF /* Scan */,
-				3729357722E1897E00C37C02 /* Capstone */,
-				3794EE7B22B3C71300D5DFA4 /* main.m */,
-				463EA373277C40950011FF55 /* WBCrashTool.swift */,
-				463EA375277C409E0011FF55 /* Info.plist */,
-				3726270122DC47EE009B6117 /* WBBladesDefines.h */,
-				463EA372277C40950011FF55 /* WBBlades-Bridging-Header.h */,
-			);
-			path = WBBlades;
-			sourceTree = "<group>";
-		};
-		37FA62BC23CEFDA2008BCBAF /* Scan */ = {
-			isa = PBXGroup;
-			children = (
-				3794EE8822B3C94200D5DFA4 /* WBBladesScanManager.h */,
-				3794EE8922B3C94200D5DFA4 /* WBBladesScanManager.mm */,
-				37D130FE22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.h */,
-				37D130FF22F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm */,
-				37CF3F1023B9E86B006D814F /* WBBladesScanManager+CrashSymbol.h */,
-				37CF3F1123B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm */,
-			);
-			path = Scan;
-			sourceTree = "<group>";
-		};
-		37FA62BD23CEFE5D008BCBAF /* Link */ = {
-			isa = PBXGroup;
-			children = (
-				3733D83122B4ED82002062FE /* WBBladesLinkManager.h */,
-				3733D83222B4ED82002062FE /* WBBladesLinkManager.mm */,
-			);
-			path = Link;
-			sourceTree = "<group>";
-		};
-		37FA62BE23CEFE71008BCBAF /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				37561F3C23B392F10020CF02 /* WBBladesCMD.h */,
-				37561F3D23B392F10020CF02 /* WBBladesCMD.mm */,
-				3794EE8B22B3C9AC00D5DFA4 /* WBBladesFileManager.h */,
-				3794EE8C22B3C9AC00D5DFA4 /* WBBladesFileManager.mm */,
-				37CF3F1323B9EC05006D814F /* WBBladesTool.h */,
-				37CF3F1423B9EC05006D814F /* WBBladesTool.mm */,
-			);
-			path = Tools;
-			sourceTree = "<group>";
-		};
-		37FA62BF23CEFE85008BCBAF /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3733D82222B48849002062FE /* WBBladesObjectHeader.h */,
-				3733D82322B48849002062FE /* WBBladesObjectHeader.m */,
-				3733D82822B4A6D3002062FE /* WBBladesStringTab.h */,
-				3733D82922B4A6D3002062FE /* WBBladesStringTab.m */,
-				3733D82522B48EC4002062FE /* WBBladesSymTab.h */,
-				3733D82622B48EC4002062FE /* WBBladesSymTab.m */,
-				3733D82B22B4BB15002062FE /* WBBladesObject.h */,
-				3733D82C22B4BB15002062FE /* WBBladesObject.m */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		40D424E6E737EEAB0E0AE94A /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */,
-				6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */,
-				C7E7AE5270639A9C5C7A925F /* Pods-WBBladesApp.debug.xcconfig */,
-				3BD4D90B0929F4341A5CB521 /* Pods-WBBladesApp.release.xcconfig */,
-				ED6C456E3CA002991BFA1A5F /* Pods-WBBladesCrashApp.debug.xcconfig */,
-				36AD1F708A1F67DF72B5B99B /* Pods-WBBladesCrashApp.release.xcconfig */,
+				8BF5130117F4725AFFD3A177 /* Pods-WBBlades.debug.xcconfig */,
+				33D9340F0B739868BBFB3E57 /* Pods-WBBlades.release.xcconfig */,
+				090B6012A2DBEEE073206387 /* Pods-WBBladesCrashApp.debug.xcconfig */,
+				C52B6F9D8034FFD07637D05B /* Pods-WBBladesCrashApp.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		464A042B278EF3B000390BD1 /* WBBladesCrashApp */ = {
+		66FD5F89F9E47AAF8EBA1018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				464A042C278EF3B000390BD1 /* AppDelegate.swift */,
-				464A042E278EF3B000390BD1 /* ViewController.swift */,
-				464A0455278EF3E800390BD1 /* LogTextView.swift */,
-				464F8C2727900A20006EFD8B /* TextDictionary.swift */,
-				464F8C25279008BD006EFD8B /* LanguageText.plist */,
-				464A0464278EFDEF00390BD1 /* Help */,
-				464A0430278EF3B100390BD1 /* Assets.xcassets */,
-				464A0459278EF99600390BD1 /* Info.plist */,
-				464A0432278EF3B100390BD1 /* Main.storyboard */,
-				464A0435278EF3B100390BD1 /* WBBladesCrashApp.entitlements */,
+				B650F3A4286E8ADD003007A0 /* libstdc++.6.tbd */,
+				B650F3A6286E8B06003007A0 /* libstdc++.6.tbd */,
+				B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */,
+				769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */,
+				06FDB18122F049E93366912D /* libPods-WBBlades.a */,
+				B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B60E1E9E280058E400D7A1A2 = {
+			isa = PBXGroup;
+			children = (
+				B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */,
+				B60E1EA9280058E400D7A1A2 /* WBBladesCrashApp */,
+				B6D6010428005CEB00286E6A /* WBBlades */,
+				B60E1EA8280058E400D7A1A2 /* Products */,
+				0205252FF908A4373B673D24 /* Pods */,
+				66FD5F89F9E47AAF8EBA1018 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		B60E1EA8280058E400D7A1A2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B60E1EA7280058E400D7A1A2 /* WBBladesCrashApp.app */,
+				B6D6010328005CEB00286E6A /* blades */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B60E1EA9280058E400D7A1A2 /* WBBladesCrashApp */ = {
+			isa = PBXGroup;
+			children = (
+				B6E06C78280968B000F7A0E5 /* Info.plist */,
+				B602FBF2280966FB00D7E923 /* WBBladesCrashApp.entitlements */,
+				B614F81C2809611500F21403 /* WBBladesCrashAppDebug.entitlements */,
+				B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */,
+				B60E1EAC280058E400D7A1A2 /* ViewController.swift */,
+				B68D40CB2803D7BD00576C5A /* BladesViewController.swift */,
+				B68D40D5280402D800576C5A /* BladesDispatchViewController.swift */,
+				B68D40E12804161700576C5A /* NSViewController+Extension.swift */,
+				B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */,
+				B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */,
+				B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */,
+				B68D40E3280423FC00576C5A /* WBBladesCrashApp-Bridging-Header.h */,
+				769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */,
+				769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */,
+				B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */,
+				B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */,
+				B68D40BC2803D70900576C5A /* LogTextView.swift */,
+				B6F86B5628068CA4006BAA34 /* Utilities.swift */,
+				B68D40BE2803D70D00576C5A /* TextDictionary.swift */,
+				B6F86B592806901A006BAA34 /* SYFlatButton.h */,
+				B6F86B582806901A006BAA34 /* SYFlatButton.m */,
+				B68D40C12803D75600576C5A /* Help */,
+				B60E1EAE280058E600D7A1A2 /* Assets.xcassets */,
+				B6FA8D3128C74593001CE971 /* CaptainHook.txt */,
+				B68D40BA2803D4C900576C5A /* Main.storyboard */,
+				B68D40C02803D75600576C5A /* LanguageText.plist */,
+				B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */,
 			);
 			path = WBBladesCrashApp;
 			sourceTree = "<group>";
 		};
-		464A043D278EF3B200390BD1 /* WBBladesAppTests */ = {
+		B68D40C12803D75600576C5A /* Help */ = {
 			isa = PBXGroup;
 			children = (
-				464A043E278EF3B200390BD1 /* WBBladesAppTests.swift */,
-			);
-			path = WBBladesAppTests;
-			sourceTree = "<group>";
-		};
-		464A0447278EF3B200390BD1 /* WBBladesAppUITests */ = {
-			isa = PBXGroup;
-			children = (
-				464A0448278EF3B200390BD1 /* WBBladesAppUITests.swift */,
-				464A044A278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift */,
-			);
-			path = WBBladesAppUITests;
-			sourceTree = "<group>";
-		};
-		464A0464278EFDEF00390BD1 /* Help */ = {
-			isa = PBXGroup;
-			children = (
-				464A0465278EFDEF00390BD1 /* HelpViewManager.swift */,
-				464A0466278EFDEF00390BD1 /* SystemCrash.plist */,
-				464A0467278EFDEF00390BD1 /* BuglyCrash.plist */,
-				464A0468278EFDEF00390BD1 /* HelpViewController.swift */,
+				B68D40C22803D75600576C5A /* HelpViewManager.swift */,
+				B68D40C52803D75600576C5A /* HelpViewController.swift */,
+				B68D40C32803D75600576C5A /* SystemCrash.plist */,
+				B68D40C42803D75600576C5A /* BuglyCrash.plist */,
 			);
 			path = Help;
+			sourceTree = "<group>";
+		};
+		B6D6010428005CEB00286E6A /* WBBlades */ = {
+			isa = PBXGroup;
+			children = (
+				B602FBF32809671200D7E923 /* WBBladesRelease.entitlements */,
+				B6D6010528005CEB00286E6A /* main.m */,
+			);
+			path = WBBlades;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		3794EE7722B3C71300D5DFA4 /* WBBlades */ = {
+		B60E1EA6280058E400D7A1A2 /* WBBladesCrashApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3794EE7F22B3C71300D5DFA4 /* Build configuration list for PBXNativeTarget "WBBlades" */;
+			buildConfigurationList = B60E1EB6280058E600D7A1A2 /* Build configuration list for PBXNativeTarget "WBBladesCrashApp" */;
 			buildPhases = (
-				05A6B2073356680A3EDB8014 /* [CP] Check Pods Manifest.lock */,
-				3794EE7422B3C71300D5DFA4 /* Sources */,
-				3794EE7522B3C71300D5DFA4 /* Frameworks */,
-				3794EE7622B3C71300D5DFA4 /* CopyFiles */,
-				37E59715268C95F200F40AA8 /* ShellScript */,
-				2668335EA5F4AFBE2867EDA4 /* [CP] Copy Pods Resources */,
+				B4001EFE2FE00706207C90CC /* [CP] Check Pods Manifest.lock */,
+				B60E1EA3280058E400D7A1A2 /* Sources */,
+				B60E1EA4280058E400D7A1A2 /* Frameworks */,
+				B60E1EA5280058E400D7A1A2 /* Resources */,
+				31551631D458538E926D3643 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WBBladesCrashApp;
+			productName = WBBlades;
+			productReference = B60E1EA7280058E400D7A1A2 /* WBBladesCrashApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		B6D6010228005CEB00286E6A /* WBBlades */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B6D6010728005CEB00286E6A /* Build configuration list for PBXNativeTarget "WBBlades" */;
+			buildPhases = (
+				F622FC91FBD7CFC8FD98D778 /* [CP] Check Pods Manifest.lock */,
+				B6D600FF28005CEB00286E6A /* Sources */,
+				B6D6010028005CEB00286E6A /* Frameworks */,
+				B6D6010128005CEB00286E6A /* CopyFiles */,
+				971056B300988A9DCC5AAA59 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -474,165 +261,103 @@
 			);
 			name = WBBlades;
 			productName = WBBlades;
-			productReference = 3794EE7822B3C71300D5DFA4 /* blades */;
+			productReference = B6D6010328005CEB00286E6A /* blades */;
 			productType = "com.apple.product-type.tool";
-		};
-		464A0429278EF3B000390BD1 /* WBBladesCrashApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 464A044C278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesCrashApp" */;
-			buildPhases = (
-				13880BC80161A3CE7DE648AC /* [CP] Check Pods Manifest.lock */,
-				464A0426278EF3B000390BD1 /* Sources */,
-				464A0427278EF3B000390BD1 /* Frameworks */,
-				464A0428278EF3B000390BD1 /* Resources */,
-				1F83FE7EE47928C4800994CA /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = WBBladesCrashApp;
-			productName = WBBladesApp;
-			productReference = 464A042A278EF3B000390BD1 /* WBBladesCrashApp.app */;
-			productType = "com.apple.product-type.application";
-		};
-		464A0439278EF3B100390BD1 /* WBBladesAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 464A044F278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesAppTests" */;
-			buildPhases = (
-				464A0436278EF3B100390BD1 /* Sources */,
-				464A0437278EF3B100390BD1 /* Frameworks */,
-				464A0438278EF3B100390BD1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				464A043C278EF3B200390BD1 /* PBXTargetDependency */,
-			);
-			name = WBBladesAppTests;
-			productName = WBBladesAppTests;
-			productReference = 464A043A278EF3B100390BD1 /* WBBladesAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		464A0443278EF3B200390BD1 /* WBBladesAppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 464A0452278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesAppUITests" */;
-			buildPhases = (
-				464A0440278EF3B200390BD1 /* Sources */,
-				464A0441278EF3B200390BD1 /* Frameworks */,
-				464A0442278EF3B200390BD1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				464A0446278EF3B200390BD1 /* PBXTargetDependency */,
-			);
-			name = WBBladesAppUITests;
-			productName = WBBladesAppUITests;
-			productReference = 464A0444278EF3B200390BD1 /* WBBladesAppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		3794EE7022B3C71300D5DFA4 /* Project object */ = {
+		B60E1E9F280058E400D7A1A2 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1310;
-				LastUpgradeCheck = 1250;
-				ORGANIZATIONNAME = "邓竹立";
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1300;
+				LastUpgradeCheck = 1300;
 				TargetAttributes = {
-					3794EE7722B3C71300D5DFA4 = {
-						CreatedOnToolsVersion = 10.1;
-						LastSwiftMigration = 1310;
+					B60E1EA6280058E400D7A1A2 = {
+						CreatedOnToolsVersion = 13.0;
+						LastSwiftMigration = 1300;
 					};
-					464A0429278EF3B000390BD1 = {
-						CreatedOnToolsVersion = 13.1;
-					};
-					464A0439278EF3B100390BD1 = {
-						CreatedOnToolsVersion = 13.1;
-						TestTargetID = 464A0429278EF3B000390BD1;
-					};
-					464A0443278EF3B200390BD1 = {
-						CreatedOnToolsVersion = 13.1;
-						TestTargetID = 464A0429278EF3B000390BD1;
+					B6D6010228005CEB00286E6A = {
+						CreatedOnToolsVersion = 13.0;
 					};
 				};
 			};
-			buildConfigurationList = 3794EE7322B3C71300D5DFA4 /* Build configuration list for PBXProject "WBBlades" */;
-			compatibilityVersion = "Xcode 9.3";
+			buildConfigurationList = B60E1EA2280058E400D7A1A2 /* Build configuration list for PBXProject "WBBlades" */;
+			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
-			mainGroup = 3794EE6F22B3C71300D5DFA4;
-			productRefGroup = 3794EE7922B3C71300D5DFA4 /* Products */;
+			mainGroup = B60E1E9E280058E400D7A1A2;
+			productRefGroup = B60E1EA8280058E400D7A1A2 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3794EE7722B3C71300D5DFA4 /* WBBlades */,
-				464A0429278EF3B000390BD1 /* WBBladesCrashApp */,
-				464A0439278EF3B100390BD1 /* WBBladesAppTests */,
-				464A0443278EF3B200390BD1 /* WBBladesAppUITests */,
+				B60E1EA6280058E400D7A1A2 /* WBBladesCrashApp */,
+				B6D6010228005CEB00286E6A /* WBBlades */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		464A0428278EF3B000390BD1 /* Resources */ = {
+		B60E1EA5280058E400D7A1A2 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464F8C26279008BD006EFD8B /* LanguageText.plist in Resources */,
-				464A046A278EFDEF00390BD1 /* SystemCrash.plist in Resources */,
-				464A0431278EF3B100390BD1 /* Assets.xcassets in Resources */,
-				464A0434278EF3B100390BD1 /* Main.storyboard in Resources */,
-				464A046B278EFDEF00390BD1 /* BuglyCrash.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0438278EF3B100390BD1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0442278EF3B200390BD1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				B68D40E02804147600576C5A /* BladesLibrarySizeViewController.xib in Resources */,
+				B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */,
+				B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */,
+				B68D40C82803D75700576C5A /* SystemCrash.plist in Resources */,
+				769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */,
+				B68D40D8280402D800576C5A /* BladesDispatchViewController.xib in Resources */,
+				B6FA8D3228C74593001CE971 /* CaptainHook.txt in Resources */,
+				B68D40C62803D75700576C5A /* LanguageText.plist in Resources */,
+				B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */,
+				B68D40C92803D75700576C5A /* BuglyCrash.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		05A6B2073356680A3EDB8014 /* [CP] Check Pods Manifest.lock */ = {
+		31551631D458538E926D3643 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-WBBlades-checkManifestLockResult.txt",
+				"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		13880BC80161A3CE7DE648AC /* [CP] Check Pods Manifest.lock */ = {
+		971056B300988A9DCC5AAA59 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B4001EFE2FE00706207C90CC /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -654,41 +379,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		1F83FE7EE47928C4800994CA /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2668335EA5F4AFBE2867EDA4 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WBBlades/Pods-WBBlades-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		37E59715268C95F200F40AA8 /* ShellScript */ = {
+		F622FC91FBD7CFC8FD98D778 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -696,122 +387,68 @@
 			inputFileListPaths = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-WBBlades-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nrm -rf /usr/local/bin/blades\ncp -f ${BUILT_PRODUCTS_DIR}/blades /usr/local/bin/blades\nchmod 777 /usr/local/bin/blades\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		3794EE7422B3C71300D5DFA4 /* Sources */ = {
+		B60E1EA3280058E400D7A1A2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				372935DA22E18AC100C37C02 /* cs.c in Sources */,
-				372935DB22E18AC100C37C02 /* SStream.c in Sources */,
-				37561F3E23B392F10020CF02 /* WBBladesCMD.mm in Sources */,
-				372935DC22E18AC100C37C02 /* utils.c in Sources */,
-				372935DD22E18AC100C37C02 /* AArch64GenAsmWriter.inc in Sources */,
-				372935DE22E18AC100C37C02 /* AArch64Mapping.c in Sources */,
-				37D1310022F81B4F00C3D759 /* WBBladesScanManager+UnuseClassScan.mm in Sources */,
-				372935DF22E18AC100C37C02 /* AArch64GenDisassemblerTables.inc in Sources */,
-				372935E022E18AC100C37C02 /* AArch64GenSubtargetInfo.inc in Sources */,
-				372935E122E18AC100C37C02 /* AArch64Disassembler.c in Sources */,
-				372935E222E18AC100C37C02 /* AArch64InstPrinter.c in Sources */,
-				372935E322E18AC100C37C02 /* AArch64BaseInfo.c in Sources */,
-				372935E422E18AC100C37C02 /* AArch64GenRegisterInfo.inc in Sources */,
-				372935E522E18AC100C37C02 /* AArch64GenInstrInfo.inc in Sources */,
-				372935E622E18AC100C37C02 /* AArch64Module.c in Sources */,
-				37CF3F1523B9EC05006D814F /* WBBladesTool.mm in Sources */,
-				37CF3F1223B9E86B006D814F /* WBBladesScanManager+CrashSymbol.mm in Sources */,
-				372935E722E18AC100C37C02 /* MCInstrDesc.c in Sources */,
-				463EA374277C40950011FF55 /* WBCrashTool.swift in Sources */,
-				372935E822E18AC100C37C02 /* MCInst.c in Sources */,
-				372935E922E18AC100C37C02 /* MCRegisterInfo.c in Sources */,
-				3733D82A22B4A6D3002062FE /* WBBladesStringTab.m in Sources */,
-				3733D82722B48EC4002062FE /* WBBladesSymTab.m in Sources */,
-				3794EE8D22B3C9AC00D5DFA4 /* WBBladesFileManager.mm in Sources */,
-				3733D82D22B4BB15002062FE /* WBBladesObject.m in Sources */,
-				3733D82422B48849002062FE /* WBBladesObjectHeader.m in Sources */,
-				3733D83322B4ED82002062FE /* WBBladesLinkManager.mm in Sources */,
-				3794EE8A22B3C94200D5DFA4 /* WBBladesScanManager.mm in Sources */,
-				3794EE7C22B3C71300D5DFA4 /* main.m in Sources */,
+				B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */,
+				B68D40CA2803D75700576C5A /* HelpViewController.swift in Sources */,
+				B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */,
+				B68D40D7280402D800576C5A /* BladesDispatchViewController.swift in Sources */,
+				B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */,
+				B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */,
+				769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */,
+				B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */,
+				B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */,
+				B68D40CC2803D7BD00576C5A /* BladesViewController.swift in Sources */,
+				B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */,
+				B68D40E22804161700576C5A /* NSViewController+Extension.swift in Sources */,
+				B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */,
+				B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		464A0426278EF3B000390BD1 /* Sources */ = {
+		B6D600FF28005CEB00286E6A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				464A042F278EF3B000390BD1 /* ViewController.swift in Sources */,
-				464A0456278EF3E800390BD1 /* LogTextView.swift in Sources */,
-				464F8C2827900A20006EFD8B /* TextDictionary.swift in Sources */,
-				464A042D278EF3B000390BD1 /* AppDelegate.swift in Sources */,
-				464A0469278EFDEF00390BD1 /* HelpViewManager.swift in Sources */,
-				464A046C278EFDEF00390BD1 /* HelpViewController.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0436278EF3B100390BD1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				464A043F278EF3B200390BD1 /* WBBladesAppTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		464A0440278EF3B200390BD1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				464A044B278EF3B200390BD1 /* WBBladesAppUITestsLaunchTests.swift in Sources */,
-				464A0449278EF3B200390BD1 /* WBBladesAppUITests.swift in Sources */,
+				B6D6010628005CEB00286E6A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		464A043C278EF3B200390BD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 464A0429278EF3B000390BD1 /* WBBladesCrashApp */;
-			targetProxy = 464A043B278EF3B200390BD1 /* PBXContainerItemProxy */;
-		};
-		464A0446278EF3B200390BD1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 464A0429278EF3B000390BD1 /* WBBladesCrashApp */;
-			targetProxy = 464A0445278EF3B200390BD1 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		464A0432278EF3B100390BD1 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				464A0433278EF3B100390BD1 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
-
 /* Begin XCBuildConfiguration section */
-		3794EE7D22B3C71300D5DFA4 /* Debug */ = {
+		B60E1EB4280058E600D7A1A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ANALYZER_USE_AFTER_MOVE = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_TIDY_BUGPRONE_MOVE_FORWARDING_REFERENCE = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -834,9 +471,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -853,26 +490,29 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_NAME = blades;
 				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
-		3794EE7E22B3C71300D5DFA4 /* Release */ = {
+		B60E1EB5280058E600D7A1A2 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ANALYZER_USE_AFTER_MOVE = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_TIDY_BUGPRONE_MOVE_FORWARDING_REFERENCE = NO;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -895,9 +535,9 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_APP_SANDBOX = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -908,307 +548,164 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = blades;
 				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
 			name = Release;
 		};
-		3794EE8022B3C71300D5DFA4 /* Debug */ = {
+		B60E1EB7280058E600D7A1A2 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 007E84875C32086BCBF5EB82 /* Pods-WBBlades.debug.xcconfig */;
+			baseConfigurationReference = 090B6012A2DBEEE073206387 /* Pods-WBBladesCrashApp.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = x86_64;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashAppDebug.entitlements;
 				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = EJA352Y795;
-				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(SDKROOT)/usr/lib/swift",
-				);
-				OTHER_CFLAGS = (
-					"-D__STDC_CONSTANT_MACROS",
-					"-D__STDC_LIMIT_MACROS",
-					"-D__STDC_FORMAT_MACROS",
-					"-DCAPSTONE_HAS_ARM64",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
-				PRODUCT_NAME = blades;
-				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "WBBlades/WBBlades-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		3794EE8122B3C71300D5DFA4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6EE412D459DDC1711B056477 /* Pods-WBBlades.release.xcconfig */;
-			buildSettings = {
-				ARCHS = x86_64;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Manual;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				"DEBUG_INFORMATION_FORMAT[sdk=*]" = dwarf;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
-				GCC_WARN_INHIBIT_ALL_WARNINGS = YES;
+				ENABLE_APP_SANDBOX = NO;
+				ENABLE_HARDENED_RUNTIME = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WBBladesCrashApp/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/WBBladesCrashApp",
+					"$(PROJECT_DIR)",
 				);
-				OTHER_CFLAGS = (
-					"-D__STDC_CONSTANT_MACROS",
-					"-D__STDC_LIMIT_MACROS",
-					"-D__STDC_FORMAT_MACROS",
-					"-DCAPSTONE_HAS_ARM64",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.58Blades.iphone;
-				PRODUCT_NAME = blades;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jiangyan.app.WBBlades;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "WBBlades/WBBlades-Bridging-Header.h";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "WBBladesCrashApp/WBBladesCrashApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
-			name = Release;
+			name = Debug;
 		};
-		464A044D278EF3B200390BD1 /* Debug */ = {
+		B60E1EB8280058E600D7A1A2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = ED6C456E3CA002991BFA1A5F /* Pods-WBBladesCrashApp.debug.xcconfig */;
+			baseConfigurationReference = C52B6F9D8034FFD07637D05B /* Pods-WBBladesCrashApp.release.xcconfig */;
 			buildSettings = {
-				ARCHS = x86_64;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QGT6KWXK9;
+				DEVELOPMENT_TEAM = EJA352Y795;
+				ENABLE_APP_SANDBOX = NO;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Wuba. All rights reserved.";
+				INFOPLIST_FILE = WBBladesCrashApp/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainStoryboardFile = Main;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesCrashApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		464A044E278EF3B200390BD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 36AD1F708A1F67DF72B5B99B /* Pods-WBBladesCrashApp.release.xcconfig */;
-			buildSettings = {
-				ARCHS = x86_64;
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_ENTITLEMENTS = WBBladesCrashApp/WBBladesCrashApp.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2QGT6KWXK9;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2022 Wuba. All rights reserved.";
-				INFOPLIST_KEY_NSMainStoryboardFile = Main;
-				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
-				LD_RUNPATH_SEARCH_PATHS = (
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)/WBBladesCrashApp",
+					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesCrashApp;
+				PRODUCT_BUNDLE_IDENTIFIER = com.app.WBBlades;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OBJC_BRIDGING_HEADER = "WBBladesCrashApp/WBBladesCrashApp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
-		464A0450278EF3B200390BD1 /* Debug */ = {
+		B6D6010828005CEB00286E6A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BF5130117F4725AFFD3A177 /* Pods-WBBlades.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ARCHS = x86_64;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WBBladesApp.app/Contents/MacOS/WBBladesApp";
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = blades;
 			};
 			name = Debug;
 		};
-		464A0451278EF3B200390BD1 /* Release */ = {
+		B6D6010928005CEB00286E6A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 33D9340F0B739868BBFB3E57 /* Pods-WBBlades.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ARCHS = x86_64;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CODE_SIGN_ENTITLEMENTS = WBBlades/WBBladesRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
+					"$(SDKROOT)/usr/lib/swift",
+					"$(PROJECT_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WBBladesApp.app/Contents/MacOS/WBBladesApp";
-			};
-			name = Release;
-		};
-		464A0453278EF3B200390BD1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ARCHS = x86_64;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = WBBladesApp;
-			};
-			name = Debug;
-		};
-		464A0454278EF3B200390BD1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				ARCHS = x86_64;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
-				CODE_SIGN_STYLE = Automatic;
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/../Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 11.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.58.WBBladesApp.WBBladesAppUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = WBBladesApp;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				PRODUCT_NAME = blades;
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		3794EE7322B3C71300D5DFA4 /* Build configuration list for PBXProject "WBBlades" */ = {
+		B60E1EA2280058E400D7A1A2 /* Build configuration list for PBXProject "WBBlades" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3794EE7D22B3C71300D5DFA4 /* Debug */,
-				3794EE7E22B3C71300D5DFA4 /* Release */,
+				B60E1EB4280058E600D7A1A2 /* Debug */,
+				B60E1EB5280058E600D7A1A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3794EE7F22B3C71300D5DFA4 /* Build configuration list for PBXNativeTarget "WBBlades" */ = {
+		B60E1EB6280058E600D7A1A2 /* Build configuration list for PBXNativeTarget "WBBladesCrashApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				3794EE8022B3C71300D5DFA4 /* Debug */,
-				3794EE8122B3C71300D5DFA4 /* Release */,
+				B60E1EB7280058E600D7A1A2 /* Debug */,
+				B60E1EB8280058E600D7A1A2 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		464A044C278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesCrashApp" */ = {
+		B6D6010728005CEB00286E6A /* Build configuration list for PBXNativeTarget "WBBlades" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				464A044D278EF3B200390BD1 /* Debug */,
-				464A044E278EF3B200390BD1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		464A044F278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				464A0450278EF3B200390BD1 /* Debug */,
-				464A0451278EF3B200390BD1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		464A0452278EF3B200390BD1 /* Build configuration list for PBXNativeTarget "WBBladesAppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				464A0453278EF3B200390BD1 /* Debug */,
-				464A0454278EF3B200390BD1 /* Release */,
+				B6D6010828005CEB00286E6A /* Debug */,
+				B6D6010928005CEB00286E6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 3794EE7022B3C71300D5DFA4 /* Project object */;
+	rootObject = B60E1E9F280058E400D7A1A2 /* Project object */;
 }

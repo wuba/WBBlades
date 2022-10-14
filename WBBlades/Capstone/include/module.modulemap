@@ -1,0 +1,4 @@
+module libCapstone [extern_c] {
+    header "capstone.h"
+    export *
+}

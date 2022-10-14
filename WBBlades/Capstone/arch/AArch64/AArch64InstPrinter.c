@@ -1263,9 +1263,9 @@ static void printAdrpLabel(MCInst *MI, unsigned OpNum, SStream *O)
 		// and adds it to the value of the PC with its bottom 12 bits cleared
 		uint64_t imm = (MCOperand_getImm(Op) << 12) + (MI->address & ~0xfff);
 		if (imm > HEX_THRESHOLD)
-			SStream_concat(O, "#0x%"PRIx64, imm);
+			SStream_concat(O, "#0x%llx", imm);
 		else
-			SStream_concat(O, "#%"PRIu64, imm);
+			SStream_concat(O, "#%llu", imm);
 
 		if (MI->csh->detail) {
 			MI->flat_insn->detail->arm64.operands[MI->flat_insn->detail->arm64.op_count].type = ARM64_OP_IMM;

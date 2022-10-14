@@ -15,8 +15,8 @@ extern "C" {
 /**
  * Input file path, strip the symbol table.
  */
-void stripFile(NSString *filePath);
-
+void stripBitCode(NSString *filePath);
+void stripDysmSymbol(NSString *filePath);
 /**
  * Input file path, copy the file.
  */

@@ -59,24 +59,25 @@ typedef struct wb_objc_classdata {
 
 - (unsigned long long)linkWithObjects:(NSArray<WBBladesObject *>*)objects {
     self.linkSize = 0;
+    self.unixData = [NSMutableDictionary dictionary];
     for (WBBladesObject *object in objects) {
         self.linkSize += object.objectMachO.size;
 
-        //对section 进行链接 linkmap没有进行去重，单独lib去重有偏差 此处关闭
-//        [object.objectMachO.sections enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull section, BOOL * _Nonnull stop) {
-//            if (!self.unixData[key]) {
-//                self.unixData[key] = [NSMutableSet set];
-//            }
-//
-//            NSMutableSet *set = self.unixData[key];
-//            for (id value in section) {
-//                int scale = [key isEqualToString:@"(__TEXT,__ustring)"] ? 2 : 1;
-//                if ([set containsObject:value]) {
-//                    self.linkSize -= [value length] * scale;
-//                }
-//                [set addObject:value];
-//            }
-//        }];
+        // 对section进行链接
+        [object.objectMachO.sections enumerateKeysAndObjectsUsingBlock:^(NSString * _Nonnull key, NSArray * _Nonnull section, BOOL * _Nonnull stop) {
+            if (!self.unixData[key]) {
+                self.unixData[key] = [NSMutableSet set];
+            }
+
+            NSMutableSet *set = self.unixData[key];
+            for (id value in section) {
+                int scale = [key isEqualToString:@"(__TEXT,__ustring)"] ? 2 : 1;
+                if ([set containsObject:value]) {
+                    self.linkSize -= [value length] * scale;
+                }
+                [set addObject:value];
+            }
+        }];
     }
     return self.linkSize;
 }

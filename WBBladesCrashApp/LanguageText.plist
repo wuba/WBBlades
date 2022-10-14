@@ -138,7 +138,7 @@
 	<key>symbolPathTip</key>
 	<dict>
 		<key>chinese</key>
-		<string>包含符号表的文件路径(支持: .app / .dsym / .symbol)</string>
+		<string>拖入包含符号表的文件路径(支持: .app / .dsym / .symbol)</string>
 		<key>eng</key>
 		<string>symbol table file path, supports .app, .dsym, .symbol </string>
 	</dict>
@@ -169,6 +169,219 @@
 		<string>确定</string>
 		<key>eng</key>
 		<string>Confirm</string>
+	</dict>
+	<key>unusedClassBtnTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>无用类检测</string>
+		<key>eng</key>
+		<string>Useless Classes</string>
+	</dict>
+	<key>libarySizeBtnTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>包大小分析</string>
+		<key>eng</key>
+		<string> Size Analysis</string>
+	</dict>
+	<key>crashParseBtnTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>崩溃解析</string>
+		<key>eng</key>
+		<string> Crash Analysis</string>
+	</dict>
+	<key>libarayDependencyTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>静态库依赖关系</string>
+		<key>eng</key>
+		<string>Dependencies</string>
+	</dict>
+	<key>functionLabelTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>功能简介</string>
+		<key>eng</key>
+		<string>Introduction</string>
+	</dict>
+	<key>introduceTextViewTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下
+1、无用类检测
+根据分析__Text中汇编代码， 提取方法调用关系集合， 同时与Mach-O中所有的类集合进行差集计算。通过无用类工具， 可以将无用类的结果输出。但不适用于NSClassFromString的运行时方法调用的检测；
+
+2、包大小分析
+支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地地址到工具中即可（静态库大小检测工具）；
+
+3、崩溃解析（无符号表日志符号化工具）
+在丢失dSYM文件的情况，可通过崩溃解析工具进行符号化。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用**。工具使用前应先注意几点：
+- 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化；
+
+4、静态库之间依赖关系
+主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中; 
+
+5、Mach-O类Hook
+自动提取ipa中可执行文件或者动态库中可执行文件(Mach-O)中的OC类,自动Hook类中所有的方法。</string>
+		<key>eng</key>
+		<string>WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries .
+
+1.	Useless Classes
+Useless classes detection is based on analyse assembly code in __TEXT extracts the method call relationship set, and performs the difference calculation with all the class sets in Mach-O. The useless class detection tool will output the result of the useless classes in App.
+
+2.	Application Size Analysis 
+Application Size Analysis supports the detection of the size of an App, static library, and dynamic library after linking, without real compiling and linking.You can directly drag the path of the static library or dynamic library into the tool, the result will be output in Desktop. 
+
+3.	Crash Log Symbolization 
+Crash Log Symbolization supports symbolization of various system crash logs (ips files). If you have the symbol table corresponding to the crash log, you can directly drag the path of the symbol table into the tool. Of course, you can directly drag it into the system symbol table (.dSYM file). We also support The .app file in Product automatically strips the symbol table, so you can drag it into the path of the tool. 
+If the symbol table file has been stripped from your .app file, but the symbol table file cannot be found, you can directly drag the .app file and we will try to symbolize it for you through unsigned parsing. It is currently only supports OC. The principle is to determine the crashed function by analyzing the OC method address in Mach-O. Therefore, it is not support for Swfit, C, C++, only used as emergency supplementary technical means.
+
+4.	Dependencies Between Multiple Static Libraries 
+Dependencies Between Multiple Static Libraries Detection is mainly based on the internal symbols and external symbols defined in the static library in Mach-O. The dependencies between the libraries, and the final result will be output to the desktop.
+</string>
+	</dict>
+	<key>welcome</key>
+	<dict>
+		<key>chinese</key>
+		<string>欢迎使用-WBBlades</string>
+		<key>New item</key>
+		<string></string>
+		<key>eng</key>
+		<string>Welcome-WBBlades</string>
+	</dict>
+	<key>gitHub</key>
+	<dict>
+		<key>chinese</key>
+		<string>授人star，手有余香</string>
+		<key>eng</key>
+		<string>Five Star Praise</string>
+	</dict>
+	<key>librayText</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入待检测的动态库或静态库所在的文件夹</string>
+		<key>eng</key>
+		<string>Please drag into the folder where the dynamic library or static library to be detected.</string>
+	</dict>
+	<key>MachOText</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入待检测的动态库或Mach-O的文件</string>
+		<key>eng</key>
+		<string>Please drag into the file where the dynamic library or Mach-O to be detected.</string>
+	</dict>
+	<key>open</key>
+	<dict>
+		<key>chinese</key>
+		<string>打开</string>
+		<key>eng</key>
+		<string>Open</string>
+	</dict>
+	<key>startDetect</key>
+	<dict>
+		<key>chinese</key>
+		<string>点击检测可以开始</string>
+		<key>eng</key>
+		<string>Click detect to start</string>
+	</dict>
+	<key>startDetectMachO</key>
+	<dict>
+		<key>chinese</key>
+		<string>拖入Mach-O文件点击开始，将自动提取所有OC Class 并自动Hook</string>
+		<key>eng</key>
+		<string>Drag in the Mach-O file and click Start. All OC Classes will be automatically extracted and Hook will be automatically performed.</string>
+	</dict>
+	<key>Detecting</key>
+	<dict>
+		<key>chinese</key>
+		<string>正在分析中...</string>
+		<key>eng</key>
+		<string>Click detect to start</string>
+	</dict>
+	<key>DetectFinish</key>
+	<dict>
+		<key>chinese</key>
+		<string>分析已完成，可在桌面查看详细数据</string>
+		<key>eng</key>
+		<string>You can view the detailed data on the desktop</string>
+	</dict>
+	<key>Analysis</key>
+	<dict>
+		<key>chinese</key>
+		<string>正在分析中...</string>
+		<key>eng</key>
+		<string>In analysis...</string>
+	</dict>
+	<key>NoneDenpency</key>
+	<dict>
+		<key>chinese</key>
+		<string>未检测到依赖关系</string>
+		<key>eng</key>
+		<string>No dependencies detected</string>
+	</dict>
+	<key>AnalysisFinsh</key>
+	<dict>
+		<key>chinese</key>
+		<string>分析已完成，可查看</string>
+		<key>eng</key>
+		<string>The analysis has been completed and can be viewed</string>
+	</dict>
+	<key>unusedClassPathPlaceholder</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入待检测的.app或.ipa文件</string>
+		<key>eng</key>
+		<string>Please drag .app or .ipa file into the input box</string>
+	</dict>
+	<key>unusedClassLibPathPlaceholder</key>
+	<dict>
+		<key>chinese</key>
+		<string>请拖入指定静态库(可选)，并点击右侧添加按钮</string>
+		<key>eng</key>
+		<string>Specified lib to check</string>
+	</dict>
+	<key>specifiedLibPathDesc1</key>
+	<dict>
+		<key>chinese</key>
+		<string>添加后从指定的静</string>
+		<key>eng</key>
+		<string>specfied lib to</string>
+	</dict>
+	<key>specifiedLibPathDesc2</key>
+	<dict>
+		<key>chinese</key>
+		<string>态库中分析无用类</string>
+		<key>eng</key>
+		<string>check useless class</string>
+	</dict>
+	<key>unusedClassStartButton</key>
+	<dict>
+		<key>chinese</key>
+		<string>开始检测</string>
+		<key>eng</key>
+		<string>Start</string>
+	</dict>
+	<key>unusedClassCheckTitle</key>
+	<dict>
+		<key>chinese</key>
+		<string>无用类检测</string>
+		<key>eng</key>
+		<string>Useless Class Analysis</string>
+	</dict>
+	<key>unusedClassState</key>
+	<dict>
+		<key>chinese</key>
+		<string>检测中...</string>
+		<key>eng</key>
+		<string>Analysing...</string>
+	</dict>
+	<key>unusedClassResetBtn</key>
+	<dict>
+		<key>chinese</key>
+		<string>重置</string>
+		<key>eng</key>
+		<string>Reset</string>
 	</dict>
 </dict>
 </plist>

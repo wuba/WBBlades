@@ -16,12 +16,12 @@
 
 @end
 
-//@implementation WBBladesSymTabCommand
-//
-//@end
-//
-//@implementation WBBladesSymbolRange
-//
-//@end
+@implementation WBBladesSymTabCommand
+
+@end
+
+@implementation WBBladesSymbolRange
+
+@end
 
 

@@ -40,8 +40,12 @@ open class WBBMSymbolSearch {
         var curIndex = 0
         for line in items{
             let symbolModel = WBBMSymbolModel(line)
-            if lastLineModel.functionName.hasPrefix("main") && lastLineModel.clasName.hasPrefix("main.m") &&
-                !symbolModel.functionName.hasPrefix("main") && !symbolModel.clasName.hasPrefix("main.m"){
+//            if lastLineModel.functionName.hasPrefix("main") && lastLineModel.clasName.hasPrefix("main.m") &&
+//                !symbolModel.functionName.hasPrefix("main") && !symbolModel.clasName.hasPrefix("main.m"){
+//                break
+//            }
+            
+            if lastLineModel.functionName == "wbSymbol(main)" && symbolModel.functionName != "wbSymbol(main)" {
                 break
             }
             curIndex += 1

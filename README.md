@@ -1,22 +1,30 @@
 
-
-> Chinese Readme: [中文版readme](README_CN.md).
+[简体中文](./README_CN.md) | **English**
 
 ## Introduction
 
-WBBlades is a tool set based on Mach-O file parsing, including unused code detection (supporting ObjC and Swift), app size analysis, and log recovery without dSYM file.
+WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), point-to-point crash analysis ( analyse system crash log, based on symbol file and without symbol files). It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.Support big method/small method parsing and iOS 15 above about dyld_chained_Fixups processing.
+
+Version 3.0 implements a comprehensive visual implementation of the toolset based on the original command-line-based operation of the above tools, and is designed for R&D efficiency improvement. In addition, in the analysis of difficult crashes, for some crashes that are not easy to reproduce and cannot be collected by general tools (the app process is directly killed by the operating system), a point-to-point crash analysis is provided.
 
 ## Installation
 
 ```
 $ git clone https://github.com/wuba/WBBlades.git
 $ cd WBBlades
-$ make install
+$ pod install
 ```
-**If you see some message like `[1] 70390 killed blades` ,please `make install`again.**
 
+### Usage of Visualization Tool
+Target selects "WBBladesCrashApp".
 
-## Usage
+Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
+
+### Usage for Mac Command Line
+Target selects "WBBlades"，Compile and build to generate command line tools
+Copy the generated product "blades" to /usr/local/bin，as follows：
+sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
+
 
 - Unused Code Detection ObjC & Swift
 
@@ -65,13 +73,6 @@ In the case of losing the dSYM file, try to restore the log via `blades -symbol`
 
 - This tool only supports ObjC, and its principle is to determine the function of the crash by analyzing the address of the ObjC method in Mach-O. Therefore, it is not suitable for Swfit, C, and C++. In addition, tools are not omnipotent, and are only used as emergency supplementary technical means. In daily situations, it is recommended to use symbol tables for log symbolization.
 
-## Developer for WBBlades
-
-邓竹立
-
-## Contributors for WBBlades
-
-邓竹立，彭飞，朴惠姝，曾庆隆，林雅明
 
 ## Contributing & Feedback
 
@@ -87,4 +88,12 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 
 ## Thanks
 
-GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone") 
+GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
+
+GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton") 
+
+DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
+
+GitHub:
+[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
+  

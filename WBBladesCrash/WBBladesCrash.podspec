@@ -5,17 +5,17 @@ Pod::Spec.new do |s|
   s.description         = <<-DESC
                             xxxxxx
                          DESC
-  s.homepage            = "git@igit.58corp.com:58_ios_team/WBBladesCrash.git"
-  s.source              = { :git => "git@igit.58corp.com:58_ios_team/WBBladesCrash.git" , :branch => "#{s.version}"}
+  s.homepage            = "WBBladesCrash.git"
+  s.source              = { :git => "WBBladesCrash.git" , :branch => "#{s.version}"}
   s.license             = {
-                        :type => '58license',
+                        :type => 'license',
                         :text => <<-LICENSE
 
                         LICENSE
   }
   s.author              = "58tongcheng"
   s.requires_arc        = true
-  s.platform            = :macos, "10.12"
+  s.platform            = :macos, "10.15"
 
 
   s.resources = "WBBladesCrash/Resource/*"

@@ -133,6 +133,8 @@
     //note __TEXT's size, __DATA's size
     WBBladesObjectMachO *objcMachO = [WBBladesObjectMachO new];
     objcMachO.sections = [NSMutableDictionary dictionary];
+    objcMachO.undefinedSymbols = [NSMutableSet set];
+    objcMachO.definedSymbols = [NSMutableSet set];
     
     //64 bit mach-o file's magic number == 0XFEEDFACF
     unsigned int magicNum = 0;
@@ -286,6 +288,32 @@
             symtab_command symtabCommand;
             [fileData getBytes:&symtabCommand range:NSMakeRange(currentLcLocation, sizeof(symtab_command))];
             stringTabEnd = mhHeaderLocation + symtabCommand.stroff + symtabCommand.strsize;
+            
+            NSData *data = [fileData subdataWithRange:NSMakeRange(mhHeaderLocation + symtabCommand.stroff, symtabCommand.strsize)];
+
+            for (int i=0; i <symtabCommand.nsyms; i++) {
+                nlist_64 nlist;
+                NSRange nlistRange = NSMakeRange(i * sizeof(nlist_64) + symtabCommand.symoff + range.location, sizeof(nlist_64));
+                [fileData getBytes:&nlist range:nlistRange];
+                
+                ptrdiff_t off = nlist.n_un.n_strx;
+                char * p = (char *)data.bytes;
+                p = p+off;
+                
+                NSString *symbol = [NSString stringWithFormat:@"%s",p];
+                symbol = [symbol stringByReplacingOccurrencesOfString:@"\u0001" withString:@" "];
+                if ((nlist.n_type & 0xe)== 0x0) {//N_UNDF
+                    [objcMachO.undefinedSymbols addObject:symbol];
+                }else if ((nlist.n_type & 0xe)== 0x2){//N_ABS
+                    [objcMachO.definedSymbols addObject:symbol];
+                }else if ((nlist.n_type & 0xe)== 0xe && (nlist.n_type & 0x1)== 0x1){//N_SECT && N_EXT
+                    [objcMachO.definedSymbols addObject:symbol];
+                }else if ((nlist.n_type & 0xe)== 0xc){//N_PBUD
+                    [objcMachO.definedSymbols addObject:symbol];
+                }else if ((nlist.n_type & 0xe)== 0xa){//N_INDR
+                    [objcMachO.definedSymbols addObject:symbol];
+                }
+            }
         }
         
         currentLcLocation += cmd->cmdsize;
