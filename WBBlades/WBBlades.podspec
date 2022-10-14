@@ -47,6 +47,10 @@ Pod::Spec.new do |s|
     tools.private_header_files = "Tools/WBBladesTool.h"
     tools.requires_arc          = true
    end
+  s.subspec 'ClassDump' do |classdump|
+    classdump.source_files       = 'ClassDump/**/*.{h,m,mm,swift,c,cc,cpp}'
+    classdump.requires_arc          = true
+   end
 #  s.private_header_files = "WBBlades/WBBlades/Tools/WBBladesTool.h"
   s.dependency  'WBBladesCrash'
 end

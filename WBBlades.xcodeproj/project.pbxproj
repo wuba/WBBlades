@@ -18,6 +18,8 @@
 		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
 		B650F3AB286E8C00003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */; };
 		B650F3AC286E94F3003007A0 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */; };
+		B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */; };
+		B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */; };
 		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
 		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
 		B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BE2803D70D00576C5A /* TextDictionary.swift */; };
@@ -35,6 +37,7 @@
 		B6D6010628005CEB00286E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D6010528005CEB00286E6A /* main.m */; };
 		B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B5628068CA4006BAA34 /* Utilities.swift */; };
 		B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B582806901A006BAA34 /* SYFlatButton.m */; };
+		B6FA8D3228C74593001CE971 /* CaptainHook.txt in Resources */ = {isa = PBXBuildFile; fileRef = B6FA8D3128C74593001CE971 /* CaptainHook.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -69,6 +72,8 @@
 		B650F3A4286E8ADD003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "../../libstdc--master/3/libstdc++.6.tbd"; sourceTree = "<group>"; };
 		B650F3A6286E8B06003007A0 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
 		B650F3A9286E8B38003007A0 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.text-based-dylib-definition"; path = "libstdc++.6.0.9.tbd"; sourceTree = "<group>"; };
+		B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesAutoHookViewController.swift; sourceTree = "<group>"; };
+		B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesAutoHookViewController.xib; sourceTree = "<group>"; };
 		B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		B68D40BA2803D4C900576C5A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B68D40BC2803D70900576C5A /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
@@ -91,6 +96,7 @@
 		B6F86B5628068CA4006BAA34 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		B6F86B582806901A006BAA34 /* SYFlatButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SYFlatButton.m; sourceTree = "<group>"; };
 		B6F86B592806901A006BAA34 /* SYFlatButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SYFlatButton.h; sourceTree = "<group>"; };
+		B6FA8D3128C74593001CE971 /* CaptainHook.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CaptainHook.txt; path = WBBlades/CaptainHook.txt; sourceTree = SOURCE_ROOT; };
 		C52B6F9D8034FFD07637D05B /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.release.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,6 +186,8 @@
 				B68D40E3280423FC00576C5A /* WBBladesCrashApp-Bridging-Header.h */,
 				769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */,
 				769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */,
+				B67CCDA528F2C9E3007CF975 /* BladesAutoHookViewController.swift */,
+				B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */,
 				B68D40BC2803D70900576C5A /* LogTextView.swift */,
 				B6F86B5628068CA4006BAA34 /* Utilities.swift */,
 				B68D40BE2803D70D00576C5A /* TextDictionary.swift */,
@@ -187,6 +195,7 @@
 				B6F86B582806901A006BAA34 /* SYFlatButton.m */,
 				B68D40C12803D75600576C5A /* Help */,
 				B60E1EAE280058E600D7A1A2 /* Assets.xcassets */,
+				B6FA8D3128C74593001CE971 /* CaptainHook.txt */,
 				B68D40BA2803D4C900576C5A /* Main.storyboard */,
 				B68D40C02803D75600576C5A /* LanguageText.plist */,
 				B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */,
@@ -300,9 +309,11 @@
 			files = (
 				B68D40E02804147600576C5A /* BladesLibrarySizeViewController.xib in Resources */,
 				B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */,
+				B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */,
 				B68D40C82803D75700576C5A /* SystemCrash.plist in Resources */,
 				769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */,
 				B68D40D8280402D800576C5A /* BladesDispatchViewController.xib in Resources */,
+				B6FA8D3228C74593001CE971 /* CaptainHook.txt in Resources */,
 				B68D40C62803D75700576C5A /* LanguageText.plist in Resources */,
 				B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */,
 				B68D40C92803D75700576C5A /* BuglyCrash.plist in Resources */,
@@ -402,6 +413,7 @@
 				B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */,
 				B68D40D7280402D800576C5A /* BladesDispatchViewController.swift in Sources */,
 				B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */,
+				B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */,
 				769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */,
 				B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */,
 				B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */,

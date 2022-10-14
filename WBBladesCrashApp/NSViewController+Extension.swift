@@ -33,7 +33,6 @@ extension NSViewController {
     }
 }
 
-
 extension NSTextView {
     func showTextViewBoarder() {
         self.wantsLayer = true

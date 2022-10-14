@@ -3,7 +3,7 @@
 
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）。主要利用了__Text汇编代码分析、架构提取、符号表剥离、DYSM文件提取、崩溃文件(ips)解析等技术手段实现。
+WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）、基于Mach-O的Class自动提取并Hook能力。主要利用了__Text汇编代码分析、架构提取、符号表剥离、DYSM文件提取、崩溃文件(ips)解析、等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于  dyld_chained_fixups的处理。
 
 3.0版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
@@ -83,14 +83,11 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 ## 相关技术文章
 
-- [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
-- [开源｜WBBlades重要节点更新-专为提效而设计](https://mp.weixin.qq.com/s/tXxhnDKerobyxoWuEBGjNQ)
-- [iOS不必现崩溃的点对点解析以及治理](https://mp.weixin.qq.com/s/tGvE-2flzhm4skkrfbUIBA)
 - [58 同城 iOS 客户端组件体积分析与统计实践](https://blog.csdn.net/csdnnews/article/details/100354658/)
 - [基于mach-o+反汇编的无用类检测](https://www.jianshu.com/p/c41ad330e81c)
+- [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
 - [从Mach-O角度谈谈Swift和OC的存储差异](https://www.jianshu.com/p/ef0ff6ee6bc6)
 - [Swift Hook新思路--虚函数表](https://mp.weixin.qq.com/s/mjwOVdPZUlEMgLUNdT6o9g)
-
 
 ## 致谢
 
@@ -98,4 +95,7 @@ GitHub地址：[https://github.com/aquynh/capstone](https://github.com/aquynh/ca
 
 GitHub地址：[https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton")
 
+GitHub地址：[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
+
 DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
+

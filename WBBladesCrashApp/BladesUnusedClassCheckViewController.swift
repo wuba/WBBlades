@@ -64,7 +64,7 @@ class BladesUnusedClassCheckViewController: NSViewController {
     }
     
     @IBAction func beginScanUnusedClass(_ sender: Any) {
-        guard let appPath = appPathTextField?.stringValue, appPath.count > 0 else {
+        guard let appPath = appPathTextField?.stringValue, appPath.count > 0,!appPath.contains(" ") else {
             return
         }
         progressTipsLabel.stringValue = TextDictionary.valueForKey(key: "unusedClassState")
