@@ -37,6 +37,7 @@ static CDTextClassDumpVisitor *dumpVisitor ;
 static NSMutableDictionary *anonymousStructs;
 static int anonymousCount = 0;
 static NSString * MachOName ;
+static NSDictionary *dynamicBindingInfos = nil;
 
 @interface WBOCMethod : NSObject
 @property(nonatomic, copy) NSString *methodName;
@@ -169,6 +170,7 @@ static NSString * MachOName ;
     anonymousStructs = nil;
     anonymousCount = 0;
     MachOName = nil;
+    dynamicBindingInfos = nil;
 }
 
 + (NSArray *)getAllOCClasses:(NSString *)filePath  {
@@ -177,6 +179,7 @@ static NSString * MachOName ;
     allSturctDefines  = nil;
     dumpVisitor = nil;
     anonymousStructs = nil;
+    dynamicBindingInfos = nil;
     anonymousCount = 0;
     MachOName = [filePath lastPathComponent];//static library's name
     [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n%@%@", [WBBladesInterface shareInstance].autoHookInfos, @"分析文件---", MachOName];
@@ -290,7 +293,6 @@ static NSString * MachOName ;
                        ocClass.superImport = @"Foundation";
                    }
                }else if (0 == ocClass.superisa){ //iOS13以下， 系统类的判断方式
-                   static NSDictionary *dynamicBindingInfos = nil;
                    if (!dynamicBindingInfos) {
                        dynamicBindingInfos = [WBBladesTool dynamicBindingInfoFromFile:fileData];
                    }
