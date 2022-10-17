@@ -228,6 +228,7 @@
             [fileData getBytes:dylid_name range:NSMakeRange(currentLcLocation +dylibs.dylib.name.offset, 150)];
             NSString *dylid_name_string = [NSString stringWithFormat:@"%s",dylid_name];
             [dylibNames addObject:dylid_name_string];
+            free(dylid_name);
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
@@ -258,6 +259,7 @@
             [fileData getBytes:dylid_name range:NSMakeRange(currentLcLocation +dylibs.dylib.name.offset, 150)];
             NSString *dylid_name_string = [NSString stringWithFormat:@"%s",dylid_name];
             [dylibNames addObject:dylid_name_string];
+            free(dylid_name);
         }
         currentLcLocation += cmd->cmdsize;
         free(cmd);
