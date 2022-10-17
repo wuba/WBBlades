@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WBBladesScanManager (AutoHook)
 + (NSArray *)getAllOCClasses:(NSString *)fileData;
++ (void)endAutoHookProcess;
 - (void)typeDescription ;
 + (NSString *)anonymousWithType:(id)structType;
 @end

@@ -247,6 +247,9 @@ static BOOL isResource(NSString *type) {//resource type
         [WBBladesScanManager getAllOCClasses:filePath];
     });
 }
++ (void)endAutoHookProcess {
+    [WBBladesScanManager endAutoHookProcess];
+}
 
 + (void)scanStaticLibraryByInputPath:(NSString *)libPath {
     [self shareInstance].libarySizeInfos = @"";
