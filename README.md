@@ -1,5 +1,5 @@
 
-[简体中文](README-CN.md)|[English](README.md)
+[简体中文](./README-CN.md) | **English**
 
 ## Introduction
 
