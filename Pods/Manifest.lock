@@ -1,5 +1,7 @@
 PODS:
   - ArtilleryOfItaly (1.0)
+  - WBAppSize (11.2.0):
+    - WBBlades
   - WBBlades (11.2.0):
     - WBBlades/Capstone (= 11.2.0)
     - WBBlades/ClassDump (= 11.2.0)
@@ -24,12 +26,15 @@ PODS:
 
 DEPENDENCIES:
   - ArtilleryOfItaly (from `./ArtilleryOfItaly`)
+  - WBAppSize (from `./WBAppSize`)
   - WBBlades (from `./WBBlades`)
   - WBBladesCrash (from `./WBBladesCrash`)
 
 EXTERNAL SOURCES:
   ArtilleryOfItaly:
     :path: "./ArtilleryOfItaly"
+  WBAppSize:
+    :path: "./WBAppSize"
   WBBlades:
     :path: "./WBBlades"
   WBBladesCrash:
@@ -37,9 +42,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   ArtilleryOfItaly: d2dee0039f638396206bf4a36776e373433888bc
-  WBBlades: e514083b8a5bc7468b4c85baf433b5ea35332707
+  WBAppSize: e76939f489c107a911599bc82e718148e30ea83a
+  WBBlades: a2938fb62f4172acf10466d1c1d643a6cab7a2b7
   WBBladesCrash: 4ea4ef821e8de2e2b2da6a6f56af0df7ec9e0281
 
-PODFILE CHECKSUM: a0acbcc1191fd45d624497e2b186e0c357c045b4
+PODFILE CHECKSUM: b5adabf9e12ae312dea3ec403caa4d649cc1e712
 
 COCOAPODS: 1.11.3

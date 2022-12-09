@@ -1,0 +1,6 @@
+module WBAppSize {
+  umbrella header "WBAppSize-umbrella.h"
+
+  export *
+  module * { export * }
+}

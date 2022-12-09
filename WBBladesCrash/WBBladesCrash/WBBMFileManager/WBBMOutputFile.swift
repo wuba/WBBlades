@@ -2,7 +2,7 @@
 //  WBBMOutputFile.swift
 //  WBBladesCrash
 //
-//  Created by 朴惠姝 on 2021/5/10.
+//  Created by wbblades on 2021/5/10.
 //
 
 import Foundation

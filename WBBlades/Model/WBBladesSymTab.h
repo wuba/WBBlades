@@ -2,8 +2,8 @@
 //  WBBladesSymTab.h
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/6/15.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/6/15.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -57,4 +57,15 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *symbol;
 
 @end
+
+@interface WBBladesMethodRange : NSObject
+
+@property (nonatomic, assign) unsigned long long begin;
+
+@property (nonatomic, assign) unsigned long long end;
+@property (nonatomic, assign) NSInteger lastInd;
+
+
+@end
+
 NS_ASSUME_NONNULL_END

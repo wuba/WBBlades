@@ -2,13 +2,13 @@
 //  TextDictionary.swift
 //  WBBladesCrashApp
 //
-//  Created by 朴惠姝 on 2022/1/13.
-//  Copyright © 2022 邓竹立. All rights reserved.
+//  Created by wbblades on 2022/1/13.
+//  Copyright © 2022 58.com. All rights reserved.
 //
 
 import Foundation
 import AppKit
-
+import WBAppSize
 enum Language: NSInteger{
     case chinese = 0
     case english
@@ -22,9 +22,11 @@ class TextDictionary {
             switch (newValue){
             case .chinese:
                 languageKey = "chinese"
+                ASTextDictionary.mode = .chinese
                 break
             case .english:
                 languageKey = "eng"
+                ASTextDictionary.mode = .english
                 break
             }
             self.languageKey = languageKey

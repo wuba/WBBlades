@@ -2,11 +2,12 @@
 //  BladesUnusedClassCheckViewController.swift
 //  WBBladesCrashApp
 //
-//  Created by luyang liao on 2022/4/12.
+//  Created by wbblades on 2022/4/12.
 //
 
 import Cocoa
 import WBBlades
+import WBBladesCrash
 
 class BladesUnusedClassCheckViewController: NSViewController {
 
@@ -26,7 +27,7 @@ class BladesUnusedClassCheckViewController: NSViewController {
     @IBOutlet weak var helpLinkBtn: SYFlatButton!
     @IBOutlet weak var helpIconBtn: NSButton!
     
-    var unUsedClassResultSet: Set<String>!
+    var unUsedClassResultSet: Array<Dictionary<String,NSNumber>>!
     var selectedLibPathsArray: Array<String> = [] //用户指定的lib库路径
     var selectedLibNames: String = "" //用于展示到界面上的lib名称
     var scaning: Bool? //当前是否正在检测中
@@ -81,17 +82,22 @@ class BladesUnusedClassCheckViewController: NSViewController {
             DispatchQueue.main.async {
                 //扫描完成，处理显示结果
                 var allUnusedClsStr = ""
-                for cls in self.unUsedClassResultSet {
-                    allUnusedClsStr += cls
+                var unusedCount = 0
+                for dict in self.unUsedClassResultSet {
+                    for (key ,_) in dict {
+                        allUnusedClsStr += "\(key)"
+                        allUnusedClsStr += "\n"
+                    }
+                    unusedCount += dict.count
                     allUnusedClsStr += "\n"
                 }
                                                 
                 if TextDictionary.mode == Language.chinese {
                     self.resultLogTextView.string = self.resultLogTextView.string+"\n\n"+"检测到的无用类：\n"+allUnusedClsStr;
-                    self.progressTipsLabel.stringValue = "已检测出\(self.unUsedClassResultSet.count)个无用类"
+                    self.progressTipsLabel.stringValue = "已检测出\(unusedCount)个无用类"
                 } else {
                     self.resultLogTextView.string = self.resultLogTextView.string+"\n\n"+"Analysed unused class：\n"+allUnusedClsStr;
-                    self.progressTipsLabel.stringValue = "Have analysed\(self.unUsedClassResultSet.count) unused class"
+                    self.progressTipsLabel.stringValue = "Have analysed\(unusedCount) unused class"
                 }
                 
                 self.helpLinkBtn.isHidden = false

@@ -3,9 +3,18 @@
 
 ## Introduction
 
-WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), point-to-point crash analysis ( analyse system crash log, based on symbol file and without symbol files). It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.Support big method/small method parsing and iOS 15 above about dyld_chained_Fixups processing.
+WBBlades is a tool set based on `Mach-O` file parsing, including one-click detection for app  (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), point-to-point crash analysis ( analyse system crash log, based on symbol file and without symbol files),  Class automatic extraction and Hook capability based on Mach-O file. It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.Support big method/small method parsing and iOS 15 above about dyld_chained_Fixups processing.
 
-Version 3.0 implements a comprehensive visual implementation of the toolset based on the original command-line-based operation of the above tools, and is designed for R&D efficiency improvement. In addition, in the analysis of difficult crashes, for some crashes that are not easy to reproduce and cannot be collected by general tools (the app process is directly killed by the operating system), a point-to-point crash analysis is provided.
+### Tool Overview
+
+| Tool Name                   | Function Overview                                            | Related Technologies                                         |
+| --------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| One-Click Detection for App | Swift & OC useless class detection, useless resource detection, and package downsizing optimization suggestions. | Disassembly, __Text instruction extraction, Mach-O parsing, symbol table and Swift class structure in Mach-O |
+| Package Size Analysis       | Detecting the actual size occupied by static & dynamic libraries in .ipa file. | Architecture stripping, static library structure analysis    |
+| Crash Analysis              | Using .app or dYSM file to parse the system crash log.       | DYSM file parsing, lightweight symbol table extraction, ips file parsing, with/without symbol table crash parsing |
+| Mach-O Class Hook           | Automatically extract classes from any Mach-O file, and then hook them. | dyld_ chained_ Fixups, binding, rebase, and big/small method parsing |
+
+The new version  implements a comprehensive visual implementation of the toolset based on the original command-line-based operation of the above tools, and is designed for R&D efficiency improvement. In addition, in the analysis of difficult crashes, for some crashes that are not easy to reproduce and cannot be collected by general tools (the app process is directly killed by the operating system), a point-to-point crash analysis is provided.
 
 ## Installation
 
@@ -92,8 +101,11 @@ GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone 
 
 GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton") 
 
+GitHub: [https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
+
+GitHub: [https://github.com/alexrozanski/PXListView](https://github.com/alexrozanski/PXListView "GitHub for PXListView")
+
+GitHub: [https://github.com/steventroughtonsmith/cartool](https://github.com/steventroughtonsmith/cartool "cartool")
+
 DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
 
-GitHub:
-[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
-  

@@ -13,6 +13,7 @@
 		769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */; };
 		769C8C94280573CF001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
 		769C8C95280575FB001C55B5 /* libswiftDemangle.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */; };
+		9580F8352924D73500266BBC /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9580F8342924D73500266BBC /* TextDictionary.swift */; };
 		B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAA280058E400D7A1A2 /* AppDelegate.swift */; };
 		B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B60E1EAC280058E400D7A1A2 /* ViewController.swift */; };
 		B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B60E1EAE280058E600D7A1A2 /* Assets.xcassets */; };
@@ -22,7 +23,6 @@
 		B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */; };
 		B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B68D40BA2803D4C900576C5A /* Main.storyboard */; };
 		B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BC2803D70900576C5A /* LogTextView.swift */; };
-		B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40BE2803D70D00576C5A /* TextDictionary.swift */; };
 		B68D40C62803D75700576C5A /* LanguageText.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68D40C02803D75600576C5A /* LanguageText.plist */; };
 		B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40C22803D75600576C5A /* HelpViewManager.swift */; };
 		B68D40C82803D75700576C5A /* SystemCrash.plist in Resources */ = {isa = PBXBuildFile; fileRef = B68D40C32803D75600576C5A /* SystemCrash.plist */; };
@@ -33,7 +33,6 @@
 		B68D40D8280402D800576C5A /* BladesDispatchViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */; };
 		B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */; };
 		B68D40E02804147600576C5A /* BladesLibrarySizeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */; };
-		B68D40E22804161700576C5A /* NSViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B68D40E12804161700576C5A /* NSViewController+Extension.swift */; };
 		B6D6010628005CEB00286E6A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B6D6010528005CEB00286E6A /* main.m */; };
 		B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B5628068CA4006BAA34 /* Utilities.swift */; };
 		B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B6F86B582806901A006BAA34 /* SYFlatButton.m */; };
@@ -60,6 +59,7 @@
 		769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesUnusedClassCheckViewController.xib; sourceTree = "<group>"; };
 		769C8C93280573CF001C55B5 /* libswiftDemangle.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libswiftDemangle.tbd; path = usr/lib/swift/libswiftDemangle.tbd; sourceTree = SDKROOT; };
 		8BF5130117F4725AFFD3A177 /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.debug.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
+		9580F8342924D73500266BBC /* TextDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
 		B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B602FBF2280966FB00D7E923 /* WBBladesCrashApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesCrashApp.entitlements; sourceTree = "<group>"; };
 		B602FBF32809671200D7E923 /* WBBladesRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WBBladesRelease.entitlements; sourceTree = "<group>"; };
@@ -77,7 +77,6 @@
 		B682E9152865C7A800AC56AC /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		B68D40BA2803D4C900576C5A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		B68D40BC2803D70900576C5A /* LogTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogTextView.swift; sourceTree = "<group>"; };
-		B68D40BE2803D70D00576C5A /* TextDictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextDictionary.swift; sourceTree = "<group>"; };
 		B68D40C02803D75600576C5A /* LanguageText.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = LanguageText.plist; sourceTree = "<group>"; };
 		B68D40C22803D75600576C5A /* HelpViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelpViewManager.swift; sourceTree = "<group>"; };
 		B68D40C32803D75600576C5A /* SystemCrash.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SystemCrash.plist; sourceTree = "<group>"; };
@@ -88,7 +87,6 @@
 		B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesDispatchViewController.xib; sourceTree = "<group>"; };
 		B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesLibrarySizeViewController.swift; sourceTree = "<group>"; };
 		B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesLibrarySizeViewController.xib; sourceTree = "<group>"; };
-		B68D40E12804161700576C5A /* NSViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSViewController+Extension.swift"; sourceTree = "<group>"; };
 		B68D40E3280423FC00576C5A /* WBBladesCrashApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrashApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		B6D6010328005CEB00286E6A /* blades */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = blades; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6D6010528005CEB00286E6A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -179,7 +177,6 @@
 				B60E1EAC280058E400D7A1A2 /* ViewController.swift */,
 				B68D40CB2803D7BD00576C5A /* BladesViewController.swift */,
 				B68D40D5280402D800576C5A /* BladesDispatchViewController.swift */,
-				B68D40E12804161700576C5A /* NSViewController+Extension.swift */,
 				B68D40D6280402D800576C5A /* BladesDispatchViewController.xib */,
 				B68D40DD2804147600576C5A /* BladesLibrarySizeViewController.swift */,
 				B68D40DE2804147600576C5A /* BladesLibrarySizeViewController.xib */,
@@ -190,7 +187,7 @@
 				B67CCDA628F2C9E3007CF975 /* BladesAutoHookViewController.xib */,
 				B68D40BC2803D70900576C5A /* LogTextView.swift */,
 				B6F86B5628068CA4006BAA34 /* Utilities.swift */,
-				B68D40BE2803D70D00576C5A /* TextDictionary.swift */,
+				9580F8342924D73500266BBC /* TextDictionary.swift */,
 				B6F86B592806901A006BAA34 /* SYFlatButton.h */,
 				B6F86B582806901A006BAA34 /* SYFlatButton.m */,
 				B68D40C12803D75600576C5A /* Help */,
@@ -408,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9580F8352924D73500266BBC /* TextDictionary.swift in Sources */,
 				B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */,
 				B68D40CA2803D75700576C5A /* HelpViewController.swift in Sources */,
 				B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */,
@@ -415,11 +413,9 @@
 				B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */,
 				B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */,
 				769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */,
-				B68D40BF2803D70D00576C5A /* TextDictionary.swift in Sources */,
 				B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */,
 				B68D40CC2803D7BD00576C5A /* BladesViewController.swift in Sources */,
 				B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */,
-				B68D40E22804161700576C5A /* NSViewController+Extension.swift in Sources */,
 				B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */,
 				B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */,
 			);

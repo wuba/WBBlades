@@ -19,7 +19,8 @@
     "branch": "11.2.0"
   },
   "xcconfig": {
-    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBlades"
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBBlades",
+    "DEFINES_MODULE": "YES"
   },
   "dependencies": {
     "WBBladesCrash": [

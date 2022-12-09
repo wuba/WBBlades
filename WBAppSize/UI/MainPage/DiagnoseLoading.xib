@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="DiagnoseLoading" customModule="WBAppSize">
+            <rect key="frame" x="0.0" y="0.0" width="800" height="720"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <progressIndicator maxValue="100" indeterminate="YES" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="l5g-8Z-SLu">
+                    <rect key="frame" x="100" y="350" width="600" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="18" id="shL-wb-a7y"/>
+                    </constraints>
+                </progressIndicator>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OJA-Zr-VJg">
+                    <rect key="frame" x="118" y="312" width="564" height="19"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="开始诊断" id="qH1-qj-ReJ">
+                        <font key="font" metaFont="system" size="15"/>
+                        <color key="textColor" red="1" green="1" blue="1" alpha="0.84705882349999995" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="OJA-Zr-VJg" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="120" id="VMS-04-uqg"/>
+                <constraint firstItem="l5g-8Z-SLu" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="100" id="Xex-3r-pAl"/>
+                <constraint firstItem="l5g-8Z-SLu" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="aNJ-YW-09P"/>
+                <constraint firstAttribute="trailing" secondItem="l5g-8Z-SLu" secondAttribute="trailing" constant="100" id="aUj-9E-3VR"/>
+                <constraint firstItem="OJA-Zr-VJg" firstAttribute="centerX" secondItem="l5g-8Z-SLu" secondAttribute="centerX" id="bVa-Dk-f2X"/>
+                <constraint firstAttribute="trailing" secondItem="OJA-Zr-VJg" secondAttribute="trailing" constant="120" id="sc1-7k-Fc5"/>
+                <constraint firstItem="OJA-Zr-VJg" firstAttribute="top" secondItem="l5g-8Z-SLu" secondAttribute="bottom" constant="20" id="veo-ce-PHd"/>
+            </constraints>
+            <connections>
+                <outlet property="hintTextView" destination="OJA-Zr-VJg" id="iYt-BV-C35"/>
+                <outlet property="progressBar" destination="l5g-8Z-SLu" id="jiE-MC-vuP"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="135"/>
+        </customView>
+    </objects>
+</document>

@@ -1,11 +1,23 @@
-
 [简体中文](README-zh.md)|[English](README.md)
+
+---
+
+**WBBlades使用说明:**
 
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括无用代码检测（支持`OC`和`Swift`）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）、基于Mach-O的Class自动提取并Hook能力。主要利用了__Text汇编代码分析、架构提取、符号表剥离、DYSM文件提取、崩溃文件(ips)解析、等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于  dyld_chained_fixups的处理。
+WBBlades是基于`Mach-O`文件解析的工具集，包括App一键体检（支持`OC`和`Swift`的无用类检测）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）、基于Mach-O的Class自动提取并Hook能力。主要利用了__Text汇编代码分析、架构提取、符号表剥离、dYSM文件提取、崩溃文件(ips)解析等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于  dyld_chained_fixups的处理。
 
-3.0版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
+#### 工具概览
+
+| 工具名称          | 功能概述| 相关技术|
+| ------------------- | -------- |------------ |
+| App一键体检 | Swift/OC无用类检测、无用资源检测、包瘦身优化建议| 反汇编、__Text指令提取、Mach-O解析、符号表/Swift类在Mach-O中的结构|
+| 包大小分析 | 检测静态库/动态库在.ipa中占用的实际大小| 架构剥离、静态库结构分析|
+| 崩溃解析 | 利用.app或者dYSM对系统崩溃日志解析| dYSM文件解析、轻量符号表提取、ips文件解析、有/无符号表崩溃解析|
+| Mach-O类Hook | 自动提取任意Mach-O中的Class并Hook| dyld_chained_fixups 、binding、rebase、big/small method解析|
+
+新版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
 ## 安装
 
@@ -97,5 +109,12 @@ GitHub地址：[https://github.com/Sunnyyoung/SYFlatButton](https://github.com/S
 
 GitHub地址：[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
 
+GitHub地址：[https://github.com/alexrozanski/PXListView](https://github.com/alexrozanski/PXListView "GitHub for PXListView")
+
+GitHub地址：[https://github.com/steventroughtonsmith/cartool](https://github.com/steventroughtonsmith/cartool "cartool")
+
 DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
+
+GitHub:
+[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
 

@@ -843,8 +843,8 @@
                                     <action selector="languageChangeClicked:" target="MSO-kv-GfL" id="5Hf-OX-3yV"/>
                                 </connections>
                             </popUpButton>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="pfG-N1-FU2">
-                                <rect key="frame" x="0.0" y="0.0" width="780" height="617"/>
+                            <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pfG-N1-FU2">
+                                <rect key="frame" x="0.0" y="0.0" width="780" height="1000"/>
                                 <subviews>
                                     <customView translatesAutoresizingMaskIntoConstraints="NO" id="OMC-xq-fYU">
                                         <rect key="frame" x="250" y="199" width="280" height="220"/>

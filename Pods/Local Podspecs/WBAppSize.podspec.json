@@ -1,0 +1,38 @@
+{
+  "name": "WBAppSize",
+  "version": "11.2.0",
+  "summary": "WBAppSize",
+  "homepage": "http",
+  "description": "WBAppSize",
+  "license": {
+    "type": "license",
+    "text": "\n"
+  },
+  "header_dir": "WBAppSize",
+  "authors": "WBAppSize",
+  "platforms": {
+    "osx": "10.15"
+  },
+  "requires_arc": true,
+  "source": {
+    "git": "xxx@xxx.xxx.com:xxx/xxx.git",
+    "branch": "11.2.0"
+  },
+  "xcconfig": {
+    "HEADER_SEARCH_PATHS": "${PODS_ROOT}/Headers/Public/WBAppSize"
+  },
+  "resources": "**/*.{bundle,xcassets,plist,json,xib}",
+  "source_files": "**/*.{h,m,mm,c,cc,cpp,swift}",
+  "swift_versions": [
+    "5.0",
+    "5.1",
+    "5.2",
+    "5.3"
+  ],
+  "dependencies": {
+    "WBBlades": [
+
+    ]
+  },
+  "swift_version": "5.3"
+}

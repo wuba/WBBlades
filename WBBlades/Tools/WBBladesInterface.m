@@ -284,7 +284,7 @@ static BOOL isResource(NSString *type) {//resource type
     [self scanUnusedClassWithAppPath:appFilePath fromLibs:inputPath];
 }
 
-+ (NSSet<NSString *> *)scanUnusedClassWithAppPath:(NSString *)appFilePath fromLibs:(NSArray<NSString *> *)fromLibsPath {
++ (NSArray<NSDictionary<NSString *, NSNumber *> *> *)scanUnusedClassWithAppPath:(NSString *)appFilePath fromLibs:(NSArray<NSString *> *)fromLibsPath {
     s_classSet = [NSMutableSet set];
     NSString *outputPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"o"];
     [self shareInstance].unusedClassInfos = [NSString stringWithFormat:@"开始分析文件---%@", [appFilePath lastPathComponent]];
@@ -304,7 +304,7 @@ static BOOL isResource(NSString *type) {//resource type
     NSData *appData = [WBBladesFileManager readArm64FromFile:appPath];
     
     [self shareInstance].unusedClassInfos = [NSString stringWithFormat:@"%@\n%@", [self shareInstance].unusedClassInfos, @"开始读取可执行文件..."];
-    NSSet *classset = [WBBladesScanManager scanAllClassWithFileData:appData classes:s_classSet progressBlock:^(NSString *progressInfo) {
+    NSArray *classset = [WBBladesScanManager scanAllClassWithFileData:appData classes:s_classSet progressBlock:^(NSString *progressInfo) {
         [self shareInstance].unusedClassInfos = [NSString stringWithFormat:@"%@\n%@", [self shareInstance].unusedClassInfos, progressInfo];
     }];
 
@@ -312,9 +312,9 @@ static BOOL isResource(NSString *type) {//resource type
     if (outputPath.length == 0) {
         outputPath = resultFilePath();
         outputPath = [outputPath stringByAppendingPathComponent:@"UnusedClass.plist"];
-        [classset.allObjects writeToFile:outputPath atomically:YES];
+        [classset writeToFile:outputPath atomically:YES];
     }else{
-        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:classset.allObjects options:0 error:nil];
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:classset options:0 error:nil];
         NSString *strJson = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
         [strJson writeToFile:outputPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     }

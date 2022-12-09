@@ -2,8 +2,8 @@
 //  WBBladesTool.m
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/12/30.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/12/30.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import "WBBladesTool.h"
@@ -45,11 +45,12 @@
 }
 
 + (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
-    range = NSMakeRange(NSMaxRange(range), len);
-    uint8_t *buffer = (uint8_t *)malloc(len + 1); buffer[len] = '\0';
-    [fileData getBytes:buffer range:range];
-    NSString *str = NSSTRING(buffer);
-    free (buffer);
+    NSString *str = nil;
+    if (range.location < fileData.length) {
+        str = @((char *)[fileData bytes] + range.location);
+    }else {
+        return str;
+    }
     return [self replaceEscapeCharsInString:str];
 }
 
@@ -137,8 +138,10 @@
     return str;
 }
 
-+ (cs_insn *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size {
-    NSLog(@"fileData lenth is %d begin:%d  size:%d",fileData.length, begin, size);
++ (NSArray *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size accfunDic:(NSDictionary *)accfunDic {
+    
+    NSMutableArray * addressReferenceInCode = [NSMutableArray array];
+    
     // Get compilation.
     csh cs_handle = 0;
     cs_err cserr;
@@ -150,40 +153,95 @@
     cs_option(cs_handle, CS_OPT_MODE, CS_MODE_ARM);
     //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
-
+    
     unsigned long long ins_count = size / 4;
-    unsigned long long step = ins_count / 8;
-
-    static cs_insn* tmp[8];
-    static size_t tmp_count[8];
-    dispatch_apply(8, dispatch_get_global_queue(0, 0), ^(size_t index) {
+    unsigned long long step = ins_count / 256;
+    
+//    static cs_insn* tmp[256];
+//    static size_t tmp_count[256];
+    
+    NSMutableDictionary * tmpDict  = [NSMutableDictionary dictionary];
+    dispatch_apply(MIN(step + 1, 257), dispatch_get_global_queue(0, 0), ^(size_t index) {
         cs_insn *cs_insn = NULL;
         char *ot_sect = (char *)[fileData bytes] + begin + index * step * 4;
         uint64_t ot_addr = begin + index * step * 4;
-        unsigned long long ins_size = (index < 7)?step*4:(size - step * 7 * 4);
+        unsigned long long ins_size  = 0;
+        if ((index + 1) * step * 4 <= size && step > 0) {
+            ins_size = step * 4;
+        }else {
+            ins_size = (size - index  * step * 4);
+        }
+//        (index < 255)?step*4:(size - step * 255 * 4);
         // Disassemble
         size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, ins_size, ot_addr, 0, &cs_insn);
-        if (disasm_count > 1 ) {
-            tmp[index] = cs_insn;
-            tmp_count[index] = disasm_count;
+        
+        NSUInteger startIndex = index * step;
+        NSMutableArray * referenceInCode = [NSMutableArray array];
+        for (NSUInteger i=0; i<disasm_count; i++) {
+            @autoreleasepool {
+//                struct cs_insn s_cs_insn = cs_insn[i];
+                char *dataStr = cs_insn[i].op_str;
+                char *asmstr = cs_insn[i].mnemonic;
+//                if (strcmp(".byte",asmstr) == 0) {
+//                    continue;
+//                }
+//                if (strcmp("ret",asmstr) == 0 ) {
+//                    [referenceInCode addObject:[[NSString stringWithCString:asmstr encoding:NSUTF8StringEncoding] stringByAppendingFormat:@":%lu",startIndex + i]];
+//                    continue;
+//                }
+//                if (strcmp("stp",asmstr) == 0) {
+////                    连续的stp只保留第1条
+//                    if (referenceInCode.count > 0) {
+//                        NSString *preASM = referenceInCode.lastObject;
+//                        if ([preASM containsString:@"stp:"]) {
+//                            continue;
+//                        }
+//                        else {
+//                            [referenceInCode addObject:[[NSString stringWithCString:asmstr encoding:NSUTF8StringEncoding] stringByAppendingFormat:@":%lu",startIndex + i]];
+//                        }
+//                    }
+//                    else {
+//                        [referenceInCode addObject:[[NSString stringWithCString:asmstr encoding:NSUTF8StringEncoding] stringByAppendingFormat:@":%lu",startIndex + i]];
+//                    }
+//                    continue;
+//                }
+////                if (!strstr(dataStr, "#0x")) {
+////                    continue;
+////                }
+                if (strcmp("bl",asmstr) == 0) {
+                    NSString *addrStr = [NSString stringWithFormat:@"%s", dataStr];
+                    // 指令数组中仅存储accessfunction中存在的bl，也就是指令数组中都是有对应swift类的bl指令
+                    if (accfunDic[addrStr]) {
+                        NSString *blStr = [NSString stringWithFormat:@"%s %s", asmstr, dataStr];
+                        [referenceInCode addObject:[NSString stringWithFormat:@"%@:%lu", blStr, startIndex + i]];
+                    }
+                    continue;
+                }
+                
+            }
+        }
+        free(cs_insn);
+        if (referenceInCode.count>0) {
+            @synchronized (tmpDict) {
+                tmpDict[[NSString stringWithFormat:@"%ld",index]] = referenceInCode;
+            }
         }else{
             NSLog(@"cs_disasm error");
         }
     });
-    cs_insn *all = NULL;
-    size_t count = 0;
-    for (int i = 0; i < 8; i++) {
-        count += tmp_count[i] * sizeof(cs_insn);
+    // tmpDict.allKeys中的值并没有从小到大排序，这里要对key排序，因为有可能某个index下的referenceInCode为空，导致key不是连续的整数，而是一个离散的整数数组
+    NSArray *keys = [tmpDict.allKeys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        if ([obj1 integerValue] > [obj2 integerValue]) {
+            return NSOrderedDescending;
+        }else{
+            return NSOrderedAscending;
+        }
+    }];
+    for (NSString *key in keys) {
+        NSArray *sub_address = tmpDict[key];
+        [addressReferenceInCode addObjectsFromArray:sub_address];
     }
-    all = (cs_insn *)realloc(tmp[0],count);
-    cs_insn *start = all;
-    for (int i = 0; i < 7; i++) {
-        start += tmp_count[i];
-        memmove(start, tmp[i+1], tmp_count[i+1] * sizeof(cs_insn));
-        free(tmp[i+1]);
-    }
-
-    return all;
+    return addressReferenceInCode;
 }
 
 + (unsigned long long )getSegmentWithIndex:(int)index fromFile:(NSData *)fileData{
@@ -393,6 +451,31 @@
     return bindInfoDic;
 }
 
++ (unsigned long long)getSectionMigrateOffset:(unsigned long long)address andBaseAddr:(unsigned long long)vm fileData:(NSData *)fileData{
+    address += vm;
+    mach_header_64 mhHeader;
+    [fileData getBytes:&mhHeader range:NSMakeRange(0, sizeof(mach_header_64))];
+    
+    unsigned long long currentLcLocation = sizeof(mach_header_64);
+    for (int i = 0; i < mhHeader.ncmds; i++) {
+        load_command* cmd = (load_command *)malloc(sizeof(load_command));
+        [fileData getBytes:cmd range:NSMakeRange(currentLcLocation, sizeof(load_command))];
+        
+        if (cmd->cmd == LC_SEGMENT_64) {//LC_SEGMENT_64:(section header....)
+            segment_command_64 segmentCommand;
+            [fileData getBytes:&segmentCommand range:NSMakeRange(currentLcLocation, sizeof(segment_command_64))];
+            if (address >= segmentCommand.vmaddr && address <= segmentCommand.vmaddr + segmentCommand.vmsize) {
+                free(cmd);
+                return segmentCommand.vmaddr - segmentCommand.fileoff - vm;
+            }
+        }
+        currentLcLocation += cmd->cmdsize;
+        free(cmd);
+    }
+    
+    return address;
+}
+
 + (unsigned long long)getOffsetFromVmAddress:(unsigned long long )address fileData:(NSData *)fileData{
 
     mach_header_64 mhHeader;
@@ -589,15 +672,15 @@
 
 + (NSString *)getSwiftTypeNameWithSwiftType:(SwiftType)type Offset:(uintptr_t)offset vm:(uintptr_t)vm fileData:(NSData*)fileData{
     SwiftKind kindType = [WBBladesTool getSwiftType:type];
-
+    
     uintptr_t typeNameOffset = 0;
     uintptr_t typeParent = 0;
     if (kindType == SwiftKindClass) {
-        SwiftClassTypeNoMethods classType = {0};
+        SwiftClassType classType = {0};
         NSRange range = NSMakeRange(offset, 0);
-        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassTypeNoMethods) fromFile:fileData];
-        [data getBytes:&classType length:sizeof(SwiftClassTypeNoMethods)];
-
+        NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftClassType) fromFile:fileData];
+        [data getBytes:&classType length:sizeof(SwiftClassType)];
+        
         typeNameOffset = classType.Name;
         typeParent = offset + 4 + classType.Parent;
     }else if(kindType == SwiftKindStruct){
@@ -621,39 +704,41 @@
         NSRange range = NSMakeRange(offset, 0);
         NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftProtocolType) fromFile:fileData];
         [data getBytes:&protosType range:NSMakeRange(0, sizeof(SwiftProtocolType))];
-
+        
         typeNameOffset = protosType.Name;
         typeParent = offset + 4 + protosType.Parent;
     }
+    uintptr_t typeNameOffset_new = [WBBladesTool getOffsetFromVmAddress:typeNameOffset fileData:fileData];
 
-    uintptr_t  nameOffset = offset + 8 + typeNameOffset;
+    uintptr_t  typeAddress = offset + 8 + typeNameOffset_new;//
+    uintptr_t nameOffset = [WBBladesTool getOffsetFromVmAddress:typeAddress fileData:fileData];
 
     if (nameOffset > fileData.length) {
         return @"";
     }
-
+    
     uint8_t *buffer = (uint8_t *)malloc(CLASSNAME_MAX_LEN + 1); buffer[CLASSNAME_MAX_LEN] = '\0';
     [fileData getBytes:buffer range:NSMakeRange(nameOffset, CLASSNAME_MAX_LEN)];
     NSString *typeName = NSSTRING(buffer);
     free(buffer);
-
+    
     if (typeParent > vm) {
         typeParent = typeParent - vm;
     }
-
+    
     SwiftType parentType = {0};
     NSRange range = NSMakeRange(typeParent, 0);
     NSData *data = [WBBladesTool readBytes:range length:sizeof(SwiftType) fromFile:fileData];
     [data getBytes:&parentType length:sizeof(SwiftType)];
-
+    
     SwiftKind parentKindType = [WBBladesTool getSwiftType:parentType];
-    if (parentKindType != SwiftKindModule) {
+    if (typeParent > 0 && parentKindType != SwiftKindModule) {
        NSString *parentName = [self getSwiftTypeNameWithSwiftType:parentType Offset:typeParent vm:vm fileData:fileData];
         if (parentName && parentName.length > 0) {
             typeName = [NSString stringWithFormat:@"%@.%@",parentName,typeName];
         }
     }
-
+    
     return typeName;
 }
 

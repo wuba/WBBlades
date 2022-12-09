@@ -7,16 +7,18 @@
 
 import Foundation
 import Cocoa
+import WBAppSize
 
 class BladesViewController: NSWindowController {
 
     lazy var viewController: BladesDispatchViewController = {
+        ASTest.test()
         let viewController = BladesDispatchViewController()
         return viewController
     }()
 
     lazy var bdWindow: NSWindow? = {
-        let frame: CGRect = CGRect(x: 0, y: 0, width: 800, height: 600)
+        let frame: CGRect = CGRect(x: 0, y: 0, width: 800, height: 650)
         let style: NSWindow.StyleMask = [.titled,.closable,.resizable]
         let back: NSWindow.BackingStoreType = .buffered
         let window: NSWindow = NSWindow(contentRect: frame, styleMask: style, backing: back, defer: false)

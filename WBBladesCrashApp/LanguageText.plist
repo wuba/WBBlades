@@ -2,6 +2,361 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>diagnoseStep10</key>
+    <dict>
+        <key>eng</key>
+        <string>Completion of inspection</string>
+        <key>chinese</key>
+        <string>检测完成</string>
+    </dict>
+    <key>diagnoseStep9</key>
+    <dict>
+        <key>eng</key>
+        <string>Detecting duplicate resources...</string>
+        <key>chinese</key>
+        <string>正在检测重复资源……</string>
+    </dict>
+    <key>diagnoseStep8</key>
+    <dict>
+        <key>eng</key>
+        <string>Detecting useless resources...</string>
+        <key>chinese</key>
+        <string>正在检测无用资源……</string>
+    </dict>
+    <key>diagnoseStep7</key>
+    <dict>
+        <key>eng</key>
+        <string>Checking Asset Catalog image checking...</string>
+        <key>chinese</key>
+        <string>正在检测Asset Catalog图片检测……</string>
+    </dict>
+    <key>diagnoseStep6</key>
+    <dict>
+        <key>eng</key>
+        <string>Decompressing the.car file...</string>
+        <key>chinese</key>
+        <string>正在对.car文件进行解压……</string>
+    </dict>
+    <key>diagnoseStep5</key>
+    <dict>
+        <key>eng</key>
+        <string>Migrating the detection segment...</string>
+        <key>chinese</key>
+        <string>正在检测段迁移……</string>
+    </dict>
+    <key>diagnoseStep4</key>
+    <dict>
+        <key>eng</key>
+        <string>Detecting dynamic library symbol table stripping...</string>
+        <key>chinese</key>
+        <string>正在检测动态库符号表剥离……</string>
+    </dict>
+    <key>diagnoseStep3</key>
+    <dict>
+        <key>eng</key>
+        <string>Detecting useless classes...</string>
+        <key>chinese</key>
+        <string>正在检测无用类……</string>
+    </dict>
+    <key>diagnoseStep2</key>
+    <dict>
+        <key>eng</key>
+        <string>Calculating the package size of each module...</string>
+        <key>chinese</key>
+        <string>正在计算各模块包大小……</string>
+    </dict>
+    <key>diagnoseStep1</key>
+    <dict>
+        <key>eng</key>
+        <string>Preprocessing binaries...</string>
+        <key>chinese</key>
+        <string>正在预处理二进制文件……</string>
+    </dict>
+    
+    <key>LTOWindowTitle</key>
+    <dict>
+        <key>eng</key>
+        <string></string>
+        <key>chinese</key>
+        <string>LTO optimized configuration</string>
+    </dict>
+    
+    <key>LTOOptimizeDescSubContent1</key>
+    <dict>
+        <key>eng</key>
+        <string>If the cocoapods sub-project is included, you need to configure LTO for the sub-project in the Podfile, as shown below.</string>
+        <key>chinese</key>
+        <string>如果含有cocoapods子工程，需要对子工程进行LTO配置，在Podfile中配置即可，如下所示。</string>
+    </dict>
+    
+    <key>LTOOptimizeDescContent</key>
+    <dict>
+        <key>eng</key>
+        <string>Link-Time Optimization (LTO), proposed by Apple in WWDC 2016, comes with a compilation/linking parameter in Xcode. LTO is the program optimization during linking. Multiple intermediate files are combined by linker and combined into one program to reduce the code volume. Therefore, link-time optimization is the analysis of the whole program and the optimization across modules. Turning on the LTO will mainly optimize the package size.
+            
+            In the main project, LTO is Monolithic, that is, LLVM_LTO = YES, as shown in the following figure.</string>
+        <key>chinese</key>
+        <string>Link-Time Optimization 链接时优化(LTO)，是苹果在WWDC 2016提出，在Xcode 自带的一个编译/链接参数。LTO是链接期间的程序优化，多个中间文件通过链接器合并在一起，并将它们组合为一个程序，缩减代码体积，因此链接时优化是对整个程序的分析和跨模块的优化。开启LTO后主要是能给包大小带来优化。
+            主工程中配置LTO为Monolithic，即LLVM_LTO = YES，如下图所示。</string>
+    </dict>
+    
+    
+    <key>textMigrateDescContent</key>
+    <dict>
+        <key>eng</key>
+        <string>Migrate read-only sections of __TEXT like __objc_methname and __objc_classname to read-only Segment __RODATA, and readable and executable sections like __text, Create a Segment __WB_TEXT and migrate __text and __stubs into it. Go to Xcode->Build Settings->Other Linker Flags and do the following:</string>
+        <key>chinese</key>
+        <string>将__TEXT中只读的section如__objc_methname和__objc_classname迁移到只读Segment __RODATA中，而对于可读和可执行的section如__text，创建一个Segment __WB_TEXT，将__text和__stubs迁移到该段中。在Xcode->Build Settings->Other Linker Flags中进行如下配置：</string>
+    </dict>
+    
+    <key>stripWindowTitle</key>
+    <dict>
+        <key>eng</key>
+        <string>Strip away unnecessary binary symbols</string>
+        <key>chinese</key>
+        <string>剥离不必要的二进制符号</string>
+    </dict>
+    <key>stripDescContent</key>
+    <dict>
+        <key>eng</key>
+        <string>Some symbols in the Mach-O file symbol table are required, but many symbols are removed. strip is often used to remove some symbol tables in the object file and debug symbol table information to reduce the size of the program.</string>
+        <key>chinese</key>
+        <string>Mach-O文件符号表中有些符号是必须的，但是很多符号都是去掉的，strip经常用来去除目标文件中的一些符号表、调试符号表信息，以减小程序的大小。</string>
+    </dict>
+    <key>stripCheckBtnTitle</key>
+    <dict>
+        <key>eng</key>
+        <string>View MachO to be optimized</string>
+        <key>chinese</key>
+        <string>查看待优化的MachO</string>
+    </dict>
+    
+    
+    <key>diagnoseResultTitle6</key>
+    <dict>
+        <key>eng</key>
+        <string>Detect duplicate resource files in app packages</string>
+        <key>chinese</key>
+        <string>检测App包内的重复资源文件</string>
+    </dict>
+    <key>diagnoseResultTips6</key>
+    <dict>
+        <key>eng</key>
+        <string>Totally %@ can be optimized</string>
+        <key>chinese</key>
+        <string>总计可优化%@</string>
+    </dict>
+    <key>diagnoseResultItemRightTitle6</key>
+    <dict>
+        <key>eng</key>
+        <string>Size：%@</string>
+        <key>chinese</key>
+        <string>大小：%@</string>
+    </dict>
+    
+    <key>diagnoseResultTitle5</key>
+    <dict>
+        <key>eng</key>
+        <string>Detect resource files that may not be referenced in binary files in App packages</string>
+        <key>chinese</key>
+        <string>检测App包内可能未在二进制文件中被引用的资源文件</string>
+    </dict>
+    <key>diagnoseResultTips5</key>
+    <dict>
+        <key>eng</key>
+        <string>A total of %@ useless resources are detected, with a total size of %@. The top %@ resources are shown below</string>
+        <key>chinese</key>
+        <string>共检测到%@个无用资源，总大小%@，以下显示前%@个</string>
+    </dict>
+    <key>diagnoseResultItemRightTitle5</key>
+    <dict>
+        <key>eng</key>
+        <string>Size：%@</string>
+        <key>chinese</key>
+        <string>大小：%@</string>
+    </dict>
+    
+    <key>diagnoseResultTitle4</key>
+    <dict>
+        <key>eng</key>
+        <string>Detect picture files that are not in the Asset Catalog</string>
+        <key>chinese</key>
+        <string>检测不在Asset Catalog内的图片文件</string>
+    </dict>
+    <key>diagnoseResultTips4</key>
+    <dict>
+        <key>eng</key>
+        <string>It is detected that %@ pictures are not in the Asset CataLog, with a total size of %@. The first %@ pictures are shown below</string>
+        <key>chinese</key>
+        <string>共检测到%@图片不在Asset CataLog中，总大小%@,以下显示前%@</string>
+    </dict>
+    <key>diagnoseResultItemRightTitle4</key>
+    <dict>
+        <key>eng</key>
+        <string>Size：%@</string>
+        <key>chinese</key>
+        <string>大小：%@</string>
+    </dict>
+    
+    
+	<key>diagnoseResultTitle3</key>
+	<dict>
+		<key>eng</key>
+		<string>Detect LTO</string>
+		<key>chinese</key>
+		<string>检测LTO</string>
+	</dict>
+    <key>diagnoseResultTips3</key>
+    <dict>
+        <key>eng</key>
+        <string>Link-Time Optimization (LTO)</string>
+        <key>chinese</key>
+        <string>链接时优化(LTO)</string>
+    </dict>
+    <key>diagnoseResultItemLeftTitle3</key>
+    <dict>
+        <key>eng</key>
+        <string>Program optimization during linking. Multiple intermediate files are merged together through the linker to reduce the code volume</string>
+        <key>chinese</key>
+        <string>链接期间的程序优化，多个中间文件通过链接器合并在一起，缩减代码体积</string>
+    </dict>
+    
+	<key>diagnoseResultTitle2</key>
+	<dict>
+		<key>eng</key>
+		<string>Check whether the symbol table and debugging symbol table in binary and dynamic libraries are stripped</string>
+		<key>chinese</key>
+		<string>检测二进制、动态库中的符号表、调试符号表是否被剥离</string>
+	</dict>
+    <key>diagnoseResultTips2</key>
+    <dict>
+        <key>eng</key>
+        <string>Totally %@ can be optimized</string>
+        <key>chinese</key>
+        <string>总计可优化%@</string>
+    </dict>
+    <key>diagnoseResultItemRightTitle2</key>
+    <dict>
+        <key>eng</key>
+        <string>Expected to optimize %@</string>
+        <key>chinese</key>
+        <string>预计优化%@</string>
+    </dict>
+    
+    
+    <key>diagnoseResultTitle1</key>
+    <dict>
+        <key>eng</key>
+        <string>Detect useless classes</string>
+        <key>chinese</key>
+        <string>检测无用类</string>
+    </dict>
+    <key>diagnoseResultTips1</key>
+    <dict>
+        <key>eng</key>
+        <string>A total of %@ useless classes are detected, and the first %@ are shown below. Click "View File" for details</string>
+        <key>chinese</key>
+        <string>共检测到%@个无用类，以下显示前%@个，详情点击“查看文件”</string>
+    </dict>
+
+    
+	<key>diagnoseResultMainTitle</key>
+	<dict>
+		<key>eng</key>
+		<string>Diagnostic results, Expected to be optimized %@</string>
+		<key>chinese</key>
+		<string>诊断结果，预计可优化%@</string>
+	</dict>
+    
+	<key>diagnoseStartBtnTitle</key>
+	<dict>
+		<key>eng</key>
+		<string>Start Diagnose</string>
+		<key>chinese</key>
+		<string>诊断</string>
+	</dict>
+    
+	<key>packetSizeDistribution</key>
+	<dict>
+		<key>chinese</key>
+		<string>包大小分布</string>
+		<key>eng</key>
+		<string>Packet size distribution</string>
+	</dict>
+    
+    <key>packetSizeDetialItemTitleBinary</key>
+    <dict>
+        <key>eng</key>
+        <string>Binary(Collections)</string>
+        <key>chinese</key>
+        <string>二进制(集)</string>
+    </dict>
+    <key>packetSizeDetialItemDescBinary</key>
+    <dict>
+        <key>eng</key>
+        <string>macho Files</string>
+        <key>chinese</key>
+        <string>macho文件</string>
+    </dict>
+    <key>packetSizeDetailItemTitleCar</key>
+    <dict>
+        <key>eng</key>
+        <string>Car(Collections,thin)</string>
+        <key>chinese</key>
+        <string>资源包(集 thin)</string>
+    </dict>
+    <key>packetSizeDetailItemDescCar</key>
+    <dict>
+        <key>eng</key>
+        <string>.car Files</string>
+        <key>chinese</key>
+        <string>.car资源包文件</string>
+    </dict>
+    <key>packetSizeDetailItemTitlePNG</key>
+    <dict>
+        <key>eng</key>
+        <string>PNG(Collections)</string>
+        <key>chinese</key>
+        <string>PNG(集)</string>
+    </dict>
+    <key>packetSizeDetailItemDescPNG</key>
+    <dict>
+        <key>eng</key>
+        <string>.png Files</string>
+        <key>chinese</key>
+        <string>.png图片资源文件</string>
+    </dict>
+    <key>packetSizeDetailItemTitleOther</key>
+    <dict>
+        <key>eng</key>
+        <string>Other(Collections)</string>
+        <key>chinese</key>
+        <string>其他(集)</string>
+    </dict>
+    <key>packetSizeDetailItemDescOther</key>
+    <dict>
+        <key>eng</key>
+        <string>Other types of resource files</string>
+        <key>chinese</key>
+        <string>其他类型资源文件</string>
+    </dict>
+    
+    
+    
+	<key>diagnoseAppPlaceHolder</key>
+	<dict>
+		<key>eng</key>
+		<string>Please drag the. app package directory containing the complete Debug information</string>
+		<key>chinese</key>
+		<string>请拖入包含完整Debug信息的.app包目录</string>
+	</dict>
+	<key>diagnoseBtnTitle</key>
+	<dict>
+		<key>eng</key>
+		<string>Quick Diagnose</string>
+		<key>chinese</key>
+		<string>App一键体检</string>
+	</dict>
 	<key>mainTitle</key>
 	<dict>
 		<key>chinese</key>
@@ -208,21 +563,21 @@
 	<key>introduceTextViewTitle</key>
 	<dict>
 		<key>chinese</key>
-		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下
-1、无用类检测
+		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下                         1、App一键体检 一键检测App各项性能指标， 包含包大小分布、无用类、无用资源表等基础检测； 
+2、无用类检测
 根据分析__Text中汇编代码， 提取方法调用关系集合， 同时与Mach-O中所有的类集合进行差集计算。通过无用类工具， 可以将无用类的结果输出。但不适用于NSClassFromString的运行时方法调用的检测；
 
-2、包大小分析
+3、包大小分析
 支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地地址到工具中即可（静态库大小检测工具）；
 
-3、崩溃解析（无符号表日志符号化工具）
+4、崩溃解析（无符号表日志符号化工具）
 在丢失dSYM文件的情况，可通过崩溃解析工具进行符号化。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用**。工具使用前应先注意几点：
 - 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化；
 
-4、静态库之间依赖关系
+5、静态库之间依赖关系
 主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中; 
 
-5、Mach-O类Hook
+6、Mach-O类Hook
 自动提取ipa中可执行文件或者动态库中可执行文件(Mach-O)中的OC类,自动Hook类中所有的方法。</string>
 		<key>eng</key>
 		<string>WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries .

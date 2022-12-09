@@ -1,3 +1,21 @@
 ${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources.sh
 ${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist
 ${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil
+${PODS_ROOT}/../WBAppSize/ResourceCheck/Models/Files/custom_using_name.plist
+${PODS_ROOT}/../WBAppSize/UI/Diagnose/ChildDiagnoseCellView.xib
+${PODS_ROOT}/../WBAppSize/UI/Diagnose/DiagnoseItemCellView.xib
+${PODS_ROOT}/../WBAppSize/UI/Diagnose/LTOOptimizeViewController.xib
+${PODS_ROOT}/../WBAppSize/UI/Diagnose/StripViewController.xib
+${PODS_ROOT}/../WBAppSize/UI/Diagnose/TextMigrateViewController.xib
+${PODS_ROOT}/../WBAppSize/UI/MainPage/AppSizeDiagnoseVC.xib
+${PODS_ROOT}/../WBAppSize/UI/MainPage/DiagnoseLoading.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/DetailInfo/Assets/ASFileCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/DetailInfo/Assets/ASFileDetailViewController.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/DetailInfo/Assets/ASFileListViewController.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListAssetCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListBaseCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListCollectionCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListImageCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListMachOCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListOtherCell.xib
+${PODS_ROOT}/../WBAppSize/UI/SizeShow/ItemSizeView.xib

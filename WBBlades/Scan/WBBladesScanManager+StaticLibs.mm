@@ -2,7 +2,7 @@
 //  WBBladesScanManager+StaticLibs.m
 //  WBBlades
 //
-//  Created by 朴惠姝 on 2022/4/27.
+//  Created by wbblades on 2022/4/27.
 //
 
 #import "WBBladesScanManager+StaticLibs.h"

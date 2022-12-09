@@ -23,6 +23,7 @@ Pod::Spec.new do |s|
   s.source              = { :git => "xxx@xxx.xxx.com:xxx/xxx.git" , :branch => "#{s.version}"}
   s.xcconfig = {
     'HEADER_SEARCH_PATHS' => "${PODS_ROOT}/Headers/Public/WBBlades",
+    'DEFINES_MODULE' => 'YES'
 }
   s.subspec 'Capstone' do |capstone|
     capstone.source_files       = 'Capstone/**/*.{h,m,mm,swift,c,cc,cpp}'
