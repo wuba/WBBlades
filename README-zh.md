@@ -1,7 +1,8 @@
-
 [简体中文](README-zh.md)|[English](README.md)
 
 ---
+
+**WBBlades使用说明:**
 
 ## 简介
 
@@ -114,8 +115,5 @@ GitHub地址：[https://github.com/steventroughtonsmith/cartool](https://github.
 
 DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
 
-LLVM LTO：
-    [https://llvm.org/devmtg/2016-11/Slides/Amini-Johnson-ThinLTO.pdf](https://llvm.org/devmtg/2016-11/Slides/Amini-Johnson-ThinLTO.pdf "LLVM LTO")
-
-ld源码:
-    [https://github.com/apple-opensource/ld64/blob/master/src/ld/ld.cpp](https://github.com/apple-opensource/ld64/blob/master/src/ld/ld.cpp "ld源码")
+GitHub:
+[https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
