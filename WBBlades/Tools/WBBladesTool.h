@@ -2,8 +2,8 @@
 //  WBBladesTool.h
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/12/30.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/12/30.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -46,13 +46,16 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * disassembly
  */
-+ (cs_insn *)disassemWithMachOFile:(NSData *)fileData from:(unsigned long long)begin length:(unsigned long long )size;
++ (NSArray *)disassemWithMachOFile:(NSData *)fileData  from:(unsigned long long)begin length:(unsigned long long )size accfunDic:(NSDictionary *)accfunDic;
 
 /**
 * bind info
 */
 + (NSDictionary *)dynamicBindingInfoFromFile:(NSData *)fileData;
 + (NSArray *)dylibNamesFromFile:(NSData *)fileData;
+
++ (unsigned long long)getSectionMigrateOffset:(unsigned long long)address andBaseAddr:(unsigned long long)vm fileData:(NSData *)fileData;
+
 /**
 * convert address from vm to offset
 */

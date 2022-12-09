@@ -1,5 +1,5 @@
 
-[简体中文](./README_CN.md) | **English**
+[简体中文](README-zh.md)|[English](README.md)
 
 ## Introduction
 
@@ -91,6 +91,10 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 GitHub: [https://github.com/aquynh/capstone](https://github.com/aquynh/capstone "GitHub for capstone")
 
 GitHub: [https://github.com/Sunnyyoung/SYFlatButton](https://github.com/Sunnyyoung/SYFlatButton "GitHub for SYFlatButton") 
+
+GitHub: [https://github.com/alexrozanski/PXListView](https://github.com/alexrozanski/PXListView "GitHub for PXListView")
+
+GitHub: [https://github.com/steventroughtonsmith/cartool](https://github.com/steventroughtonsmith/cartool "cartool")
 
 DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
 

@@ -19,7 +19,8 @@ extern  NSString *resultFilePath(void);
 + (void)scanStaticLibraryByInputPath:(NSString *)inputPath;
 + (void)scanUnusedClassByInputPaths: (NSArray<NSString *>*)inputPath;
 + (void)autoHookByInputPaths:(NSString *)filePath;
-+ (NSSet<NSString *> *)scanUnusedClassWithAppPath:(NSString *)appFilePath fromLibs:(NSArray<NSString *> *)fromLibsPath;
++ (void)endAutoHookProcess;
++ (NSArray<NSDictionary<NSString *, NSNumber *> *> *)scanUnusedClassWithAppPath:(NSString *)appFilePath fromLibs:(NSArray<NSString *> *)fromLibsPath;
 + (NSString *)scanCrashSymbolByCrashLogPath:(NSString *)crashLogPath executableAppPath:(NSString *)appPath;
 + (NSString *)scanDependLibs:(NSString *)folderPath;
 @end

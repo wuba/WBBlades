@@ -2,7 +2,7 @@ CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 DEFINES_MODULE = YES
 EMBEDDED_CONTENT_CONTAINS_SWIFT = YES
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 $(inherited) CAPSTONE_HAS_ARM64=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/ArtilleryOfItaly" "${PODS_ROOT}/Headers/Public/WBBlades" "${PODS_ROOT}/Headers/Public/WBBladesCrash" ${PODS_ROOT}/Headers/Public/WBBrightMirror ${PODS_ROOT}/Headers/Public/WBBlades ${PODS_ROOT}/Headers/Public/WBBladesCrash
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Headers/Public" "${PODS_ROOT}/Headers/Public/ArtilleryOfItaly" "${PODS_ROOT}/Headers/Public/WBAppSize" "${PODS_ROOT}/Headers/Public/WBBlades" "${PODS_ROOT}/Headers/Public/WBBladesCrash" ${PODS_ROOT}/Headers/Public/WBBrightMirror ${PODS_ROOT}/Headers/Public/WBBlades ${PODS_ROOT}/Headers/Public/WBBladesCrash
 LIBRARY_SEARCH_PATHS = $(inherited) "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" "${PODS_CONFIGURATION_BUILD_DIR}/ArtilleryOfItaly" "${PODS_CONFIGURATION_BUILD_DIR}/WBBlades" "${PODS_CONFIGURATION_BUILD_DIR}/WBBladesCrash" /usr/lib/swift
 OTHER_CFLAGS = $(inherited) -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/WBBlades/WBBlades.modulemap" -fmodule-map-file="${PODS_CONFIGURATION_BUILD_DIR}/WBBladesCrash/WBBladesCrash.modulemap"
 OTHER_LDFLAGS = $(inherited) -ObjC -l"ArtilleryOfItaly" -l"WBBlades" -l"WBBladesCrash" -l"z"

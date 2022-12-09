@@ -1053,7 +1053,6 @@ static BOOL debugMerge = NO;
                 [types appendString: typeStr];
             }
         }
-        NSLog(@"types is %@", types);
         if(typeMaps[types]) {
             return typeMaps[types];
         }

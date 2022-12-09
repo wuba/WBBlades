@@ -2,8 +2,8 @@
 //  Dummy.swift
 //  WBBlades
 //
-//  Created by 朴惠姝 on 2021/12/28.
-//  Copyright © 2021 邓竹立. All rights reserved.
+//  Created by wbblades on 2021/12/28.
+//  Copyright © 2021 58.com. All rights reserved.
 //
 
 import Foundation

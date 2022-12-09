@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="c22-O7-iKe" customClass="ASShowFileListCollectionCell" customModule="WBAppSize">
+            <rect key="frame" x="0.0" y="0.0" width="518" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Ve1-ir-hep">
+                    <rect key="frame" x="35" y="65" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="8jL-0v-dFL"/>
+                        <constraint firstAttribute="height" constant="40" id="tfK-bK-AVp"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="as_icon_collection_assets" id="AlP-Pi-1XF"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P8R-LH-u9p">
+                    <rect key="frame" x="93" y="75" width="83" height="20"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="XX文件集" id="ui4-zD-lW9">
+                        <font key="font" metaFont="systemBold" size="17"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ovx-FT-g8a">
+                    <rect key="frame" x="33" y="39" width="152" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Files count:  999 items" id="Daq-au-Pf3">
+                        <font key="font" metaFont="systemBold"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="rfm-JN-VXv">
+                    <rect key="frame" x="33" y="13" width="467" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="Desc:  资源集合文件" id="Cmj-Fk-Fdj">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eKn-oN-kot">
+                    <rect key="frame" x="370" y="39" width="130" height="41"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="1.25 GB" id="edS-WS-PG9">
+                        <font key="font" metaFont="systemBold" size="35"/>
+                        <color key="textColor" name="systemOrangeColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Fu0-cz-4P0">
+                    <rect key="frame" x="10" y="70" width="15" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="15" id="F84-h8-vbc"/>
+                        <constraint firstAttribute="height" constant="30" id="xRk-a0-y40"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="as_arrow_right" id="6RS-aO-kL0"/>
+                </imageView>
+            </subviews>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="rfm-JN-VXv" secondAttribute="trailing" constant="20" id="6CA-IX-KPP"/>
+                <constraint firstItem="P8R-LH-u9p" firstAttribute="leading" secondItem="Ve1-ir-hep" secondAttribute="trailing" constant="20" id="Bqn-mj-qaN"/>
+                <constraint firstAttribute="trailing" secondItem="eKn-oN-kot" secondAttribute="trailing" constant="20" id="DBI-EV-6JA"/>
+                <constraint firstItem="rfm-JN-VXv" firstAttribute="top" secondItem="ovx-FT-g8a" secondAttribute="bottom" constant="10" id="DNg-2v-Pqo"/>
+                <constraint firstItem="eKn-oN-kot" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="40" id="Ffm-VS-xho"/>
+                <constraint firstItem="Fu0-cz-4P0" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="FtO-LO-tcx"/>
+                <constraint firstItem="Ve1-ir-hep" firstAttribute="centerY" secondItem="Fu0-cz-4P0" secondAttribute="centerY" id="LSa-9c-4FB"/>
+                <constraint firstItem="rfm-JN-VXv" firstAttribute="leading" secondItem="ovx-FT-g8a" secondAttribute="leading" id="Ojf-SM-QhN"/>
+                <constraint firstItem="P8R-LH-u9p" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="25" id="WLo-32-4y2"/>
+                <constraint firstItem="Ve1-ir-hep" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="15" id="oXp-M8-l20"/>
+                <constraint firstItem="Ve1-ir-hep" firstAttribute="leading" secondItem="Fu0-cz-4P0" secondAttribute="trailing" constant="10" id="p7p-d9-l17"/>
+                <constraint firstItem="ovx-FT-g8a" firstAttribute="leading" secondItem="Ve1-ir-hep" secondAttribute="leading" id="yPx-vl-8T6"/>
+                <constraint firstItem="ovx-FT-g8a" firstAttribute="top" secondItem="Ve1-ir-hep" secondAttribute="bottom" constant="10" id="z3b-Vk-ol4"/>
+            </constraints>
+            <connections>
+                <outlet property="arrowImageView" destination="Fu0-cz-4P0" id="lb9-2E-sVL"/>
+                <outlet property="fileCountLabel" destination="ovx-FT-g8a" id="gF2-7U-z4p"/>
+                <outlet property="fileDescriptionLabel" destination="rfm-JN-VXv" id="ZHm-6D-Acu"/>
+                <outlet property="fileSizeLabel" destination="eKn-oN-kot" id="KmB-d1-9bK"/>
+                <outlet property="iconImageView" destination="Ve1-ir-hep" id="eV4-03-3rO"/>
+                <outlet property="leftMarginConstraints" destination="p7p-d9-l17" id="VP2-eu-Mk2"/>
+                <outlet property="titleLabel" destination="P8R-LH-u9p" id="LiW-Sg-F3P"/>
+            </connections>
+            <point key="canvasLocation" x="165" y="-136"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="as_arrow_right" width="60.5" height="62"/>
+        <image name="as_icon_collection_assets" width="120" height="98"/>
+    </resources>
+</document>

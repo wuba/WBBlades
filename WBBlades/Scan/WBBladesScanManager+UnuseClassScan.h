@@ -2,8 +2,8 @@
 //  WBBladesScanManager+UnuseClassScan.h
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/8/5.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/8/5.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import "WBBladesScanManager.h"
@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
  * @param aimClasses specified class
  * @param scanProgressBlock provide some progress info
  */
-+ (NSSet *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses progressBlock:(void (^)(NSString *progressInfo))scanProgressBlock;
++ (NSArray *)scanAllClassWithFileData:(NSData*)fileData classes:(NSSet *)aimClasses progressBlock:(void (^)(NSString *progressInfo))scanProgressBlock;
 
 /*
 * dump binary file's classes

@@ -2,8 +2,8 @@
 //  ChainFixUpsHelper.m
 //  WBBlades
 //
-//  Created by zhaozhi on 2022/8/4.
-//
+//  Created by wbblades on 2022/8/4.
+//  Copyright (C) 2005-present, 58.com.  All rights reserved.
 
 #import "ChainFixUpsHelper.h"
 #import <mach/mach.h>
@@ -135,15 +135,15 @@ enum {
 
 static ChainFixUpsHelper *shareInstance = nil;
 
-static int areEqual(const char* a, const char* b) {
-    while (*a && *b) {
-        if (*a != *b)
-            return 0;
-        ++a;
-        ++b;
-    }
-    return *a == *b;
-}
+//static int areEqual(const char* a, const char* b) {
+//    while (*a && *b) {
+//        if (*a != *b)
+//            return 0;
+//        ++a;
+//        ++b;
+//    }
+//    return *a == *b;
+//}
 
 +(ChainFixUpsHelper *)shareInstance{
     static dispatch_once_t onceToken;
@@ -211,10 +211,10 @@ static int areEqual(const char* a, const char* b) {
             struct segment_command_64 seg;
             [self.fileData getBytes:&seg range:NSMakeRange(startCmd, sizeof(seg))];
             [self.segmentNames addObject:[NSString stringWithFormat:@"%s",seg.segname]];
-            if(areEqual(seg.segname, "__TEXT")){
+            if(strcmp(seg.segname, "__TEXT")){
                 textVMAddr = seg.vmaddr;
             }
-            else if ( areEqual(seg.segname, "__LINKEDIT") ) {
+            else if ( strcmp(seg.segname, "__LINKEDIT") ) {
                 linkeditVMAddr = seg.vmaddr;
                 linkeditFileOffset = seg.fileoff;
             }

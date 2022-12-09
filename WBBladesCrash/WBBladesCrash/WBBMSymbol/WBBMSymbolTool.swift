@@ -2,8 +2,8 @@
 //  WBBMSymbolTool.swift
 //  Pods
 //
-//  Created by zhouyingjie on 2021/4/25.
-//
+//  Created by wbblades on 2021/4/25.
+//  Copyright (C) 2005-present, 58.com.  All rights reserved.
 
 import Cocoa
 

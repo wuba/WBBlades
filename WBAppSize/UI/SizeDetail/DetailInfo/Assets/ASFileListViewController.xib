@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="ASFileListViewController" customModule="AppSizeManager" customModuleProvider="target">
+            <connections>
+                <outlet property="listView" destination="hyJ-R7-zs3" id="rxh-sv-oUv"/>
+                <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView id="Hz6-mo-xeY">
+            <rect key="frame" x="0.0" y="0.0" width="706" height="498"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hyJ-R7-zs3" customClass="PXListView">
+                    <rect key="frame" x="0.0" y="0.0" width="706" height="498"/>
+                    <clipView key="contentView" id="7v9-RI-IBc">
+                        <rect key="frame" x="1" y="1" width="704" height="496"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view id="TW0-X7-Tb2" customClass="PXListDocumentView">
+                                <rect key="frame" x="0.0" y="0.0" width="689" height="481"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </view>
+                        </subviews>
+                    </clipView>
+                    <scroller key="horizontalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="7cx-2F-pAb">
+                        <rect key="frame" x="1" y="481" width="704" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Kh8-q8-Bh0">
+                        <rect key="frame" x="689" y="1" width="16" height="496"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </scroller>
+                    <connections>
+                        <outlet property="delegate" destination="-2" id="WoJ-B6-sY3"/>
+                    </connections>
+                </scrollView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="hyJ-R7-zs3" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" id="4Qh-9f-xYn"/>
+                <constraint firstItem="hyJ-R7-zs3" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" id="bPC-bz-whe"/>
+                <constraint firstAttribute="trailing" secondItem="hyJ-R7-zs3" secondAttribute="trailing" id="dOh-Jp-VvP"/>
+                <constraint firstAttribute="bottom" secondItem="hyJ-R7-zs3" secondAttribute="bottom" id="z3W-Hd-haZ"/>
+            </constraints>
+            <point key="canvasLocation" x="174" y="25"/>
+        </customView>
+    </objects>
+</document>

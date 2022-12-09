@@ -2,8 +2,8 @@
 //  WBBMSymbolModel.swift
 //  WBBladesCrash
 //
-//  Created by zhouyingjie on 2021/5/10.
-//
+//  Created by wbblades on 2021/5/10.
+//  Copyright (C) 2005-present, 58.com.  All rights reserved.
 
 import Foundation
 

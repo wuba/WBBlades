@@ -37,6 +37,7 @@ static CDTextClassDumpVisitor *dumpVisitor ;
 static NSMutableDictionary *anonymousStructs;
 static int anonymousCount = 0;
 static NSString * MachOName ;
+static NSDictionary *dynamicBindingInfos = nil;
 
 @interface WBOCMethod : NSObject
 @property(nonatomic, copy) NSString *methodName;
@@ -47,7 +48,6 @@ static NSString * MachOName ;
 @property(nonatomic, assign) BOOL unKnowType;
 @property(nonatomic, strong) NSString *methodDeclareCode;
 @property(nonatomic, strong) NSString *methodFullPathName;
-
 @end
 
 @implementation WBOCMethod
@@ -163,12 +163,23 @@ static NSString * MachOName ;
 
 @implementation WBBladesScanManager (AutoHook)
 
++ (void)endAutoHookProcess {
+    OCClassInfos = nil;
+    allSturctDefines  = nil;
+    dumpVisitor = nil;
+    anonymousStructs = nil;
+    anonymousCount = 0;
+    MachOName = nil;
+    dynamicBindingInfos = nil;
+}
+
 + (NSArray *)getAllOCClasses:(NSString *)filePath  {
     //清空全局变量
     OCClassInfos = nil;
     allSturctDefines  = nil;
     dumpVisitor = nil;
     anonymousStructs = nil;
+    dynamicBindingInfos = nil;
     anonymousCount = 0;
     MachOName = [filePath lastPathComponent];//static library's name
     [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n%@%@", [WBBladesInterface shareInstance].autoHookInfos, @"分析文件---", MachOName];
@@ -176,8 +187,6 @@ static NSString * MachOName ;
     copyFile(filePath);//copy file
     [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n%@", [WBBladesInterface shareInstance].autoHookInfos, @"正在提取arm64架构"];
     thinFile(filePath);//arm64 file
-    [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n%@", [WBBladesInterface shareInstance].autoHookInfos, @"正在去除bitcode中间码..."];
-    stripBitCode(filePath);//strip file
     NSString *copyPath = [filePath stringByAppendingString:@"_copy"];
 
     NSData *fileData = [NSData dataWithContentsOfFile:copyPath];
@@ -238,7 +247,6 @@ static NSString * MachOName ;
     removeCopyFile(filePath);//remove file
     return nil;
 }
-
 + (void)readClsRefList:(section_64)classrefList  classes:(NSMutableArray *)OCClasses fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(classrefList.offset, 0);
     OCClassInfos = [NSMutableDictionary new];
@@ -249,6 +257,7 @@ static NSString * MachOName ;
     allSturctDefines = [@"" mutableCopy];
     NSMutableSet *allStructNames = [NSMutableSet set];
     NSMutableSet *partSystermStructNames = [self systermSturctNames];
+    NSString *preAutoHookInfos = [WBBladesInterface shareInstance].autoHookInfos;
     for (int i = 0; i < classrefList.size / 8; i++) {
            @autoreleasepool {
 //               WBOCClass *OCClass = [self getOCClassFromClassref:]
@@ -284,7 +293,16 @@ static NSString * MachOName ;
                        ocClass.superImport = @"Foundation";
                    }
                }else if (0 == ocClass.superisa){ //iOS13以下， 系统类的判断方式
-                   NSDictionary *dic = [WBBladesTool dynamicBindingInfoFromFile:fileData][@(classAddress + 8)];
+                   if (!dynamicBindingInfos) {
+                       dynamicBindingInfos = [WBBladesTool dynamicBindingInfoFromFile:fileData];
+                   }
+                   //+8是因为isa的下一个是superclass，详见class64的数据结构
+                   NSDictionary *dic = dynamicBindingInfos[@(classAddress + 8)];
+                   //+8是因为isa的下一个是superclass，详见class64的数据结构
+                   //如果动态库， bindingInfo的计算方式是从0开始， 但是如果是ipa里的可执行文件， bindingInfo的地址是从0x0000000100000000开始。但是Mach-O里的地址要从零计算
+                   if (!dic) { //如果是App的Mach-O，添加偏移
+                       dic = dynamicBindingInfos[@(0x0000000100000000 + classAddress + 8)];
+                   }
                    ocClass.superClassName = [dic[@"symbolName"] componentsSeparatedByString:@"$_"].lastObject;
                    ocClass.superImport = [dic[@"dylibName"] componentsSeparatedByString:@"/"].lastObject;
                    if (!ocClass.superClassName) {
@@ -293,7 +311,7 @@ static NSString * MachOName ;
                        NSRange metaClassRange = NSMakeRange(classAddress, 0);
                        data = [WBBladesTool readBytes:metaClassRange length:sizeof(long) fromFile:fileData];
                        [data getBytes:&superClassAddress length:sizeof(long)];
-                       NSDictionary *dic = [WBBladesTool dynamicBindingInfoFromFile:fileData][@(superClassAddress)];
+                       NSDictionary *dic = dynamicBindingInfos[@(superClassAddress)];
                        ocClass.superClassName = [dic[@"symbolName"] componentsSeparatedByString:@"$_"].lastObject;
                        ocClass.superImport = [dic[@"dylibName"] componentsSeparatedByString:@"/"].lastObject;
                    }
@@ -326,8 +344,8 @@ static NSString * MachOName ;
                char *classname = (char *)[fileData bytes] + classNameOffset;
                NSString * className = @(classname);
                ocClass.name = className;
-
-              [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n 开始提取：%@", [WBBladesInterface shareInstance].autoHookInfos, className];
+               //Mach-O过大， 会造成占用非常大的内存，这里只能缓存一部分内容
+               [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n当前正在提取Class：%@", preAutoHookInfos, className];
                if (targetClassInfo.instanceVariables > 0) {
                    [self scanIvars:[WBBladesTool getOffsetFromVmAddress:targetClassInfo.instanceVariables fileData:fileData] class:ocClass fileData:fileData];
                }
@@ -352,7 +370,9 @@ static NSString * MachOName ;
     NSSet <NSString *> *allImportSets =  [self allImportsForDynamicNames:dylibNames];
     NSArray *allImports = [allImportSets allObjects];
     NSString *importCotent = [allImports componentsJoinedByString:@"\n"];
+    preAutoHookInfos = [WBBladesInterface shareInstance].autoHookInfos;
     [OCClassInfos enumerateKeysAndObjectsUsingBlock:^(NSNumber * _Nonnull key, WBOCClass * _Nonnull obj, BOOL * _Nonnull stop) {
+        [WBBladesInterface shareInstance].autoHookInfos = [NSString stringWithFormat:@"%@\n正在生成Hook文件内容：%@", preAutoHookInfos, obj.name];
         NSMutableString *hContents = [@"" mutableCopy];
         NSMutableString *mContents = [@"" mutableCopy];
         if (obj.superImport) {
@@ -476,10 +496,6 @@ static NSString * MachOName ;
 
         NSString *fileHPath = [NSString stringWithFormat:@"%@/%@.h", fileDocument, obj.name];
         NSString *fileMPath = [NSString stringWithFormat:@"%@/%@.m", fileDocument, obj.name];
-        NSString *captainHookPath = [[NSBundle mainBundle] pathForResource:@"CaptainHook" ofType:@"txt"];
-        NSString *captainContent = [NSString stringWithContentsOfFile:captainHookPath encoding:NSUTF8StringEncoding error:nil];
-        NSString *fileCPath = [NSString stringWithFormat:@"%@/%@.h", fileDocument, @"CaptainHook"];
-        [captainContent writeToFile:fileCPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         [hContents writeToFile:fileHPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
         [mContents writeToFile:fileMPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
     }];
@@ -489,6 +505,10 @@ static NSString * MachOName ;
     }
     [importCotent writeToFile:fileIMPortPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 
+    NSString *captainHookPath = [[NSBundle mainBundle] pathForResource:@"CaptainHook" ofType:@"txt"];
+    NSString *captainContent = [NSString stringWithContentsOfFile:captainHookPath encoding:NSUTF8StringEncoding error:nil];
+    NSString *fileCPath = [NSString stringWithFormat:@"%@/%@.h", fileDocument, @"CaptainHook"];
+    [captainContent writeToFile:fileCPath atomically:YES encoding:NSUTF8StringEncoding error:nil];
 }
 
 + (void)scanIvars:(unsigned long long)ivarListOffset  class:(WBOCClass *)ocClass   fileData:(NSData*)fileData {
@@ -536,7 +556,7 @@ static NSString * MachOName ;
         if(ocProperty.type.typeName.name.length > 0 && (ocProperty.type.isNamedObject)) {
             [ocClass.importClasses addObject:ocProperty.type.typeName.name];
         }
-        if(![nameSets containsObject:name]) {
+        if(name && ![nameSets containsObject:name]) {
             [ocClass.instanceProperties addObject:ocProperty];
             [nameSets addObject:name];
         }
@@ -594,11 +614,9 @@ static NSString * MachOName ;
                     [ocClass.intanceMethods addObject:method];
                     method.isMeta = NO;
                 }
-                NSLog(@"遍历 -[%@ %@]",ocClass.name, methodName);
             }else {
                 [ocClass.classMethods addObject:method];
                 method.isMeta = YES;
-                NSLog(@"遍历 +[%@ %@]",ocClass.name, methodName);
             }
 
 //            free(buffer);
@@ -650,7 +668,9 @@ static NSString * MachOName ;
     NSMutableArray *diffs = [@[] mutableCopy];
     NSMutableSet *superVariableNames = [[NSMutableSet alloc] init];
     [superVariables enumerateObjectsUsingBlock:^(CDOCInstanceVariable *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [superVariableNames addObject:obj.name];
+        if (obj.name) {
+            [superVariableNames addObject:obj.name];
+        }
     }];
     [subVariables enumerateObjectsUsingBlock:^(CDOCInstanceVariable *  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *subName = obj.name;
@@ -774,6 +794,3 @@ static NSString * MachOName ;
 }
 
 @end
-
-
-//{?="manualMemoryWarning"B"dangerThreshold"Q"growingStep"Q"checkInterval"d"minNotifyInterval"d}

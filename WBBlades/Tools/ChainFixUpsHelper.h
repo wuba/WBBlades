@@ -2,8 +2,8 @@
 //  ChainFixUpsHelper.h
 //  WBBlades
 //
-//  Created by zhaozhi on 2022/8/4.
-//
+//  Created by wbblades on 2022/8/4.
+//  Copyright (C) 2005-present, 58.com.  All rights reserved.
 
 #import <Foundation/Foundation.h>
 

@@ -2,7 +2,7 @@
 //  WBBMScanBuglyLog.swift
 //  WBBladesCrash
 //
-//  Created by 朴惠姝 on 2021/5/26.
+//  Created by wbblades on 2021/5/26.
 //
 
 import Foundation

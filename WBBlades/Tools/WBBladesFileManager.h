@@ -2,8 +2,8 @@
 //  WBBladesFileManager.h
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/6/14.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/6/14.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
  * @return The arm64 architecture.
  */
 + (NSData *)readArm64FromFile:(NSString *)filePath;
+
++ (NSData *)readArm64DylibFromFile:(NSString *)filePath;
 
 /*
  * 将指定的偏移地址符号化

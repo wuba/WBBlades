@@ -2,7 +2,7 @@
 //  WBBladesCrashModel.swift
 //  WBBladesCrash
 //
-//  Created by 朴惠姝 on 2021/4/26.
+//  Created by wbblades on 2021/4/26.
 //
 
 import Foundation

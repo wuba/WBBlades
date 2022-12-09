@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView wantsLayer="YES" id="c22-O7-iKe" customClass="DiagnoseItemCellView" customModule="WBAppSize">
+            <rect key="frame" x="0.0" y="0.0" width="760" height="80"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xW9-Nc-RjN">
+                    <rect key="frame" x="8" y="9" width="734" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="预计iOS13以下的设备能优化70M下载大小" id="beO-lM-Yoz">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MSi-dk-Wht">
+                    <rect key="frame" x="10" y="30" width="40" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="EvD-Tg-3Ev"/>
+                        <constraint firstAttribute="height" constant="40" id="pWQ-RW-Wuq"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="as_icon_assets" id="GdA-iq-tlo"/>
+                </imageView>
+                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SE0-gP-Esq">
+                    <rect key="frame" x="63" y="42" width="524" height="16"/>
+                    <textFieldCell key="cell" lineBreakMode="clipping" title="__TEXT段迁移" id="Dap-Pp-5g0">
+                        <font key="font" usesAppearanceFont="YES"/>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hm5-rS-eRd">
+                    <rect key="frame" x="583" y="23" width="164" height="32"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="150" id="58r-wn-GDA"/>
+                        <constraint firstAttribute="height" constant="20" id="ZkN-8u-DOZ"/>
+                    </constraints>
+                    <buttonCell key="cell" type="push" title="治理" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ncw-Q3-BHl">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="handleOptimize:" target="c22-O7-iKe" id="4fH-mx-HLY"/>
+                    </connections>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="MSi-dk-Wht" firstAttribute="top" secondItem="c22-O7-iKe" secondAttribute="top" constant="10" id="6TX-XZ-xgw"/>
+                <constraint firstItem="Hm5-rS-eRd" firstAttribute="centerY" secondItem="c22-O7-iKe" secondAttribute="centerY" id="F1A-Mo-XUh"/>
+                <constraint firstAttribute="trailing" secondItem="xW9-Nc-RjN" secondAttribute="trailing" constant="20" id="O3g-Dv-O6N"/>
+                <constraint firstAttribute="trailing" secondItem="Hm5-rS-eRd" secondAttribute="trailing" constant="20" id="Qz7-iK-Iyc"/>
+                <constraint firstItem="SE0-gP-Esq" firstAttribute="leading" secondItem="MSi-dk-Wht" secondAttribute="trailing" constant="15" id="eza-4c-jIb"/>
+                <constraint firstItem="Hm5-rS-eRd" firstAttribute="leading" secondItem="SE0-gP-Esq" secondAttribute="trailing" constant="5" id="g27-wR-V2L"/>
+                <constraint firstItem="xW9-Nc-RjN" firstAttribute="leading" secondItem="MSi-dk-Wht" secondAttribute="leading" id="iHP-06-GZ8"/>
+                <constraint firstItem="xW9-Nc-RjN" firstAttribute="top" secondItem="MSi-dk-Wht" secondAttribute="bottom" constant="5" id="oVv-96-bT4"/>
+                <constraint firstItem="MSi-dk-Wht" firstAttribute="leading" secondItem="c22-O7-iKe" secondAttribute="leading" constant="10" id="qKK-0Y-6TW"/>
+                <constraint firstItem="SE0-gP-Esq" firstAttribute="centerY" secondItem="MSi-dk-Wht" secondAttribute="centerY" id="wp7-AC-u7L"/>
+            </constraints>
+            <connections>
+                <outlet property="handleBtn" destination="Hm5-rS-eRd" id="hMd-tc-fhT"/>
+                <outlet property="iconImageView" destination="MSi-dk-Wht" id="SDi-dT-oqA"/>
+                <outlet property="subTitleTextField" destination="xW9-Nc-RjN" id="20E-gw-EmC"/>
+                <outlet property="titleTextField" destination="SE0-gP-Esq" id="K6d-Uj-diA"/>
+            </connections>
+            <point key="canvasLocation" x="80" y="119"/>
+        </customView>
+        <userDefaultsController representsSharedInstance="YES" id="Wuz-yB-ZLK"/>
+    </objects>
+    <resources>
+        <image name="as_icon_assets" width="120" height="105"/>
+    </resources>
+</document>

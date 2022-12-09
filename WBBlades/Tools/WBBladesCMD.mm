@@ -2,8 +2,8 @@
 //  WBBladesCMD.m
 //  WBBlades
 //
-//  Created by 邓竹立 on 2019/12/25.
-//  Copyright © 2019 邓竹立. All rights reserved.
+//  Created by 皮拉夫大王 on 2019/12/25.
+//  Copyright © 2019 58.com. All rights reserved.
 //
 
 #import "WBBladesCMD.h"
@@ -40,6 +40,7 @@ NSString* createDeskTempDirectory() {
 }
 
 void rmAppIfIpa(NSString *filePath){
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     NSString *fileName = filePath.lastPathComponent;
     NSString *fileType = [fileName componentsSeparatedByString:@"."].lastObject;
     if ([fileType isEqualToString:@"ipa"]) {
@@ -53,7 +54,7 @@ void rmAppIfIpa(NSString *filePath){
 }
 
 NSString* getAppPathIfIpa(NSString *filePath){
-
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     rmAppIfIpa(filePath);
 
     NSString *fileName = filePath.lastPathComponent;
@@ -93,7 +94,7 @@ NSString* getAppPathIfIpa(NSString *filePath){
 }
 
 void stripBitCode(NSString *filePath) {
-
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     if (fileData.length < sizeof(uint32_t) ) {
         return;
@@ -104,10 +105,6 @@ void stripBitCode(NSString *filePath) {
     NSLog(@"正在去除bitcode中间码...");    // Remove bitcode information.
     NSString *bitcodeCmd = [NSString stringWithFormat:@"xcrun bitcode_strip -r %@_copy -o %@_copy",filePath,filePath];
     cmd(bitcodeCmd);
-
-//    NSLog(@"正在剥离符号表..."); // Strip symbol table.
-//    NSString *stripCmd = [NSString stringWithFormat:@"xcrun strip -x -S %@_copy",filePath];
-//    cmd(stripCmd);
 }
 
 void stripDysmSymbol(NSString *filePath) {
@@ -117,12 +114,14 @@ void stripDysmSymbol(NSString *filePath) {
 }
 
 void copyFile(NSString *filePath) {
+    // 替换目录中的空格，以免影响命令行执行
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     NSString *cpCmd = [NSString stringWithFormat:@"cp -f %@ %@_copy",filePath,filePath];
     cmd(cpCmd);
 }
 
 void thinFile(NSString *filePath) {
-
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     NSData *fileData = [NSData dataWithContentsOfFile:filePath];
     if (fileData.length < sizeof(uint32_t) ) {
         return;
@@ -134,15 +133,16 @@ void thinFile(NSString *filePath) {
 
     NSString *thinCmd = [NSString stringWithFormat:@"lipo -archs %@_copy",filePath];
     NSArray *archs = [[[NSString alloc] initWithData:cmd(thinCmd) encoding:NSUTF8StringEncoding] componentsSeparatedByString:@" "];
-    if (archs.count > 1) {
+    if (archs.count >= 1) {
         thinCmd = [NSString stringWithFormat:@"lipo %@_copy -thin arm64  -output %@_copy",filePath,filePath];
-        NSLog(@"正在提取arm64架构"); // Strip symbol table.
+        NSLog(@"正在提取arm64架构:%@",filePath); // Strip symbol table.
         cmd(thinCmd);
     }
 }
 
 void removeFile(NSString *filePath) {
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
         NSString *theDesktopPath = createDeskTempDirectory();
         NSString *rmCmd = [NSString stringWithFormat:@"mv -f %@ %@", filePath, theDesktopPath];
         cmd(rmCmd);
@@ -150,6 +150,7 @@ void removeFile(NSString *filePath) {
 }
 
 void removeCopyFile(NSString *filePath) {
+    filePath = [filePath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     if ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"%@_copy", filePath]]) {
         NSString *theDesktopPath = createDeskTempDirectory();
         NSString *rmCmd = [NSString stringWithFormat:@"mv -f %@_copy %@",filePath, theDesktopPath];
@@ -161,8 +162,17 @@ void removeCopyFile(NSString *filePath) {
  actool(apple command line tool)    --filter-for-device-model iPhone7,2（Specify the device） --filter-for-device-os-version 13.0（Specify the system）  --target-device iphone --minimum-deployment-target 9（Specify the minimum version） --platform iphoneos（Specify operation system type）  --compile /Users/a58/Desktop/BottomDlib/BottomDlib/  /Users/a58/Desktop/BottomDlib/BottomDlib/YXUIBase.xcassets （Specify the path where the compiled files are located. If there are multiple paths, concatenate them with spaces.）
  */
 void compileXcassets(NSString *path) {
+    path = [path stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
     NSString *complieCmd = [NSString stringWithFormat:@"actool   --compress-pngs --filter-for-device-model iPhone9,2 --filter-for-device-os-version 13.0  --target-device iphone --minimum-deployment-target 9 --platform iphoneos --compile %@ %@", [path stringByDeletingLastPathComponent],path];
     cmd(complieCmd);
+}
+
+// 对已有的Assets.car文件进行3X分片
+void appSlicing3XAssetsCar(NSString *path, NSString *thinCarPath) {
+    path = [path stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    thinCarPath = [thinCarPath stringByReplacingOccurrencesOfString:@" " withString:@"\\ "];
+    NSString *thinCmd = [NSString stringWithFormat:@"assetutil --idiom phone --subtype 570 --scale 3 --display-gamut srgb --graphicsclass MTL2,2 --graphicsclassfallbacks MTL1,2:GLES2,0 --memory 1 --hostedidioms car,watch %@ -o %@", path, thinCarPath];
+    cmd(thinCmd);
 }
 
 #pragma mark Tools

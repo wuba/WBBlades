@@ -18,6 +18,7 @@ class BladesAutoHookViewController: NSViewController {
     @IBOutlet var librarySizeTextView: NSTextView!
     @IBOutlet weak var resultTipsView: NSTextField!
     @IBAction func goBack(_ sender: Any) {
+        WBBladesInterface.endAutoHookProcess()
         self.goBack()
     }
 

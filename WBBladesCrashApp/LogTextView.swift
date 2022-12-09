@@ -2,7 +2,7 @@
 //  LogTextView.swift
 //  WBBladesCrashProject
 //
-//  Created by 朴惠姝 on 2021/5/14.
+//  Created by wbblades on 2021/5/14.
 //
 
 import Cocoa
