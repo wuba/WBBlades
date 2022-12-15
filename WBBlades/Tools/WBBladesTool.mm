@@ -45,6 +45,7 @@
 }
 
 + (NSString *)readString:(NSRange &)range fixlen:(NSUInteger)len fromFile:(NSData *)fileData {
+    range = NSMakeRange(NSMaxRange(range), len);
     NSString *str = nil;
     if (range.location < fileData.length) {
         str = @((char *)[fileData bytes] + range.location);
