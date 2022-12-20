@@ -671,7 +671,9 @@ static section_64 classList = {0};
 //            if (classMethodListOffset > 0 && classMethodListOffset < max) {
 //                allSize = allSize + [self statisticsMethodImp:classMethodListOffset vm:vm fileData:fileData];
 //            }
-            sizeDic[className] = @(allSize/1000.0);
+            if (className) {
+                sizeDic[className] = @(allSize/1000.0);
+            }
             
             //enumerate member variables
             unsigned long long varListOffset = [WBBladesTool getOffsetFromVmAddress:targetClassInfo.instanceVariables fileData:fileData];
