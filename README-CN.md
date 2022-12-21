@@ -92,7 +92,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
 
 ## 相关技术文章
-
+- [58同城iOS包大小治理工具解密](https://juejin.cn/post/7176441132447399993)
 - [58 同城 iOS 客户端组件体积分析与统计实践](https://blog.csdn.net/csdnnews/article/details/100354658/)
 - [基于mach-o+反汇编的无用类检测](https://www.jianshu.com/p/c41ad330e81c)
 - [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
