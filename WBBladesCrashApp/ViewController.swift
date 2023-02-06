@@ -290,24 +290,18 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             curLogModel.extendParams["buglyStartAddress"] = inputStartAddressField.stringValue
         }
 
-        if inputUUIDField.stringValue.count > 0 {
-            curLogModel.processUUID = inputUUIDField.stringValue
-            var uuidCaches: Array<String> = UserDefaults.standard.object(forKey: kInputUUIDCacheKey) as? Array<String> ?? []
-            if !uuidCaches.contains(curLogModel.processUUID) {
-                uuidCaches.append(curLogModel.processUUID)
-            }
-            UserDefaults.standard.setValue(uuidCaches, forKey: kInputUUIDCacheKey)
-            UserDefaults.standard.synchronize()
-        }
+//        if inputUUIDField.stringValue.count > 0 {
+//            curLogModel.processUUID = inputUUIDField.stringValue
+//            var uuidCaches: Array<String> = UserDefaults.standard.object(forKey: kInputUUIDCacheKey) as? Array<String> ?? []
+//            if !uuidCaches.contains(curLogModel.processUUID) {
+//                uuidCaches.append(curLogModel.processUUID)
+//            }
+//            UserDefaults.standard.setValue(uuidCaches, forKey: kInputUUIDCacheKey)
+//            UserDefaults.standard.synchronize()
+//        }
 
         self.showInputProcess(show: false)
-        if curLogModel.processUUID.count > 0 {
-            startBtn.title = TextDictionary.valueForKey(key: "startButtonSelected")
-            selected = true
-            self.startAnalyzing()
-        }else{
-            self.showSymbolTableView(show: true)
-        }
+        self.startAnalyzing()
     }
 
     @IBAction func inputProcessHelpClicked(_ sender: Any) {
