@@ -95,6 +95,9 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 - [Open Source｜WBBlades：APP Analysis Tool Set Based on Mach-O File Analysis](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
 - [The Storage Difference between Swift and ObjC from the Perspective of Mach-O](https://www.jianshu.com/p/ef0ff6ee6bc6)
 - [New Approach to Swift Hook - Virtual Method Table](https://mp.weixin.qq.com/s/mjwOVdPZUlEMgLUNdT6o9g)
+- [Important Updates - Designed to Improve Performance](https://mp.weixin.qq.com/s/tXxhnDKerobyxoWuEBGjNQ)
+- [Point to Point Analyze and Governance of Crashes](https://mp.weixin.qq.com/s/tGvE-2flzhm4skkrfbUIBA)
+
 
 ## Thanks
 

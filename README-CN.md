@@ -17,6 +17,7 @@ WBBlades是基于`Mach-O`文件解析的工具集，包括App一键体检（支�
 
 新版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
+
 ## 安装
 
 ```
@@ -98,6 +99,9 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 - [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
 - [从Mach-O角度谈谈Swift和OC的存储差异](https://www.jianshu.com/p/ef0ff6ee6bc6)
 - [Swift Hook新思路--虚函数表](https://mp.weixin.qq.com/s/mjwOVdPZUlEMgLUNdT6o9g)
+- [开源｜WBBlades重要节点更新-专为提效而设计](https://mp.weixin.qq.com/s/tXxhnDKerobyxoWuEBGjNQ)
+- [iOS不必现崩溃的点对点解析以及治理](https://mp.weixin.qq.com/s/tGvE-2flzhm4skkrfbUIBA)
+
 
 ## 致谢
 
