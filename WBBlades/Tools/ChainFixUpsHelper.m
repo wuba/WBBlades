@@ -295,7 +295,7 @@ static ChainFixUpsHelper *shareInstance = nil;
         //读取外部使用的symbolPool 的字符串
         uint8_t *symbolName = (uint8_t *)malloc(150);
         [fileData getBytes:symbolName range:NSMakeRange(linkeditFileOffset+fixupsHeader.symbols_offset+nameOffset, 150)];
-        if (lib_index<=self.dylibNames.count){
+        if (lib_index<=self.dylibNames.count && lib_index > 0){
             WBChainFixupImportSymbol *importSymbol = [[WBChainFixupImportSymbol alloc]init];
             importSymbol.dylibName = self.dylibNames[lib_index-1];
             importSymbol.importSymbolName =  [NSString stringWithFormat:@"%s",symbolName];

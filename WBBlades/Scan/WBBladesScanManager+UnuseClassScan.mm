@@ -454,6 +454,10 @@ static section_64 classList = {0};
 }
 
 + (NSArray *)scanSELCallerWithBegin:(unsigned long long)begin end:(unsigned long long)end {
+    if(0 == s_cs_insn_address_array.count) {
+        return nil;
+    }
+
     if (begin>=end) {
         return nil;
     }
