@@ -1693,6 +1693,9 @@ symRanObj：WBBladesSymbolRange类型模型。
 
         SwiftKind kindType = [WBBladesTool getSwiftType:swiftType];
         if (kindType == SwiftKindClass) {
+            if (typeOffset > fileData.length) {
+                continue;
+            }
 //            // 先查看类名是否在未使用类中，如果在则进行统计
             NSString *className = [WBBladesTool getSwiftTypeNameWithSwiftType:swiftType Offset:typeOffset vm:linkBase fileData:fileData];
             if (![classList containsObject:className]) {

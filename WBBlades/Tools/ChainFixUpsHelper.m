@@ -246,6 +246,7 @@ static ChainFixUpsHelper *shareInstance = nil;
     if (!self.isChainFixups) {
         return self;
     }
+    linkeditFileOffset = chainedFixups.dataoff -  linkeditFileOffset;
     struct dyld_chained_fixups_header fixupsHeader;
     
     [self.fileData getBytes:&fixupsHeader range:NSMakeRange(linkeditFileOffset, sizeof(fixupsHeader))];
@@ -293,17 +294,16 @@ static ChainFixUpsHelper *shareInstance = nil;
             lib_index = libOrdinal;
         }
         //读取外部使用的symbolPool 的字符串
-        uint8_t *symbolName = (uint8_t *)malloc(150);
-        [fileData getBytes:symbolName range:NSMakeRange(linkeditFileOffset+fixupsHeader.symbols_offset+nameOffset, 150)];
+        char *symbolName = (char *)[fileData bytes] + linkeditFileOffset+fixupsHeader.symbols_offset+nameOffset;
         if (lib_index<=self.dylibNames.count && lib_index > 0){
             WBChainFixupImportSymbol *importSymbol = [[WBChainFixupImportSymbol alloc]init];
             importSymbol.dylibName = self.dylibNames[lib_index-1];
-            importSymbol.importSymbolName =  [NSString stringWithFormat:@"%s",symbolName];
+            importSymbol.importSymbolName =  @(symbolName);
             [self.importSymbolPool addObject:importSymbol];
         }else{
             WBChainFixupImportSymbol *importSymbol = [[WBChainFixupImportSymbol alloc]init];
             importSymbol.dylibName = @"/UIKit";
-            importSymbol.importSymbolName =  [NSString stringWithFormat:@"%s",symbolName];
+            importSymbol.importSymbolName =  @(symbolName);
             [self.importSymbolPool addObject:importSymbol];
         }
     }
