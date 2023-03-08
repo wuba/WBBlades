@@ -111,7 +111,7 @@
 
 + (NSData *)readBytes:(NSRange &)range length:(NSUInteger)length fromFile:(NSData *)fileData {
     range = NSMakeRange(NSMaxRange(range), length);
-    if(NSMaxRange(range) >= fileData.length) {
+    if(range.length >= fileData.length) {
         return nil;
     }
     uint8_t *buffer = (uint8_t *)malloc(length);
