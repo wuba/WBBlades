@@ -94,7 +94,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 对WBBlades感兴趣的小伙伴，可以加入WBBlades开发交流群，一起探讨技术问题，请先添加微信号"zqlong320"或者扫描下面的二维码为好友，备注WBBlades后，我们会邀请进群。
 
-<img src="https://wos.58cdn.com.cn/IjGfEdCbIlr/ishare/pic_597b59U5Xd35d159XdU77bU5Wb59d37b.png" style="zoom:30%;" />
+<img src="imgs/wechat_qrcode.jpg" alt="wechat_qrcode" style="zoom:40%;" />
 
 ## 相关技术文章
 - [58同城iOS包大小治理工具解密](https://juejin.cn/post/7176441132447399993)
