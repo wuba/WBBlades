@@ -82,7 +82,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 ### 无符号表日志符号化工具
 
-在丢失dSYM文件的情况下，尝试通过`blades -symbol`恢复日志。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用blades进行符号化**。在工具使用前应先注意几点：
+在丢失dSYM文件的情况下，尝试通过`blades -symbol`恢复日志。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用WBBlades进行符号化**。在工具使用前应先注意几点：
 
 - 如果你的app是debug包或者没有剥离符号表的包，那么可以通过`dsymutil app -o xx.dSYM `来提取符号表。然后用符号表进行日志符号化。
 - 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化。
@@ -91,6 +91,10 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 ## 如何贡献&反馈问题
 
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
+
+对WBBlades感兴趣的小伙伴，可以加入WBBlades开发交流群，一起探讨技术问题，请先添加微信号"zqlong320"或者扫描下面的二维码为好友，备注WBBlades后，我们会邀请进群。
+
+<img src="https://wos.58cdn.com.cn/IjGfEdCbIlr/ishare/pic_597b59U5Xd35d159XdU77bU5Wb59d37b.png" style="zoom:30%;" />
 
 ## 相关技术文章
 - [58同城iOS包大小治理工具解密](https://juejin.cn/post/7176441132447399993)

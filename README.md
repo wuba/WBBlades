@@ -88,6 +88,10 @@ In the case of losing the dSYM file, try to restore the log via `blades -symbol`
 
 We sincerely hope that developers can provide valuable comments and suggestions, and developers can provide feedback on suggestions and problems by submitting PR or Issue.
 
+If you are interested in WBBlades, you can join the WBBlades development group and discuss technical issues together. Please add the wechat account "zqlong320" or scan the QR code below as your friend and then we will invite you to join the group.
+
+<img src="https://wos.58cdn.com.cn/IjGfEdCbIlr/ishare/pic_597b59U5Xd35d159XdU77bU5Wb59d37b.png" style="zoom:30%;" />
+
 ## Related Technical Articles
 - [58tongcheng Packet Size Management Tool Decryption](https://juejin.cn/post/7176441132447399993)
 - [Important Updates - Designed to Improve Performance](https://mp.weixin.qq.com/s/tXxhnDKerobyxoWuEBGjNQ)
@@ -111,5 +115,4 @@ GitHub: [https://github.com/alexrozanski/PXListView](https://github.com/alexroza
 GitHub: [https://github.com/steventroughtonsmith/cartool](https://github.com/steventroughtonsmith/cartool "cartool")
 
 DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF") 
-
 

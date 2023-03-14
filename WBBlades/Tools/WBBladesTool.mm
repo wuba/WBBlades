@@ -158,8 +158,12 @@
     //        cs_option(cs_handle, CS_OPT_DETAIL, CS_OPT_ON);
     cs_option(cs_handle, CS_OPT_SKIPDATA, CS_OPT_ON);
     
-    unsigned long long ins_count = size / 4;
-    unsigned long long step = ins_count / 256;
+    //总的指令数
+    unsigned long long total_count = size / 4;
+    //每次处理的指令数
+    unsigned long long each_step_count = 256;
+    // 需要循环step次去处理
+    unsigned long long step = total_count / each_step_count;
     
 //    static cs_insn* tmp[256];
 //    static size_t tmp_count[256];
@@ -167,19 +171,20 @@
     NSMutableDictionary * tmpDict  = [NSMutableDictionary dictionary];
     dispatch_apply(MIN(step + 1, 257), dispatch_get_global_queue(0, 0), ^(size_t index) {
         cs_insn *cs_insn = NULL;
-        char *ot_sect = (char *)[fileData bytes] + begin + index * step * 4;
-        uint64_t ot_addr = begin + index * step * 4;
+        char *ot_sect = (char *)[fileData bytes] + begin + index * each_step_count * 4;
+        uint64_t ot_addr = begin + index * each_step_count * 4;
         unsigned long long ins_size  = 0;
-        if ((index + 1) * step * 4 <= size && step > 0) {
-            ins_size = step * 4;
-        }else {
-            ins_size = (size - index  * step * 4);
+        if ((index + 1) * each_step_count * 4 <= size && step > 0) {
+            ins_size = each_step_count * 4;
+        }
+        else {
+            ins_size = (size - index * each_step_count * 4);// 最后那次循环可能指令数达不到each_step_count
         }
 //        (index < 255)?step*4:(size - step * 255 * 4);
         // Disassemble
         size_t disasm_count = cs_disasm(cs_handle, (const uint8_t *)ot_sect, ins_size, ot_addr, 0, &cs_insn);
         
-        NSUInteger startIndex = index * step;
+        NSUInteger startIndex = index * each_step_count;
         NSMutableArray * referenceInCode = [NSMutableArray array];
         for (NSUInteger i=0; i<disasm_count; i++) {
             @autoreleasepool {
@@ -233,19 +238,23 @@
             NSLog(@"cs_disasm error");
         }
     });
-    // tmpDict.allKeys中的值并没有从小到大排序，这里要对key排序，因为有可能某个index下的referenceInCode为空，导致key不是连续的整数，而是一个离散的整数数组
-    NSArray *keys = [tmpDict.allKeys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
-        if ([obj1 integerValue] > [obj2 integerValue]) {
-            return NSOrderedDescending;
-        }else{
-            return NSOrderedAscending;
-        }
-    }];
-    for (NSString *key in keys) {
+    // 将每次循环得到的数组整合起来
+    for (NSString *key in tmpDict.allKeys) {
         NSArray *sub_address = tmpDict[key];
         [addressReferenceInCode addObjectsFromArray:sub_address];
     }
-    return addressReferenceInCode;
+    // “bl #0x77bc:50”，对addressReferenceInCode中的指令按所在下标大小进行排序
+    NSArray *assemResult = [addressReferenceInCode sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+        NSArray *arr1 = [(NSString *)obj1 componentsSeparatedByString:@":"];
+        NSArray *arr2 = [(NSString *)obj2 componentsSeparatedByString:@":"];
+        if ([arr1[1] integerValue] > [arr2[1] integerValue]) {
+            return NSOrderedDescending;
+        }
+        else {
+            return NSOrderedAscending;
+        }
+    }];
+    return assemResult;
 }
 
 + (unsigned long long )getSegmentWithIndex:(int)index fromFile:(NSData *)fileData{
