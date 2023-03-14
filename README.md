@@ -89,7 +89,7 @@ We sincerely hope that developers can provide valuable comments and suggestions,
 
 If you are interested in WBBlades, you can join the WBBlades development group and discuss technical issues together. Please add the wechat account "zqlong320" or scan the QR code below as your friend and then we will invite you to join the group.
 
-<img src="imgs/wechat_qrcode.jpg" alt="wechat_qrcode" style="zoom:40%;" />
+![wechat_qrcode.png](imgs/wechat_qrcode.png)
 
 ## Related Technical Articles
 - [58tongcheng Packet Size Management Tool Decryption](https://juejin.cn/post/7176441132447399993)
