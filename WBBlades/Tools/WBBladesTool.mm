@@ -160,16 +160,36 @@
     
     //总的指令数
     unsigned long long total_count = size / 4;
-    //每次处理的指令数
-    unsigned long long each_step_count = 256;
-    // 需要循环step次去处理
-    unsigned long long step = total_count / each_step_count;
+    // 最大循环次数，实际不能超过这个数+1
+    unsigned long long MaxStep = 256;
+    // 每次处理指令最大数，实际可能超过这个数
+    unsigned long long MaxEachCount = 256;
+    // 实际每次处理的指令数
+    unsigned long long each_step_count = 0;
+    // 实际需要循环step次去处理
+    unsigned long long step = 0;
+    if ((total_count / MaxEachCount) > MaxStep) {
+        each_step_count = total_count / MaxStep;
+        step = MaxStep;
+        // 如果不能整除，则再加一次循环，以免末尾的一些指令遗漏
+        if ((total_count % MaxEachCount) > 0) {
+            step++;
+        }
+    }
+    else {
+        each_step_count = MaxEachCount;
+        step = total_count / MaxEachCount;
+        // 如果不能整除，则再加一次循环，以免末尾的一些指令遗漏
+        if ((total_count % MaxEachCount) > 0) {
+            step++;
+        }
+    }
     
 //    static cs_insn* tmp[256];
 //    static size_t tmp_count[256];
     
     NSMutableDictionary * tmpDict  = [NSMutableDictionary dictionary];
-    dispatch_apply(MIN(step + 1, 257), dispatch_get_global_queue(0, 0), ^(size_t index) {
+    dispatch_apply(step, dispatch_get_global_queue(0, 0), ^(size_t index) {
         cs_insn *cs_insn = NULL;
         char *ot_sect = (char *)[fileData bytes] + begin + index * each_step_count * 4;
         uint64_t ot_addr = begin + index * each_step_count * 4;
