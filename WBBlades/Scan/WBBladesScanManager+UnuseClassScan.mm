@@ -283,7 +283,7 @@ static section_64 classList = {0};
         }
         else if ([obj containsString:@"."]) {
             NSArray *nameArr = [obj componentsSeparatedByString:@"."];
-            if (nameArr.count > 1) {
+            if (nameArr.count == 2) {
                 swiftClsDic[nameArr[1]] = [NSString stringWithFormat:@"%@.%@", nameArr[0], nameArr[1]];
             }
         }
@@ -781,7 +781,12 @@ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
 //                   free(buffer);
                    NSString *className = @((char *)[fileData bytes]  + classNameOffset);
 
-                   if (className) [classrefSet addObject:className];
+                   if (className) {
+                       if ([className hasPrefix:@"_TtC"]) {
+                           className = [WBBladesTool getDemangleName:className];
+                       }
+                       [classrefSet addObject:className];
+                   }
                }
            }
        }
