@@ -28,7 +28,7 @@ Target selects "WBBladesCrashApp".
 
 Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
 
-> Detailed introduction to visualization tool: [Detailed introduction to visualization tool](https://juejin.cn/post/7176441132447399993)
+> Detailed introduction to visualization tool: [Detailed introduction to visualization tool](https://mp.weixin.qq.com/s/QFtlp0sG4eJRZ7NrDMAopw)
 ### Usage for Mac Command Line
 Target selects "WBBlades"，Compile and build to generate command line tools
 Copy the generated product "blades" to /usr/local/bin，as follows：
@@ -152,7 +152,7 @@ target选择：WBBladesCrashApp
 
 点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
 
-> 可视化工具详细介绍: [可视化工具详细介绍](https://juejin.cn/post/7176441132447399993)
+> 可视化工具详细介绍: [可视化工具详细介绍](https://mp.weixin.qq.com/s/QFtlp0sG4eJRZ7NrDMAopw)
 
 ### 命令行工具blades用法
 
