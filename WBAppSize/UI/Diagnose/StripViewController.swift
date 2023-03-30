@@ -9,6 +9,8 @@ import Cocoa
 
 class StripViewController: NSViewController {
 
+    var frameworksDir:String?
+
     @IBOutlet var descText: NSTextField!
     @IBOutlet var checkBtn: NSButton!
     
@@ -21,4 +23,7 @@ class StripViewController: NSViewController {
         // Do view setup here.
     }
     
+    @IBAction func checkFrameworks(_ sender: Any) {
+        NSWorkspace.shared.selectFile(self.frameworksDir, inFileViewerRootedAtPath:"")
+    }
 }

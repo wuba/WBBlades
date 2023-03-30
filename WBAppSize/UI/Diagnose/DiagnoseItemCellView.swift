@@ -11,7 +11,7 @@ protocol DiagnoseCellDelegate: NSObject {
     func textMigrateConfig()
     func ltoConfig()
     func locationDirConfig(filePath: String);
-    func stripConfig()
+    func stripConfig(filePath: String)
 
 }
 
@@ -45,7 +45,7 @@ class DiagnoseItemCellView: NSTableCellView, NibLoadable, DiagCellProtocol {
         case .LTO:
             self.delegate?.ltoConfig()
         case .StripBinary:
-            self.delegate?.stripConfig()
+            self.delegate?.stripConfig(filePath: model.detailData as! String)
         default: break
             
         }

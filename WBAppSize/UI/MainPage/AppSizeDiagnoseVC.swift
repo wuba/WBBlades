@@ -179,8 +179,9 @@ public class AppSizeDiagnoseVC: NSViewController, ItemSizeViewDelegate,DiagnoseC
         NSWorkspace.shared.selectFile(filePath, inFileViewerRootedAtPath:"")
     }
 
-    func stripConfig() {
+    func stripConfig(filePath: String) {
         let tmwind = StripWindowController()
+        tmwind.frameworkDirSetting(fileDir: filePath)
         tmwind.showWindow(nil)
     }
     

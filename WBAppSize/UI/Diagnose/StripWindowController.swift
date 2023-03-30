@@ -33,6 +33,9 @@ class StripWindowController: NSWindowController {
         return viewController
     }()
     
+    func frameworkDirSetting(fileDir:String) {
+        viewController.frameworksDir = fileDir
+    }
     override init(window: NSWindow?) {
         super.init(window: window)
         self.window = self.myWindow
@@ -43,5 +46,6 @@ class StripWindowController: NSWindowController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
 
 }
