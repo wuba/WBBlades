@@ -403,7 +403,7 @@ static section_64 classList = {0};
  */
 + (NSInteger)addressIndexForEndCmdIndex:(NSUInteger)endCmdIndex withBeginIndx:(NSUInteger)beginInd{
     NSInteger endIndex = -1;
-    for (NSUInteger curIndx = beginInd; curIndx < s_cs_insn_address_array.count-1; curIndx++) {
+    for (NSUInteger curIndx = beginInd; curIndx < s_cs_insn_address_array.count; curIndx++) {
         NSString * addressValue = s_cs_insn_address_array[curIndx];
         NSString * addressIndexStr = [[addressValue componentsSeparatedByString:@":"] lastObject];
         NSUInteger addressIndex = [addressIndexStr integerValue];
