@@ -30,6 +30,17 @@
 			<key>License</key>
 			<string>license</string>
 			<key>Title</key>
+			<string>WBAppSize</string>
+			<key>Type</key>
+			<string>PSGroupSpecifier</string>
+		</dict>
+		<dict>
+			<key>FooterText</key>
+			<string>
+</string>
+			<key>License</key>
+			<string>license</string>
+			<key>Title</key>
 			<string>WBBlades</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>

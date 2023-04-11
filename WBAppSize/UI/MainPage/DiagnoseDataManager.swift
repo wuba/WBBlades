@@ -7,7 +7,8 @@
 
 import Cocoa
 
-class DiagnoseDataManager: NSObject {
+@objcMembers
+public class DiagnoseDataManager: NSObject {
     
     var sizeItemList : [SizeProfileModel]?
     var dataResult : ASMainBundle?
@@ -32,7 +33,7 @@ class DiagnoseDataManager: NSObject {
             self.sizeItemList = self.computeAppSizeProfile()
             progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep3"))
             // 无用类检测
-            self.obtainUnusedClasses(appPath: appPath)
+            _ = self.obtainUnusedClasses(appPath: appPath)
 //            self.totalOptimSize = self.totalOptimSize + self.obtainUnusedClasses(appPath: appPath)
             progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep4"))
             // 获取strip结果
@@ -61,6 +62,46 @@ class DiagnoseDataManager: NSObject {
             }
         }
     }
+    
+    
+    public func diagnoseAppInCLI(withApp appPath: String, andProgressBlock progressBlock:@escaping((_ hint:String) -> Void), andFinishBlock completeBlock:@escaping(() -> Void) ) {
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep1"))
+        let binaryPath = self.mainBinaryFilePath(appPath: appPath)
+        MachOCheck.preHandleMainBinary(binaryPath)
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep2"))
+        self.dataResult = ASFileManager.mainBundle(withAppPath: appPath)
+        self.diagnoseResult.removeAll()
+        // 获取诊断结果
+        self.sizeItemList = self.computeAppSizeProfile()
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep3"))
+        // 无用类检测
+        _  = self.obtainUnusedClasses(appPath: appPath)
+        //            self.totalOptimSize = self.totalOptimSize + self.obtainUnusedClasses(appPath: appPath)
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep4"))
+        // 获取strip结果
+        self.totalOptimSize = self.totalOptimSize + self.obtainStripResult(appPath: appPath)
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep5"))
+        // 获取段迁移诊断结果
+        self.totalOptimSize = self.totalOptimSize + self.obtainSegmentMigrateResult(appPath: appPath)
+        // 获取LTO诊断结果
+        self.totalOptimSize = self.totalOptimSize + self.obtainLTOResult()
+        progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep6"))
+        ASFileManager.unzipCarInInCurrentThread(at: self.dataResult) {
+            // Asset Catalog图片检测
+            progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep7"))
+            self.totalOptimSize = self.totalOptimSize + self.obtainPngOutofAssets()
+            progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep8"))
+            // 获取无用资源
+            self.totalOptimSize = self.totalOptimSize + self.obtainUnusedResources(bundleData: self.dataResult)
+            //重复资源检测结果
+            progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep9"))
+            self.totalOptimSize = self.totalOptimSize + self.obtainDuplicateRes()
+            progressBlock(ASTextDictionary.valueForKey(key: "diagnoseStep10"))
+            // 回调
+            completeBlock()
+        }
+    }
+    
     /**
      计算APP各模块大小
      */

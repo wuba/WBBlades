@@ -98,7 +98,6 @@ EOM
 }
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist"
-  install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
   install_resource "${PODS_ROOT}/../WBAppSize/ResourceCheck/Models/Files/custom_using_name.plist"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/Diagnose/ChildDiagnoseCellView.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/Diagnose/DiagnoseItemCellView.xib"
@@ -117,10 +116,10 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListMachOCell.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListOtherCell.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeShow/ItemSizeView.xib"
+  install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist"
-  install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
   install_resource "${PODS_ROOT}/../WBAppSize/ResourceCheck/Models/Files/custom_using_name.plist"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/Diagnose/ChildDiagnoseCellView.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/Diagnose/DiagnoseItemCellView.xib"
@@ -139,6 +138,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListMachOCell.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListOtherCell.xib"
   install_resource "${PODS_ROOT}/../WBAppSize/UI/SizeShow/ItemSizeView.xib"
+  install_resource "${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil"
 fi
 
 mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
