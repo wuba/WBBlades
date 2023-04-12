@@ -506,12 +506,38 @@ static ASMainBundle * _mainBundle = nil;
 #pragma mark - ToolMethods
 + (void)unzipCarAtMainBundle:(ASMainBundle *)mainBundle callBack:(void(^)(void))callBack{
     if ([NSThread isMainThread]) {
-        [self _unzipCarAtMainBundle:mainBundle callBack:callBack];
+        [self unzipCarInInCurrentThreadAtMainBundle:mainBundle callBack:callBack];
     }else{
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self _unzipCarAtMainBundle:mainBundle callBack:callBack];
+            [self unzipCarInInCurrentThreadAtMainBundle:mainBundle callBack:callBack];
         });
     }
+}
+
++ (void)unzipCarInInCurrentThreadAtMainBundle:(ASMainBundle *)mainBundle callBack:(void(^)(void))callBack{
+    __block NSUInteger count=0;
+    NSArray * carFiles = [mainBundle.all.carFiles copy];
+    if (carFiles.count==0) {
+        if (callBack) {
+            callBack();
+        }
+        return;
+    }
+    [carFiles enumerateObjectsUsingBlock:^(ASCarFile * carFile, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![carFile isKindOfClass:[ASCarFile class]]) {
+            count++;
+            return;
+        }
+        [carFile unzipCarFileInCurrentThread:^{
+            count++;
+            if (count == carFiles.count) {
+                [mainBundle recountSize];
+                if (callBack) {
+                    callBack();
+                }
+            }
+        }];
+    }];
 }
 
 + (void)_unzipCarAtMainBundle:(ASMainBundle *)mainBundle callBack:(void(^)(void))callBack{
@@ -539,5 +565,7 @@ static ASMainBundle * _mainBundle = nil;
         }];
     }];
 }
+
+
 
 @end

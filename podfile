@@ -5,7 +5,7 @@ target "WBBlades" do
    pod 'WBBladesCrash', :path => './WBBladesCrash'
    pod 'ArtilleryOfItaly', :path => './ArtilleryOfItaly'
    pod 'WBBlades', :path => './WBBlades'
-
+   pod 'WBAppSize', :path => './WBAppSize'
 end
 
 

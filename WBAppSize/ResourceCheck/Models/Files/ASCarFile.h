@@ -22,5 +22,5 @@ extern NSString * kASCarFileUpdateTypeImages;
 #pragma mark - DataUpdate
 
 - (void)unzipCarFile:(ASCarFileBlock)callBack;
-
+- (void)unzipCarFileInCurrentThread:(ASCarFileBlock)callBack;
 @end

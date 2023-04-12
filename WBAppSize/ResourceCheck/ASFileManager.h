@@ -63,6 +63,12 @@ typedef void(^ASDownloadProgress)(NSInteger receivedSize, NSInteger expectedSize
  */
 + (void)unzipCarAtMainBundle:(ASMainBundle *)mainBundle callBack:(void(^)(void))callBack;
 
+/**
+ 在当前线程解压出mainbudle内的.car图片资源文件
+ 参数1：mainBundle  需要检测的目标ASMainBundle实例对象
+ */
++ (void)unzipCarInInCurrentThreadAtMainBundle:(ASMainBundle *)mainBundle callBack:(void(^)(void))callBack;
+
 
 #pragma mark - Dynamic File Info Model
 

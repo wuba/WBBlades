@@ -1,6 +1,5 @@
 ${PODS_ROOT}/Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp-resources.sh
 ${PODS_ROOT}/../ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly/Info.plist
-${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil
 ${PODS_ROOT}/../WBAppSize/ResourceCheck/Models/Files/custom_using_name.plist
 ${PODS_ROOT}/../WBAppSize/UI/Diagnose/ChildDiagnoseCellView.xib
 ${PODS_ROOT}/../WBAppSize/UI/Diagnose/DiagnoseItemCellView.xib
@@ -19,3 +18,4 @@ ${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListImageC
 ${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListMachOCell.xib
 ${PODS_ROOT}/../WBAppSize/UI/SizeDetail/ShowList/Cells/xibs/ASShowFileListOtherCell.xib
 ${PODS_ROOT}/../WBAppSize/UI/SizeShow/ItemSizeView.xib
+${PODS_ROOT}/../WBBladesCrash/WBBladesCrash/Resource/dsymutil
