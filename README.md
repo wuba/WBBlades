@@ -34,6 +34,12 @@ Target selects "WBBlades"，Compile and build to generate command line tools
 Copy the generated product "blades" to /usr/local/bin，as follows：
 sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
+- One-click detection
+
+  `$ blades -diagnose xxx.app`
+
+  > One-click detection of useless classes, useless resources, and duplicate resources, and so on.
+
 
 - Unused Code Detection ObjC & Swift
 
@@ -159,6 +165,12 @@ target选择：WBBladesCrashApp
 target选择：WBBlades，编译运行，生成命令行工具
 将生成的产物blades 拷贝至 /usr/local/bin 下，具体操作如：
 sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
+
+- 一键诊断
+
+  `$ blades -diagnose xxx.app `
+
+  > 一键检测无用类、无用资源、重复资源等
 
 - 无用代码检测 `OC` & `Swift`
 
