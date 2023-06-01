@@ -26,7 +26,9 @@ $ pod install
 ### Usage of Visualization Tool
 Target selects "WBBladesCrashApp".
 
-Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
+The WBBlades visualization tool is shown below. Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
+
+<img src="imgs/mainpage.jpg" alt="mainpage" style="zoom:40%;" />
 
 > Detailed introduction to visualization tool: [Detailed introduction to visualization tool](https://mp.weixin.qq.com/s/QFtlp0sG4eJRZ7NrDMAopw)
 ### Usage for Mac Command Line
@@ -156,7 +158,9 @@ $ pod install
 
 target选择：WBBladesCrashApp
 
-点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
+WBBlades可视化工具如下图所示。点击左侧功能区按钮，点击进入无用类检测、包大小检测等工具，根据工具内的提示进行操作即可，具体的数据会输出到文本框中；
+
+<img src="imgs/mainpage.jpg" alt="mainpage" style="zoom:40%;" />
 
 > 可视化工具详细介绍: [可视化工具详细介绍](https://mp.weixin.qq.com/s/QFtlp0sG4eJRZ7NrDMAopw)
 
