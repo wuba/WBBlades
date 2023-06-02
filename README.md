@@ -28,7 +28,7 @@ Target selects "WBBladesCrashApp".
 
 The WBBlades visualization tool is shown below. Click the button on the left function area, select a tool such as Useless Classes Detection,Application Size Analysis,etc., and operate according to the prompts in the tool, and the result will be output to the text box;
 
-<img src="imgs/mainpage.jpg" alt="mainpage" style="zoom:40%;" />
+<img src="imgs/mainpage_en.jpg" alt="mainpage" style="zoom:40%;" />
 
 > Detailed introduction to visualization tool: [Detailed introduction to visualization tool](https://mp.weixin.qq.com/s/QFtlp0sG4eJRZ7NrDMAopw)
 ### Usage for Mac Command Line
