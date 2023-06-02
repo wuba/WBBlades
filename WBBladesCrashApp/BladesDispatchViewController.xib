@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19455" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19455"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="BladesDispatchViewController" customModule="WBBladesCrashApp" customModuleProvider="target">
             <connections>
+                <outlet property="classHookBtn" destination="xQt-5q-Bbn" id="7rd-6L-ngy"/>
                 <outlet property="cleanCacheBtn" destination="14v-Na-viz" id="rSn-Fh-Kdq"/>
                 <outlet property="crashParseBtn" destination="iEe-c1-sKv" id="ey3-fQ-SK6"/>
                 <outlet property="diagnoseBtn" destination="3ao-71-6Bk" id="Jrf-Jj-RS8"/>
@@ -29,18 +30,18 @@
             <rect key="frame" x="0.0" y="0.0" width="836" height="719"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2G-uM-e7M">
-                    <rect key="frame" x="200" y="63" width="597" height="568"/>
+                <scrollView misplaced="YES" borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" hasVerticalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h2G-uM-e7M">
+                    <rect key="frame" x="200" y="100" width="597" height="531"/>
                     <clipView key="contentView" drawsBackground="NO" id="Oja-JE-Hz8">
-                        <rect key="frame" x="0.0" y="0.0" width="597" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="597" height="531"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView editable="NO" selectable="NO" drawsBackground="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" baseWritingDirection="leftToRight" spellingCorrection="YES" smartInsertDelete="YES" id="R0V-Ex-dVK">
-                                <rect key="frame" x="0.0" y="-9" width="597" height="568"/>
+                                <rect key="frame" x="0.0" y="-9" width="597" height="531"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
-                                <size key="minSize" width="597" height="568"/>
+                                <size key="minSize" width="597" height="531"/>
                                 <size key="maxSize" width="666" height="10000000"/>
                                 <attributedString key="textStorage">
                                     <fragment content="WBBlades">
@@ -1132,7 +1133,7 @@ Cg
                     </constraints>
                     <buttonCell key="cell" type="square" title="清理缓存(1.2G)" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="RHJ-qE-keH">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" size="13" name=".PingFangSC-Regular"/>
+                        <font key="font" metaFont="system"/>
                     </buttonCell>
                     <userDefinedRuntimeAttributes>
                         <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
@@ -1171,7 +1172,7 @@ Cg
                 <constraint firstItem="xQt-5q-Bbn" firstAttribute="top" secondItem="l7W-nZ-jyC" secondAttribute="bottom" constant="51" id="1DZ-KM-Two"/>
                 <constraint firstItem="iEe-c1-sKv" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="350" id="1nO-47-W3x"/>
                 <constraint firstItem="DSN-e3-ojn" firstAttribute="top" secondItem="XdU-Br-fbe" secondAttribute="bottom" priority="750" constant="-134" id="5yi-2G-dpm"/>
-                <constraint firstItem="h2G-uM-e7M" firstAttribute="bottom" secondItem="jl7-cV-D68" secondAttribute="bottom" id="9ED-bb-MgX"/>
+                <constraint firstItem="h2G-uM-e7M" firstAttribute="bottom" secondItem="jl7-cV-D68" secondAttribute="top" id="9ED-bb-MgX"/>
                 <constraint firstItem="iSK-xL-d7c" firstAttribute="centerX" secondItem="jl7-cV-D68" secondAttribute="centerX" id="9fQ-jm-ABS"/>
                 <constraint firstAttribute="trailing" secondItem="14v-Na-viz" secondAttribute="trailing" constant="47" id="G7k-Rk-D0m"/>
                 <constraint firstItem="h2G-uM-e7M" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="200" id="QSL-Bl-wHr"/>

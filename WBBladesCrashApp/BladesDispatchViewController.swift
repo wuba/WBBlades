@@ -20,6 +20,7 @@ class BladesDispatchViewController: NSViewController {
     @IBOutlet weak var languageChangeBtn: NSPopUpButton!
     @IBOutlet weak var diagnoseBtn: SYFlatButton!
     @IBOutlet weak var cleanCacheBtn: SYFlatButton!
+    @IBOutlet weak var classHookBtn: SYFlatButton!
     var imageView: NSImageView?
     var backGroundView: NSView?
     override func viewDidLoad() {
@@ -30,6 +31,7 @@ class BladesDispatchViewController: NSViewController {
         unusedClassBtn.title = TextDictionary.valueForKey(key: "unusedClassBtnTitle")
         libarySizeBtn.title = TextDictionary.valueForKey(key: "libarySizeBtnTitle")
         crashParseBtn.title = TextDictionary.valueForKey(key: "crashParseBtnTitle")
+        classHookBtn.title = TextDictionary.valueForKey(key: "classHookBtnTitle")
         libarayDependency.title = TextDictionary.valueForKey(key: "libarayDependencyTitle")
         functionLabel.stringValue = TextDictionary.valueForKey(key: "functionLabelTitle")
         introduceTextView.string = TextDictionary.valueForKey(key: "introduceTextViewTitle")
