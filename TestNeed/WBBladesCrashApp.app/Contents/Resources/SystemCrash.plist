@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>type</key>
+		<string>text</string>
+		<key>title</key>
+		<string>系统日志</string>
+		<key>content</key>
+		<string>指的是系统在设备中生成的崩溃日志，包括进程名为开头的崩溃日志，wakesup的崩溃日志等。举例：</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>image</string>
+		<key>content</key>
+		<string>log_type</string>
+		<key>width</key>
+		<integer>480</integer>
+		<key>height</key>
+		<integer>99</integer>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>text</string>
+		<key>title</key>
+		<string>1. 开始解析</string>
+		<key>content</key>
+		<string>将您需要解析的系统崩溃日志文件直接拖入，或您可以打开崩溃日志全选并拷贝到文本框中，点击开始</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>image</string>
+		<key>content</key>
+		<string>system_analyze</string>
+		<key>width</key>
+		<integer>480</integer>
+		<key>height</key>
+		<integer>291</integer>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>text</string>
+		<key>title</key>
+		<string>2. ici平台未找到对应的符号表</string>
+		<key>content</key>
+		<string>若崩溃是 ici平台打的包中发生的，我们可以自动下载符号表，您只需要等待解析结束。而发生崩溃的包为非ici平台打的包，您需要指定包含符号表的文件，包括xxx.app格式的可执行文件，.dsym符号表文件，bugly的轻量符号表文件(.symbol)等。</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>image</string>
+		<key>content</key>
+		<string>symbol_analyze</string>
+		<key>width</key>
+		<integer>480</integer>
+		<key>height</key>
+		<integer>284</integer>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>text</string>
+		<key>title</key>
+		<string>3. 解析结果</string>
+		<key>content</key>
+		<string>1. 解析结果将在当前文本框，蓝色文字进行展示，您可以直接查看。</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>image</string>
+		<key>content</key>
+		<string>result_1</string>
+		<key>width</key>
+		<integer>480</integer>
+		<key>height</key>
+		<integer>386</integer>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>text</string>
+		<key>title</key>
+		<string></string>
+		<key>content</key>
+		<string>2. 在文本框中展示结果以外，会自动弹出结果文件所在文件夹，还可以手动从~/Downloads/WBBladesCrash/output/目录中查找结果文件</string>
+	</dict>
+	<dict>
+		<key>type</key>
+		<string>image</string>
+		<key>content</key>
+		<string>result_2</string>
+		<key>width</key>
+		<integer>480</integer>
+		<key>height</key>
+		<integer>400</integer>
+	</dict>
+</array>
+</plist>
