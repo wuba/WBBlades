@@ -231,7 +231,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 
 我们诚挚地希望开发者提出宝贵的意见和建议，开发者可以通过提交PR或者Issue来反馈建议和问题。
 
-对WBBlades感兴趣的小伙伴，可以加入WBBlades开发交流群，一起探讨技术问题，请先添加微信号"zqlong320"或者扫描下面的二维码为好友，备注WBBlades后，我们会邀请进群。
+欢迎对WBBlades感兴趣的小伙伴加入WBBlades开发交流群，一起探讨技术问题，请先添加微信号"zqlong320"或者扫描下面的二维码为好友，备注"WBBlades"，我们会邀请您进群。
 
 ![wechat_qrcode.png](imgs/wechat_qrcode.png)
 
