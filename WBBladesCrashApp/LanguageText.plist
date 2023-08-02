@@ -353,6 +353,13 @@ strip命令经常用来去除Mach-O文件中的一些符号表、调试符号表
 		<key>chinese</key>
 		<string>App一键体检</string>
 	</dict>
+	<key>aiReadmeBtnTitle</key>
+	<dict>
+		<key>eng</key>
+		<string>Intel-Readme</string>
+		<key>chinese</key>
+		<string>智能Readme</string>
+	</dict>
 	<key>mainTitle</key>
 	<dict>
 		<key>chinese</key>
@@ -559,42 +566,52 @@ strip命令经常用来去除Mach-O文件中的一些符号表、调试符号表
 	<key>introduceTextViewTitle</key>
 	<dict>
 		<key>chinese</key>
-		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下                         1、App一键体检 一键检测App各项性能指标， 包含包大小分布、无用类、无用资源表等基础检测； 
-2、无用类检测
+		<string>WBBlades是基于`Mach-O`文件解析的工具集，包括无符号表日志符号化、静态库和动态库的大小分析以及无用代码检测（支持OC和Swift），具体如下                        
+
+1. 智能Readme
+通过GPT以问答的方式让用户能更快了解WBBlades项目，以及了解项目功能相关的业务；
+
+2. App一键体检
+一键检测App各项性能指标， 包含包大小分布、无用类、无用资源表等基础检测；
+
+3. 无用类检测
 根据分析__Text中汇编代码， 提取方法调用关系集合， 同时与Mach-O中所有的类集合进行差集计算。通过无用类工具， 可以将无用类的结果输出。但不适用于NSClassFromString的运行时方法调用的检测；
 
-3、包大小分析
+4. 包大小分析
 支持快速检测一个App、静态库、动态库链接后大小，无需编译链接， 直接拖入静态库或者动态库的本地地址到工具中即可（静态库大小检测工具）；
 
-4、崩溃解析（无符号表日志符号化工具）
+5. 崩溃解析（无符号表日志符号化工具）
 在丢失dSYM文件的情况，可通过崩溃解析工具进行符号化。**例如某次打包，在一段时间后符号表被清除，但是保留了app文件，这种情况下可以考虑使用**。工具使用前应先注意几点：
 - 工具只适用于OC的场景，其原理为通过分析Mach-O中OC方法地址来确定崩溃的函数。因此不适用于Swfit、C、C++场景。另外，工具并非万能，仅作为应急补充技术手段，日常情况下还是推荐用符号表进行日志符号化；
 
-5、静态库之间依赖关系
+6. 静态库之间依赖关系
 主要根据静态库中定义的内部符号以及外部符号，快速检测多个库之间所依赖的关系，最终结果将输出到桌面中; 
 
-6、Mach-O类Hook
+7. Mach-O类Hook
 自动提取ipa中可执行文件或者动态库中可执行文件(Mach-O)中的OC类,自动Hook类中所有的方法。</string>
 		<key>eng</key>
 		<string>WBBlades is a tool set based on `Mach-O` file parsing, including useless code detection (supporting OC and Swift), size analysis of static and dynamic libraries, crash log symbolization and dependencies between multiple static libraries.
 
-1.	Quick Diagnose
+1. Intelligent Readme
+By utilizing GPT in a question-and-answer format, users can quickly gain a better understanding of the WBBlades project and its functionalities related to business operations.
+
+2. Quick Diagnose
 One-click detection of App performance indicators, including packet size distribution, useless classes, useless resource table and other basic detection;
 
-2.	Useless Classes
+3. Useless Classes
 Useless classes detection is based on analyse assembly code in __TEXT extracts the method call relationship set, and performs the difference calculation with all the class sets in Mach-O. The useless class detection tool will output the result of the useless classes in App.
 
-3.	Application Size Analysis 
+4. Application Size Analysis 
 Application Size Analysis supports the detection of the size of an App, static library, and dynamic library after linking, without real compiling and linking.You can directly drag the path of the static library or dynamic library into the tool, the result will be output in Desktop. 
 
-4.	Crash Log Symbolization 
+5. Crash Log Symbolization 
 Crash Log Symbolization supports symbolization of various system crash logs (ips files). If you have the symbol table corresponding to the crash log, you can directly drag the path of the symbol table into the tool. Of course, you can directly drag it into the system symbol table (.dSYM file). We also support The .app file in Product automatically strips the symbol table, so you can drag it into the path of the tool. 
 If the symbol table file has been stripped from your .app file, but the symbol table file cannot be found, you can directly drag the .app file and we will try to symbolize it for you through unsigned parsing. It is currently only supports OC. The principle is to determine the crashed function by analyzing the OC method address in Mach-O. Therefore, it is not support for Swfit, C, C++, only used as emergency supplementary technical means.
 
-5.	Dependencies Between Multiple Static Libraries 
+6. Dependencies Between Multiple Static Libraries 
 Dependencies Between Multiple Static Libraries Detection is mainly based on the internal symbols and external symbols defined in the static library in Mach-O. The dependencies between the libraries, and the final result will be output to the desktop.
 
-6.	Mach-O Class Hook
+7. Mach-O Class Hook
 Automatic extraction of ipa executable file or dynamic library executable file (Mach-O) OC class, automatic Hook class all methods.
 </string>
 	</dict>

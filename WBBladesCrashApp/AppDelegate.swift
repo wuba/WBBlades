@@ -9,9 +9,10 @@ import Cocoa
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    @IBAction func settingGPTKey(_ sender: Any) {
+        GPTTokenWindowManager.share.show()
+    }
     
-
-
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         // Insert code here to initialize your application
     }

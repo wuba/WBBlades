@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -77,15 +77,15 @@
                 <scrollView borderType="none" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rn9-QM-2Dq">
                     <rect key="frame" x="41" y="74" width="576" height="459"/>
                     <clipView key="contentView" drawsBackground="NO" id="ia1-sb-4yG">
-                        <rect key="frame" x="0.0" y="0.0" width="561" height="459"/>
+                        <rect key="frame" x="0.0" y="0.0" width="576" height="459"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Y77-LD-04M">
-                                <rect key="frame" x="0.0" y="0.0" width="561" height="459"/>
+                                <rect key="frame" x="0.0" y="0.0" width="576" height="459"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                <size key="minSize" width="561" height="459"/>
+                                <size key="minSize" width="576" height="459"/>
                                 <size key="maxSize" width="576" height="10000000"/>
                                 <color key="insertionPointColor" name="textColor" catalog="System" colorSpace="catalog"/>
                             </textView>
@@ -96,7 +96,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                     <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="0xa-Kn-Sna">
-                        <rect key="frame" x="561" y="0.0" width="15" height="459"/>
+                        <rect key="frame" x="560" y="0.0" width="16" height="459"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </scroller>
                 </scrollView>
@@ -185,6 +185,6 @@
         </customView>
     </objects>
     <resources>
-        <image name="NSGoBackTemplate" width="10" height="14"/>
+        <image name="NSGoBackTemplate" width="12" height="17"/>
     </resources>
 </document>

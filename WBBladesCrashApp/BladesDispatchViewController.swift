@@ -20,6 +20,7 @@ class BladesDispatchViewController: NSViewController {
     @IBOutlet weak var languageChangeBtn: NSPopUpButton!
     @IBOutlet weak var diagnoseBtn: SYFlatButton!
     @IBOutlet weak var cleanCacheBtn: SYFlatButton!
+    @IBOutlet weak var intelligentBtn: SYFlatButton!
     @IBOutlet weak var classHookBtn: SYFlatButton!
     var imageView: NSImageView?
     var backGroundView: NSView?
@@ -27,6 +28,7 @@ class BladesDispatchViewController: NSViewController {
 
         // Do view setup here.
         super.viewDidLoad()
+        intelligentBtn.title = TextDictionary.valueForKey(key: "aiReadmeBtnTitle")
         diagnoseBtn.title = TextDictionary.valueForKey(key: "diagnoseBtnTitle")
         unusedClassBtn.title = TextDictionary.valueForKey(key: "unusedClassBtnTitle")
         libarySizeBtn.title = TextDictionary.valueForKey(key: "libarySizeBtnTitle")
@@ -171,4 +173,10 @@ class BladesDispatchViewController: NSViewController {
         }
         return 0
     }
+    
+    @IBAction func intelligentBtnPress(_ sender: Any) {
+        let vc = IntelligentReadmeViewController()
+        self.view.window?.contentViewController = vc
+    }
+    
 }

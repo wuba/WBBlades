@@ -15,6 +15,7 @@
                 <outlet property="functionLabel" destination="RIe-e0-Ihv" id="cSl-VH-h4f"/>
                 <outlet property="githubStar" destination="iSK-xL-d7c" id="hks-Zr-74Z"/>
                 <outlet property="githubStarBtn" destination="iSK-xL-d7c" id="2oa-OO-X3r"/>
+                <outlet property="intelligentBtn" destination="Wz4-3k-8v6" id="KHq-Nt-h0M"/>
                 <outlet property="introduceTextView" destination="R0V-Ex-dVK" id="avp-ac-q7b"/>
                 <outlet property="languageChangeBtn" destination="fBT-zn-Uii" id="bhn-lt-tE0"/>
                 <outlet property="libarayDependency" destination="l7W-nZ-jyC" id="wP0-8q-pyi"/>
@@ -107,7 +108,7 @@
                                             </paragraphStyle>
                                         </attributes>
                                     </fragment>
-                                    <fragment content="），具体如下                         1、App一键体检 一键检测App各项性能指标， 包含包大小分布、无用类、无用资源表等基础检测； ">
+                                    <fragment content="），具体如下 1、App一键体检 一键检测App各项性能指标， 包含包大小分布、无用类、无用资源表等基础检测； ">
                                         <attributes>
                                             <color key="NSColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                             <font key="NSFont" size="13" name="PingFangSC-Regular"/>
@@ -628,7 +629,7 @@ Cg
                                         </attributes>
                                     </fragment>
                                     <fragment>
-                                        <string key="content">; 
+                                        <string key="content">;
 
 6</string>
                                         <attributes>
@@ -875,49 +876,8 @@ Cg
                         <action selector="languageChangeClicked:" target="-2" id="qNJ-i9-BAq"/>
                     </connections>
                 </popUpButton>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XdU-Br-fbe" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="412" width="103" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="P3M-jB-Mxg"/>
-                        <constraint firstAttribute="width" constant="103" id="SAK-9m-iTj"/>
-                    </constraints>
-                    <buttonCell key="cell" type="square" title="包大小分析" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dR0-Dd-ftR">
-                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
-                    </buttonCell>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
-                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
-                            <real key="value" value="0.25"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
-                            <real key="value" value="0.25"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                            <real key="value" value="4"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                            <real key="value" value="1"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
-                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
-                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
-                            <color key="value" red="0.0" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
-                            <color key="value" red="0.16862745100000001" green="0.73333333329999995" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
-                    <connections>
-                        <action selector="libraryParseBegin:" target="-2" id="JIu-JO-Am1"/>
-                    </connections>
-                </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DSN-e3-ojn" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="502" width="103" height="44"/>
+                    <rect key="frame" x="50" y="455" width="103" height="44"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="c3V-IM-v3s"/>
                         <constraint firstAttribute="width" constant="103" id="uzk-3S-Pe3"/>
@@ -958,7 +918,7 @@ Cg
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l7W-nZ-jyC" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="230" width="103" height="44"/>
+                    <rect key="frame" x="50" y="199" width="103" height="44"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="F2R-69-KTT"/>
                         <constraint firstAttribute="width" constant="103" id="WdD-9R-TYd"/>
@@ -999,7 +959,7 @@ Cg
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xQt-5q-Bbn" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="135" width="103" height="44"/>
+                    <rect key="frame" x="50" y="116" width="103" height="44"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44" id="OXz-4K-fXa"/>
                         <constraint firstAttribute="width" constant="103" id="QN4-ZD-Jfo"/>
@@ -1040,7 +1000,7 @@ Cg
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iEe-c1-sKv" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="325" width="103" height="44"/>
+                    <rect key="frame" x="50" y="283" width="103" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="103" id="UcJ-OU-OjV"/>
                         <constraint firstAttribute="height" constant="44" id="sKA-5s-ftZ"/>
@@ -1081,12 +1041,10 @@ Cg
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3ao-71-6Bk" customClass="SYFlatButton">
-                    <rect key="frame" x="50" y="587" width="103" height="44"/>
+                    <rect key="frame" x="50" y="541" width="103" height="44"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="103" id="4r2-WT-pJa"/>
-                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="8RL-Ed-uQu"/>
                         <constraint firstAttribute="height" constant="44" id="LYc-Fy-kth"/>
-                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="103" id="hG8-LE-Are"/>
                     </constraints>
                     <buttonCell key="cell" type="square" title="App一键体检" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="SBJ-il-WUm">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -1166,34 +1124,117 @@ Cg
                         <action selector="cleanCacheBtnDidClick:" target="-2" id="8Wq-PE-Yvs"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wz4-3k-8v6" customClass="SYFlatButton">
+                    <rect key="frame" x="50" y="625" width="103" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="BYJ-Yw-T4s"/>
+                        <constraint firstAttribute="width" constant="103" id="oeS-7u-qg5"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="智能Readme" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="4g1-se-bGm">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="0.0" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="0.16862745100000001" green="0.73333333329999995" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="intelligentBtnPress:" target="-2" id="1Q8-4Q-tOC"/>
+                    </connections>
+                </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XdU-Br-fbe" customClass="SYFlatButton">
+                    <rect key="frame" x="50" y="369" width="103" height="44"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="P3M-jB-Mxg"/>
+                        <constraint firstAttribute="width" constant="103" id="SAK-9m-iTj"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" title="包大小分析" bezelStyle="shadowlessSquare" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dR0-Dd-ftR">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="boolean" keyPath="momentary" value="YES"/>
+                        <userDefinedRuntimeAttribute type="number" keyPath="onAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="offAnimateDuration">
+                            <real key="value" value="0.25"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                            <real key="value" value="4"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
+                            <real key="value" value="1"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleNormalColor">
+                            <color key="value" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="titleHighlightColor">
+                            <color key="value" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderNormalColor">
+                            <color key="value" red="0.0" green="0.50196078430000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="color" keyPath="borderHighlightColor">
+                            <color key="value" red="0.16862745100000001" green="0.73333333329999995" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
+                    <connections>
+                        <action selector="libraryParseBegin:" target="-2" id="JIu-JO-Am1"/>
+                    </connections>
+                </button>
             </subviews>
             <constraints>
                 <constraint firstItem="DSN-e3-ojn" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="0qz-aw-jxu"/>
-                <constraint firstItem="xQt-5q-Bbn" firstAttribute="top" secondItem="l7W-nZ-jyC" secondAttribute="bottom" constant="51" id="1DZ-KM-Two"/>
-                <constraint firstItem="iEe-c1-sKv" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="350" id="1nO-47-W3x"/>
-                <constraint firstItem="DSN-e3-ojn" firstAttribute="top" secondItem="XdU-Br-fbe" secondAttribute="bottom" priority="750" constant="-134" id="5yi-2G-dpm"/>
                 <constraint firstItem="h2G-uM-e7M" firstAttribute="bottom" secondItem="jl7-cV-D68" secondAttribute="top" constant="-10" id="9ED-bb-MgX"/>
+                <constraint firstItem="Wz4-3k-8v6" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="50" id="9bL-zN-c5B"/>
                 <constraint firstItem="iSK-xL-d7c" firstAttribute="centerX" secondItem="jl7-cV-D68" secondAttribute="centerX" id="9fQ-jm-ABS"/>
+                <constraint firstItem="DSN-e3-ojn" firstAttribute="top" secondItem="3ao-71-6Bk" secondAttribute="bottom" constant="42" id="FCA-Fe-4gv"/>
                 <constraint firstAttribute="trailing" secondItem="14v-Na-viz" secondAttribute="trailing" constant="47" id="G7k-Rk-D0m"/>
+                <constraint firstItem="XdU-Br-fbe" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="Gbt-4W-cD8"/>
+                <constraint firstItem="Wz4-3k-8v6" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="Lc3-HL-UaJ"/>
+                <constraint firstItem="3ao-71-6Bk" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="P69-lg-b8c"/>
                 <constraint firstItem="h2G-uM-e7M" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="200" id="QSL-Bl-wHr"/>
                 <constraint firstItem="jl7-cV-D68" firstAttribute="centerX" secondItem="RIe-e0-Ihv" secondAttribute="centerX" id="TZc-Mr-elt"/>
-                <constraint firstItem="XdU-Br-fbe" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="Wqk-A7-4H8"/>
+                <constraint firstItem="XdU-Br-fbe" firstAttribute="top" secondItem="DSN-e3-ojn" secondAttribute="bottom" constant="42" id="Vld-QF-TVC"/>
+                <constraint firstItem="iEe-c1-sKv" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="a3W-QF-mQM"/>
                 <constraint firstAttribute="trailing" secondItem="fBT-zn-Uii" secondAttribute="trailing" constant="47" id="bpv-Ua-ASn"/>
-                <constraint firstItem="XdU-Br-fbe" firstAttribute="top" secondItem="iEe-c1-sKv" secondAttribute="bottom" priority="750" constant="-131" id="cZv-WE-vnm"/>
-                <constraint firstItem="l7W-nZ-jyC" firstAttribute="top" secondItem="iEe-c1-sKv" secondAttribute="bottom" constant="51" id="evb-FV-PjG"/>
-                <constraint firstItem="3ao-71-6Bk" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="hex-dy-IWa"/>
+                <constraint firstItem="iEe-c1-sKv" firstAttribute="top" secondItem="XdU-Br-fbe" secondAttribute="bottom" constant="42" id="cEc-eb-oy9"/>
+                <constraint firstItem="3ao-71-6Bk" firstAttribute="top" secondItem="Wz4-3k-8v6" secondAttribute="bottom" constant="40" id="hse-kY-ks8"/>
                 <constraint firstAttribute="trailing" secondItem="h2G-uM-e7M" secondAttribute="trailing" constant="39" id="itT-ja-O16"/>
-                <constraint firstItem="DSN-e3-ojn" firstAttribute="firstBaseline" secondItem="3ao-71-6Bk" secondAttribute="baseline" constant="63" id="jK1-Zp-nb0"/>
                 <constraint firstAttribute="bottom" secondItem="jl7-cV-D68" secondAttribute="bottom" constant="63" id="jXb-pP-iXN"/>
-                <constraint firstItem="xQt-5q-Bbn" firstAttribute="centerX" secondItem="l7W-nZ-jyC" secondAttribute="centerX" id="knY-bs-Tk4"/>
                 <constraint firstItem="fBT-zn-Uii" firstAttribute="centerY" secondItem="jl7-cV-D68" secondAttribute="centerY" constant="-0.5" id="mYP-kr-C6c"/>
                 <constraint firstItem="RIe-e0-Ihv" firstAttribute="centerX" secondItem="R0V-Ex-dVK" secondAttribute="centerX" constant="-34.5" id="q96-rO-pQx"/>
-                <constraint firstItem="iEe-c1-sKv" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="rJQ-OA-ITf"/>
-                <constraint firstItem="l7W-nZ-jyC" firstAttribute="centerX" secondItem="iEe-c1-sKv" secondAttribute="centerX" id="sNy-Cs-4X3"/>
+                <constraint firstItem="xQt-5q-Bbn" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="tNi-2l-Ywo"/>
                 <constraint firstAttribute="bottom" secondItem="iSK-xL-d7c" secondAttribute="bottom" constant="22" id="tYK-Wn-Y95"/>
                 <constraint firstItem="RIe-e0-Ihv" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="13" id="uib-kZ-A4s"/>
+                <constraint firstItem="xQt-5q-Bbn" firstAttribute="top" secondItem="l7W-nZ-jyC" secondAttribute="bottom" constant="39" id="uul-ji-faE"/>
+                <constraint firstItem="l7W-nZ-jyC" firstAttribute="top" secondItem="iEe-c1-sKv" secondAttribute="bottom" constant="40" id="xuv-e6-mYJ"/>
+                <constraint firstItem="l7W-nZ-jyC" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="xv2-mS-NpH"/>
                 <constraint firstItem="h2G-uM-e7M" firstAttribute="top" secondItem="Hz6-mo-xeY" secondAttribute="top" constant="88" id="z3J-sd-9VH"/>
-                <constraint firstItem="iEe-c1-sKv" firstAttribute="leading" secondItem="Hz6-mo-xeY" secondAttribute="leading" constant="50" id="zRx-bb-SKd"/>
             </constraints>
             <point key="canvasLocation" x="113" y="-63.5"/>
         </customView>

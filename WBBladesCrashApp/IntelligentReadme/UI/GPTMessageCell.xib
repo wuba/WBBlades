@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView wantsLayer="YES" misplaced="YES" id="GWB-r2-bau" customClass="GPTMessageCell" customModule="WBBladesCrashApp" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="700" height="120"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="W5C-Cq-B5w">
+                    <rect key="frame" x="20" y="75" width="30" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="XNs-m6-j2I"/>
+                        <constraint firstAttribute="width" constant="30" id="kVc-Bc-776"/>
+                    </constraints>
+                    <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="person" id="jbe-lQ-w0F"/>
+                </imageView>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRR-32-Hhs">
+                    <rect key="frame" x="68" y="20" width="615" height="80"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="9yG-B7-rCw"/>
+                        <constraint firstAttribute="width" constant="400" id="feD-Kk-3YR"/>
+                    </constraints>
+                    <textFieldCell key="cell" selectable="YES" id="WOI-BM-qKY">
+                        <font key="font" metaFont="system"/>
+                        <string key="title">WBBlades是基于Mach-O文件解析的工具集，包括App一键体检（支持OC和Swift的无用类检测）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号状态和无符号状态）、基于Mach-O的Class自动提取并Hook能力。</string>
+                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+            </subviews>
+            <constraints>
+                <constraint firstItem="W5C-Cq-B5w" firstAttribute="top" secondItem="GWB-r2-bau" secondAttribute="top" constant="15" id="67R-EJ-fSW"/>
+                <constraint firstItem="W5C-Cq-B5w" firstAttribute="leading" secondItem="GWB-r2-bau" secondAttribute="leading" constant="20" id="6v7-mA-OoJ"/>
+                <constraint firstItem="cRR-32-Hhs" firstAttribute="top" secondItem="GWB-r2-bau" secondAttribute="top" constant="20" id="Rut-KA-wL5"/>
+                <constraint firstAttribute="bottom" secondItem="cRR-32-Hhs" secondAttribute="bottom" constant="20" id="UJO-Ns-tAd"/>
+                <constraint firstItem="cRR-32-Hhs" firstAttribute="leading" secondItem="W5C-Cq-B5w" secondAttribute="trailing" constant="20" id="aue-hs-drS"/>
+                <constraint firstAttribute="trailing" secondItem="cRR-32-Hhs" secondAttribute="trailing" constant="20" id="wTe-1z-ZeJ"/>
+            </constraints>
+            <connections>
+                <outlet property="labelHeightConstraint" destination="9yG-B7-rCw" id="qU8-0n-seU"/>
+                <outlet property="msgContentView" destination="cRR-32-Hhs" id="lYp-V7-xq1"/>
+                <outlet property="roleImgView" destination="W5C-Cq-B5w" id="iZN-yh-cB2"/>
+            </connections>
+            <point key="canvasLocation" x="-1474" y="-122"/>
+        </customView>
+    </objects>
+    <resources>
+        <image name="person" width="128" height="128"/>
+    </resources>
+</document>

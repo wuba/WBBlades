@@ -22,15 +22,15 @@
                     <rect key="frame" x="18" y="145" width="640" height="224"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" selectable="YES" id="N81-1F-pwR">
-                        <font key="font" size="13" name=".PingFangSC-Regular"/>
-                        <mutableString key="title">符号表存储了当前Mach-O的符号信息，静态链接器和动态链接器在链接的过程中都会读取符号表。debug下调试器也会用符号表来把符号映射到源文件, ⽤来保存符号。
+                        <font key="font" metaFont="system"/>
+                        <string key="title">符号表存储了当前Mach-O的符号信息，静态链接器和动态链接器在链接的过程中都会读取符号表。debug下调试器也会用符号表来把符号映射到源文件, ⽤来保存符号。
 符号表中保存数据有内存地址、函数名、文件名，以及行号的映射表，如下所示：
 &lt;起始地址&gt; &lt;结束地址&gt; &lt;函数&gt; [&lt;文件名:行号&gt;]
 
 在Build Settings中的Strip Style有三个选项，分别是All Symbols所有符号、Non-Global Symbols非全局符号、Debugging Symbols调试符号。对于All Symbols，移除符号表和重定位信息，除了间接符号表中引用的符号，都可以删除；对于Non-Global Symbols，移除非全局符号，保留外部符号，删除n_type != N_EXT的符号；对于Debugging Symbols，移除调试符号，保存本地和全局符号，在生成.o文件时，会生成一个DWARF格式的调试信息，它会被放到__DWARF段，删除此段。
 
 strip命令经常用来去除Mach-O文件中的一些符号表、调试符号表信息，以减小程序的大小，可以用如下命令进行符号表的完全剥离。
-</mutableString>
+</string>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>

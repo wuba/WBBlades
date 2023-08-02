@@ -8,6 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		1F6BF5647E482D5948595F70 /* libPods-WBBladesCrashApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B4D62D634BE50B2A64609FC5 /* libPods-WBBladesCrashApp.a */; };
+		311538832A25E4F100241EE5 /* IntelligentReadmeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 311538812A25E4F100241EE5 /* IntelligentReadmeViewController.xib */; };
+		311538A92A25F5A900241EE5 /* GPTResourceBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3115389D2A25F5A900241EE5 /* GPTResourceBundle.swift */; };
+		311538AA2A25F5A900241EE5 /* encoderBundle.json in Resources */ = {isa = PBXBuildFile; fileRef = 3115389F2A25F5A900241EE5 /* encoderBundle.json */; };
+		311538AB2A25F5A900241EE5 /* vocabulary.bpe in Resources */ = {isa = PBXBuildFile; fileRef = 311538A02A25F5A900241EE5 /* vocabulary.bpe */; };
+		311538AC2A25F5A900241EE5 /* StringExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A12A25F5A900241EE5 /* StringExtensions.swift */; };
+		311538AD2A25F5A900241EE5 /* GPTAtomicMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A22A25F5A900241EE5 /* GPTAtomicMap.swift */; };
+		311538AE2A25F5A900241EE5 /* GPTEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A32A25F5A900241EE5 /* GPTEncoder.swift */; };
+		311538AF2A25F5A900241EE5 /* EncoderUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A42A25F5A900241EE5 /* EncoderUtils.swift */; };
+		311538B02A25F5A900241EE5 /* String+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A62A25F5A900241EE5 /* String+Error.swift */; };
+		311538B12A25F5A900241EE5 /* GPTRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A72A25F5A900241EE5 /* GPTRequestService.swift */; };
+		311538B22A25F5A900241EE5 /* GPTMsgModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A82A25F5A900241EE5 /* GPTMsgModels.swift */; };
+		314A60A62A25F99C00F875DE /* IntelligentReadmeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60A52A25F99C00F875DE /* IntelligentReadmeViewController.swift */; };
+		314A60D22A2F2F5B00F875DE /* GPTTokenWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60CE2A2F2F5B00F875DE /* GPTTokenWindowController.swift */; };
+		314A60D32A2F2F5B00F875DE /* GPTTokenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314A60CF2A2F2F5B00F875DE /* GPTTokenViewController.xib */; };
+		314A60D42A2F2F5B00F875DE /* GPTTokenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60D02A2F2F5B00F875DE /* GPTTokenViewController.swift */; };
+		314A60DA2A2F495100F875DE /* BaseDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60D72A2F495100F875DE /* BaseDataService.swift */; };
+		314A60DB2A2F495100F875DE /* GPTMsgDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60D82A2F495100F875DE /* GPTMsgDataService.swift */; };
+		314A60DF2A30699A00F875DE /* GPTMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60DE2A30699A00F875DE /* GPTMessageCell.swift */; };
+		314A60E12A3069CA00F875DE /* GPTMessageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314A60E02A3069CA00F875DE /* GPTMessageCell.xib */; };
+		314A60E32A3084D500F875DE /* NSViewExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60E22A3084D500F875DE /* NSViewExt.swift */; };
+		31FD75F02A7212BD00698086 /* GPTMessageTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31FD75EF2A7212BD00698086 /* GPTMessageTextView.swift */; };
 		3C0A16192CB101D2159356DC /* libPods-WBBlades.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06FDB18122F049E93366912D /* libPods-WBBlades.a */; };
 		769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */; };
 		769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */; };
@@ -54,6 +75,27 @@
 /* Begin PBXFileReference section */
 		06FDB18122F049E93366912D /* libPods-WBBlades.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		090B6012A2DBEEE073206387 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBladesCrashApp.debug.xcconfig"; path = "Target Support Files/Pods-WBBladesCrashApp/Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
+		311538812A25E4F100241EE5 /* IntelligentReadmeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IntelligentReadmeViewController.xib; sourceTree = "<group>"; };
+		3115389D2A25F5A900241EE5 /* GPTResourceBundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTResourceBundle.swift; sourceTree = "<group>"; };
+		3115389F2A25F5A900241EE5 /* encoderBundle.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = encoderBundle.json; sourceTree = "<group>"; };
+		311538A02A25F5A900241EE5 /* vocabulary.bpe */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = vocabulary.bpe; sourceTree = "<group>"; };
+		311538A12A25F5A900241EE5 /* StringExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtensions.swift; sourceTree = "<group>"; };
+		311538A22A25F5A900241EE5 /* GPTAtomicMap.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTAtomicMap.swift; sourceTree = "<group>"; };
+		311538A32A25F5A900241EE5 /* GPTEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTEncoder.swift; sourceTree = "<group>"; };
+		311538A42A25F5A900241EE5 /* EncoderUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EncoderUtils.swift; sourceTree = "<group>"; };
+		311538A62A25F5A900241EE5 /* String+Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Error.swift"; sourceTree = "<group>"; };
+		311538A72A25F5A900241EE5 /* GPTRequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTRequestService.swift; sourceTree = "<group>"; };
+		311538A82A25F5A900241EE5 /* GPTMsgModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTMsgModels.swift; sourceTree = "<group>"; };
+		314A60A52A25F99C00F875DE /* IntelligentReadmeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntelligentReadmeViewController.swift; sourceTree = "<group>"; };
+		314A60CE2A2F2F5B00F875DE /* GPTTokenWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTTokenWindowController.swift; sourceTree = "<group>"; };
+		314A60CF2A2F2F5B00F875DE /* GPTTokenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GPTTokenViewController.xib; sourceTree = "<group>"; };
+		314A60D02A2F2F5B00F875DE /* GPTTokenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTTokenViewController.swift; sourceTree = "<group>"; };
+		314A60D72A2F495100F875DE /* BaseDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseDataService.swift; sourceTree = "<group>"; };
+		314A60D82A2F495100F875DE /* GPTMsgDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTMsgDataService.swift; sourceTree = "<group>"; };
+		314A60DE2A30699A00F875DE /* GPTMessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTMessageCell.swift; sourceTree = "<group>"; };
+		314A60E02A3069CA00F875DE /* GPTMessageCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GPTMessageCell.xib; sourceTree = "<group>"; };
+		314A60E22A3084D500F875DE /* NSViewExt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSViewExt.swift; sourceTree = "<group>"; };
+		31FD75EF2A7212BD00698086 /* GPTMessageTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTMessageTextView.swift; sourceTree = "<group>"; };
 		33D9340F0B739868BBFB3E57 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WBBlades.release.xcconfig"; path = "Target Support Files/Pods-WBBlades/Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
 		769C8C8F280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BladesUnusedClassCheckViewController.swift; sourceTree = "<group>"; };
 		769C8C90280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = BladesUnusedClassCheckViewController.xib; sourceTree = "<group>"; };
@@ -133,6 +175,82 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		311538842A25EC0900241EE5 /* IntelligentReadme */ = {
+			isa = PBXGroup;
+			children = (
+				314A60DD2A30682300F875DE /* UI */,
+				314A60D62A2F495100F875DE /* DataService */,
+				314A60CD2A2F2F5B00F875DE /* Token */,
+				311538A52A25F5A900241EE5 /* ChatGPTSwift */,
+				3115389C2A25F5A900241EE5 /* GPTEncoder */,
+			);
+			path = IntelligentReadme;
+			sourceTree = "<group>";
+		};
+		3115389C2A25F5A900241EE5 /* GPTEncoder */ = {
+			isa = PBXGroup;
+			children = (
+				3115389D2A25F5A900241EE5 /* GPTResourceBundle.swift */,
+				3115389E2A25F5A900241EE5 /* Resources */,
+				311538A12A25F5A900241EE5 /* StringExtensions.swift */,
+				311538A22A25F5A900241EE5 /* GPTAtomicMap.swift */,
+				311538A32A25F5A900241EE5 /* GPTEncoder.swift */,
+				311538A42A25F5A900241EE5 /* EncoderUtils.swift */,
+			);
+			path = GPTEncoder;
+			sourceTree = "<group>";
+		};
+		3115389E2A25F5A900241EE5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				3115389F2A25F5A900241EE5 /* encoderBundle.json */,
+				311538A02A25F5A900241EE5 /* vocabulary.bpe */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		311538A52A25F5A900241EE5 /* ChatGPTSwift */ = {
+			isa = PBXGroup;
+			children = (
+				311538A62A25F5A900241EE5 /* String+Error.swift */,
+				311538A72A25F5A900241EE5 /* GPTRequestService.swift */,
+				311538A82A25F5A900241EE5 /* GPTMsgModels.swift */,
+			);
+			path = ChatGPTSwift;
+			sourceTree = "<group>";
+		};
+		314A60CD2A2F2F5B00F875DE /* Token */ = {
+			isa = PBXGroup;
+			children = (
+				314A60CE2A2F2F5B00F875DE /* GPTTokenWindowController.swift */,
+				314A60CF2A2F2F5B00F875DE /* GPTTokenViewController.xib */,
+				314A60D02A2F2F5B00F875DE /* GPTTokenViewController.swift */,
+			);
+			path = Token;
+			sourceTree = "<group>";
+		};
+		314A60D62A2F495100F875DE /* DataService */ = {
+			isa = PBXGroup;
+			children = (
+				314A60D72A2F495100F875DE /* BaseDataService.swift */,
+				314A60D82A2F495100F875DE /* GPTMsgDataService.swift */,
+			);
+			path = DataService;
+			sourceTree = "<group>";
+		};
+		314A60DD2A30682300F875DE /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				31FD75EF2A7212BD00698086 /* GPTMessageTextView.swift */,
+				314A60E22A3084D500F875DE /* NSViewExt.swift */,
+				314A60A52A25F99C00F875DE /* IntelligentReadmeViewController.swift */,
+				311538812A25E4F100241EE5 /* IntelligentReadmeViewController.xib */,
+				314A60DE2A30699A00F875DE /* GPTMessageCell.swift */,
+				314A60E02A3069CA00F875DE /* GPTMessageCell.xib */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		66FD5F89F9E47AAF8EBA1018 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -170,6 +288,7 @@
 		B60E1EA9280058E400D7A1A2 /* WBBladesCrashApp */ = {
 			isa = PBXGroup;
 			children = (
+				311538842A25EC0900241EE5 /* IntelligentReadme */,
 				B6E06C78280968B000F7A0E5 /* Info.plist */,
 				B602FBF2280966FB00D7E923 /* WBBladesCrashApp.entitlements */,
 				B614F81C2809611500F21403 /* WBBladesCrashAppDebug.entitlements */,
@@ -308,9 +427,14 @@
 				B68D40BB2803D4C900576C5A /* Main.storyboard in Resources */,
 				B67CCDA828F2C9E3007CF975 /* BladesAutoHookViewController.xib in Resources */,
 				B68D40C82803D75700576C5A /* SystemCrash.plist in Resources */,
+				314A60D32A2F2F5B00F875DE /* GPTTokenViewController.xib in Resources */,
+				311538832A25E4F100241EE5 /* IntelligentReadmeViewController.xib in Resources */,
 				769C8C92280519A3001C55B5 /* BladesUnusedClassCheckViewController.xib in Resources */,
 				B68D40D8280402D800576C5A /* BladesDispatchViewController.xib in Resources */,
+				311538AB2A25F5A900241EE5 /* vocabulary.bpe in Resources */,
+				314A60E12A3069CA00F875DE /* GPTMessageCell.xib in Resources */,
 				B6FA8D3228C74593001CE971 /* CaptainHook.txt in Resources */,
+				311538AA2A25F5A900241EE5 /* encoderBundle.json in Resources */,
 				B68D40C62803D75700576C5A /* LanguageText.plist in Resources */,
 				B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */,
 				B68D40C92803D75700576C5A /* BuglyCrash.plist in Resources */,
@@ -406,16 +530,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				9580F8352924D73500266BBC /* TextDictionary.swift in Sources */,
+				31FD75F02A7212BD00698086 /* GPTMessageTextView.swift in Sources */,
 				B60E1EAD280058E400D7A1A2 /* ViewController.swift in Sources */,
 				B68D40CA2803D75700576C5A /* HelpViewController.swift in Sources */,
+				311538A92A25F5A900241EE5 /* GPTResourceBundle.swift in Sources */,
+				314A60DA2A2F495100F875DE /* BaseDataService.swift in Sources */,
+				311538AD2A25F5A900241EE5 /* GPTAtomicMap.swift in Sources */,
 				B68D40BD2803D70900576C5A /* LogTextView.swift in Sources */,
 				B68D40D7280402D800576C5A /* BladesDispatchViewController.swift in Sources */,
 				B6F86B5728068CA4006BAA34 /* Utilities.swift in Sources */,
+				314A60D22A2F2F5B00F875DE /* GPTTokenWindowController.swift in Sources */,
+				314A60E32A3084D500F875DE /* NSViewExt.swift in Sources */,
+				314A60A62A25F99C00F875DE /* IntelligentReadmeViewController.swift in Sources */,
+				314A60D42A2F2F5B00F875DE /* GPTTokenViewController.swift in Sources */,
+				311538AF2A25F5A900241EE5 /* EncoderUtils.swift in Sources */,
+				311538AE2A25F5A900241EE5 /* GPTEncoder.swift in Sources */,
 				B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */,
+				311538B22A25F5A900241EE5 /* GPTMsgModels.swift in Sources */,
 				769C8C91280519A3001C55B5 /* BladesUnusedClassCheckViewController.swift in Sources */,
 				B68D40C72803D75700576C5A /* HelpViewManager.swift in Sources */,
+				311538AC2A25F5A900241EE5 /* StringExtensions.swift in Sources */,
+				314A60DB2A2F495100F875DE /* GPTMsgDataService.swift in Sources */,
 				B68D40CC2803D7BD00576C5A /* BladesViewController.swift in Sources */,
 				B60E1EAB280058E400D7A1A2 /* AppDelegate.swift in Sources */,
+				314A60DF2A30699A00F875DE /* GPTMessageCell.swift in Sources */,
+				311538B02A25F5A900241EE5 /* String+Error.swift in Sources */,
+				311538B12A25F5A900241EE5 /* GPTRequestService.swift in Sources */,
 				B6F86B5A2806901A006BAA34 /* SYFlatButton.m in Sources */,
 				B68D40DF2804147600576C5A /* BladesLibrarySizeViewController.swift in Sources */,
 			);
