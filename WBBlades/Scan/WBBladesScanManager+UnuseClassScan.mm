@@ -238,39 +238,42 @@ static section_64 classList = {0};
  */
 + (NSArray*)diffClasses:(NSMutableSet *)allClasses used:(NSMutableSet *)usedClasses classSize:(NSMutableDictionary *)sizeDic fileData:(NSData *)fileData {
     // allClasses和usedClasses做差集
+    NSMutableSet *newAllClasses = [[NSMutableSet alloc] init];
     [allClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
         NSString *className = (NSString *)obj;
         if ([className hasPrefix:@"_TtC"]) {
             NSString *demangleName = [WBBladesTool getDemangleName:className];
             if (demangleName.length > 0) {
-                [allClasses removeObject:obj];
-                [allClasses addObject:demangleName];
+                [newAllClasses addObject:demangleName];
+            } else {
+                [newAllClasses addObject:className];
             }
             if ([usedClasses containsObject:className] && className.length > 0) {
                 [usedClasses addObject:demangleName];
             }
+            return;
         }
         if ([className hasPrefix:@"PodsDummy_"]) {
             //过滤掉PodsDummy_开头的无效类
             [usedClasses addObject:className];
-            [allClasses removeObject:obj];
+            return;
         }
+        [newAllClasses addObject:className];
     }];
-        
-    [usedClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if ([allClasses containsObject:obj]) {
-            [allClasses removeObject:obj];
-        }
-    }];
+    allClasses = newAllClasses;
+    
     NSMutableArray *unusedClasses = [NSMutableArray array];
     [allClasses enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if ([usedClasses containsObject:obj]) {
+            return;
+        }
         NSString *demangleName = @"";
         if ([obj hasPrefix:@"_Tt"]) {
             demangleName = [WBBladesTool getDemangleName:obj]?:@"";
         }
         NSString *className = demangleName.length > 0 ? demangleName : obj;
         if ([className containsString:@" in "]) {
-            [allClasses removeObject:obj];
+            return;
         }
         [unusedClasses addObject:className];
     }];
