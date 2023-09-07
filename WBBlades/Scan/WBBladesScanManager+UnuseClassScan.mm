@@ -117,6 +117,7 @@ static section_64 classList = {0};
         section_64 nlclsList= {0};
         section_64 nlcatList= {0};
         section_64 cfstringList= {0};
+        section_64 cstringList= {0};
 
         segment_command_64 linkEdit = {0};
 
@@ -165,6 +166,9 @@ static section_64 classList = {0};
                         if ([secName isEqualToString:DATA_CSTRING]) {
                             cfstringList = sectionHeader;
                         }
+                        if ([secName isEqualToString:TEXT_CSTRING]) {
+                            cstringList = sectionHeader;
+                        }
                         currentSecLocation += sizeof(section_64);
                     }
                 } else if ((segmentCommand.maxprot &( VM_PROT_READ | VM_PROT_EXECUTE)) == (VM_PROT_READ | VM_PROT_EXECUTE)) {
@@ -181,6 +185,9 @@ static section_64 classList = {0};
 //                            s_cs_insn_address_array = [WBBladesTool disassemWithMachOFile:fileData from:sectionHeader.offset length:sectionHeader.size];
                         }else if([secName isEqualToString:TEXT_SWIFT5_TYPES]){
                             swift5Types = sectionHeader;
+                        }
+                        else if ([secName isEqualToString:TEXT_CSTRING]) {
+                            cstringList = sectionHeader;
                         }
                         currentSecLocation += sizeof(section_64);
                     }
@@ -208,7 +215,10 @@ static section_64 classList = {0};
 
         //read __cstring
         ScanUnusedClassLogInfo(@"开始读取__cfstring section...");
-        [self readCStringList:cfstringList refSet:classrefSet fileData:fileData];
+        //读取CFString中的字符串
+//        NSMutableSet *cFStringSet = [self readCFStringList:cfstringList refSet:classrefSet fileData:fileData];
+        //读取CString中的字符串
+        [self readCStringList:cstringList refSet:classrefSet fileData:fileData];
 
         //read swift5Types
         ScanUnusedClassLogInfo(@"开始读取swift5Types section...");
@@ -219,7 +229,7 @@ static section_64 classList = {0};
         ScanUnusedClassLogInfo(@"开始读取classlist section...");
         NSMutableDictionary *sizeDic = [NSMutableDictionary dictionary];
         NSMutableSet *classSet = [self readClassList:classList aimClasses:aimClasses set:classrefSet fileData:fileData classSize:(NSMutableDictionary *)sizeDic];
-    //    73317
+    
         //泛型参数约束
         [self readSwiftGenericRequire:classrefSet fileData:fileData];
 
@@ -716,7 +726,7 @@ static section_64 classList = {0};
      classrefSet：被引用的类的集合，string会被加入到这个集合中
 fileData：从磁盘中读取的二进制文件，通常是可执行文件。
 */
-+(void)readCStringList:(section_64)cfstringList refSet:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
++(void)readCFStringList:(section_64)cfstringList refSet:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
     NSRange range = NSMakeRange(cfstringList.offset, 0);
     unsigned long long max = [fileData length];
     for (int i = 0; i < cfstringList.size / sizeof(cfstring64); i++) {
@@ -737,6 +747,35 @@ fileData：从磁盘中读取的二进制文件，通常是可执行文件。
              }
          }
      }
+}
+
+//检测项目中所有的字符串
++ (void)readCStringList:(struct section_64)cstringList refSet:(NSMutableSet *)classrefSet fileData:(NSData *)fileData {
+    unsigned long long start_loc = cstringList.offset;
+    unsigned long long max = cstringList.offset + cstringList.size;
+    unsigned long long step = start_loc;
+    while (step<max) {
+        @autoreleasepool {
+            NSRange range = NSMakeRange(step, 1);
+            char *buffer = (char *)malloc(1);
+            [fileData getBytes:buffer range:range];
+            if (*buffer == 0) {
+                unsigned long long str_len = step - start_loc;
+                if (str_len>0) {
+                    char *str_buffer = (char *)malloc(str_len+1); str_buffer[str_len] = '\0';
+                    [fileData getBytes:str_buffer range:NSMakeRange(start_loc, str_len)];
+                    NSString *cString = [NSString stringWithCString:str_buffer encoding:NSUTF8StringEncoding];
+                    if (cString && ![cString hasPrefix:@"_TtC"]) {
+                        [classrefSet addObject:cString];
+                    }
+                    free(str_buffer);
+                }
+                start_loc = step + 1;
+            }
+            free(buffer);
+            step++;
+        }
+    }
 }
 
 /**
