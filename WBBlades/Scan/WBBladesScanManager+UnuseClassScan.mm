@@ -1478,11 +1478,13 @@ return：泛型集合
                 NSString *cacheMetadata = [symbol substringFromIndex:METADATACACHE_FLAG.length];
                 NSArray *tmp = [cacheMetadata componentsSeparatedByString:@"<"];
                 if (tmp.count > 1) {//有泛型约束
+                    NSString *typeName = [tmp firstObject];
+                    [swiftUsedTypeSet addObject:typeName];
+                    
                     NSString *genericRequire = [tmp lastObject];
                     genericRequire = [genericRequire stringByReplacingOccurrencesOfString:@">" withString:@""];
                     NSArray *types = [genericRequire componentsSeparatedByString:@", "];
                     [genericRequiredSet addObjectsFromArray:types];
-                    [swiftUsedTypeSet addObjectsFromArray:types];
                 }
             }
         }
