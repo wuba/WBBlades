@@ -82,7 +82,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 | OC & Swift 被继承        |    ✅     | `SomClass : MyClass`                         |
 | OC & Swift 作为属性      |    ✅     | `@property (strong,atomic) MyClass *obj;`    |
 | Swift 类直接调用         |    ✅     | `MyClass.init()`                             |
-| Swift 通过runtime调用    |    ❌     | `objc_getClass("Demo.MyClass")`              |
+| Swift 通过runtime调用    |    ✅     | `objc_getClass("Demo.MyClass")`              |
 | Swift 泛型参数           |    ✅     | `SomeClass<MyClass>.init()`                  |
 | Swfit 类在OC中动态调用   |    ✅     | `NSClassFromString("Demo.MyClass")`          |
 | Swift 容器中作为类型声明 |    ❌     | `var array:[MyClass]`                        |
@@ -223,7 +223,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 | ObjC & Swift being inherited                   |    ✅    | `SomClass : MyClass`                         |
 | ObjC & Swift being properties                  |    ✅    | `@property (strong,atomic) MyClass *obj;`    |
 | Swift class direct call                        |    ✅    | `MyClass.init()`                             |
-| Swift call using runtime                       |    ❌    | `objc_getClass("Demo.MyClass")`              |
+| Swift call using runtime                       |    ✅    | `objc_getClass("Demo.MyClass")`              |
 | Swift generic parameters                       |    ✅    | `SomeClass<MyClass>.init()`                  |
 | Swfit class dynamic call in ObjC               |    ✅    | `NSClassFromString("Demo.MyClass")`          |
 | Swift type declaration in the container        |    ❌    | `var array:[MyClass]`                        |
