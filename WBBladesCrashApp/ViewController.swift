@@ -14,7 +14,6 @@ let kInputProcessCacheKey = "kInputProcessCacheKey"
 let kInputUUIDCacheKey = "kInputUUIDCacheKey"
 
 class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,NSTableViewDataSource {
-
     @IBOutlet var logTextView: LogTextView!                             //crash log text view
     @IBOutlet weak var mainTitleLabel: NSTextField!                     //main title label
     @IBOutlet weak var logTextViewOriginY: NSLayoutConstraint!          //crash log text view origin Y
@@ -39,11 +38,15 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     @IBOutlet weak var inputProgressTopTipLabel: NSTextField!
     @IBOutlet weak var inputProgressNameLabel: NSTextField!
     @IBOutlet weak var inputProgressBaseAddrLabel: NSTextField!
+    @IBOutlet weak var uuidNameLabel: NSTextField!
     @IBOutlet weak var inputProgressConfirmBtn: NSButton!
 
     @IBOutlet weak var languageChangeBtn: NSPopUpButton!                //select language
     @IBOutlet weak var logTextPlaceholder: NSTextField!
     
+    @IBOutlet weak var crashAnalyzeLoading: NSProgressIndicator!
+    
+    @IBOutlet weak var crashLoadingView: NSView!
     var curLogModel: WBBMLogModel!                                      //scan crash log return a model
     var curSymbolTable: String!                                         //symbol table path
     var anaTimer: Timer!                                                //progress timer
@@ -76,7 +79,6 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-
         initAllSubviews()//init all subviews
         initNotification()//add notification
         configThemeColor()// configure theme colors
@@ -142,6 +144,13 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
                 inputUUIDCacheBtn.isHidden = false
             }else{
                 inputUUIDCacheBtn.isHidden = true
+            }
+            if curLogModel.logType == .HuaweiType {
+                inputProgressTopTipLabel.stringValue = TextDictionary.valueForKey(key: "inputProgressTopTipSimpleLabel")
+                inputStartAddressField.isHidden = true
+                inputUUIDField.isHidden = true
+                inputProgressBaseAddrLabel.isHidden = true
+                uuidNameLabel.isHidden = true
             }
         }else{
             logTextView.isEditable = true
@@ -284,11 +293,14 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
         UserDefaults.standard.setValue(processCaches, forKey: kInputProcessCacheKey)
         UserDefaults.standard.synchronize()
 
-        if inputStartAddressField.stringValue.count == 0 {
-            showTips(tipString: TextDictionary.valueForKey(key: "buglyProcessNameTip"))
-        }else{
-            curLogModel.extendParams["buglyStartAddress"] = inputStartAddressField.stringValue
+        if curLogModel.logType != .HuaweiType {
+            if inputStartAddressField.stringValue.count == 0 {
+                showTips(tipString: TextDictionary.valueForKey(key: "buglyProcessNameTip"))
+            }else{
+                curLogModel.extendParams["buglyStartAddress"] = inputStartAddressField.stringValue
+            }
         }
+        
 
 //        if inputUUIDField.stringValue.count > 0 {
 //            curLogModel.processUUID = inputUUIDField.stringValue
@@ -403,7 +415,7 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
             self?.curSymbolTable = symbolPath
         })
         
-        if logModel.logType == .BuglyType {
+        if logModel.logType == .BuglyType || logModel.logType == .HuaweiType{
             self.showInputProcess(show: true)
         }else{
             self.progressLabel.textColor = NSColor.labelColor
@@ -466,13 +478,35 @@ class ViewController: NSViewController,NSTextViewDelegate, NSTableViewDelegate,N
                     self?.analyzeLog()
                 }
             }
-        }else if(curSymbolTable == nil){
+        }
+        else if curLogModel.logType == .HuaweiType {
+            huaweiLogAnalyze()
+        }
+        else if(curSymbolTable == nil){
             self.showSymbolTableView(show: true)
         }else{
             analyzeLog()
         }
     }
-
+    
+    func huaweiLogAnalyze() -> Void {
+        // 展示进度
+        self.crashLoadingView.isHidden = false
+        self.crashLoadingView.layer?.backgroundColor = NSColor(calibratedRed: 0.68, green: 0.79, blue: 0.94, alpha: 1.0).cgColor
+        self.crashAnalyzeLoading.startAnimation(nil)
+        DispatchQueue.global(qos: .default).async {
+            // 执行脚本
+            let shellRes = WBExeShell.crashAnalysisLogContent(self.logTextView.string, dSYMPath: self.symbolTablePathView.stringValue, processName: self.curLogModel.processName)
+            DispatchQueue.main.async {
+                // 在主线程上更新UI
+                self.crashLoadingView.isHidden = true
+                self.crashAnalyzeLoading.stopAnimation(nil)
+                // 展示解析结果
+                self.logTextView.string = shellRes
+                self.logTextView.textColor = NSColor.init(red: 65.0/255.0, green: 105.0/255.0, blue: 225.0/255.0, alpha: 1.0)
+            }
+        }
+    }
     /**
      *  analyze crash log start
      */

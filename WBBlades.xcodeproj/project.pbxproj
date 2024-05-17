@@ -19,6 +19,8 @@
 		311538B02A25F5A900241EE5 /* String+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A62A25F5A900241EE5 /* String+Error.swift */; };
 		311538B12A25F5A900241EE5 /* GPTRequestService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A72A25F5A900241EE5 /* GPTRequestService.swift */; };
 		311538B22A25F5A900241EE5 /* GPTMsgModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311538A82A25F5A900241EE5 /* GPTMsgModels.swift */; };
+		312624B72BF4974800F923A0 /* crashAnalysis.sh in Resources */ = {isa = PBXBuildFile; fileRef = 312624B62BF4974800F923A0 /* crashAnalysis.sh */; };
+		312624BA2BF4A68700F923A0 /* WBExeShell.m in Sources */ = {isa = PBXBuildFile; fileRef = 312624B92BF4A68700F923A0 /* WBExeShell.m */; };
 		314A60A62A25F99C00F875DE /* IntelligentReadmeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60A52A25F99C00F875DE /* IntelligentReadmeViewController.swift */; };
 		314A60D22A2F2F5B00F875DE /* GPTTokenWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 314A60CE2A2F2F5B00F875DE /* GPTTokenWindowController.swift */; };
 		314A60D32A2F2F5B00F875DE /* GPTTokenViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 314A60CF2A2F2F5B00F875DE /* GPTTokenViewController.xib */; };
@@ -86,6 +88,9 @@
 		311538A62A25F5A900241EE5 /* String+Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Error.swift"; sourceTree = "<group>"; };
 		311538A72A25F5A900241EE5 /* GPTRequestService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTRequestService.swift; sourceTree = "<group>"; };
 		311538A82A25F5A900241EE5 /* GPTMsgModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTMsgModels.swift; sourceTree = "<group>"; };
+		312624B62BF4974800F923A0 /* crashAnalysis.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = crashAnalysis.sh; sourceTree = "<group>"; };
+		312624B82BF4A68700F923A0 /* WBExeShell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WBExeShell.h; sourceTree = "<group>"; };
+		312624B92BF4A68700F923A0 /* WBExeShell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WBExeShell.m; sourceTree = "<group>"; };
 		314A60A52A25F99C00F875DE /* IntelligentReadmeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntelligentReadmeViewController.swift; sourceTree = "<group>"; };
 		314A60CE2A2F2F5B00F875DE /* GPTTokenWindowController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GPTTokenWindowController.swift; sourceTree = "<group>"; };
 		314A60CF2A2F2F5B00F875DE /* GPTTokenViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GPTTokenViewController.xib; sourceTree = "<group>"; };
@@ -288,6 +293,7 @@
 		B60E1EA9280058E400D7A1A2 /* WBBladesCrashApp */ = {
 			isa = PBXGroup;
 			children = (
+				312624B62BF4974800F923A0 /* crashAnalysis.sh */,
 				311538842A25EC0900241EE5 /* IntelligentReadme */,
 				B6E06C78280968B000F7A0E5 /* Info.plist */,
 				B602FBF2280966FB00D7E923 /* WBBladesCrashApp.entitlements */,
@@ -315,6 +321,8 @@
 				B68D40BA2803D4C900576C5A /* Main.storyboard */,
 				B68D40C02803D75600576C5A /* LanguageText.plist */,
 				B60E1EB3280058E600D7A1A2 /* WBBlades.entitlements */,
+				312624B82BF4A68700F923A0 /* WBExeShell.h */,
+				312624B92BF4A68700F923A0 /* WBExeShell.m */,
 			);
 			path = WBBladesCrashApp;
 			sourceTree = "<group>";
@@ -437,6 +445,7 @@
 				311538AA2A25F5A900241EE5 /* encoderBundle.json in Resources */,
 				B68D40C62803D75700576C5A /* LanguageText.plist in Resources */,
 				B60E1EAF280058E600D7A1A2 /* Assets.xcassets in Resources */,
+				312624B72BF4974800F923A0 /* crashAnalysis.sh in Resources */,
 				B68D40C92803D75700576C5A /* BuglyCrash.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -543,6 +552,7 @@
 				314A60E32A3084D500F875DE /* NSViewExt.swift in Sources */,
 				314A60A62A25F99C00F875DE /* IntelligentReadmeViewController.swift in Sources */,
 				314A60D42A2F2F5B00F875DE /* GPTTokenViewController.swift in Sources */,
+				312624BA2BF4A68700F923A0 /* WBExeShell.m in Sources */,
 				311538AF2A25F5A900241EE5 /* EncoderUtils.swift in Sources */,
 				311538AE2A25F5A900241EE5 /* GPTEncoder.swift in Sources */,
 				B67CCDA728F2C9E3007CF975 /* BladesAutoHookViewController.swift in Sources */,

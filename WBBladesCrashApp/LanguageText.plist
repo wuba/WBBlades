@@ -507,6 +507,13 @@ strip命令经常用来去除Mach-O文件中的一些符号表、调试符号表
 		<key>eng</key>
 		<string>Input the process name, the base address of process and UUID.</string>
 	</dict>
+	<key>inputProgressTopTipSimpleLabel</key>
+	<dict>
+		<key>chinese</key>
+		<string>请您输入需要解析的进程名</string>
+		<key>eng</key>
+		<string>Input the process name</string>
+	</dict>
 	<key>inputProgressNameLabel</key>
 	<dict>
 		<key>chinese</key>

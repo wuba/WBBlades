@@ -26,7 +26,10 @@ class WBBMScanLogManager {
        if let logModel: WBBMLogModel = WBBMScanBuglyLog.scanBuglyLog(content: logString) {
            return logModel
        }
-       
+        //scan huawei crash log
+        if let logModel: WBBMLogModel = WBBMScanHuaweiLog.scanHuaweiLog(content: logString) {
+            return logModel
+        }
        return nil
    }
 }

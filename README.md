@@ -4,7 +4,7 @@
 
 ## Introduction
 
-WBBlades is a tool set based on `Mach-O` file parsing, including one-click detection for app  (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), point-to-point crash analysis ( analyse system crash log, based on symbol file and without symbol files),  Class automatic extraction and Hook capability based on Mach-O file. It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.Support big method/small method parsing and iOS 15 above about dyld_chained_Fixups processing. In order to facilitate users in quickly understanding the WBBlades project, we provide an intelligent Readme feature based on GPT.
+WBBlades is a tool set based on `Mach-O` file parsing, including one-click detection for app  (supports `OC` and `Swift`), package size analysis (supports a single static library/dynamic library), Point-to-point crash analysis (based on system logs, supports Huawei and Bugly platform crash stack analysis, supports signed and unsigned states),  Class automatic extraction and Hook capability based on Mach-O file. It mainly uses __Text assembly code analysis, architecture extraction, DYSM file stripping, symbol table stripping, crash file (ips) analysis technology.Support big method/small method parsing and iOS 15 above about dyld_chained_Fixups processing. In order to facilitate users in quickly understanding the WBBlades project, we provide an intelligent Readme feature based on GPT.
 
 ### Tool Overview
 
@@ -13,7 +13,7 @@ WBBlades is a tool set based on `Mach-O` file parsing, including one-click detec
 | Intelligent Readme          | Interactive Q&A format facilitates a quick understanding of the WBBlades project and related technologies. | GPT chat                                                     |
 | One-Click Detection for App | Swift & OC useless class detection, useless resource detection, and package downsizing optimization suggestions. | Disassembly, __Text instruction extraction, Mach-O parsing, symbol table and Swift class structure in Mach-O |
 | Package Size Analysis       | Detecting the actual size occupied by static & dynamic libraries in .ipa file. | Architecture stripping, static library structure analysis    |
-| Crash Analysis              | Using .app or dYSM file to parse the system crash log.       | DYSM file parsing, lightweight symbol table extraction, ips file parsing, with/without symbol table crash parsing |
+| Crash Analysis              | Use .app or dYSM to analyze system crash logs, and support crash stack analysis on Huawei and Bugly platforms | DYSM file parsing, lightweight symbol table extraction, ips file parsing, with/without symbol table crash parsing |
 | Mach-O Class Hook           | Automatically extract classes from any Mach-O file, and then hook them. | dyld_ chained_ Fixups, binding, rebase, and big/small method parsing |
 
 The new version  implements a comprehensive visual implementation of the toolset based on the original command-line-based operation of the above tools, and is designed for R&D efficiency improvement. In addition, in the analysis of difficult crashes, for some crashes that are not easy to reproduce and cannot be collected by general tools (the app process is directly killed by the operating system), a point-to-point crash analysis is provided.
@@ -141,17 +141,17 @@ DWARF: [https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.n
 
 ## 简介
 
-WBBlades是基于`Mach-O`文件解析的工具集，包括App一键体检（支持`OC`和`Swift`的无用类检测）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持有符号和无符号状态）、基于Mach-O的Class自动提取和Hook能力。主要利用了__TEXT汇编代码分析、架构提取、符号表剥离、dYSM文件提取、崩溃文件(.ips)解析等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于dyld_chained_fixups的处理。并且为了便于用户更快了解WBBlades项目，我们提供了基于GPT的智能Readme功能。
+WBBlades是基于`Mach-O`文件解析的工具集，包括App一键体检（支持`OC`和`Swift`的无用类检测）、包大小分析（支持单个静态库/动态库的包大小分析）、点对点崩溃解析（基于系统日志，支持华为和Bugly平台崩溃堆栈解析，支持有符号和无符号状态）、基于Mach-O的Class自动提取和Hook能力。主要利用了__TEXT汇编代码分析、架构提取、符号表剥离、dYSM文件提取、崩溃文件(.ips)解析等技术手段实现，支持big method /small method 解析 以及 iOS 15以上关于dyld_chained_fixups的处理。并且为了便于用户更快了解WBBlades项目，我们提供了基于GPT的智能Readme功能。
 
 #### 工具概览
 
-| 工具名称     | 功能概述                                         | 相关技术                                                     |
-| ------------ | ------------------------------------------------ | ------------------------------------------------------------ |
-| 智能Readme   | 问答式互动，便于快速了解WBBlades项目以及相关技术 | GPT聊天                                                      |
-| App一键体检  | Swift/OC无用类检测、无用资源检测、包瘦身优化建议 | 反汇编、__Text指令提取、Mach-O解析、符号表/Swift类在Mach-O中的结构 |
-| 包大小分析   | 检测静态库/动态库在.ipa中占用的实际大小          | 架构剥离、静态库结构分析                                     |
-| 崩溃解析     | 利用.app或者dYSM对系统崩溃日志解析               | dYSM文件解析、轻量符号表提取、ips文件解析、有/无符号表崩溃解析 |
-| Mach-O类Hook | 自动提取任意Mach-O中的Class并Hook                | dyld_chained_fixups 、binding、rebase、big/small method解析  |
+| 工具名称     | 功能概述                                                     | 相关技术                                                     |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 智能Readme   | 问答式互动，便于快速了解WBBlades项目以及相关技术             | GPT聊天                                                      |
+| App一键体检  | Swift/OC无用类检测、无用资源检测、包瘦身优化建议             | 反汇编、__Text指令提取、Mach-O解析、符号表/Swift类在Mach-O中的结构 |
+| 包大小分析   | 检测静态库/动态库在.ipa中占用的实际大小                      | 架构剥离、静态库结构分析                                     |
+| 崩溃解析     | 利用.app或者dYSM对系统崩溃日志解析，支持华为和Bugly平台的崩溃堆栈解析 | dYSM文件解析、轻量符号表提取、ips文件解析、有/无符号表崩溃解析 |
+| Mach-O类Hook | 自动提取任意Mach-O中的Class并Hook                            | dyld_chained_fixups 、binding、rebase、big/small method解析  |
 
 新版本在原来基于命令行运行上述工具的基础上，对工具集进行了全面的可视化实现，开箱即用，专为研发提效而设计。另外，在疑难崩溃解析上，针对一些不易复现、且通用工具无法收集的崩溃（被操作系统直接杀死App进程场景），提供了基于系统日志的点对点崩溃解析功能。
 
@@ -274,5 +274,4 @@ GitHub地址：[https://github.com/steventroughtonsmith/cartool](https://github.
 DWARF地址：[https://www.prevanders.net/dwarf.html#releases](https://www.prevanders.net/dwarf.html#releases "Source Code for DWARF")
 
 GitHub: [https://github.com/nygard/class-dump](https://github.com/nygard/class-dump "GitHub for class-dump")
-
 

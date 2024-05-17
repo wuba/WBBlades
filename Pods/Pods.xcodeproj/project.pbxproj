@@ -68,6 +68,7 @@
 		2F54EF9405D0A6DFEA86B7CDEC501AC6 /* WBBMScanLogModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5311B5BE3D7743010F565366116CF9F3 /* WBBMScanLogModel.swift */; };
 		2F76B4CCADC8BA0AF7A1633341FB80EE /* dwarf_tsearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 697B209AD4CF0568CAF870715FF0F4AB /* dwarf_tsearch.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		2FAB2A2D20E4F72DA417989E4A3187E3 /* ARMAddressingModes.h in Headers */ = {isa = PBXBuildFile; fileRef = 5930A42BB427686CBE10133852451F8D /* ARMAddressingModes.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		314264402BF3468100CD2B1C /* WBBMScanHuaweiLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3142643F2BF3468100CD2B1C /* WBBMScanHuaweiLog.swift */; };
 		316219ECF911FBBCAF2193C8CF02F5FB /* NSColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44BFC3C9FA2BCC3C1184B4D039A5A100 /* NSColorExtensions.swift */; };
 		338BE08A6816DB6F79EEF8162D5C4675 /* AppProjectCheck.h in Headers */ = {isa = PBXBuildFile; fileRef = 1B024CA0ADFB3708723713FCA8A23F37 /* AppProjectCheck.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		3560D0A6E56747043F3F3817A14539AE /* AArch64BaseInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 3010339C5C138A3C3AA93D571422C43D /* AArch64BaseInfo.h */; settings = {ATTRIBUTES = (Project, ); }; };
@@ -459,111 +460,112 @@
 /* Begin PBXFileReference section */
 		002CA15307A16FBD65F0B2E359A9AAFA /* CarUnziper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = CarUnziper.h; sourceTree = "<group>"; };
 		009C50D85AC889E3831D5B9E032A46B7 /* dwarf_macro5.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_macro5.h; sourceTree = "<group>"; };
-		02449985197A7466F0FE124806C466B3 /* dwarf_error.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_error.c; sourceTree = "<group>"; };
+		02449985197A7466F0FE124806C466B3 /* dwarf_error.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_error.c; sourceTree = "<group>"; };
 		030AEBDE1D132B13A8D88855ED2881BC /* PXListViewCell.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PXListViewCell.h; sourceTree = "<group>"; };
 		03B764ADDED51C050BAEB8972F36364B /* WBBladesSymTab.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesSymTab.h; path = Model/WBBladesSymTab.h; sourceTree = "<group>"; };
-		03EE3694B5480EC0BEC0F41E6B7A9BFC /* dwarf_alloc.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_alloc.c; sourceTree = "<group>"; };
+		03EE3694B5480EC0BEC0F41E6B7A9BFC /* dwarf_alloc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_alloc.c; sourceTree = "<group>"; };
 		03FB3996FAB9151159BB0273C32C69C6 /* ASFileInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASFileInfo.h; sourceTree = "<group>"; };
-		0415BA8213D37CCF5761F97E6CA03051 /* ArtilleryOfItaly.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = ArtilleryOfItaly.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		0415BA8213D37CCF5761F97E6CA03051 /* ArtilleryOfItaly.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = ArtilleryOfItaly.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		06227798817E9943D09356B9AE7B477F /* WBBladesSymTab.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesSymTab.m; path = Model/WBBladesSymTab.m; sourceTree = "<group>"; };
 		062C309A68F9A8116AB56B42487EFC22 /* osxkernel_inttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = osxkernel_inttypes.h; path = Capstone/osxkernel_inttypes.h; sourceTree = "<group>"; };
 		079D3A258A9BC7135F736DB6B5DB85AF /* ASPlugIn.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASPlugIn.m; sourceTree = "<group>"; };
 		07E1D1CA36BC6F71655BBAD1DFA3E225 /* AArch64Disassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64Disassembler.h; sourceTree = "<group>"; };
-		07E29249A99DCAFBF55219D70CE7357D /* dwarf_object_detector.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_object_detector.c; sourceTree = "<group>"; };
+		07E29249A99DCAFBF55219D70CE7357D /* dwarf_object_detector.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_object_detector.c; sourceTree = "<group>"; };
 		0998A681EDE88591293AA3BF6A2C2DDC /* cs_priv.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = cs_priv.h; path = Capstone/cs_priv.h; sourceTree = "<group>"; };
-		09F807375E6F1C548DB1C3FD36DBE158 /* MachOCheck.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = MachOCheck.mm; sourceTree = "<group>"; };
-		0A9959BF56E01FFBDC3FACB2BE1533B8 /* dwarf_harmless.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_harmless.c; sourceTree = "<group>"; };
+		09F807375E6F1C548DB1C3FD36DBE158 /* MachOCheck.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = MachOCheck.mm; sourceTree = "<group>"; };
+		0A9959BF56E01FFBDC3FACB2BE1533B8 /* dwarf_harmless.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_harmless.c; sourceTree = "<group>"; };
 		0AD77C6155022C663A438C1C3B6BC049 /* WBBladesDefines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesDefines.h; path = Tools/WBBladesDefines.h; sourceTree = "<group>"; };
 		0B05F177100D460B760F0987BFF10884 /* Pods-WBBladesCrashApp-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBladesCrashApp-resources.sh"; sourceTree = "<group>"; };
 		0B5617A06E9BFE589B4A65BA8D17EC64 /* MCDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCDisassembler.h; path = Capstone/MCDisassembler.h; sourceTree = "<group>"; };
 		0BB39962E7FEE4ED6DA1E2FDE216FA82 /* dwarf_debuglink.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_debuglink.h; sourceTree = "<group>"; };
 		0BC35C1E527FC22BAEDDB637B9872A8A /* CDMethodType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDMethodType.h; path = ClassDump/CDMethodType.h; sourceTree = "<group>"; };
-		0BE4EFED9FAE0BCA60E1B21BFF75FF1A /* X86Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Disassembler.c; sourceTree = "<group>"; };
-		0C172EA0F5D74E02CDB46650F3310A59 /* X86ATTInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86ATTInstPrinter.c; sourceTree = "<group>"; };
+		0BE4EFED9FAE0BCA60E1B21BFF75FF1A /* X86Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86Disassembler.c; sourceTree = "<group>"; };
+		0C172EA0F5D74E02CDB46650F3310A59 /* X86ATTInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86ATTInstPrinter.c; sourceTree = "<group>"; };
 		0C2DFE0F2FFCAA1B53FFEBBEB756CE42 /* WBBMSymbolTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolTool.swift; sourceTree = "<group>"; };
 		0C580A8F5ACC04631E74B51339702D0F /* AArch64AddressingModes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64AddressingModes.h; sourceTree = "<group>"; };
 		0C83197115C1201607BF05F2D96A6056 /* MCInst.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCInst.h; path = Capstone/MCInst.h; sourceTree = "<group>"; };
 		0DA3A046F70D42523FB73573EA43DFF8 /* ASShowFileListBaseModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListBaseModel.swift; sourceTree = "<group>"; };
 		0DE554EA334954D9774649E94793CC53 /* dwarf_elfread.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_elfread.h; sourceTree = "<group>"; };
 		0E9AE670FC7302F4B877796024EF2D7D /* NSScanner-CDExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSScanner-CDExtensions.h"; path = "ClassDump/NSScanner-CDExtensions.h"; sourceTree = "<group>"; };
-		0F24057264447E480E07E15EEF6DB2AB /* WBBladesFileManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesFileManager+StaticLibs.mm"; path = "Tools/WBBladesFileManager+StaticLibs.mm"; sourceTree = "<group>"; };
+		0F24057264447E480E07E15EEF6DB2AB /* WBBladesFileManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = "WBBladesFileManager+StaticLibs.mm"; path = "Tools/WBBladesFileManager+StaticLibs.mm"; sourceTree = "<group>"; };
 		0FD6FFEEDED9A3B79247D8AE9E935D0E /* CDObjectiveCProcessor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDObjectiveCProcessor.h; path = ClassDump/CDObjectiveCProcessor.h; sourceTree = "<group>"; };
-		105D513D36B8695E5CAE44FF1C685948 /* dwarf_line.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_line.c; sourceTree = "<group>"; };
+		105D513D36B8695E5CAE44FF1C685948 /* dwarf_line.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_line.c; sourceTree = "<group>"; };
 		1140582F8801BAF09C66949AA037027B /* ASFileListViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASFileListViewController.xib; sourceTree = "<group>"; };
 		123A21236DD30996D15FCBB67190B8AC /* NSData+UTF8.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSData+UTF8.h"; sourceTree = "<group>"; };
-		1275C1377B01363AD01C08327E398F23 /* dwarf_string.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_string.c; sourceTree = "<group>"; };
+		1275C1377B01363AD01C08327E398F23 /* dwarf_string.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_string.c; sourceTree = "<group>"; };
 		1378E40FC8E582C2595D4A3CFC20A3B5 /* Artillery.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Artillery.h; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.h; sourceTree = "<group>"; };
 		13918DDCF9F24438E12B33EBADC34659 /* WBBladesScanManager+StaticLibs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesScanManager+StaticLibs.h"; path = "Scan/WBBladesScanManager+StaticLibs.h"; sourceTree = "<group>"; };
 		143811B791CF73C710EC5F80F66C1D44 /* STPrivilegedTask.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = STPrivilegedTask.m; path = Tools/STPrivilegedTask.m; sourceTree = "<group>"; };
-		15668906E0F0211A29E4AF561908D9C6 /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+CrashSymbol.mm"; path = "Scan/WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
+		15668906E0F0211A29E4AF561908D9C6 /* WBBladesScanManager+CrashSymbol.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = "WBBladesScanManager+CrashSymbol.mm"; path = "Scan/WBBladesScanManager+CrashSymbol.mm"; sourceTree = "<group>"; };
 		17115F8781570789459CF407D59AF131 /* ASUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASUtils.m; sourceTree = "<group>"; };
 		17217E2058CFD8998C05080ABDEC7740 /* WBBlades-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBlades-prefix.pch"; sourceTree = "<group>"; };
 		172F88FE648DC00E8D4BA44A06385636 /* CDClassDump.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDClassDump.m; path = ClassDump/CDClassDump.m; sourceTree = "<group>"; };
 		176C10D96FBAEF9EB4819EEC850A6E30 /* PXListView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = PXListView.m; sourceTree = "<group>"; };
 		187ED99C9D86881F32D0E270AD03FBA7 /* TextMigrateViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = TextMigrateViewController.xib; sourceTree = "<group>"; };
-		191A9B5D40A856B5336C07D84028C880 /* dwarf_frame2.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_frame2.c; sourceTree = "<group>"; };
-		1950F1D5726C301D3E93BDD1E7FB52D8 /* dwarf_query.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_query.c; sourceTree = "<group>"; };
+		191A9B5D40A856B5336C07D84028C880 /* dwarf_frame2.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_frame2.c; sourceTree = "<group>"; };
+		1950F1D5726C301D3E93BDD1E7FB52D8 /* dwarf_query.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_query.c; sourceTree = "<group>"; };
 		19879842A0FD5E7FCD961D4565CA4B7C /* PXListView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PXListView.h; sourceTree = "<group>"; };
-		19AE898D951E5DDFF6B7005508DCE6BA /* dwarf_peread.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_peread.c; sourceTree = "<group>"; };
+		19AE898D951E5DDFF6B7005508DCE6BA /* dwarf_peread.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_peread.c; sourceTree = "<group>"; };
 		1A103081B514EC218FFB116FEC4DF4DA /* NSData-CDExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSData-CDExtensions.h"; path = "ClassDump/NSData-CDExtensions.h"; sourceTree = "<group>"; };
 		1A2A67E5FFE4BA8657A09DAF9F787C1F /* WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBlades-umbrella.h"; sourceTree = "<group>"; };
 		1A4C0F866D6A5A6C3F8DB031342AD668 /* dwarf_funcs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_funcs.h; sourceTree = "<group>"; };
 		1B024CA0ADFB3708723713FCA8A23F37 /* AppProjectCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AppProjectCheck.h; sourceTree = "<group>"; };
 		1C9549F1E29F3E88C3D3A26448654214 /* dwarf_elf_defines.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_elf_defines.h; sourceTree = "<group>"; };
 		1CAE3D7F9BD807FFF58EC1B8336180E1 /* dwarf_elf_access.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_elf_access.h; sourceTree = "<group>"; };
-		1CBDD9C0429E90057E041110FEBB6649 /* dwarf_debug_sup.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_debug_sup.c; sourceTree = "<group>"; };
+		1CBDD9C0429E90057E041110FEBB6649 /* dwarf_debug_sup.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_debug_sup.c; sourceTree = "<group>"; };
 		1D4FF061811237C66461BD0F463E8605 /* CDOCClass.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDOCClass.h; path = ClassDump/CDOCClass.h; sourceTree = "<group>"; };
-		2062D54F7524A1312B3D4E7F3673EF9B /* ARMInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMInstPrinter.c; sourceTree = "<group>"; };
+		2062D54F7524A1312B3D4E7F3673EF9B /* ARMInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = ARMInstPrinter.c; sourceTree = "<group>"; };
 		20D693479B7B8E8F619FC3551667B1BC /* WBBMScanLogManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogManager.swift; sourceTree = "<group>"; };
 		231D39E12694BFB62E27CDFCCC2DF939 /* ASTextDictionary.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASTextDictionary.swift; sourceTree = "<group>"; };
 		24083747B770D5E593128D5F2D68FFD4 /* WBBladesCrash-Bridging-Header.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesCrash-Bridging-Header.h"; path = "WBBladesCrash/WBBladesCrash-Bridging-Header.h"; sourceTree = "<group>"; };
 		244C139E63CD378CD48DC12A71251E83 /* AppProjectCheck.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = AppProjectCheck.m; sourceTree = "<group>"; };
 		24C4B6ABA876E82C60C33C9100BD7ABF /* WBBladesCrash-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-umbrella.h"; sourceTree = "<group>"; };
 		264D5BAD60413B767EC31DD611341732 /* WBBladesCrash-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBBladesCrash-prefix.pch"; sourceTree = "<group>"; };
-		265E0E4B5E2F70A54902D8F67670D16B /* dwarf_funcs.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_funcs.c; sourceTree = "<group>"; };
+		265E0E4B5E2F70A54902D8F67670D16B /* dwarf_funcs.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_funcs.c; sourceTree = "<group>"; };
 		2664F6A09C1F9AE507EDCDFD6B20D5F5 /* dwarf_gdbindex.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_gdbindex.h; sourceTree = "<group>"; };
 		267F5057B3693096CF21279AAE961948 /* NSString-CDExtensions.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "NSString-CDExtensions.h"; path = "ClassDump/NSString-CDExtensions.h"; sourceTree = "<group>"; };
 		26DD8E227AB23DEBF46CA2FF2379E273 /* DiagnoseLoading.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiagnoseLoading.swift; sourceTree = "<group>"; };
-		27268441E778E6CB14FEB9CD569ECA53 /* dwarf_object_read_common.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_object_read_common.c; sourceTree = "<group>"; };
+		27268441E778E6CB14FEB9CD569ECA53 /* dwarf_object_read_common.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_object_read_common.c; sourceTree = "<group>"; };
 		27481EB39172C013CF4A75BA455D09BA /* WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBlades.debug.xcconfig; sourceTree = "<group>"; };
 		27E5591D9BF1BE4F9D3A5330AEC21E6A /* CDOCClass.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDOCClass.m; path = ClassDump/CDOCClass.m; sourceTree = "<group>"; };
 		285ED33CF1E9E2E90ECC172E30489EF3 /* WBAppSize-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBAppSize-prefix.pch"; sourceTree = "<group>"; };
 		2A3C0E00D6392286D7914967478C776B /* LTOOptimizeViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LTOOptimizeViewController.swift; sourceTree = "<group>"; };
 		2CBB6A879CA0D3C02A913EAE76BE47C5 /* ASFileCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASFileCell.xib; sourceTree = "<group>"; };
-		2CD4AD5AA542D9F7746AD6EC567B3132 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesScanManager.mm; path = Scan/WBBladesScanManager.mm; sourceTree = "<group>"; };
+		2CD4AD5AA542D9F7746AD6EC567B3132 /* WBBladesScanManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = WBBladesScanManager.mm; path = Scan/WBBladesScanManager.mm; sourceTree = "<group>"; };
 		2D171CD6AAFF1A1FBE4CF75048605B9D /* WBBMShellObject.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMShellObject.swift; sourceTree = "<group>"; };
-		2D6DEBCF9DAA6895427F4B0DBE6F9915 /* dwarf_init_finish.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_init_finish.c; sourceTree = "<group>"; };
+		2D6DEBCF9DAA6895427F4B0DBE6F9915 /* dwarf_init_finish.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_init_finish.c; sourceTree = "<group>"; };
 		2F9AD27232DE13EA394FAAE32DCEF19D /* WBBladesFileManager+StaticLibs.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesFileManager+StaticLibs.h"; path = "Tools/WBBladesFileManager+StaticLibs.h"; sourceTree = "<group>"; };
 		3010339C5C138A3C3AA93D571422C43D /* AArch64BaseInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64BaseInfo.h; sourceTree = "<group>"; };
 		30D7EE57DABE5B8FEF5C5FC4369B5F9E /* WBBladesTool.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesTool.h; path = Tools/WBBladesTool.h; sourceTree = "<group>"; };
 		311F3A6874D6215CC7A814B1E9DF6D57 /* dwarf_arange.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_arange.h; sourceTree = "<group>"; };
+		3142643F2BF3468100CD2B1C /* WBBMScanHuaweiLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WBBMScanHuaweiLog.swift; sourceTree = "<group>"; };
 		314E2A7B8DA49EB6CF333C98FE6BAD9F /* WBBMScanLogTool.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogTool.swift; sourceTree = "<group>"; };
 		316DD04882B5A5EC33494E5BEF7FC020 /* ItemSizeView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ItemSizeView.swift; sourceTree = "<group>"; };
 		317AF289D7C0729E40C989EFF3659BC1 /* DiagnoseItemCellView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiagnoseItemCellView.swift; sourceTree = "<group>"; };
-		323D93B454EA347B748B23B4FB642FAC /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+UnuseClassScan.mm"; path = "Scan/WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
+		323D93B454EA347B748B23B4FB642FAC /* WBBladesScanManager+UnuseClassScan.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = "WBBladesScanManager+UnuseClassScan.mm"; path = "Scan/WBBladesScanManager+UnuseClassScan.mm"; sourceTree = "<group>"; };
 		3299083E8300CC780FCC5EDDE2AFA5AB /* X86BaseInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86BaseInfo.h; sourceTree = "<group>"; };
 		32D8B3FF64261E2D6E45E2715D3524E4 /* PXListViewCell.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = PXListViewCell.m; sourceTree = "<group>"; };
 		3329EDA8079413D10C322E7DFD255865 /* PXListView+UserInteraction.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "PXListView+UserInteraction.m"; sourceTree = "<group>"; };
-		33F6ED4489F087D7E6EE217510B65300 /* dwarf_form.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_form.c; sourceTree = "<group>"; };
+		33F6ED4489F087D7E6EE217510B65300 /* dwarf_form.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_form.c; sourceTree = "<group>"; };
 		3493B807D5836932DD485BE3F6D85EC2 /* dwarf_error.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_error.h; sourceTree = "<group>"; };
 		357CBE94765FB83E190A9A13173718FC /* DiagnoseModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DiagnoseModel.swift; sourceTree = "<group>"; };
 		385DA71C9D282AF812A0467ABC5FA746 /* dwarf_line.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_line.h; sourceTree = "<group>"; };
-		392C294D5B692619AEED309115F0D5E9 /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesLinkManager.mm; path = Link/WBBladesLinkManager.mm; sourceTree = "<group>"; };
-		398E974486FC5AFCED2F6E56B9961827 /* dwarf_fission_to_cu.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_fission_to_cu.c; sourceTree = "<group>"; };
+		392C294D5B692619AEED309115F0D5E9 /* WBBladesLinkManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = WBBladesLinkManager.mm; path = Link/WBBladesLinkManager.mm; sourceTree = "<group>"; };
+		398E974486FC5AFCED2F6E56B9961827 /* dwarf_fission_to_cu.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_fission_to_cu.c; sourceTree = "<group>"; };
 		3B77491796BFC29430C117C34066C6B0 /* Pods-WBBladesCrashApp-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-WBBladesCrashApp-dummy.m"; sourceTree = "<group>"; };
-		3B8197F1D64CB2152F29FCE9F7579362 /* dwarf_vars.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_vars.c; sourceTree = "<group>"; };
+		3B8197F1D64CB2152F29FCE9F7579362 /* dwarf_vars.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_vars.c; sourceTree = "<group>"; };
 		3BEBA4B1FA4F23F1CC164563CA31423E /* ChildDiagnoseCellView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ChildDiagnoseCellView.xib; sourceTree = "<group>"; };
 		3CF5F2509EF711DB2E75856D2423E02C /* arm64.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = arm64.h; sourceTree = "<group>"; };
 		3D1C5B4DCF140675A0FF5D5C594295C4 /* SizeProfileModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = SizeProfileModel.swift; sourceTree = "<group>"; };
 		3D1FD3D4F10158919EC4D97BA3557ED7 /* ASShowFileListAssetModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListAssetModel.swift; sourceTree = "<group>"; };
 		3E05DCF13C498FD31D7A470A586ED4C1 /* utils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = utils.h; path = Capstone/utils.h; sourceTree = "<group>"; };
-		3F664DF47CF6D44AE6A0D83997795442 /* PPCModule.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCModule.c; sourceTree = "<group>"; };
-		3F74E1B2F9667214AA5FB699F17F7B34 /* dwarf_leb.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_leb.c; sourceTree = "<group>"; };
-		3F7A819EF97FCF5C3246434CF6AEF320 /* X86DisassemblerDecoder.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86DisassemblerDecoder.c; sourceTree = "<group>"; };
-		4110BF0C86A51DF620A32A69B271D352 /* ARMMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMMapping.c; sourceTree = "<group>"; };
+		3F664DF47CF6D44AE6A0D83997795442 /* PPCModule.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = PPCModule.c; sourceTree = "<group>"; };
+		3F74E1B2F9667214AA5FB699F17F7B34 /* dwarf_leb.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_leb.c; sourceTree = "<group>"; };
+		3F7A819EF97FCF5C3246434CF6AEF320 /* X86DisassemblerDecoder.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86DisassemblerDecoder.c; sourceTree = "<group>"; };
+		4110BF0C86A51DF620A32A69B271D352 /* ARMMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = ARMMapping.c; sourceTree = "<group>"; };
 		41770833BE60BC5B98CC5F7377659EBD /* CarUnziper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = CarUnziper.m; sourceTree = "<group>"; };
 		4234CC46A0F44C63D979626E253835A1 /* dwarf_memcpy_swap.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_memcpy_swap.h; sourceTree = "<group>"; };
-		432552DCB041BF81AEEA04CA8CF58119 /* dwarf_tsearchhash.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_tsearchhash.c; sourceTree = "<group>"; };
+		432552DCB041BF81AEEA04CA8CF58119 /* dwarf_tsearchhash.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_tsearchhash.c; sourceTree = "<group>"; };
 		43FB7407A5D512BE087FF0633DB50C05 /* ARMInstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMInstPrinter.h; sourceTree = "<group>"; };
 		442715E3294D08BDBA4F1F908B1B734B /* dwarf_elf_rel_detector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_elf_rel_detector.h; sourceTree = "<group>"; };
 		44BFC3C9FA2BCC3C1184B4D039A5A100 /* NSColorExtensions.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = NSColorExtensions.swift; sourceTree = "<group>"; };
@@ -575,20 +577,20 @@
 		466105EE788F9D2B28F3B6AC6F4CF289 /* HexColor.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = HexColor.swift; sourceTree = "<group>"; };
 		46FB9B01F883E193CC9C0ECCED89F9C1 /* ASTest.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASTest.m; sourceTree = "<group>"; };
 		47525AC1CAE83AC05B91550A0AC3F4CE /* CDTextClassDumpVisitor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDTextClassDumpVisitor.m; path = ClassDump/CDTextClassDumpVisitor.m; sourceTree = "<group>"; };
-		47F80D415C9ACF2C649B33719D8BFC2A /* WBBladesScanManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+StaticLibs.mm"; path = "Scan/WBBladesScanManager+StaticLibs.mm"; sourceTree = "<group>"; };
-		48001B6B58138B35B1F033399AF357D8 /* MCInstrDesc.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCInstrDesc.c; path = Capstone/MCInstrDesc.c; sourceTree = "<group>"; };
-		480389B2F50EF193ACB34AA61B740135 /* AArch64Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Mapping.c; sourceTree = "<group>"; };
+		47F80D415C9ACF2C649B33719D8BFC2A /* WBBladesScanManager+StaticLibs.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = "WBBladesScanManager+StaticLibs.mm"; path = "Scan/WBBladesScanManager+StaticLibs.mm"; sourceTree = "<group>"; };
+		48001B6B58138B35B1F033399AF357D8 /* MCInstrDesc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = MCInstrDesc.c; path = Capstone/MCInstrDesc.c; sourceTree = "<group>"; };
+		480389B2F50EF193ACB34AA61B740135 /* AArch64Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = AArch64Mapping.c; sourceTree = "<group>"; };
 		4822D4F27F89CCAA5928404C1BCF459B /* dwarf_object_read_common.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_object_read_common.h; sourceTree = "<group>"; };
 		492DF802DAC41B5C3B59C6FB85E4EFCC /* ChainFixUpsHelper.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ChainFixUpsHelper.m; path = Tools/ChainFixUpsHelper.m; sourceTree = "<group>"; };
 		4A7979F7E5B3EDD474EF4951B47B402D /* CDOCProperty.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDOCProperty.h; path = ClassDump/CDOCProperty.h; sourceTree = "<group>"; };
-		4A8C37358A2077E0B8DB15BBF18DBE3E /* dwarf_stringsection.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_stringsection.c; sourceTree = "<group>"; };
-		4AABD6FC7171B5AD49076FDE85B92772 /* dwarf_xu_index.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_xu_index.c; sourceTree = "<group>"; };
+		4A8C37358A2077E0B8DB15BBF18DBE3E /* dwarf_stringsection.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_stringsection.c; sourceTree = "<group>"; };
+		4AABD6FC7171B5AD49076FDE85B92772 /* dwarf_xu_index.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_xu_index.c; sourceTree = "<group>"; };
 		4AF38CF667EE3D72268E89CD4B6BB398 /* ASFramework.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASFramework.h; sourceTree = "<group>"; };
-		4B3EEB5AB1C2CF562AC3AA12C8C2E960 /* PPCDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCDisassembler.c; sourceTree = "<group>"; };
+		4B3EEB5AB1C2CF562AC3AA12C8C2E960 /* PPCDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = PPCDisassembler.c; sourceTree = "<group>"; };
 		4C567DA8B9911FE5D71A8C837622D86E /* myinttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = myinttypes.h; path = Capstone/myinttypes.h; sourceTree = "<group>"; };
 		4D250054B3D95BEBA19C3B7D0420CA6E /* ASTest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASTest.h; sourceTree = "<group>"; };
 		4E6B9DFDECC9F9C6BEFD4740C2E5B4C2 /* SStream.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SStream.h; path = Capstone/SStream.h; sourceTree = "<group>"; };
-		4F31D23001578BB0A6939B7E347AA85F /* dwarf_names.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_names.c; sourceTree = "<group>"; };
+		4F31D23001578BB0A6939B7E347AA85F /* dwarf_names.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_names.c; sourceTree = "<group>"; };
 		4FF2AE395C16A1EF484F851E44A13D40 /* CDObjectiveCProcessor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDObjectiveCProcessor.m; path = ClassDump/CDObjectiveCProcessor.m; sourceTree = "<group>"; };
 		506E6CF9F61C35536BA21B7C66A8829A /* CDClassDump.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDClassDump.h; path = ClassDump/CDClassDump.h; sourceTree = "<group>"; };
 		50BFC3CAC41BBE5C465BEE55B3C23303 /* CDBalanceFormatter.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDBalanceFormatter.m; path = ClassDump/CDBalanceFormatter.m; sourceTree = "<group>"; };
@@ -599,28 +601,28 @@
 		528459DEBB045A33E0C2422401B6063B /* ASFileInfoHelper.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASFileInfoHelper.swift; sourceTree = "<group>"; };
 		5311B5BE3D7743010F565366116CF9F3 /* WBBMScanLogModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanLogModel.swift; sourceTree = "<group>"; };
 		5341B9ED4BAB31ADE11296E9E985F6C7 /* Pods-WBBladesCrashApp-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBladesCrashApp-umbrella.h"; sourceTree = "<group>"; };
-		5410544B07EA4F241385D623899D80C7 /* dwarf_ranges.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_ranges.c; sourceTree = "<group>"; };
+		5410544B07EA4F241385D623899D80C7 /* dwarf_ranges.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_ranges.c; sourceTree = "<group>"; };
 		549C65B8880620701CD9E2C611620ADE /* STPrivilegedTask.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = STPrivilegedTask.h; path = Tools/STPrivilegedTask.h; sourceTree = "<group>"; };
 		54CC0CF763DE484CBC99C7D993F9BAE1 /* AppSizeDiagnoseVC.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = AppSizeDiagnoseVC.swift; sourceTree = "<group>"; };
-		54D863181C126912CB17B658B8FA2FC7 /* utils.c */ = {isa = PBXFileReference; includeInIndex = 1; name = utils.c; path = Capstone/utils.c; sourceTree = "<group>"; };
-		55BEE410120C173EDC3ACCB86AD76990 /* dwarf_form_class_names.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_form_class_names.c; sourceTree = "<group>"; };
+		54D863181C126912CB17B658B8FA2FC7 /* utils.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = utils.c; path = Capstone/utils.c; sourceTree = "<group>"; };
+		55BEE410120C173EDC3ACCB86AD76990 /* dwarf_form_class_names.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_form_class_names.c; sourceTree = "<group>"; };
 		565F7A3021325BD24B94A0265FCF2A67 /* CDTypeController.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDTypeController.h; path = ClassDump/CDTypeController.h; sourceTree = "<group>"; };
 		57FA43AD4FB12CB5A484FC8A3E54C506 /* NSString+ASUtils.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSString+ASUtils.m"; sourceTree = "<group>"; };
 		583800227F6F061BDF35387EF758B11F /* ASShowFileListCollectionCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASShowFileListCollectionCell.xib; sourceTree = "<group>"; };
 		5868A37380B0D1D30BDB36DF3F7B8A48 /* CDStructureTable.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDStructureTable.m; path = ClassDump/CDStructureTable.m; sourceTree = "<group>"; };
 		586F7E1635671E52705B9EE197275BF8 /* ASPlugIn.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASPlugIn.h; sourceTree = "<group>"; };
 		5887A7F6C45F79779060A446771D5C04 /* WBAppSize */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = WBAppSize; path = libWBAppSize.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		58C7D7557D88FDAFEF8575FBA47770C1 /* WBAppSize.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBAppSize.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		58C7D7557D88FDAFEF8575FBA47770C1 /* WBAppSize.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = WBAppSize.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		5930A42BB427686CBE10133852451F8D /* ARMAddressingModes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMAddressingModes.h; sourceTree = "<group>"; };
 		593A953CC046ED112D879F1EF8B67E12 /* WBBladesStringTab.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesStringTab.h; path = Model/WBBladesStringTab.h; sourceTree = "<group>"; };
 		5A1F543F8BEB195EA6558FCF0990353D /* systemz.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = systemz.h; sourceTree = "<group>"; };
 		5A25F134C5EBAB8E65998D6803B27485 /* sparc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = sparc.h; sourceTree = "<group>"; };
-		5B0993A969EB39B1DF35E40A42A62787 /* PPCInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCInstPrinter.c; sourceTree = "<group>"; };
+		5B0993A969EB39B1DF35E40A42A62787 /* PPCInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = PPCInstPrinter.c; sourceTree = "<group>"; };
 		5B5A55794B530061176BB710D6CD0E98 /* WBBladesObjectHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesObjectHeader.h; path = Model/WBBladesObjectHeader.h; sourceTree = "<group>"; };
 		5B90BF0C2A3D90D447262E07D313FA95 /* WBBladesCrashModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashModel.swift; path = WBBladesCrash/WBBladesCrashModel.swift; sourceTree = "<group>"; };
-		5BE566CA8EC5464C5096F190B304A3FC /* dwarf_macro.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_macro.c; sourceTree = "<group>"; };
+		5BE566CA8EC5464C5096F190B304A3FC /* dwarf_macro.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_macro.c; sourceTree = "<group>"; };
 		5C544883E10B144B380ED62A13D37D8E /* AppSizeDiagnoseVC.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = AppSizeDiagnoseVC.xib; sourceTree = "<group>"; };
-		5CC080C73CAB6733201B6228D5119FD8 /* AArch64BaseInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64BaseInfo.c; sourceTree = "<group>"; };
+		5CC080C73CAB6733201B6228D5119FD8 /* AArch64BaseInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = AArch64BaseInfo.c; sourceTree = "<group>"; };
 		5D9F96717D2AD438D60EF2A503444A04 /* PXListDocumentView.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = PXListDocumentView.m; sourceTree = "<group>"; };
 		5E6DFDC7A0A7554AEE144655F31DCD58 /* dwarf_object_detector.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_object_detector.h; sourceTree = "<group>"; };
 		5E897C909D56ACA87629D70A8886B1A8 /* WBBladesLinkManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesLinkManager.h; path = Link/WBBladesLinkManager.h; sourceTree = "<group>"; };
@@ -634,7 +636,7 @@
 		61854B0845AED623C458D6CBF63A0719 /* dwarf_tied_decls.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_tied_decls.h; sourceTree = "<group>"; };
 		62D703BCB0C2C8661B90961BC4769A19 /* ASNibFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASNibFile.h; sourceTree = "<group>"; };
 		62F97B8973706DA12F34A52A53185221 /* WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBlades.release.xcconfig; sourceTree = "<group>"; };
-		62F9818C77FC439DBB9093FE75BBC99A /* dwarf_elf_rel_detector.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_elf_rel_detector.c; sourceTree = "<group>"; };
+		62F9818C77FC439DBB9093FE75BBC99A /* dwarf_elf_rel_detector.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_elf_rel_detector.c; sourceTree = "<group>"; };
 		6381E9C378B49176AA02BD8806F3CA65 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; name = Info.plist; path = ArtilleryOfItaly/ArtilleryOfItaly/Info.plist; sourceTree = "<group>"; };
 		63CD429AADE5C4A26262B16C54DA6FDF /* CDVisitor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDVisitor.h; path = ClassDump/CDVisitor.h; sourceTree = "<group>"; };
 		644DC543FD44A20B8804AC24A0942931 /* dwarf_safe_strcpy.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_safe_strcpy.h; sourceTree = "<group>"; };
@@ -643,11 +645,11 @@
 		660B1590A65FD5285DAAD01B455FA497 /* ASImageFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASImageFile.h; sourceTree = "<group>"; };
 		6700D30A4E75174127B46D3FF20FD53E /* StripViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = StripViewController.xib; sourceTree = "<group>"; };
 		6768FBA02B1698C6A0070E716368DDEE /* WBBladesScanManager+UnuseClassScan.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "WBBladesScanManager+UnuseClassScan.h"; path = "Scan/WBBladesScanManager+UnuseClassScan.h"; sourceTree = "<group>"; };
-		689A2BF75018402759CDDF4F19BC0FE2 /* dwarf_types.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_types.c; sourceTree = "<group>"; };
+		689A2BF75018402759CDDF4F19BC0FE2 /* dwarf_types.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_types.c; sourceTree = "<group>"; };
 		69474FC07143650B15ABEEBA2457E988 /* ARMMapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMMapping.h; sourceTree = "<group>"; };
 		697B209AD4CF0568CAF870715FF0F4AB /* dwarf_tsearch.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_tsearch.h; sourceTree = "<group>"; };
 		6AE4E573170AA440ACA63D7F0B296663 /* CDVisitor.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDVisitor.m; path = ClassDump/CDVisitor.m; sourceTree = "<group>"; };
-		6C18FC44E8D96EBD11673C98865A9CDF /* dwarf_str_offsets.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_str_offsets.c; sourceTree = "<group>"; };
+		6C18FC44E8D96EBD11673C98865A9CDF /* dwarf_str_offsets.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_str_offsets.c; sourceTree = "<group>"; };
 		6C398B388D39C52BE1492D48E84E2841 /* libdwarf.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = libdwarf.h; sourceTree = "<group>"; };
 		6C53201B3D5CB05F77C5CB66B7269205 /* LTOOptimizeViewController.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = LTOOptimizeViewController.xib; sourceTree = "<group>"; };
 		6CE521CD12E8014116878EF92352989A /* ASMainBundle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASMainBundle.h; sourceTree = "<group>"; };
@@ -655,22 +657,22 @@
 		6DA557690064AC4759920D28B0A14227 /* MathExtras.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MathExtras.h; path = Capstone/MathExtras.h; sourceTree = "<group>"; };
 		6F277F079FB41A9D87C1C5ADBBC32AF7 /* WBBladesStaticLibraryModel.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesStaticLibraryModel.m; path = Tools/WBBladesStaticLibraryModel.m; sourceTree = "<group>"; };
 		6F4F07E17B9E11A90D9CFF0E1BE46A99 /* dwarf_rnglists.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_rnglists.h; sourceTree = "<group>"; };
-		70B853D573C4F1148458EAE577903DB3 /* dwarf_abbrev.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_abbrev.c; sourceTree = "<group>"; };
-		7139DE732E6A94E6118DE8843CC889AA /* dwarf_debugnames.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_debugnames.c; sourceTree = "<group>"; };
+		70B853D573C4F1148458EAE577903DB3 /* dwarf_abbrev.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_abbrev.c; sourceTree = "<group>"; };
+		7139DE732E6A94E6118DE8843CC889AA /* dwarf_debugnames.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_debugnames.c; sourceTree = "<group>"; };
 		71B0478B2F3177FF2E1590286977D28C /* Pods-WBBlades-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-WBBlades-umbrella.h"; sourceTree = "<group>"; };
 		722352EA375DA1C00EABE942A89C9BEE /* X86DisassemblerDecoderCommon.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86DisassemblerDecoderCommon.h; sourceTree = "<group>"; };
 		72CDE7A38AEF594231A1CC73D5C181B9 /* ArtilleryOfItaly */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = ArtilleryOfItaly; path = libArtilleryOfItaly.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		730C410CBB1A55ABF9DD7020D8EC0AD8 /* cs.c */ = {isa = PBXFileReference; includeInIndex = 1; name = cs.c; path = Capstone/cs.c; sourceTree = "<group>"; };
+		730C410CBB1A55ABF9DD7020D8EC0AD8 /* cs.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = cs.c; path = Capstone/cs.c; sourceTree = "<group>"; };
 		73D833884427154FA8F2C20EF66C3B70 /* WBBladesCrashManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = WBBladesCrashManager.swift; path = WBBladesCrash/WBBladesCrashManager.swift; sourceTree = "<group>"; };
 		74CADA5A6C073FC34DF63D6BBF4EA21B /* ASDirectoryFilesInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASDirectoryFilesInfo.h; sourceTree = "<group>"; };
-		758CE77253767D37CAB71744CDD3CBFC /* dwarf_rnglists.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_rnglists.c; sourceTree = "<group>"; };
+		758CE77253767D37CAB71744CDD3CBFC /* dwarf_rnglists.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_rnglists.c; sourceTree = "<group>"; };
 		75DD0DA55685C0B41D8D8470A8D0FA4C /* PPCDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCDisassembler.h; sourceTree = "<group>"; };
 		7660E208E2B7CF2A520368C805A12C31 /* WBBladesInterface.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesInterface.m; path = Tools/WBBladesInterface.m; sourceTree = "<group>"; };
-		787E5435A755F10DFED1F8AE496B3DB6 /* X86Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Mapping.c; sourceTree = "<group>"; };
+		787E5435A755F10DFED1F8AE496B3DB6 /* X86Mapping.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86Mapping.c; sourceTree = "<group>"; };
 		78D279195C4A2F474011958D5479E5A8 /* WBBladesStringTab.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesStringTab.m; path = Model/WBBladesStringTab.m; sourceTree = "<group>"; };
 		78F2CEE63EEF272ED3F8FF53E2324DCD /* dwarf_macho_loader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_macho_loader.h; sourceTree = "<group>"; };
 		78FEF7D15C3DC3E29BC6C374AADE609B /* CDTypeParser.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDTypeParser.h; path = ClassDump/CDTypeParser.h; sourceTree = "<group>"; };
-		7963357A72917F71320925985E3680D3 /* WBBladesCrash.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBladesCrash.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		7963357A72917F71320925985E3680D3 /* WBBladesCrash.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = WBBladesCrash.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		796388D5E5D49B4128FC402FC3EDC1A4 /* LTOOptimizeWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = LTOOptimizeWindowController.swift; sourceTree = "<group>"; };
 		79AF8AAC4C1DFF38933FDC2B817661DB /* ASShowFileListImageModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListImageModel.swift; sourceTree = "<group>"; };
 		7A90820B82D5817F9A48260BCB762D71 /* WBBladesFileManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesFileManager.h; path = Tools/WBBladesFileManager.h; sourceTree = "<group>"; };
@@ -679,10 +681,10 @@
 		7CA9377F6AB05C0E0104D73D8F853549 /* dwarf_global.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_global.h; sourceTree = "<group>"; };
 		7CF3C030F5C448E1A25C5986B85A7137 /* PPCPredicates.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCPredicates.h; sourceTree = "<group>"; };
 		7D22487252DD5A8EBF5372EB3C4DD904 /* PXListDocumentView.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PXListDocumentView.h; sourceTree = "<group>"; };
-		7D45BC2A3845C4C5B1FAC64FBA77EEE2 /* PPCMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; path = PPCMapping.c; sourceTree = "<group>"; };
+		7D45BC2A3845C4C5B1FAC64FBA77EEE2 /* PPCMapping.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = PPCMapping.c; sourceTree = "<group>"; };
 		7E45A2E7119822AE78FFE0124A547C60 /* CDStructureInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDStructureInfo.h; path = ClassDump/CDStructureInfo.h; sourceTree = "<group>"; };
 		7EF3E9593BA56202F32516A1BA185EC9 /* StripViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StripViewController.swift; sourceTree = "<group>"; };
-		7F328A831A2FFDFBEF29AF64F499EA6C /* dwarf_gnu_index.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_gnu_index.c; sourceTree = "<group>"; };
+		7F328A831A2FFDFBEF29AF64F499EA6C /* dwarf_gnu_index.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_gnu_index.c; sourceTree = "<group>"; };
 		7F8157CB34A3B7125EC491284D823DE5 /* DiagnoseLoading.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DiagnoseLoading.xib; sourceTree = "<group>"; };
 		7F9750CE4C7756941EDFDD180F3B7363 /* Pods-WBBladesCrashApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.debug.xcconfig"; sourceTree = "<group>"; };
 		7FBB77B2BF1DDCABE16679E20159B855 /* dwarf_str_offsets.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_str_offsets.h; sourceTree = "<group>"; };
@@ -694,10 +696,10 @@
 		8299781873AB88BC3F472CDAF26D5151 /* xcore.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = xcore.h; sourceTree = "<group>"; };
 		82CEBD34F75299090F8F6972764EACA7 /* CDTypeParser.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDTypeParser.m; path = ClassDump/CDTypeParser.m; sourceTree = "<group>"; };
 		82CF56C4A2CFD37F9B7EE616885325CE /* dwarf_macro.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_macro.h; sourceTree = "<group>"; };
-		83369BEA9EA901191033CD6B345260BB /* dwarf_machoread.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_machoread.c; sourceTree = "<group>"; };
+		83369BEA9EA901191033CD6B345260BB /* dwarf_machoread.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_machoread.c; sourceTree = "<group>"; };
 		834B965703DE6ECF03C8EF79BB05FF7C /* config.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		8559F39D6B8E54C23FFE46BB484A8057 /* ArtilleryOfItaly-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "ArtilleryOfItaly-dummy.m"; sourceTree = "<group>"; };
-		863CEBDB337DFA97BD0AD8D716386183 /* dwarf_arange.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_arange.c; sourceTree = "<group>"; };
+		863CEBDB337DFA97BD0AD8D716386183 /* dwarf_arange.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_arange.c; sourceTree = "<group>"; };
 		868A172E67B15909707F9422AC24271D /* ASCarFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASCarFile.m; sourceTree = "<group>"; };
 		8713E07020A2B93F23F8F52007A7C99B /* WBBMScanSystemLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanSystemLog.swift; sourceTree = "<group>"; };
 		89F1BA7844A8CA93883CB3A69B57F3F1 /* ASFileListWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASFileListWindowController.swift; sourceTree = "<group>"; };
@@ -708,44 +710,44 @@
 		8C7895A9B258A9708DFE7F59EC16D0E4 /* ASShowFileListImageCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListImageCell.swift; sourceTree = "<group>"; };
 		8D28CB4CF813B1CBA2638C8F4F330C65 /* ASShowFileListBaseCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASShowFileListBaseCell.xib; sourceTree = "<group>"; };
 		8D44B768A83E7380D5991814B68095B3 /* NSViewController+Extension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSViewController+Extension.swift"; path = "WBBladesCrash/NSViewController+Extension.swift"; sourceTree = "<group>"; };
-		8D81150DCDD1E5249224CCBDF230EC91 /* ASFileManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; path = ASFileManager.mm; sourceTree = "<group>"; };
+		8D81150DCDD1E5249224CCBDF230EC91 /* ASFileManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; path = ASFileManager.mm; sourceTree = "<group>"; };
 		8D9735309070437CA423C8EC77FED370 /* CDBalanceFormatter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDBalanceFormatter.h; path = ClassDump/CDBalanceFormatter.h; sourceTree = "<group>"; };
 		8F3B3C0C8D51EE014AC03506EEAD460E /* Pods-WBBlades.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.debug.xcconfig"; sourceTree = "<group>"; };
 		8F993ED5B643BE68DD3EFFB3A1E3DC99 /* platform.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = platform.h; sourceTree = "<group>"; };
 		90A2E0AD6EDF6565860513B5CB69EB91 /* dwarf_line_table_reader_common.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_line_table_reader_common.h; sourceTree = "<group>"; };
-		90C31E1B3FE675B19D473F168020B1A5 /* dwarf_find_sigref.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_find_sigref.c; sourceTree = "<group>"; };
+		90C31E1B3FE675B19D473F168020B1A5 /* dwarf_find_sigref.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_find_sigref.c; sourceTree = "<group>"; };
 		933C729730467E88D207FD7F5B8B27A1 /* ASFileCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASFileCell.swift; sourceTree = "<group>"; };
 		93715580ADA40DCF169BE8F33A41EC8D /* DiagnoseItemCellView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = DiagnoseItemCellView.xib; sourceTree = "<group>"; };
-		93BC0463B1960F087E27D6841D5050A7 /* WBBladesCMD.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesCMD.mm; path = Tools/WBBladesCMD.mm; sourceTree = "<group>"; };
+		93BC0463B1960F087E27D6841D5050A7 /* WBBladesCMD.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = WBBladesCMD.mm; path = Tools/WBBladesCMD.mm; sourceTree = "<group>"; };
 		93BE3980D9337CC89741AF7FBF52F70C /* CDMethodType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDMethodType.m; path = ClassDump/CDMethodType.m; sourceTree = "<group>"; };
 		9468A4C9A279FA2E178C76CA7740BE86 /* ArtilleryOfItaly.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ArtilleryOfItaly.h; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryOfItaly.h; sourceTree = "<group>"; };
 		9544C0B0540F9DA6AAD55785F61CB5D3 /* Artillery.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = Artillery.m; path = ArtilleryOfItaly/ArtilleryOfItaly/Artillery.m; sourceTree = "<group>"; };
 		9611618370A921B5B10944F9A3091CA0 /* ArtilleryOfItaly.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.release.xcconfig; sourceTree = "<group>"; };
-		9697B7FDBE3B05EEFEE955913A671993 /* MCInst.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCInst.c; path = Capstone/MCInst.c; sourceTree = "<group>"; };
+		9697B7FDBE3B05EEFEE955913A671993 /* MCInst.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = MCInst.c; path = Capstone/MCInst.c; sourceTree = "<group>"; };
 		97F2C80B30CC35A9022CB0EA9D979F8E /* dwarf_dsc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_dsc.h; sourceTree = "<group>"; };
 		99CCBD83F2A3CB085A86080293B85C30 /* NSData+UTF8.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "NSData+UTF8.m"; sourceTree = "<group>"; };
 		99E2A81CB67393274188EC78A0D2945D /* WBBladesCrash.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.debug.xcconfig; sourceTree = "<group>"; };
 		9AB44B1618EAFDDAA9E806642E299A60 /* CDType.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDType.m; path = ClassDump/CDType.m; sourceTree = "<group>"; };
 		9C57AF2BD0304527B1C6CEE54906CFB5 /* WBAppSize-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBAppSize-dummy.m"; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9E461B42120C353D81A5B447AF69E42F /* WBBlades.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; path = WBBlades.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		9E461B42120C353D81A5B447AF69E42F /* WBBlades.podspec */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; path = WBBlades.podspec; sourceTree = "<group>"; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9E5547AC06406AD25D193B725F248806 /* ASShowFileListAssetCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASShowFileListAssetCell.xib; sourceTree = "<group>"; };
 		9F3E6DBEECDA8E239B78F8E7B5D04A1F /* ItemSizeView.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ItemSizeView.xib; sourceTree = "<group>"; };
 		9FDABA59589B494C779AE6C68722943F /* WBBladesCrash-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBladesCrash-dummy.m"; sourceTree = "<group>"; };
-		A005A421426C5A026CF402BFAAE3EF96 /* dwarf_dsc.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_dsc.c; sourceTree = "<group>"; };
+		A005A421426C5A026CF402BFAAE3EF96 /* dwarf_dsc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_dsc.c; sourceTree = "<group>"; };
 		A0794FA8F508E80EC05666F03957E2D9 /* ASFileManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASFileManager.h; sourceTree = "<group>"; };
 		A0839984A1FD3B9140DAF85FC85B43ED /* libdwarf_private.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = libdwarf_private.h; sourceTree = "<group>"; };
 		A21D8AE31A0E50113DB2C00780E899E4 /* X86DisassemblerDecoder.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86DisassemblerDecoder.h; sourceTree = "<group>"; };
 		A4788CF7F4EBF898343460A422B25D4E /* WBAppSize-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "WBAppSize-umbrella.h"; sourceTree = "<group>"; };
 		A48213EC6DA81AE11B7D5458994C8EAB /* CDTextClassDumpVisitor.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDTextClassDumpVisitor.h; path = ClassDump/CDTextClassDumpVisitor.h; sourceTree = "<group>"; };
 		A538E761BEF8F33437EA3409F7D0E6E2 /* WBBladesObject.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesObject.h; path = Model/WBBladesObject.h; sourceTree = "<group>"; };
-		A62BC4431C950334568F2338833271CD /* dwarf_crc32.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_crc32.c; sourceTree = "<group>"; };
-		A6C8C091E34652B7B03A6798C378BDBD /* ARMDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMDisassembler.c; sourceTree = "<group>"; };
+		A62BC4431C950334568F2338833271CD /* dwarf_crc32.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_crc32.c; sourceTree = "<group>"; };
+		A6C8C091E34652B7B03A6798C378BDBD /* ARMDisassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = ARMDisassembler.c; sourceTree = "<group>"; };
 		A73E30ACCB6C68029C72BC7ABF5D003E /* inttypes.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = inttypes.h; path = Capstone/inttypes.h; sourceTree = "<group>"; };
 		A74A439FF73C096A43D16EFEE708DC99 /* WBAppSize.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBAppSize.modulemap; sourceTree = "<group>"; };
-		A7D47DAF582AB62461E51908091AEDC9 /* WBBladesScanManager+AutoHook.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = "WBBladesScanManager+AutoHook.mm"; path = "Tools/WBBladesScanManager+AutoHook.mm"; sourceTree = "<group>"; };
+		A7D47DAF582AB62461E51908091AEDC9 /* WBBladesScanManager+AutoHook.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = "WBBladesScanManager+AutoHook.mm"; path = "Tools/WBBladesScanManager+AutoHook.mm"; sourceTree = "<group>"; };
 		A9426CE1955FF123DC74D94FE33ECA15 /* ARMDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ARMDisassembler.h; sourceTree = "<group>"; };
-		A94A8DDBE8EEC961F60A1CAF0B909603 /* dwarf_die_deliv.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_die_deliv.c; sourceTree = "<group>"; };
+		A94A8DDBE8EEC961F60A1CAF0B909603 /* dwarf_die_deliv.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_die_deliv.c; sourceTree = "<group>"; };
 		A97BAB0B87FA49EC35138B903E87FF92 /* WBBladesCrash.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBladesCrash.modulemap; sourceTree = "<group>"; };
 		A9BC6CD08EBC4F4D75DA3CBE3198FE54 /* PPCInstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PPCInstPrinter.h; sourceTree = "<group>"; };
 		AA47E488197FC2C82D7000B340C52A3E /* Pods-WBBlades */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-WBBlades"; path = "libPods-WBBlades.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -754,11 +756,11 @@
 		ABE5442C4C437464084F28C65A7C0524 /* CDTypeName.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDTypeName.m; path = ClassDump/CDTypeName.m; sourceTree = "<group>"; };
 		AC2C633538EF517E57050FF84992BB96 /* WBBMSymbolSearch.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMSymbolSearch.swift; sourceTree = "<group>"; };
 		AD28617931F795A4A99DB73A4F96217C /* dwarf_alloc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_alloc.h; sourceTree = "<group>"; };
-		AE4AE36B61AA9D65866A54534708591A /* dwarf_util.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_util.c; sourceTree = "<group>"; };
+		AE4AE36B61AA9D65866A54534708591A /* dwarf_util.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_util.c; sourceTree = "<group>"; };
 		AEB719C4E0B8B1EE3A5C7B8DC0DC8EEC /* NSScanner-CDExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSScanner-CDExtensions.m"; path = "ClassDump/NSScanner-CDExtensions.m"; sourceTree = "<group>"; };
 		AEBDE23051DB68D9E082B596B46556E1 /* dwarf_harmless.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_harmless.h; sourceTree = "<group>"; };
 		AF70D5976CF967F96AF93C53AA1EC3CC /* MCFixedLenDisassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCFixedLenDisassembler.h; path = Capstone/MCFixedLenDisassembler.h; sourceTree = "<group>"; };
-		B0C32991CBE5441D57DBDBE8F0766643 /* dwarf_weaks.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_weaks.c; sourceTree = "<group>"; };
+		B0C32991CBE5441D57DBDBE8F0766643 /* dwarf_weaks.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_weaks.c; sourceTree = "<group>"; };
 		B2BBD27D387ABC99E0F37119D98B59BF /* Pods-WBBladesCrashApp.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBladesCrashApp.modulemap"; sourceTree = "<group>"; };
 		B2D305970D93800A548B94FDFB74459E /* WBBladesCMD.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesCMD.h; path = Tools/WBBladesCMD.h; sourceTree = "<group>"; };
 		B37204D5C6FFFB6A4597C092A62D7F37 /* ChildDiagnoseCellView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ChildDiagnoseCellView.swift; sourceTree = "<group>"; };
@@ -768,32 +770,32 @@
 		B423907C227CD596787C5475D8BB9997 /* X86Disassembler.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86Disassembler.h; sourceTree = "<group>"; };
 		B42A2243110DEF21C3C60B3B86212E2B /* CDType.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDType.h; path = ClassDump/CDType.h; sourceTree = "<group>"; };
 		B47D901CAB02C4C56B1F020FC0481C34 /* X86InstPrinter.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86InstPrinter.h; sourceTree = "<group>"; };
-		B58351C3F21917D3284ADE5B5CF53249 /* WBBladesFileManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesFileManager.mm; path = Tools/WBBladesFileManager.mm; sourceTree = "<group>"; };
+		B58351C3F21917D3284ADE5B5CF53249 /* WBBladesFileManager.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = WBBladesFileManager.mm; path = Tools/WBBladesFileManager.mm; sourceTree = "<group>"; };
 		B5A097F3967FB78A4C7E548F80DFE7FA /* WBBladesCrash.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBBladesCrash.release.xcconfig; sourceTree = "<group>"; };
 		B5C01C02A8A0C30ED3897CB98FF37E0E /* NSData-CDExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSData-CDExtensions.m"; path = "ClassDump/NSData-CDExtensions.m"; sourceTree = "<group>"; };
 		B65A9D1D5144525140DD7B46BDBC726A /* ASShowFileListMachOCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListMachOCell.swift; sourceTree = "<group>"; };
-		B6774F19863ECDF41C81AF47603A352C /* dwarf_debuglink.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_debuglink.c; sourceTree = "<group>"; };
-		B6DCA6242F58EA0D78BCAE19E4975D5C /* dwarf_groups.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_groups.c; sourceTree = "<group>"; };
+		B6774F19863ECDF41C81AF47603A352C /* dwarf_debuglink.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_debuglink.c; sourceTree = "<group>"; };
+		B6DCA6242F58EA0D78BCAE19E4975D5C /* dwarf_groups.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_groups.c; sourceTree = "<group>"; };
 		B6E59E5A87323FC954DA95B6775DFEC5 /* Pods-WBBlades-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBlades-acknowledgements.plist"; sourceTree = "<group>"; };
 		B6EE9B5266C1D3FB3384804ABD954EDC /* StripWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = StripWindowController.swift; sourceTree = "<group>"; };
 		B824F16B2449939497DFB9FB1CE35EF3 /* mips.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = mips.h; sourceTree = "<group>"; };
-		B826FC4A50AAF5F3EDE6C402E38E941B /* MCRegisterInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; name = MCRegisterInfo.c; path = Capstone/MCRegisterInfo.c; sourceTree = "<group>"; };
+		B826FC4A50AAF5F3EDE6C402E38E941B /* MCRegisterInfo.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = MCRegisterInfo.c; path = Capstone/MCRegisterInfo.c; sourceTree = "<group>"; };
 		B8B1E07398175ED45267B47C4ECE97CA /* ASBaseDirectory.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASBaseDirectory.m; sourceTree = "<group>"; };
 		B98EFD03E34DED692349177B883B4BB4 /* ASShowFileListImageCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASShowFileListImageCell.xib; sourceTree = "<group>"; };
-		B9C0CF44DD459F6975FFD33F092742C4 /* X86Module.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86Module.c; sourceTree = "<group>"; };
+		B9C0CF44DD459F6975FFD33F092742C4 /* X86Module.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86Module.c; sourceTree = "<group>"; };
 		B9D6037A6B0FB7B856BC29AEFDF76F44 /* ASFileListViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASFileListViewController.swift; sourceTree = "<group>"; };
-		BB2733374B513A8363FF360E72BB2268 /* dwarf_generic_init.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_generic_init.c; sourceTree = "<group>"; };
+		BB2733374B513A8363FF360E72BB2268 /* dwarf_generic_init.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_generic_init.c; sourceTree = "<group>"; };
 		BC85CBCB10A951B47CE326215D01F374 /* WBBMScanBuglyLog.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WBBMScanBuglyLog.swift; sourceTree = "<group>"; };
 		BCBADA5848E12441656E16C9B01F0DAE /* dwarf_peread.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_peread.h; sourceTree = "<group>"; };
-		BD28FFC5C27E5CA5CF67EFC72B8CCE32 /* dwarf_macro5.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_macro5.c; sourceTree = "<group>"; };
+		BD28FFC5C27E5CA5CF67EFC72B8CCE32 /* dwarf_macro5.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_macro5.c; sourceTree = "<group>"; };
 		BD2D6006D8DB9057A1E58E07B130B4BE /* PXListViewDropHighlight.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PXListViewDropHighlight.h; sourceTree = "<group>"; };
 		BD8B4A3B1BE2D44434A15A27387DE15F /* ASBaseFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASBaseFile.m; sourceTree = "<group>"; };
 		BDE88C6EA37962773077529A88505EEB /* dwarf_frame.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_frame.h; sourceTree = "<group>"; };
 		BDEE8E4169B75007565710D810F5D0D4 /* WBBladesStaticLibraryModel.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesStaticLibraryModel.h; path = Tools/WBBladesStaticLibraryModel.h; sourceTree = "<group>"; };
 		BF5D31483A8BBCFBFF667FFD96636ED8 /* ASCarFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASCarFile.h; sourceTree = "<group>"; };
-		C2BB66C27A600CF37519188BF5C6712E /* dwarf_loc.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_loc.c; sourceTree = "<group>"; };
+		C2BB66C27A600CF37519188BF5C6712E /* dwarf_loc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_loc.c; sourceTree = "<group>"; };
 		C30624EF60AFC59EA03A0BBB962D6BFD /* ASFramework.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASFramework.m; sourceTree = "<group>"; };
-		C48CDCBCCF63870122FFD8687198517B /* AArch64Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Disassembler.c; sourceTree = "<group>"; };
+		C48CDCBCCF63870122FFD8687198517B /* AArch64Disassembler.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = AArch64Disassembler.c; sourceTree = "<group>"; };
 		C58CB4FE6218A7F260D770DE24BD0AC1 /* dwarf_opaque.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_opaque.h; sourceTree = "<group>"; };
 		C5B8BD4A900017B5A75679D0E17F2EDA /* ASImageFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASImageFile.m; sourceTree = "<group>"; };
 		C5F26ED29429966F1B45865E2ED90C10 /* Pods-WBBlades-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBlades-acknowledgements.markdown"; sourceTree = "<group>"; };
@@ -801,21 +803,21 @@
 		C7458E3619363E103309A2DCD1A62E52 /* WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = WBBlades.modulemap; sourceTree = "<group>"; };
 		C821E5BA8114BCC219110CAAADBB4CEF /* X86Mapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = X86Mapping.h; sourceTree = "<group>"; };
 		C8AF64D8D36C803B595DCAA02B490FA5 /* dwarf_base_types.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_base_types.h; sourceTree = "<group>"; };
-		C8E4AF8851D6271FA43F51C928B90FEC /* dwarf_frame.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_frame.c; sourceTree = "<group>"; };
-		C8E7F6B98E85C2A4B8F51ED48CED78BC /* WBBladesTool.mm */ = {isa = PBXFileReference; includeInIndex = 1; name = WBBladesTool.mm; path = Tools/WBBladesTool.mm; sourceTree = "<group>"; };
+		C8E4AF8851D6271FA43F51C928B90FEC /* dwarf_frame.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_frame.c; sourceTree = "<group>"; };
+		C8E7F6B98E85C2A4B8F51ED48CED78BC /* WBBladesTool.mm */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.cpp.objcpp; name = WBBladesTool.mm; path = Tools/WBBladesTool.mm; sourceTree = "<group>"; };
 		CA42353488EB6A9DE92799250099FD92 /* ASShowFileListMachOCell.xib */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.xib; path = ASShowFileListMachOCell.xib; sourceTree = "<group>"; };
-		CB03099C327D7FE5865FD64CD7866A6A /* dwarf_print_lines.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_print_lines.c; sourceTree = "<group>"; };
+		CB03099C327D7FE5865FD64CD7866A6A /* dwarf_print_lines.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_print_lines.c; sourceTree = "<group>"; };
 		CC70D7246C66336A8E65CD2F43ACEAA8 /* CDStructureTable.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDStructureTable.h; path = ClassDump/CDStructureTable.h; sourceTree = "<group>"; };
 		CD6E4A455899AB82F8965F04F87F3B0E /* ASFileDetailViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASFileDetailViewController.swift; sourceTree = "<group>"; };
 		CED52BA11A3792929A1A5ED200F3548F /* ArtilleryOfItaly.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = ArtilleryOfItaly.debug.xcconfig; sourceTree = "<group>"; };
 		CEEFBC9D214948868B8414B693CB5B7C /* Pods-WBBladesCrashApp-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-WBBladesCrashApp-acknowledgements.markdown"; sourceTree = "<group>"; };
-		CF4B2C36F18F2B5AF06B7D62C07BFB7A /* dwarf_loclists.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_loclists.c; sourceTree = "<group>"; };
+		CF4B2C36F18F2B5AF06B7D62C07BFB7A /* dwarf_loclists.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_loclists.c; sourceTree = "<group>"; };
 		CF4FFD7C83E1639D54E5E0052963CC91 /* x86.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = x86.h; sourceTree = "<group>"; };
 		CFD91D9687A33B4026A8B70A810C856C /* MCRegisterInfo.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCRegisterInfo.h; path = Capstone/MCRegisterInfo.h; sourceTree = "<group>"; };
-		D0DA2636BE1813823C2B7BDAC55F5AFD /* dwarf_elfread.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_elfread.c; sourceTree = "<group>"; };
+		D0DA2636BE1813823C2B7BDAC55F5AFD /* dwarf_elfread.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_elfread.c; sourceTree = "<group>"; };
 		D1CDEAA9DBA7631F6C5E32BD97372732 /* capstone.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = capstone.h; sourceTree = "<group>"; };
 		D4BE43F97044E917DC20EB42B9AC8E72 /* TextMigrateWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextMigrateWindowController.swift; sourceTree = "<group>"; };
-		D5D80E0A2D42435D751A77A25F2C2E2D /* dwarf_gdbindex.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_gdbindex.c; sourceTree = "<group>"; };
+		D5D80E0A2D42435D751A77A25F2C2E2D /* dwarf_gdbindex.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_gdbindex.c; sourceTree = "<group>"; };
 		D643989611197344FCEBEE073A14E8A5 /* ASBaseFile.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASBaseFile.h; sourceTree = "<group>"; };
 		D64E15B43AE20844CED48EB735238EA0 /* ASShowFileListCollectionModel.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListCollectionModel.swift; sourceTree = "<group>"; };
 		D69CFCD983AA1963B5F79A896B50B840 /* ppc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ppc.h; sourceTree = "<group>"; };
@@ -828,29 +830,29 @@
 		DBD2769A3E671D900D96C00E55A18D23 /* CDStructureInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = CDStructureInfo.m; path = ClassDump/CDStructureInfo.m; sourceTree = "<group>"; };
 		DCF0CC6EAEE9668328C5D488492E884B /* ASShowFileListAssetCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListAssetCell.swift; sourceTree = "<group>"; };
 		DD48FE57D429BAAED4183097E196E60E /* dwarf_util.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_util.h; sourceTree = "<group>"; };
-		DD514176362210236717AD387DC45CB8 /* dwarf_safe_strcpy.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_safe_strcpy.c; sourceTree = "<group>"; };
+		DD514176362210236717AD387DC45CB8 /* dwarf_safe_strcpy.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_safe_strcpy.c; sourceTree = "<group>"; };
 		DE59BBBE0CFC17B75B9F4C3A03EF93EF /* ArtilleryOfItaly-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "ArtilleryOfItaly-prefix.pch"; sourceTree = "<group>"; };
-		DECE5704CA7836E6B29C8607C08F828F /* AArch64Module.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64Module.c; sourceTree = "<group>"; };
+		DECE5704CA7836E6B29C8607C08F828F /* AArch64Module.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = AArch64Module.c; sourceTree = "<group>"; };
 		DECF3E040F168EA9FA51E671C299A5E7 /* dwarf_gnu_index.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_gnu_index.h; sourceTree = "<group>"; };
 		DEEF560168D9EFF7578E0E7E96D6194E /* NSString-CDExtensions.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = "NSString-CDExtensions.m"; path = "ClassDump/NSString-CDExtensions.m"; sourceTree = "<group>"; };
 		DF0E6AF5FDC4CD82EFDA96EFC7F768FE /* Pods-WBBladesCrashApp */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = "Pods-WBBladesCrashApp"; path = "libPods-WBBladesCrashApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E00FF2871C3B587825D2D5EBEE0C8076 /* PXListViewDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = PXListViewDelegate.h; sourceTree = "<group>"; };
-		E06A8531454B1CCC96E7D0B9AB7D5AD6 /* AArch64InstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = AArch64InstPrinter.c; sourceTree = "<group>"; };
+		E06A8531454B1CCC96E7D0B9AB7D5AD6 /* AArch64InstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = AArch64InstPrinter.c; sourceTree = "<group>"; };
 		E0A6BC8575988B44F87CDC6B61B8506C /* AArch64Mapping.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = AArch64Mapping.h; sourceTree = "<group>"; };
-		E14AF9E0B68B543F89F07B994C465A4C /* dwarf_tied.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_tied.c; sourceTree = "<group>"; };
+		E14AF9E0B68B543F89F07B994C465A4C /* dwarf_tied.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_tied.c; sourceTree = "<group>"; };
 		E354AD7DFDFC1E28A393F29B1499AFC3 /* Pods-WBBladesCrashApp-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-WBBladesCrashApp-acknowledgements.plist"; sourceTree = "<group>"; };
 		E39774CCB871AEBFA2DA6538DB8C32B8 /* ArtilleryModels.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ArtilleryModels.m; path = ArtilleryOfItaly/ArtilleryOfItaly/ArtilleryModels.m; sourceTree = "<group>"; };
-		E3DFE665E414A7AB2C57306FE7686207 /* dwarf_memcpy_swap.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_memcpy_swap.c; sourceTree = "<group>"; };
-		E592EF0A56567DCCD80BCE41E2BCB6F3 /* dwarf_crc.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_crc.c; sourceTree = "<group>"; };
+		E3DFE665E414A7AB2C57306FE7686207 /* dwarf_memcpy_swap.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_memcpy_swap.c; sourceTree = "<group>"; };
+		E592EF0A56567DCCD80BCE41E2BCB6F3 /* dwarf_crc.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_crc.c; sourceTree = "<group>"; };
 		E6F8D3AF007000C3C820C92679A31C37 /* WBAppSize.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = WBAppSize.debug.xcconfig; sourceTree = "<group>"; };
-		E731F8AB94DBB8FB4F6D1E7F5EA4210A /* ARMModule.c */ = {isa = PBXFileReference; includeInIndex = 1; path = ARMModule.c; sourceTree = "<group>"; };
+		E731F8AB94DBB8FB4F6D1E7F5EA4210A /* ARMModule.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = ARMModule.c; sourceTree = "<group>"; };
 		E7F4A95CF086DAAF8209516E41716E77 /* ASUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASUtils.h; sourceTree = "<group>"; };
 		E9439D5581C2F30318B123347A576DB6 /* dwarf_loc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_loc.h; sourceTree = "<group>"; };
 		E9723FC335798054F1069F65262A4F2E /* TextMigrateViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TextMigrateViewController.swift; sourceTree = "<group>"; };
 		EA91182ADE8B7B6E8C1079AE7986EC06 /* arm.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = arm.h; sourceTree = "<group>"; };
 		EAA92F4A0814A74B7B2B7D3CEE80050A /* MCInstrDesc.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = MCInstrDesc.h; path = Capstone/MCInstrDesc.h; sourceTree = "<group>"; };
 		EB0FF2C132BAF2148AF854D02B06F5A8 /* WBBladesInterface.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesInterface.h; path = Tools/WBBladesInterface.h; sourceTree = "<group>"; };
-		ECBA83DFF10F4A352D607B79D2AF0411 /* dwarf_elf_load_headers.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_elf_load_headers.c; sourceTree = "<group>"; };
+		ECBA83DFF10F4A352D607B79D2AF0411 /* dwarf_elf_load_headers.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_elf_load_headers.c; sourceTree = "<group>"; };
 		ECD3BC127DE6783E393F52E4682B8545 /* dwarf_vars.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_vars.h; sourceTree = "<group>"; };
 		ECE373F336F87D9DFE727A12D4FB2EE7 /* Pods-WBBlades-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-WBBlades-resources.sh"; sourceTree = "<group>"; };
 		ECFCE1539619C49BBFF892BE4CB7A981 /* LEB128.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = LEB128.h; path = Capstone/LEB128.h; sourceTree = "<group>"; };
@@ -859,17 +861,17 @@
 		EEE4EBAD869E1F52D044F91E60318CD3 /* Pods-WBBlades.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBlades.release.xcconfig"; sourceTree = "<group>"; };
 		EF0B9DF69B69FD9AC46A572DB1426A47 /* ASShowFileListOtherCell.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = ASShowFileListOtherCell.swift; sourceTree = "<group>"; };
 		EF6DCF3BE12F861567BF03989146A43D /* Pods-WBBladesCrashApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-WBBladesCrashApp.release.xcconfig"; sourceTree = "<group>"; };
-		EFAD66C13B6571237AAC8A7DE08E7882 /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; name = dsymutil; path = WBBladesCrash/Resource/dsymutil; sourceTree = "<group>"; };
+		EFAD66C13B6571237AAC8A7DE08E7882 /* dsymutil */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = "compiled.mach-o.executable"; name = dsymutil; path = WBBladesCrash/Resource/dsymutil; sourceTree = "<group>"; };
 		F02E2A1361024854992BB585D05B0125 /* ASMainBundle.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASMainBundle.m; sourceTree = "<group>"; };
 		F107D3FF48B96EE8EDB3AE11776C4AE9 /* MachOCheck.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = MachOCheck.h; sourceTree = "<group>"; };
 		F1C87F4A456AC681B01D35AFABBB2B32 /* dwarf_weaks.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_weaks.h; sourceTree = "<group>"; };
 		F28303A89CACFE2A5ED95C8D3BA22E4A /* ASNibFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASNibFile.m; sourceTree = "<group>"; };
 		F338D1F16C33E5F6F50DAEA7117F4084 /* WBBladesCrash */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; name = WBBladesCrash; path = libWBBladesCrash.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		F36E8B7572376213EA7B912F147B600B /* X86IntelInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; path = X86IntelInstPrinter.c; sourceTree = "<group>"; };
-		F3BBDA4D16F791AD9C736857432018EF /* dwarf_locationop_read.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_locationop_read.c; sourceTree = "<group>"; };
+		F36E8B7572376213EA7B912F147B600B /* X86IntelInstPrinter.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = X86IntelInstPrinter.c; sourceTree = "<group>"; };
+		F3BBDA4D16F791AD9C736857432018EF /* dwarf_locationop_read.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_locationop_read.c; sourceTree = "<group>"; };
 		F51D9CB7E27A87D16DEF17C4E1A907E8 /* Pods-WBBlades.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-WBBlades.modulemap"; sourceTree = "<group>"; };
 		F553EE6B9D38E62854C69FE6E92967A2 /* WBBladesObject.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = WBBladesObject.m; path = Model/WBBladesObject.m; sourceTree = "<group>"; };
-		F6ADC8987B2618ADC9F7A9C2A2048094 /* dwarf_pubtypes.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_pubtypes.c; sourceTree = "<group>"; };
+		F6ADC8987B2618ADC9F7A9C2A2048094 /* dwarf_pubtypes.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_pubtypes.c; sourceTree = "<group>"; };
 		F6F7D5891B7A1217DF7481F763AF7CB1 /* WBBladesScanManager.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = WBBladesScanManager.h; path = Scan/WBBladesScanManager.h; sourceTree = "<group>"; };
 		F7B8EF7314E6703C29E370B9BA12E0A0 /* ASBaseDirectory.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = ASBaseDirectory.h; sourceTree = "<group>"; };
 		F86289A80C95175A574E27BA721C922C /* dwarf_abbrev.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_abbrev.h; sourceTree = "<group>"; };
@@ -883,9 +885,9 @@
 		FB692B5047B2409FBBDDCAC9E02AB29A /* PXListView+UserInteraction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "PXListView+UserInteraction.h"; sourceTree = "<group>"; };
 		FC4563CFA0D97D213D8CC53AFAAE48DA /* dwarf_reading.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = dwarf_reading.h; sourceTree = "<group>"; };
 		FC6420F18990BE848487FEDCAE0F645B /* ASDirectoryFilesInfo.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = ASDirectoryFilesInfo.m; sourceTree = "<group>"; };
-		FCB4E952B063C0C08836B1906C2FD418 /* dwarf_global.c */ = {isa = PBXFileReference; includeInIndex = 1; path = dwarf_global.c; sourceTree = "<group>"; };
+		FCB4E952B063C0C08836B1906C2FD418 /* dwarf_global.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; path = dwarf_global.c; sourceTree = "<group>"; };
 		FCC319DDCC851C41B5B270ACF71B0E2B /* CDTypeLexer.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDTypeLexer.h; path = ClassDump/CDTypeLexer.h; sourceTree = "<group>"; };
-		FDDB790584013A01BF591288F83340A7 /* SStream.c */ = {isa = PBXFileReference; includeInIndex = 1; name = SStream.c; path = Capstone/SStream.c; sourceTree = "<group>"; };
+		FDDB790584013A01BF591288F83340A7 /* SStream.c */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.c; name = SStream.c; path = Capstone/SStream.c; sourceTree = "<group>"; };
 		FE50E6E9C238D4FEEB121AF9B549BD52 /* WBBlades-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "WBBlades-dummy.m"; sourceTree = "<group>"; };
 		FE8A21EC7B6E35C27E63BA8BBFD5B1E8 /* CDTypeName.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = CDTypeName.h; path = ClassDump/CDTypeName.h; sourceTree = "<group>"; };
 		FF03869D85B6EF5F11C433AA478068AC /* NSString+ASUtils.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "NSString+ASUtils.h"; sourceTree = "<group>"; };
@@ -968,7 +970,6 @@
 				C821E5BA8114BCC219110CAAADBB4CEF /* X86Mapping.h */,
 				B9C0CF44DD459F6975FFD33F092742C4 /* X86Module.c */,
 			);
-			name = X86;
 			path = X86;
 			sourceTree = "<group>";
 		};
@@ -997,7 +998,6 @@
 				C7DA6BDD9522897D10EF54AE13DC0FFC /* SizeDetail */,
 				29C782DB93384F2504AA50EE943FDDE0 /* SizeShow */,
 			);
-			name = UI;
 			path = UI;
 			sourceTree = "<group>";
 		};
@@ -1030,7 +1030,6 @@
 				E4E510FD8F15C036EAFF2690D8FE933C /* Directories */,
 				ED043392794142B2C8D5D67B35DE4F9E /* Files */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -1045,7 +1044,6 @@
 				EF0B9DF69B69FD9AC46A572DB1426A47 /* ASShowFileListOtherCell.swift */,
 				BDCFF0E2957425884A6542BAFE845AD3 /* xibs */,
 			);
-			name = Cells;
 			path = Cells;
 			sourceTree = "<group>";
 		};
@@ -1072,7 +1070,6 @@
 				9F3E6DBEECDA8E239B78F8E7B5D04A1F /* ItemSizeView.xib */,
 				3D1C5B4DCF140675A0FF5D5C594295C4 /* SizeProfileModel.swift */,
 			);
-			name = SizeShow;
 			path = SizeShow;
 			sourceTree = "<group>";
 		};
@@ -1096,7 +1093,6 @@
 				249EAFAA0383AF55254B1BDC2B01C7AB /* Cells */,
 				61B7F34847538A548BE3ABA1ACB8DE69 /* Models */,
 			);
-			name = ShowList;
 			path = ShowList;
 			sourceTree = "<group>";
 		};
@@ -1128,7 +1124,6 @@
 				44BFC3C9FA2BCC3C1184B4D039A5A100 /* NSColorExtensions.swift */,
 				F991E67F3F71809554DF6E2A66397895 /* NSViewExt.swift */,
 			);
-			name = Common;
 			path = Common;
 			sourceTree = "<group>";
 		};
@@ -1148,7 +1143,6 @@
 				E00FF2871C3B587825D2D5EBEE0C8076 /* PXListViewDelegate.h */,
 				BD2D6006D8DB9057A1E58E07B130B4BE /* PXListViewDropHighlight.h */,
 			);
-			name = PXListView;
 			path = PXListView;
 			sourceTree = "<group>";
 		};
@@ -1218,7 +1212,6 @@
 			children = (
 				4EDB3819EB5AE3F65BEE9BE539580EEF /* PXListView */,
 			);
-			name = Libs;
 			path = Libs;
 			sourceTree = "<group>";
 		};
@@ -1238,7 +1231,6 @@
 				910CDF4EB7BBC8AF4F0A663A599008F5 /* AppCheck */,
 				1A88412231AA55BAE1EF62C2EEECB041 /* Models */,
 			);
-			name = ResourceCheck;
 			path = ResourceCheck;
 			sourceTree = "<group>";
 		};
@@ -1248,7 +1240,6 @@
 				74CADA5A6C073FC34DF63D6BBF4EA21B /* ASDirectoryFilesInfo.h */,
 				FC6420F18990BE848487FEDCAE0F645B /* ASDirectoryFilesInfo.m */,
 			);
-			name = DirectoryInfo;
 			path = DirectoryInfo;
 			sourceTree = "<group>";
 		};
@@ -1295,7 +1286,6 @@
 				DB7FBB43812A3F55BAA3B297F6065B1A /* ASShowFileListMachOModel.swift */,
 				8B707967DA8C17CDE790010350F9794A /* ASShowFileListOtherModel.swift */,
 			);
-			name = Models;
 			path = Models;
 			sourceTree = "<group>";
 		};
@@ -1339,7 +1329,6 @@
 				E0A6BC8575988B44F87CDC6B61B8506C /* AArch64Mapping.h */,
 				DECE5704CA7836E6B29C8607C08F828F /* AArch64Module.c */,
 			);
-			name = AArch64;
 			path = AArch64;
 			sourceTree = "<group>";
 		};
@@ -1437,7 +1426,6 @@
 				187ED99C9D86881F32D0E270AD03FBA7 /* TextMigrateViewController.xib */,
 				D4BE43F97044E917DC20EB42B9AC8E72 /* TextMigrateWindowController.swift */,
 			);
-			name = Diagnose;
 			path = Diagnose;
 			sourceTree = "<group>";
 		};
@@ -1451,7 +1439,6 @@
 				F107D3FF48B96EE8EDB3AE11776C4AE9 /* MachOCheck.h */,
 				09F807375E6F1C548DB1C3FD36DBE158 /* MachOCheck.mm */,
 			);
-			name = AppCheck;
 			path = AppCheck;
 			sourceTree = "<group>";
 		};
@@ -1484,7 +1471,6 @@
 				528459DEBB045A33E0C2422401B6063B /* ASFileInfoHelper.swift */,
 				231D39E12694BFB62E27CDFCCC2DF939 /* ASTextDictionary.swift */,
 			);
-			name = Utils;
 			path = Utils;
 			sourceTree = "<group>";
 		};
@@ -1493,7 +1479,6 @@
 			children = (
 				DEA0B1B2F6B6E82DBC29F4ED28828B7E /* Assets */,
 			);
-			name = DetailInfo;
 			path = DetailInfo;
 			sourceTree = "<group>";
 		};
@@ -1606,7 +1591,6 @@
 				CA42353488EB6A9DE92799250099FD92 /* ASShowFileListMachOCell.xib */,
 				F886D2EE97BF37596396ADC82479C22F /* ASShowFileListOtherCell.xib */,
 			);
-			name = xibs;
 			path = xibs;
 			sourceTree = "<group>";
 		};
@@ -1623,7 +1607,6 @@
 				69474FC07143650B15ABEEBA2457E988 /* ARMMapping.h */,
 				E731F8AB94DBB8FB4F6D1E7F5EA4210A /* ARMModule.c */,
 			);
-			name = ARM;
 			path = ARM;
 			sourceTree = "<group>";
 		};
@@ -1635,6 +1618,7 @@
 				5311B5BE3D7743010F565366116CF9F3 /* WBBMScanLogModel.swift */,
 				314E2A7B8DA49EB6CF333C98FE6BAD9F /* WBBMScanLogTool.swift */,
 				8713E07020A2B93F23F8F52007A7C99B /* WBBMScanSystemLog.swift */,
+				3142643F2BF3468100CD2B1C /* WBBMScanHuaweiLog.swift */,
 			);
 			name = WBBMScanLog;
 			path = WBBladesCrash/WBBMScanLog;
@@ -1646,7 +1630,6 @@
 				AD9FF53F45AC3CF453EB73EB5F7BF4CE /* DetailInfo */,
 				374CE42D2D42190BF141D0C0FD09B158 /* ShowList */,
 			);
-			name = SizeDetail;
 			path = SizeDetail;
 			sourceTree = "<group>";
 		};
@@ -1659,7 +1642,6 @@
 				26DD8E227AB23DEBF46CA2FF2379E273 /* DiagnoseLoading.swift */,
 				7F8157CB34A3B7125EC491284D823DE5 /* DiagnoseLoading.xib */,
 			);
-			name = MainPage;
 			path = MainPage;
 			sourceTree = "<group>";
 		};
@@ -1764,7 +1746,6 @@
 				89F1BA7844A8CA93883CB3A69B57F3F1 /* ASFileListWindowController.swift */,
 				519B13D4F248425A4FE5A413A79F176C /* ASFileModel.swift */,
 			);
-			name = Assets;
 			path = Assets;
 			sourceTree = "<group>";
 		};
@@ -1785,7 +1766,6 @@
 				079D3A258A9BC7135F736DB6B5DB85AF /* ASPlugIn.m */,
 				5DD853851F61127F4608743780026B04 /* DirectoryInfo */,
 			);
-			name = Directories;
 			path = Directories;
 			sourceTree = "<group>";
 		};
@@ -1809,7 +1789,6 @@
 				3F664DF47CF6D44AE6A0D83997795442 /* PPCModule.c */,
 				7CF3C030F5C448E1A25C5986B85A7137 /* PPCPredicates.h */,
 			);
-			name = PowerPC;
 			path = PowerPC;
 			sourceTree = "<group>";
 		};
@@ -1829,7 +1808,6 @@
 				F28303A89CACFE2A5ED95C8D3BA22E4A /* ASNibFile.m */,
 				51499CE8BD0AA5FEF10E16202464DD5E /* custom_using_name.plist */,
 			);
-			name = Files;
 			path = Files;
 			sourceTree = "<group>";
 		};
@@ -2547,6 +2525,7 @@
 				E943269C389CE8D1D86BE44BD2BAF15C /* WBBladesCrash-dummy.m in Sources */,
 				E7566EB775EAD65653EDF78346218B25 /* WBBladesCrashManager.swift in Sources */,
 				200720EA59CE73220B3F97AC7B1203F7 /* WBBladesCrashModel.swift in Sources */,
+				314264402BF3468100CD2B1C /* WBBMScanHuaweiLog.swift in Sources */,
 				D5585DA1F7FB60C81FC1EB0D846F4B00 /* WBBMLightSymbolTool.swift in Sources */,
 				7CD248674C019B8500350331F0CAA109 /* WBBMOutputFile.swift in Sources */,
 				1612B7071388CF804FA6AE6D6B0314A7 /* WBBMScanBuglyLog.swift in Sources */,

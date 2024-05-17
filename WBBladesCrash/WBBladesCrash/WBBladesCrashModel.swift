@@ -14,6 +14,8 @@ public enum WBBMLogType: String {
     case SystemWakeUp = "142"               // wake up crash type
     case SystemNewCrash = "309"             // json crash type(iOS 14+)
     case BuglyType = "bugly"                // bugly crash type
+    case HuaweiType = "HuaweiType"                // Huawei crash type
+
 }
 
 open class WBBMLogModel{
