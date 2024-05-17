@@ -6,7 +6,7 @@
 	<dict>
 		<key>Resources/ASFileCell.nib</key>
 		<data>
-		6EGuCQ9aLrwecwGkDrRIQutaGCg=
+		WSlb4L/dfmrXQuLqHV9sgcnYXXo=
 		</data>
 		<key>Resources/ASFileDetailViewController.nib</key>
 		<data>
@@ -14,11 +14,11 @@
 		</data>
 		<key>Resources/ASFileListViewController.nib</key>
 		<data>
-		yksAs+sEy6XtQqO27f7ijgu5Y7Q=
+		T0AaA3G2uDtyyzjQ0jd5vFbeleQ=
 		</data>
 		<key>Resources/ASShowFileListAssetCell.nib</key>
 		<data>
-		P4ItRv7wpGDrHlT8upr9ylN2Wx8=
+		/hx15y6sOsScnhZZBXRoQzIg8eQ=
 		</data>
 		<key>Resources/ASShowFileListBaseCell.nib</key>
 		<data>
@@ -26,19 +26,19 @@
 		</data>
 		<key>Resources/ASShowFileListCollectionCell.nib</key>
 		<data>
-		34rIDJwGqCNPlKOmXU2CWZbf06k=
+		bUUE0nbF0eTDOfgbn8KUQNxoTEE=
 		</data>
 		<key>Resources/ASShowFileListImageCell.nib</key>
 		<data>
-		ZhhSiRiqiFIRtznYFqycAReFxNE=
+		vC2E8g7TNowKmZAO+m4FQ7utjY4=
 		</data>
 		<key>Resources/ASShowFileListMachOCell.nib</key>
 		<data>
-		0GM9jTKPzBwxveO2hSXhbzIXO00=
+		CfjFRH0kZN+YHG8iXKguhqnBA6I=
 		</data>
 		<key>Resources/ASShowFileListOtherCell.nib</key>
 		<data>
-		oIUFFbeJfp6UWbIfZJY2FdDIVg0=
+		gx+w2kr/QnoewWHETb6ksk2RSQg=
 		</data>
 		<key>Resources/AppIcon.icns</key>
 		<data>
@@ -46,31 +46,31 @@
 		</data>
 		<key>Resources/AppSizeDiagnoseVC.nib/keyedobjects-101500.nib</key>
 		<data>
-		o25rsLWDu6O+VwwFXHLwhSo/rss=
+		vOnO4Nsf4Mwv50PZVWMaXtx38YY=
 		</data>
 		<key>Resources/AppSizeDiagnoseVC.nib/keyedobjects-110000.nib</key>
 		<data>
-		1QpH+6U8AH69iJ9ETfj3eRzRn4M=
+		TlJqDgm/xAbejbsPD7QUOFnz87E=
 		</data>
 		<key>Resources/Assets.car</key>
 		<data>
-		Z3OUvFkF+RXQmzd7A99ccbK8NKw=
+		w3wCpKLgtIC8w3TZYyAwmG1qMQQ=
 		</data>
 		<key>Resources/BladesAutoHookViewController.nib</key>
 		<data>
-		NkyErZPUNt65h9CGkDKbKOpDffg=
+		9bpzVpv8dE9twX/9b2eStar7X84=
 		</data>
 		<key>Resources/BladesDispatchViewController.nib</key>
 		<data>
-		PXLLm+rEqMdxYxcBHbKU54bWAPs=
+		okUdczBUk3B2Q5buXWcGQnfM0es=
 		</data>
 		<key>Resources/BladesLibrarySizeViewController.nib</key>
 		<data>
-		s/03EGIuQXvGGAObTYU0yar58zY=
+		TD8q0ocG9QjsH3kwq2SV9iwoPv4=
 		</data>
 		<key>Resources/BladesUnusedClassCheckViewController.nib</key>
 		<data>
-		sOFYmhFxeHpxa3mDzuHpUdNshT8=
+		Im1xWPnrkflKEO60tZVlb5m0rDk=
 		</data>
 		<key>Resources/BuglyCrash.plist</key>
 		<data>
@@ -82,23 +82,23 @@
 		</data>
 		<key>Resources/ChildDiagnoseCellView.nib</key>
 		<data>
-		8r4rCS5fAcLRgczWEGLqjdtoJzc=
+		F8hi4o+K6xfzN8/b96yAIckuClM=
 		</data>
 		<key>Resources/DiagnoseItemCellView.nib</key>
 		<data>
-		YcEy37jTyZztAIaPuMV/YSqhtdY=
+		7ZUmQNXQ6UdTd3bLZw0uC8ra25M=
 		</data>
 		<key>Resources/DiagnoseLoading.nib</key>
 		<data>
-		CMXJZX7mlhvYaKswgnwGI/OBk4Q=
+		bcuUNysAf0tCKbvTA5JLZVpfhRQ=
 		</data>
 		<key>Resources/GPTMessageCell.nib</key>
 		<data>
-		GwNFuPNE7J/m1e0zbJjhrUnct10=
+		nCz3ueLJ40LePCzhVsr27SPhyK8=
 		</data>
 		<key>Resources/GPTTokenViewController.nib</key>
 		<data>
-		bvOoTOaip7uTRZoxaa0mGv2ZBs4=
+		nGy/YtyTy9Kz6x7NqTk6awBwcuA=
 		</data>
 		<key>Resources/Info.plist</key>
 		<data>
@@ -106,43 +106,43 @@
 		</data>
 		<key>Resources/IntelligentReadmeViewController.nib</key>
 		<data>
-		qcORt7L6mcQ9DKNO38xivDOoryw=
+		1GpaLzF/Rj4U5K8xOn/GDORaBrc=
 		</data>
 		<key>Resources/ItemSizeView.nib</key>
 		<data>
-		6QyMvec+DsWNr7u69gUoMiWRj9Y=
+		nfhVuhj59btQ2VahrRio+NHIPeU=
 		</data>
 		<key>Resources/LTOOptimizeViewController.nib</key>
 		<data>
-		tsaB8dAnJ09Lym0yHAUQbDzTVvI=
+		J47om2HJ3n9xezWxPLn3WlwP4OQ=
 		</data>
 		<key>Resources/LanguageText.plist</key>
 		<data>
-		43XZwnTdUfTNPkD7aAZDUH1oeUQ=
+		gRLV5lp4m+FU9113FU7TFw44R6s=
 		</data>
 		<key>Resources/Main.storyboardc/Info.plist</key>
 		<data>
-		nOWWNbz+R3C65Vh+JQLxSOnHHvM=
+		JUPQyZlNypEbVEp365b8AzKHCFQ=
 		</data>
 		<key>Resources/Main.storyboardc/MSO-kv-GfL-view-PP3-9F-rzg.nib</key>
 		<data>
-		MBgw99tSRCio0HLYJnds9wK2tcE=
+		7IRIVP73T21y1oLSF0GWu9Y3tQY=
 		</data>
 		<key>Resources/Main.storyboardc/MainMenu.nib</key>
 		<data>
-		OG3hbAUQKU8+iiS12By1wNj6BYs=
+		T2mUA27msSaRjS0nAZmvf9kUr4c=
 		</data>
 		<key>Resources/Main.storyboardc/ViewController.nib</key>
 		<data>
-		VxUOOiE3kVcWoNK+oNNqW/3ibUM=
+		1OdM/vVUNEYEwiXXisf9wguINig=
 		</data>
 		<key>Resources/Main.storyboardc/WindowController.nib</key>
 		<data>
-		DoBg3bHq2pdTdg1uGP0AqcQP79I=
+		OwWR+bha/XkvVt0ruej3JYoZ67g=
 		</data>
 		<key>Resources/StripViewController.nib</key>
 		<data>
-		sZ7odfWDoVMvLAEnHp1z1KpYMhY=
+		FB7YYzfD9osaWZhHOtXth4hHB4U=
 		</data>
 		<key>Resources/SystemCrash.plist</key>
 		<data>
@@ -150,7 +150,11 @@
 		</data>
 		<key>Resources/TextMigrateViewController.nib</key>
 		<data>
-		THErgfkgcUXeD8jEznFDY29tlvg=
+		eC7WfRBwJkLbGdJsrP6HdcGFswc=
+		</data>
+		<key>Resources/crashAnalysis.sh</key>
+		<data>
+		H0257ylVdzbIEdTRWFoVYXemu0k=
 		</data>
 		<key>Resources/custom_using_name.plist</key>
 		<data>
@@ -184,7 +188,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			t3DSz5vvRpw3U6xHAGYlEi+H01CMZzxzvE38/Pmz2/k=
+			p5BcNbcZKUSwH5TGa93r+xBK9S9+CRRCqSnE4Ta3v3w=
 			</data>
 		</dict>
 		<key>Resources/ASFileDetailViewController.nib</key>
@@ -198,14 +202,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			OLnzwH3z9h7I/Z2nXQ+6/q6gKJftERLgT+C8vHJEnqg=
+			P66A/wyo4rJMuP+35Hgh6zIQ1J+ViuNKaHpkvLq3t/g=
 			</data>
 		</dict>
 		<key>Resources/ASShowFileListAssetCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			yz1NS3cIskXZbABZx3EaVETGk69C4py79Ifds7SA3c0=
+			SdVkpipxHcotEbkRqDN56bIgWPvTlNlpt1CzNMw7fcM=
 			</data>
 		</dict>
 		<key>Resources/ASShowFileListBaseCell.nib</key>
@@ -219,28 +223,28 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wiau2mUYQ0GoxS7ua8rLREk9oIpAmjgLOjzimni2xgQ=
+			YN++5fRuCfQmS0s0L5WQAdaYWp4XRjaI+JjifN0A0S4=
 			</data>
 		</dict>
 		<key>Resources/ASShowFileListImageCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			xH4U3wwp/z9OYD86mCTvR7JgkSdRPF3+uYIghOX6IG0=
+			1s0YOiBdCEq+TYixCg3HLpokAB4rXOGbIbtfxZbcejI=
 			</data>
 		</dict>
 		<key>Resources/ASShowFileListMachOCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0YbKGciKBEidMOqenrGw+ex9Z8xRC08WtwpSISXbAT8=
+			7W6Lc1mjWYQMe7cFNyVn5CIlLdZman8Io9e9a/Gkmuo=
 			</data>
 		</dict>
 		<key>Resources/ASShowFileListOtherCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			GhBc7aGEG/66JCGHJdH7Fh1VbKgkaxbBj1xbqOWJUfQ=
+			LYww9rbLvgsmseoGDROuzPXmcjjOI7fTVFYq1I+sJHI=
 			</data>
 		</dict>
 		<key>Resources/AppIcon.icns</key>
@@ -254,49 +258,49 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			3XmBBfX5EPS4HsFwcZBrLUV81S5TEq5XjujzouYO544=
+			yVLTXDtsMM2X3g9bg++mFq7ARcISAQgKifQp8NWLiA0=
 			</data>
 		</dict>
 		<key>Resources/AppSizeDiagnoseVC.nib/keyedobjects-110000.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			vtivupBdzhpwzruQ34F+Yntt1fHY8vABsGtKtWCbjVQ=
+			SH+u+EWXyKA7VNy1ffbv8gLHvs3sUMThpbPDhzJ1E0Q=
 			</data>
 		</dict>
 		<key>Resources/Assets.car</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			im7Hs6spy79PktRCn9Jfww7L13Ooglsf6PV89Cp0eDA=
+			SZSwpU5xocVidpsMSYmfBANSae3KSTH83ZquPYbl/i0=
 			</data>
 		</dict>
 		<key>Resources/BladesAutoHookViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/jTrJOL9U6O+6SRQcFTAmZW35ytP51qkuTYv0+0rHTg=
+			vA39EKTTWPO8oTWVPGHEAiXJNTFd8asusrh+vpI8RTc=
 			</data>
 		</dict>
 		<key>Resources/BladesDispatchViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ea9ln8/ztVwsOxCuvpL8vQ8ngrUa3SJqN40E0x9s5mY=
+			kDQFXbkd5Piutm2zYD32pPVC6cihI9RzByvSrTpF3OQ=
 			</data>
 		</dict>
 		<key>Resources/BladesLibrarySizeViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8QjPRfytYi0ykz0pc4Ms5XRJ9jKymIkgfvjW1AybRuk=
+			NSNoD4M2uN7fd8YUHrolP3dcjQMZwPoXK8fuygoi8FA=
 			</data>
 		</dict>
 		<key>Resources/BladesUnusedClassCheckViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			FfPGJ12Zoo7WVweDp1+/uEWJe9Xt8GFj3dgMzH79CcE=
+			mK2F2Pzpz0vFnnYQ28rAhA4yktdozSNSVC0T+ob+onU=
 			</data>
 		</dict>
 		<key>Resources/BuglyCrash.plist</key>
@@ -317,35 +321,35 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			bkUtAHPBiYHuMUXDu0AQjvUofNyXyiQ0FV/tXsl2TAs=
+			r8B9Tfn340yDJ5pc5pxeYPW1rvVFCAymI4UMvv6DbsM=
 			</data>
 		</dict>
 		<key>Resources/DiagnoseItemCellView.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			iMzsD7d4P2qK+r0IhyxnFM/Lw2G56i7l6qdH2TCeU6I=
+			do1lmRkzyg6Fr+EKMp2QtqCHDa7gXp3bQXYc+y9RzOA=
 			</data>
 		</dict>
 		<key>Resources/DiagnoseLoading.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XlnamqkGxv7Gy7km07V6biakQDwDuBWnOr1YorLKBag=
+			0RAMX2uT/VatKR8z+5ZYFwhPCKpKaTXsk/2YfMrt2VA=
 			</data>
 		</dict>
 		<key>Resources/GPTMessageCell.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			rjXycp/fZhEwNe7wtsmmGNQwrSt1jjFtqh43o3RNRI0=
+			P9x+Ug7V56yiYbrYB/XY8HJ7jxyXH0iuLCVHlh2MA0U=
 			</data>
 		</dict>
 		<key>Resources/GPTTokenViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Epq2rBnntQdID7dEyZ1pHDohFtmuHcdSfLHfdX6/tJ8=
+			5h/TOW6gVtm6D11Ra9Fv+/uLVnaYj5EgGbnrzWYxEQo=
 			</data>
 		</dict>
 		<key>Resources/Info.plist</key>
@@ -359,70 +363,70 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			pSAdXJGox8KBxXBM3eLqqt6PN4oMiXFI7dIxXsMFDKA=
+			kdMz0k/l9K+JR5BCzVYvbrTZJyqYAUCuTSn/Y3/hpF0=
 			</data>
 		</dict>
 		<key>Resources/ItemSizeView.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			tpX1Vo/kj4vnfe36stcHBrnDYysGzVB4xXgQsp9uB6I=
+			vYYld4EoVgFEKk53tRdztRKuJS3FHR7XiW6ski3RUdw=
 			</data>
 		</dict>
 		<key>Resources/LTOOptimizeViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			ECLzpxWtKBmh4KFfIX82YiSpBanRCAp8yDLj0uWG4bk=
+			0EW9PMt4yVgdHaBx3J9Idfb82zQizvvBW9kCkGzolOo=
 			</data>
 		</dict>
 		<key>Resources/LanguageText.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			0EgtFnD1II6rSReUlT96O+2MWlzImsBbQYIIkjuJOy4=
+			3VkqEyE7pzLKqSqha1t2gTyNM8m8EN42jnpvqFaa+LI=
 			</data>
 		</dict>
 		<key>Resources/Main.storyboardc/Info.plist</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			Ibj7XDyR/Y0ClMzh/WDH49gn6EYSqrB4LdacPaJ6s4Q=
+			kfewP3R6j/Q/Bu+s0SSN3H/For5DcHXtKD1PiPBr0K0=
 			</data>
 		</dict>
 		<key>Resources/Main.storyboardc/MSO-kv-GfL-view-PP3-9F-rzg.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			p3cjGDTXUWU2WxQcyavHtEe3fmJ/LLNfaNOgySjOcFk=
+			+hhcRkg4Pbpz6VvNj1K/iaYge2fR1zYYTMKtZpLo1t4=
 			</data>
 		</dict>
 		<key>Resources/Main.storyboardc/MainMenu.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			8w+Q8u6/T0YADo5pVT5UUFUVQ98APbfszZc2bWR9OcQ=
+			Smqy7rhXsdDIX+2EIq8Blnj6B9DV+5QsgGNsAlARMyA=
 			</data>
 		</dict>
 		<key>Resources/Main.storyboardc/ViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			EW3+g2tR403RKRFxiWlys2qxne32JnBeDmFPvbBfMwg=
+			5sz6QPYTmn3GHXIrI4zfXuMBkCrLOZiGm7kyIcIo3UI=
 			</data>
 		</dict>
 		<key>Resources/Main.storyboardc/WindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			JDxW4etNCnaKxsgxxTFD0foIUuO0GJIUOnBdEw4VbaY=
+			9v9xrD+dkOK0iG05j1hjx0FbkIOGr1plL9vIf4IVa3c=
 			</data>
 		</dict>
 		<key>Resources/StripViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			2pvMVjEN5Z5o4cwmNsNX4Ek/7wBGvTsBfFsUcjeWdzc=
+			3LseU4R1Y2pBpWbqQM2XBirfet/P8jL+BR4tU53/HI0=
 			</data>
 		</dict>
 		<key>Resources/SystemCrash.plist</key>
@@ -436,7 +440,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			Emna5JIRZ8b0f5VGrV2ddvBrmpNB+oEearniy8WlcpU=
+			VG4mqAwGlVvyyKi25Lp2/2O8MpI+SR0bzj21NoetxXs=
+			</data>
+		</dict>
+		<key>Resources/crashAnalysis.sh</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			adwLelkHtTrN3yuL/+03IlMQSXXVH1pb5tSyxWhlDvc=
 			</data>
 		</dict>
 		<key>Resources/custom_using_name.plist</key>
