@@ -19,14 +19,25 @@ do
  # 判断进程名是否为
  if [[ "${tab_list[1]}" == "$appName" ]]; then
    lineRes=`atos -arch arm64 -o $dsymDir -l ${tab_list[3]} ${tab_list[2]}`
-   # echo $lineRes
-   # 获取调用方式名
-   method=${lineRes%% (in $appName) (*}
-   # 获取文件名，并去除)
-   filename=${lineRes#* (in $appName) (}
-   filename=${filename/)/}
-   # 和原信息拼接起来
-   echo "${tab_list[0]} ${tab_list[1]} $method $filename"
+   # echo 拼接前===$lineRes
+   # 如果是C函数或者没有解析出.m所在行数，则直接输出
+   if [[ $lineRes == *'['* && $lineRes == *']'* && $lineRes == *'.m'* ]]; then
+     # echo "是OC方法"
+     # 获取调用方式名
+     method=${lineRes%% (in $appName) (*}
+     # echo 方法名===$method
+     # 获取文件名，并去除)
+     filename=${lineRes#* (in $appName) (}
+     filename=${filename/)/}
+     # echo 文件名===$filename
+     # 和原信息拼接起来
+     echo "${tab_list[0]} ${tab_list[1]} $method $filename"
+     # echo 拼接后==="${tab_list[0]} ${tab_list[1]} $method $filename"
+   else
+     # echo "是C函数"
+     echo "${tab_list[0]} ${tab_list[1]} $lineRes"
+     # echo 拼接后==="${tab_list[0]} ${tab_list[1]} $lineRes"
+   fi
  else
    # 原样输出
    echo $aline
