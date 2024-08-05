@@ -113,7 +113,7 @@ If you are interested in WBBlades, you can join the WBBlades development group a
 - [58tongcheng Size Analysis and Statistics for iOS Client Components](https://blog.csdn.net/csdnnews/article/details/100354658/)
 - [Unused Class Detection Based on Mach-O Disassembly](https://www.jianshu.com/p/c41ad330e81c)
 - [Open Source｜WBBlades：APP Analysis Tool Set Based on Mach-O File Analysis](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
-- [The Storage Difference between Swift and ObjC from the Perspective of Mach-O](https://www.jianshu.com/p/ef0ff6ee6bc6)
+- [The Storage Difference between Swift and ObjC from the Perspective of Mach-O](https://mp.weixin.qq.com/s/fm1RCUUQQ27B7FTXb4AOcQ)
 - [New Approach to Swift Hook - Virtual Method Table](https://mp.weixin.qq.com/s/mjwOVdPZUlEMgLUNdT6o9g)
 
 ## Thanks
@@ -255,7 +255,7 @@ sudo cp ${Your_BUILD_DIR}/blades /usr/local/bin
 - [58 同城 iOS 客户端组件体积分析与统计实践](https://blog.csdn.net/csdnnews/article/details/100354658/)
 - [基于mach-o+反汇编的无用类检测](https://www.jianshu.com/p/c41ad330e81c)
 - [开源｜WBBlades：基于Mach-O文件解析的APP分析工具](https://mp.weixin.qq.com/s/HWJArO5y9G20jb2pqaAQWQ)
-- [从Mach-O角度谈谈Swift和OC的存储差异](https://www.jianshu.com/p/ef0ff6ee6bc6)
+- [从Mach-O角度谈谈Swift和OC的存储差异](https://mp.weixin.qq.com/s/fm1RCUUQQ27B7FTXb4AOcQ)
 - [Swift Hook新思路--虚函数表](https://mp.weixin.qq.com/s/mjwOVdPZUlEMgLUNdT6o9g)
 
 
